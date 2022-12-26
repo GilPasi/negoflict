@@ -1,7 +1,3 @@
-from django.shortcuts import render
-from rest_framework.views import APIView
-from rest_framework.mixins import ListModelMixin, CreateModelMixin
-from rest_framework.generics import ListCreateAPIView
 from core.serializers import UserCreateSerializer
 from core.models import User
 from .serializers import MediatorSerializer, AddressMediatorSerializer, AddressSerializer
@@ -9,26 +5,26 @@ from .models import Mediator, Address, AddressMediator
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from . import permissions
 
 
 
 
-class CreateUser(ModelViewSet):
+class UserView(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserCreateSerializer
 
-   
 
-
-class CreateMediator(ModelViewSet):
+class MediatorView(ModelViewSet):
     queryset = Mediator.objects.all()
-    serializer_class = MediatorSerializer
+    # serializer_class = MediatorSerializer
     permission_classes=[permissions.IsAdminOrUser]
 
-    
-    
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return UserCreateSerializer
+        return MediatorSerializer
+
    
     @action(detail=False, methods=['GET','PUT'])
     def me(self, request):
@@ -48,17 +44,25 @@ class CreateMediator(ModelViewSet):
             return Response(serializerMediator.data)
 
         return None
-        
+
+    @action(detail=False, methods=['POST'])
+    def new_user(self,request):
+        serializer = UserCreateSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)        
 
 
 
-class CreateAddress(ModelViewSet):
+class AddressView(ModelViewSet):
     queryset = Address.objects.all()
     serializer_class = AddressSerializer
+    permission_classes=[permissions.IsAdminOrUser]
 
-class CreateAddressUser(ModelViewSet):
+class AddressUserView(ModelViewSet):
     queryset = AddressMediator.objects.all()
     serializer_class = AddressMediatorSerializer
+    permission_classes=[permissions.IsAdminOrUser]
 
 
 

@@ -5,10 +5,10 @@ from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 
-router.register('user_view',views.CreateUser)
-router.register('mediator_view',views.CreateMediator)
-router.register('address_views',views.CreateAddress)
-router.register('address_mediator',views.CreateAddressUser)
+router.register('user_view',views.UserView)
+router.register('mediator_view',views.MediatorView)
+router.register('address_views',views.AddressView)
+router.register('address_mediator',views.AddressUserView)
 
 urlpatterns = router.urls
 # [
