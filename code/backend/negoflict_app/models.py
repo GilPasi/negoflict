@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 
+
 class Mediator(models.Model):
     FAMALY = 'FA'
     FRIENDS = 'FR'
@@ -28,6 +29,14 @@ class Mediator(models.Model):
     mediation_areas = models.CharField(max_length=2, choices=MEDIATION_CHOICES, default=OTHER)
     certification_course = models.BooleanField(default=False)
 
+    def __str__(self) -> str:
+        return self.user.username
+
+    class Meta:
+        ordering = ['user__username']
+
+    
+
     
 
     
@@ -36,11 +45,22 @@ class Address(models.Model):
     street = models.CharField(max_length=150)
     zip = models.CharField(max_length=20)
 
+    def __str1__(self) -> str:
+        return f'{self.city} / { self.street} / {self.zip}'
+
+    def __str__(self) -> str:
+        return self.city
+
+    
+
+   
+
 
 class AddressMediator(models.Model):
     mediator = models.ForeignKey(Mediator,on_delete=models.CASCADE)
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
 
-class client(models.Model):
-    user= models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+ 
 
+class client(models.Model):
+    pass
