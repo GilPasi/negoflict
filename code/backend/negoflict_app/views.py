@@ -8,8 +8,6 @@ from rest_framework.response import Response
 from . import permissions
 
 
-
-
 class UserView(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserCreateSerializer
