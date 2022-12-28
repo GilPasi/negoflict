@@ -29,8 +29,8 @@ class MediatorView(ModelViewSet):
     @action(detail=False, methods=['GET','PUT'])
     def me(self, request):
        
-        (mediator,created) = Mediator.objects.get_or_create(user_id = 2)
-        user = User.objects.get(pk= 2)
+        (mediator,created) = Mediator.objects.get_or_create(user_id = request.user.id )
+        user = User.objects.get(pk= request.user.id)
 
         if request.method == 'GET':
             serializerMediator = MediatorSerializer(mediator)

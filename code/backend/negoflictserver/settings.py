@@ -26,6 +26,8 @@ SECRET_KEY = 'django-insecure-z#4d$s#$#v7$)m2bsi!3(e%=&tsmff_4h+(bf$97tuok5n16k$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
+
 ALLOWED_HOSTS = []
 
 
@@ -44,6 +46,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "negoflict_app",
     'core',
+   
 ]
 
 MIDDLEWARE = [
@@ -63,7 +66,9 @@ ROOT_URLCONF = 'negoflictserver.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -162,5 +167,8 @@ DJOSER = {
         'current_user': 'core.serializers.UserSerializer',
     }
 }
+STATICFILES_DIRS = [
+    
+]
 
 
