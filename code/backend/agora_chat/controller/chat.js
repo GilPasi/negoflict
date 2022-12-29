@@ -1,8 +1,8 @@
 
-import AC from 'agora-chat'
-const axios = require('axios')
+const AC = require('agora-chat')
+const {axios} = require('axios')
 
-const conn = new  AC.connection({
+const conn = new  AC.default.connection({
     appKey: process.env.APP_ID
 })
 
