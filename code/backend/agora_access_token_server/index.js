@@ -1,5 +1,6 @@
 const express = require('express')
 const {RtcTokenBuilder, RtcRole} = require('agora-access-token')
+require('dotenv').config()
 
 
 
@@ -8,8 +9,8 @@ const PORT = 8050
 // const APP_ID = process.env.APP_ID
 // const APP_CERTIFICATE = process.env.APP_CERTIFICATE
 
-const APP_ID = '72cdfd7230074a3dab0aa78408a9ccac'
-const APP_CERTIFICATE = '236073be429a4229b3108522c545e5e3'
+const APP_ID = process.env.APP_ID
+const APP_CERTIFICATE = process.env.APP_CERTIFICATE 
 
 
 
@@ -25,16 +26,16 @@ const nocache = (req,res, next)=>{
 const generatedAccessToken = (req,res)=>{
     res.header('ACESS-Control-Allow-Origin','*')
 
-    const channelName = req.query.channelName
+    const channelName = req.query.channelName //channel name
     if(!channelName){
         return res.status(500).json({'error': 'channel is required'})
     }
 
-    let uid = req.query.uid
+    let uid = req.query.uid // user id
     if(!uid|| uid=== '')
         uid=0
 
-    let role = RtcRole.SUBSCRIBER
+    let role = RtcRole.SUBSCRIBER 
     if(req.query.role === 'publisher')
         role = RtcRole.PUBLISHER
 
