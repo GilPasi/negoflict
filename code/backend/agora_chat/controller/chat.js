@@ -1,10 +1,11 @@
 
-const AC = require('agora-chat')
-const {axios} = require('axios')
+const AC = require('agora-chat').default
+const axios = require('axios').default
 
-const conn = new  AC.default.connection({
+const conn = new  AC.connection({
     appKey: process.env.APP_ID
 })
+
 
 exports.login = async (req,res)=>{
     const channelName = req.body.channelName
@@ -16,4 +17,8 @@ exports.login = async (req,res)=>{
         user: userId,
         agoraToken: token
     })
+   
+    
+    
+    
 }
