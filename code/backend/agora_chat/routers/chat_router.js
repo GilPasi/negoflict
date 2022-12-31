@@ -5,7 +5,7 @@ const router = express.Router()
 const chatHandler = require('../controller/chat')
 
 
-router.post('/login',chatHandler.login)
+router.get('/login',chatHandler.login)
 
 
 module.exports = router
