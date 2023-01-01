@@ -1,0 +1,48 @@
+const https = require('https')
+browserEnv(['navigator'])
+const AC = require('agora-chat').default
+const browserEnv = require('browser-env')
+
+
+// // Customer ID
+// const customerKey = process.env.CUSTOMER_ID
+// // Customer secret
+// const customerSecret = process.env.SECRET
+// // Concatenate customer key and customer secret and use base64 to encode the concatenated string
+// const plainCredential = customerKey + ":" + customerSecret
+// // Encode with base64
+// encodedCredential = Buffer.from(plainCredential).toString('base64')
+// authorizationField = "Basic " + encodedCredential
+
+
+
+
+
+// // Set request parameters
+// const options = {
+//   hostname: 'api.agora.io',
+//   port: 443,
+//   path: '/dev/v1/projects',
+//   method: 'GET',
+//   headers: {
+//     'Authorization':authorizationField,
+//     'Content-Type': 'application/json'
+//   }
+// }
+// console.log(encodedCredential)
+
+// // Create request object and send request
+// const request = https.request(options, res => {
+//   console.log(`Status code: ${res.statusCode}`)
+
+//   res.on('data', d => {
+//     process.stdout.write(d)
+//   })
+// })
+
+// request.on('error', error => {
+//   console.error(error)
+// })
+
+// request.end()
+
