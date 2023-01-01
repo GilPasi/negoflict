@@ -9,7 +9,7 @@ exports.getAppToken = (req,res)=>{
 }
 
 exports.getUserToken = (req,res)=>{
-    const userUuid = req.query.uid
+    const userUuid = req.params.uid
     const token = tokenBuilder.userTokenBuild(userUuid,3000)
     return res.json({'userToken':token})
 }
