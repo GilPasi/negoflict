@@ -14,7 +14,9 @@
     "agora-chat": "^1.0.8",
     "axios": "^1.2.2",
     "browser-env": "^3.3.0",
+    "crypto": "^1.0.1",
     "dotenv": "^16.0.3",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "zlib": "^1.0.5"
   }
 }
