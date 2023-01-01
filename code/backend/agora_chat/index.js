@@ -10,10 +10,13 @@ const app = express()
 
 
 const accessRouter = require('./routers/access_token_router')
-const login = require('./routers/chat_router')
+const login = require('./routers/user_router')
+const messageRouter = require('./routers/chat_router')
+
 
 app.use('',login)
 app.use('',accessRouter)
+app.use('',messageRouter)
 
 
 app.listen(PORT, ()=>{
