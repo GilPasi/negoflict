@@ -11,7 +11,8 @@ exports.registerUser = async(req,res)=>{
     const password = req.body.password
     const username = req.body.username
 
-    axios.post(`${HOST_URL_APP_KEY}/users`,{
+
+    const user = await axios.post(`${HOST_URL_APP_KEY}/users`,{
     username:uid,
     password: password,
     nickname: username
@@ -22,13 +23,15 @@ exports.registerUser = async(req,res)=>{
     },
     }).then(user=>console.log(user))
     .catch(err=>console.log(err))
+
+    return res.json({user})
 }
 
 exports.deleteUser = async(req,res) =>{
     const appToken = tokenBuilder.appTokenBuild(3000)
     const username = req.body.username
 
-    await axios.delete(`${HOST_URL_APP_KEY}/users/${username}`,{
+    const request = await axios.delete(`${HOST_URL_APP_KEY}/users/${username}`,{
         headers:{
             Authorization: `Bearer ${appToken}`,
             'Accept' : 'application/json'
@@ -38,5 +41,5 @@ exports.deleteUser = async(req,res) =>{
     .catch(err=>console.log(err))
 
 
-    await axios.post()
+    return res.json({request})
 }

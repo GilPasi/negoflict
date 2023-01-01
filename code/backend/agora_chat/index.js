@@ -9,14 +9,16 @@ const PORT = 8050
 const app = express()
 
 
-const accessRouter = require('./routers/access_token_router')
+const group_router = require('./routers/group_router')
 const login = require('./routers/user_router')
 const messageRouter = require('./routers/chat_router')
 
 
 app.use('',login)
-app.use('',accessRouter)
+app.use('',group_router)
 app.use('',messageRouter)
+
+
 
 
 app.listen(PORT, ()=>{

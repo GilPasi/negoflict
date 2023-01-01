@@ -12,7 +12,7 @@ exports.oneToOneMessageTxt = async(req,res)=>{
     const type = 'txt'
 
     
-    await axios.post(`${HOST_URL_APP_KEY}/messages/users`,{
+    const mess = await axios.post(`${HOST_URL_APP_KEY}/messages/users`,{
         from: from,
         to: [to],
         type: type,
@@ -25,6 +25,8 @@ exports.oneToOneMessageTxt = async(req,res)=>{
         }
         
     })
+
+    return res.json({mess})
 
 }
 
