@@ -24,8 +24,8 @@ exports.createRoom = async(req,res)=>{
         }
 
     })
-
-    res.json({chatId})
+    const id = chatId.data.data.id
+    res.json({id})
 }
 
 exports.getRooms = async(req,res)=>{
