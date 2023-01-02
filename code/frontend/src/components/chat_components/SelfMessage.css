@@ -1,0 +1,39 @@
+:root{
+    --message-color:rgb(217,217,217);
+    
+    --A-color:rgb(217,217,217);
+    --B-color:white;
+    --M-color:black;
+
+    --M-font-color: white;
+
+
+}
+.spacer{
+    min-width: 3em;
+    min-height: 3em;
+}
+
+.circle{
+    background:var(--M-color);
+    color: var(--M-font-color);
+    height: 3em;
+    min-width:3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin:1em;
+
+}
+.message{
+    background:var(--message-color);
+    border-radius: 1em;
+    margin:1em;
+    padding: 1em;
+}
+.content{
+    display: flex;
+    justify-content: center;
+
+}
