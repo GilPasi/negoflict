@@ -1,15 +1,6 @@
-/* .SearchIcon{
-    
-    margin-right: 10px;
-  }
-  
-  .PersonAddIcon{
-    margin-left: 10px;
-  }
-  
-  .spacing {
-    display: none;
-  }
+.main {
+    background-color: rgb(108, 108, 238);
+}
 
 .form {
     position: relative;
@@ -21,6 +12,3 @@
     text-align: center;
     box-shadow: 0 0 20px 0 rgba(108, 105, 105, 0.2), 0 5px 5px 0 rgba(90, 88, 88, 0.24);
   }
-
-  
-   */
