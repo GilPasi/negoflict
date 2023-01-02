@@ -8,7 +8,6 @@ import Yinoncomp from "./components/Yinoncomp"
 function App() {
   return (
     <Login></Login>
-
   );
 }
 
