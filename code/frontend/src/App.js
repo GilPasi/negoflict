@@ -1,21 +1,16 @@
 import React from "react";
 import "./components/Login.css";
 
-import Chat from "./components/chat_components/Chat";
-import Login from "./components/Login";
-import Paper from "@mui/material/Paper";
-import CreateUserOptionPage from "./components/CreateUserOptionPage";
+import './App.css';
+import Login from "./components/Login"
+import Yinoncomp from "./components/Yinoncomp"
+
+
 
 function App() {
   return (
+    <Login></Login>
 
-    <React.Fragment>
-      <Login></Login>
-      <Paper>
-        <Chat></Chat>
-        <CreateUserOptionPage></CreateUserOptionPage>
-      </Paper>
-    </React.Fragment>
   );
 }
 export default App;

@@ -9,8 +9,10 @@ exports.getAppToken = (req,res)=>{
 }
 
 exports.getUserToken = (req,res)=>{
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     const userUuid = req.params.uid
-    const token = tokenBuilder.userTokenBuild(userUuid,3000)
+    const token = tokenBuilder.userTokenBuild(userUuid,5000000)
     return res.json({'userToken':token})
 }
 

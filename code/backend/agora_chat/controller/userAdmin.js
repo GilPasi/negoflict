@@ -28,6 +28,7 @@ exports.registerUser = async(req,res)=>{
 }
 
 exports.deleteUser = async(req,res) =>{
+    
     const appToken = tokenBuilder.appTokenBuild(3000)
     const username = req.body.username
 
