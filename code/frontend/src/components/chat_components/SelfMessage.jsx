@@ -13,7 +13,7 @@ const SelfMessage = () => {
           <div className="message">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Autem
             minus eius qui pariatur amet illo temporibus inventore cum. Soluta,
-            reiciendis! lpaaaaaaaaaaaaaaaaaa
+            reiciendis!
           </div>
         </Grid>
 
