@@ -1,13 +1,14 @@
 
 import './App.css';
 import Login from "./components/Login"
-import Yinoncomp from "./components/Yinoncomp"
+import UserText from "./components/UserText"
 
 
 
 function App() {
   return (
     <Login></Login>
+
   );
 }
 
