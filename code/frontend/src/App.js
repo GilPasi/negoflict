@@ -1,13 +1,24 @@
 
-import './App.css';
+import React from 'react';
+import './components/Login.css';
+
+ import Chat from "./components/chat_components/Chat"
 import Login from "./components/Login"
-import UserText from "./components/UserText"
+import Paper from '@mui/material/Paper';
+
+
 
 
 
 function App() {
   return (
-    <Login></Login>
+
+    <React.Fragment>
+      <Login></Login>
+      <Paper>
+      <Chat></Chat>
+      </Paper>
+    </React.Fragment>
 
   );
 }
