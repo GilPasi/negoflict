@@ -14,9 +14,10 @@
     min-height: 3em;
 }
 
-.A-circle{
-    background:var(--A-color);
-    color:black;
+.B-circle{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background:var(--B-color);
+    color : black;
     height: 3em;
     min-width:3em;
     display: flex;
