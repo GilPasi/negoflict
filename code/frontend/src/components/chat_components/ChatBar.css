@@ -12,3 +12,8 @@
     text-align: center;
     box-shadow: 0 0 20px 0 rgba(108, 105, 105, 0.2), 0 5px 5px 0 rgba(90, 88, 88, 0.24);
   }
+
+.active {
+    background-color: #6192e5;
+    color: #fff;
+}
