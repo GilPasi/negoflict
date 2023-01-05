@@ -2,7 +2,7 @@
 import React from 'react';
 import './components/Login.css';
 
- import Chat from "./components/chat_components/Chat"
+import Chat from "./components/chat_components/Chat"
 import Login from "./components/Login"
 import Paper from '@mui/material/Paper';
 
