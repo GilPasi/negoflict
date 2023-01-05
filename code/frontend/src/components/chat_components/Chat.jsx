@@ -1,7 +1,4 @@
-import React from "react";
-import NavBar from "./NavBar";
-import ChatBar from "./ChatBar";
-import Panel from "./Panel";
+import React, { useState } from "react";
 import SelfMessage from "./SelfMessage";
 import Box from "@mui/material/Box";
 import "./ChatBar.css";
