@@ -1,5 +1,6 @@
 import React from "react";
 import "./components/Login.css";
+
 import Chat from "./components/chat_components/Chat";
 import Login from "./components/Login";
 import Paper from "@mui/material/Paper";
@@ -14,7 +15,6 @@ function App() {
         <Chat></Chat>
         <CreateUserOptionPage></CreateUserOptionPage>
       </Paper>
-      
     </React.Fragment>
   );
 }
