@@ -4,7 +4,6 @@ import "./components/Login.css";
 import Chat from "./components/chat_components/Chat";
 import Login from "./components/Login";
 import Paper from "@mui/material/Paper";
-import NewUser from "./components/NewUser";
 import CreateUserOptionPage from "./components/CreateUserOptionPage";
 
 function App() {
@@ -14,9 +13,8 @@ function App() {
       <Login></Login>
       <Paper>
         <Chat></Chat>
+        <CreateUserOptionPage></CreateUserOptionPage>
       </Paper>
-      <CreateUserOptionPage></CreateUserOptionPage>
-      <NewUser />
     </React.Fragment>
   );
 }
