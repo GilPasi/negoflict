@@ -8,6 +8,7 @@ import CreateUserOptionPage from "./components/CreateUserOptionPage";
 
 function App() {
   return (
+
     <React.Fragment>
       <Login></Login>
       <Paper>
@@ -17,5 +18,4 @@ function App() {
     </React.Fragment>
   );
 }
-
 export default App;
