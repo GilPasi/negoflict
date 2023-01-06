@@ -1,17 +1,26 @@
 import React from "react";
+import OppositeMessage from "./OppositeMessage";
+import SelfMessage from "./SelfMessage";
+import MediatorMessage from "./MediatorMessage";
+
+import Panel from "./Panel";
 import NavBar from "./NavBar";
 import ChatBar from "./ChatBar";
-import Panel from "./Panel";
-import SelfMessage from "./SelfMessage";
+import Box from "@mui/material/Box";
 import "./ChatBar.css";
 
 const Chat = () => {
   return (
     <React.Fragment>
-      <NavBar></NavBar>
-      <ChatBar></ChatBar>
-      <SelfMessage></SelfMessage>
-      <Panel></Panel>
+      <Box>
+        <NavBar></NavBar>
+        <ChatBar></ChatBar>
+        <SelfMessage></SelfMessage>
+        <MediatorMessage></MediatorMessage>
+
+        <OppositeMessage></OppositeMessage>
+        <Panel></Panel>
+      </Box>
     </React.Fragment>
   );
 };
