@@ -26,13 +26,13 @@ function Panel() {
       {content.map((data, i) => {
         return (
           <Grid container className="message-container">
-            <Grid item sm={1} className="spacer"></Grid>
+            <Grid item sm={5} className="spacer"></Grid>
 
             <Grid item sm={6} className="content">
-              <div className="circle">M</div>
               <div className="message">{msgs[i]}</div>
+              <div className="A-circle">A</div>
             </Grid>
-            <Grid item sm={5} className="spacer"></Grid>
+            <Grid item sm={1} className="spacer"></Grid>
           </Grid>
         );
       })}
