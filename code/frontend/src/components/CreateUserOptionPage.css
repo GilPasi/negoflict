@@ -1,0 +1,47 @@
+.send {
+  text-align: center;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.add {
+  text-align: center;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.iconsend {
+  text-align: center;
+  align-items: center;
+}
+
+.icons {
+  text-align: center;
+  align-items: center;
+  margin-left: 45px;
+}
+
+.texticon {
+  text-align: center;
+  align-items: center;
+  margin-left: 45px;
+  margin-right: 10px;
+}
+
+.span1 {
+  margin-right: 30px;
+  font-size: small;
+  font-weight: bold;
+}
+
+.span2 {
+  margin-right: 30px;
+  font-size: small;
+  font-weight: bold;
+}
+
+.span3 {
+  margin-right: 30px;
+  font-size: small;
+  font-weight: bold;
+}
