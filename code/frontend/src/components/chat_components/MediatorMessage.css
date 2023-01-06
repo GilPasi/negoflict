@@ -14,9 +14,9 @@
     min-height: 3em;
 }
 
-.A-circle{
-    background:var(--A-color);
-    color:black;
+.M-circle{
+    background:var(--M-color);
+    color: var(--M-font-color);
     height: 3em;
     min-width:3em;
     display: flex;
