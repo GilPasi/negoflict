@@ -7,20 +7,20 @@ import Panel from "./Panel";
 import NavBar from "./NavBar";
 import ChatBar from "./ChatBar";
 import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
 import "./ChatBar.css";
 
 const Chat = () => {
   return (
     <React.Fragment>
-      <Box>
-        <NavBar></NavBar>
-        <ChatBar></ChatBar>
+      <NavBar></NavBar>
+      <ChatBar></ChatBar>
+      <Paper>
         <SelfMessage></SelfMessage>
         <MediatorMessage></MediatorMessage>
-
         <OppositeMessage></OppositeMessage>
         <Panel></Panel>
-      </Box>
+      </Paper>
     </React.Fragment>
   );
 };
