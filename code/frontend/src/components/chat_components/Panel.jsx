@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
 import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
-import SelfMessage from "./MediatorMessage";
 
 import "./Panel.css";
 
