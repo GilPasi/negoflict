@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "negoflict_app",
     'core',
+    'session'
    
 ]
 

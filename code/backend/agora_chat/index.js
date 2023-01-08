@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 
 
 require('dotenv').config()
@@ -16,6 +17,10 @@ const group_router = require('./routers/group_router')
 const login = require('./routers/user_router')
 const messageRouter = require('./routers/chat_router')
 
+app.use(cors({
+    origin:'*',
+    allowedHeaders:'Origin, X-Requested-With, Content-Type, Accept'
+}))
 
 
 

@@ -5,7 +5,7 @@ const HOST_URL_APP_KEY = require('../utils/hosts')
 
 
 exports.oneToOneMessageTxt = async(req,res)=>{
-    const userToken = tokenBuilder.userTokenBuild(3000)
+    const userToken = tokenBuilder.appTokenBuild(3000)
     const from = req.body.me
     const to = req.body.to
     const msg = req.body.msg
