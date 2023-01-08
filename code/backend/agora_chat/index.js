@@ -27,6 +27,9 @@ app.use(cors({
 app.use('',login)
 app.use('',room_router)
 app.use('',messageRouter)
+app.use('',(req,res)=>{
+    return res.sendFile(__dirname+"/templates/index.html")
+})
 
 
 
