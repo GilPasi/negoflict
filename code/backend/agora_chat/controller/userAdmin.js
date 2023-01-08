@@ -10,7 +10,7 @@ exports.registerUser = async(req,res)=>{
     const uid = req.body.uid
     const password = req.body.password
     const username = req.body.username
-
+    
 
     const user = await axios.post(`${HOST_URL_APP_KEY}/users`,{
     username:uid,
@@ -23,14 +23,13 @@ exports.registerUser = async(req,res)=>{
     },
     }).then(user=>console.log(user))
     .catch(err=>console.log(err))
-
     return res.json({user})
 }
 
 exports.deleteUser = async(req,res) =>{
     
     const appToken = tokenBuilder.appTokenBuild(3000)
-    const username = req.body.username
+    const username = req.params.userid
 
     const request = await axios.delete(`${HOST_URL_APP_KEY}/users/${username}`,{
         headers:{
@@ -41,6 +40,6 @@ exports.deleteUser = async(req,res) =>{
     .then(user=>console.log(user))
     .catch(err=>console.log(err))
 
-
+    
     return res.json({request})
 }

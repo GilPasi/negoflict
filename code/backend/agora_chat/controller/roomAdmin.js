@@ -38,26 +38,26 @@ exports.getRooms = async(req,res)=>{
             'Accept' : 'application/json'
         }
     })
-
-   return res.json({rooms})
+    const getAllRooms = rooms.data
+   return res.json({getAllRooms})
 
 }
 exports.getRoomByUser = async(req,res)=>{
     const appToken = tokenBuilder.appTokenBuild(3000)
-    const user = req.query.username
+    const user = req.params.username
 
-    const room = await axios.get(`${HOST_URL_APP_KEY}/users/${user}/joind_chatrooms`,{
+    const room = await axios.get(`${HOST_URL_APP_KEY}/users/${user}/joined_chatrooms`,{
         headers:{
             Authorization: `Bearer ${appToken}`,
             'Accept' : 'application/json'
         }
     })
-
-    return res.json({room})
+    const userRooms = room.data
+    return res.json({userRooms})
 }
 exports.getRoomById = async(req,res)=>{
     const appToken = tokenBuilder.appTokenBuild(3000)
-    const roomid = req.query.chatroomid
+    const roomid = req.params.chatroomid
 
     const room = await axios.get(`${HOST_URL_APP_KEY}/chatrooms/${roomid}`,{
         headers:
@@ -67,13 +67,13 @@ exports.getRoomById = async(req,res)=>{
 
         }
     })
-
-    return res.json({room})
+    const getRoomID = room.data
+    return res.json({getRoomID})
 }
 
 exports.deleteRoom = async(req,res)=>{
     const appToken = tokenBuilder.appTokenBuild(3000)
-    const roomid = req.query.chatroomid
+    const roomid = req.params.chatroomid
 
 
     const response = await axios.delete(`${HOST_URL_APP_KEY}/chatrooms/${roomid}`,{
@@ -82,8 +82,8 @@ exports.deleteRoom = async(req,res)=>{
             'Accept' : 'application/json'
         }
     })
-
-    return res.json({response})
+    const deleteRoombyID = response.data
+    return res.json({deleteRoombyID})
 }
 
 exports.addUserToRoom = async(req,res)=>{
@@ -91,7 +91,7 @@ exports.addUserToRoom = async(req,res)=>{
     const chatId = req.body.chatroomid
     const username = req.body.username
 
-    const response = await axios.post(`${HOST_URL_APP_KEY}/chatrooms/${chatId}/${username}`,{
+    const response = await axios.post(`${HOST_URL_APP_KEY}/chatrooms/${chatId}/users/${username}`,{},{
         headers:{
             Authorization: `Bearer ${appToken}`,
             'Content-Type': 'application/json',
@@ -100,20 +100,25 @@ exports.addUserToRoom = async(req,res)=>{
         }
 
     })
-
-    return res.json({response})
+    const addUserRoom = response.data
+    return res.json({addUserRoom})
 
 }
 exports.removeFromChatroom = async(req,res)=>{
     const appToken = tokenBuilder.appTokenBuild(3000)
-    const roomid = req.query.chatroomid
-    const userid = req.query.userid
+    const roomid = req.params.chatroomid
+    const userid = req.params.userid
 
 
-    const response = await axios.delete(`${HOST_URL_APP_KEY}/chatrooms/${chatId}/users/${userid}`)
+    const response = await axios.delete(`${HOST_URL_APP_KEY}/chatrooms/${roomid}/users/${userid}`,{
+        headers:{
+            Authorization: `Bearer ${appToken}`,
+            'Accept' : 'application/json'
+        }
+    })
 
-
-    return res.json({response})
+    const deleteFromRoom = response.data
+    return res.json({deleteFromRoom})
 
 }
 
