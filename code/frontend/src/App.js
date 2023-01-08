@@ -3,13 +3,22 @@ import "./components/Login.css";
 
 import './App.css';
 import Login from "./components/Login"
-import Yinoncomp from "./components/Yinoncomp"
+import Chat from "./components/chat_components/Chat"
+import NewUser from "./components/NewUser"
+import CreateUserOptionPage from "./components/CreateUserOptionPage"
+
+
 
 
 
 function App() {
   return (
-    <Login></Login>
+    <React.Fragment>
+      <Login></Login>
+      <Chat></Chat>
+      <CreateUserOptionPage></CreateUserOptionPage>
+      <NewUser></NewUser>
+    </React.Fragment>
 
   );
 }
