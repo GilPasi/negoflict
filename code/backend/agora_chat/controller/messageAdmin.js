@@ -30,7 +30,7 @@ exports.oneToOneMessageTxt = async(req,res)=>{
 
 }
 
-exports.groupMessage = async(req,res)=>{
+exports.roomMessage = async(req,res)=>{
     const userToken = tokenBuilder.userTokenBuild(3000)
     const roomid = req.body.chatroomid
     const me = req.body.me
