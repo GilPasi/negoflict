@@ -13,7 +13,7 @@ const app = express()
 app.use(bodyParser.urlencoded({urlencoded:false}))
 
 
-const group_router = require('./routers/group_router')
+const room_router = require('./routers/room_router')
 const login = require('./routers/user_router')
 const messageRouter = require('./routers/chat_router')
 
@@ -25,7 +25,7 @@ app.use(cors({
 
 
 app.use('',login)
-app.use('',group_router)
+app.use('',room_router)
 app.use('',messageRouter)
 
 
