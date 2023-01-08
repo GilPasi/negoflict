@@ -1,121 +1,111 @@
-// const { default: axios } = require('axios')
-// const tokenBuilder = require('../utils/tokens')
-// const HOST_URL_APP_KEY = require('../utils/hosts')
+const { default: axios } = require('axios')
+const tokenBuilder = require('../utils/tokens')
+const HOST_URL_APP_KEY = require('../utils/hosts')
 
 
-// exports.createRoom = async(req,res)=>{
-//     const appToken = tokenBuilder.appTokenBuild(3000)
-//     const name = req.body.groupname
-//     const description = req.body.desc
-//     const max_users = req.body.maxusers
-//     const owner = req.body.owner
+exports.createGroup = async(req,res)=>{
+    const appToken = tokenBuilder.appTokenBuild(50000)
+    const name = req.body.groupname
+    const description = req.body.desc
+    const max_users = req.body.maxusers
+    const owner = req.body.owner
+    
+    const groupId = await axios.post(`${HOST_URL_APP_KEY}/chatgroups`,{
+        groupname:name,
+        desc:description,
+        public:false,
+        maxusers: max_users,
+        owner: owner,
+        members: [owner]
+    },{
+        headers:{
+            Authorization: `Bearer ${appToken}`,
+            'Content-Type': 'application/json',
+            'Accept' : 'application/json'
+        }
 
-//     const groupId = await axios.post(`${HOST_URL_APP_KEY}/chatgroups`,{
-//         groupname:name,
-//         desc:description,
-//         public:false,
-//         maxusers: max_users,
-//         owner: owner,
-//         members: [owner]
-//     },{
-//         headers:{
-//             Authorization: `Bearer ${appToken}`,
-//             'Content-Type': 'application/json',
-//             'Accept' : 'application/json'
-//         }
+    })
+    const id = groupId.data.id
+    return res.json({id})
+}
 
-//     })
-//     const id = chatId.data.data.id
-//     res.json({id})
-// }
-
-// exports.getRooms = async(req,res)=>{
-//     const appToken = tokenBuilder.appTokenBuild(3000)
+exports.getGroups = async(req,res)=>{
+    const appToken = tokenBuilder.appTokenBuild(3000)
    
 
-//     const rooms = await axios.get(`${HOST_URL_APP_KEY}/chatrooms`,{
-//         headers:{
-//             Authorization: `Bearer ${appToken}`,
-//             'Accept' : 'application/json'
-//         }
-//     })
+    const groups = await axios.get(`${HOST_URL_APP_KEY}/chatgroups`,{
+        headers:{
+            Authorization: `Bearer ${appToken}`,
+            'Accept' : 'application/json'
+        }
+    })
+    const roomData = groups.data
+   return res.json(roomData)
 
-//    return res.json({rooms})
+}
+exports.getGroupByUser = async(req,res)=>{
+    const appToken = tokenBuilder.appTokenBuild(3000)
+    const user = req.params.username
 
-// }
-// exports.getRoomByUser = async(req,res)=>{
-//     const appToken = tokenBuilder.appTokenBuild(3000)
-//     const user = req.query.username
+    const group = await axios.get(`${HOST_URL_APP_KEY}/users/${user}/joined_chatgroups`,{
+        headers:{
+            Authorization: `Bearer ${appToken}`,
+            'Accept' : 'application/json'
+        }
+    })
+    const groupsData = group.data
+    return res.json(groupsData)
+}
 
-//     const room = await axios.get(`${HOST_URL_APP_KEY}/users/${user}/joind_chatrooms`,{
-//         headers:{
-//             Authorization: `Bearer ${appToken}`,
-//             'Accept' : 'application/json'
-//         }
-//     })
-
-//     return res.json({room})
-// }
-// exports.getRoomById = async(req,res)=>{
-//     const appToken = tokenBuilder.appTokenBuild(3000)
-//     const roomid = req.query.chatroomid
-
-//     const room = await axios.get(`${HOST_URL_APP_KEY}/chatrooms/${roomid}`,{
-//         headers:
-//         {
-//             Authorization: `Bearer ${appToken}`,
-//             'Accept' : 'application/json'
-
-//         }
-//     })
-
-//     return res.json({room})
-// }
-
-// exports.deleteRoom = async(req,res)=>{
-//     const appToken = tokenBuilder.appTokenBuild(3000)
-//     const roomid = req.query.chatroomid
+exports.deleteGroup = async(req,res)=>{
+    const appToken = tokenBuilder.appTokenBuild(3000)
+    const groupId = req.params.chatgroupid
 
 
-//     const response = await axios.delete(`${HOST_URL_APP_KEY}/chatrooms/${roomid}`,{
-//         headers:{
-//             Authorization: `Bearer ${appToken}`,
-//             'Accept' : 'application/json'
-//         }
-//     })
+    const response = await axios.delete(`${HOST_URL_APP_KEY}/chatgroups/${groupId}`,{
+        headers:{
+            Authorization: `Bearer ${appToken}`,
+            'Accept' : 'application/json'
+        }
+    })
+    const ress = response.data
+    return res.json(ress)
+}
 
-//     return res.json({response})
-// }
+exports.addUserToGroup = async(req,res)=>{
+    const appToken = tokenBuilder.appTokenBuild(3000)
+    const groupId = req.body.groupId
+    const username = req.body.username
 
-// exports.addUserToRoom = async(req,res)=>{
-//     const appToken = tokenBuilder.appTokenBuild(3000)
-//     const chatId = req.body.chatroomid
-//     const username = req.body.username
+    const response = await axios.post(`${HOST_URL_APP_KEY}/chatgroups/${groupId}/users/${username}`,{}, {
+        headers:{
+            Authorization: `Bearer ${appToken}`,
+            'Content-Type': 'application/json',
+            'Accept' : 'application/json'
+        }
 
-//     const response = await axios.post(`${HOST_URL_APP_KEY}/chatrooms/${chatId}/${username}`,{
-//         headers:{
-//             Authorization: `Bearer ${appToken}`,
-//             'Content-Type': 'application/json',
-//             'Accept' : 'application/json'
+    })
+    const ress = response.data
+    return res.json(ress)
 
-//         }
-
-//     })
-
-//     return res.json({response})
-
-// }
-// exports.removeFromChatroom = async(req,res)=>{
-//     const appToken = tokenBuilder.appTokenBuild(3000)
-//     const roomid = req.query.chatroomid
-//     const userid = req.query.userid
-
-
-//     const response = await axios.delete(`${HOST_URL_APP_KEY}/chatrooms/${chatId}/users/${userid}`)
+}
+exports.removeUserFromGroup = async(req,res)=>{
+    const appToken = tokenBuilder.appTokenBuild(3000)
+    const groupId = req.params.groupId
+    const userid = req.params.userid
 
 
-//     return res.json({response})
+    const response = await axios.delete(`${HOST_URL_APP_KEY}/chatgroups/${groupId}/users/${userid}`,{
+        headers:{
+            Authorization: `Bearer ${appToken}`,
+            'Content-Type': 'application/json',
+            'Accept' : 'application/json'
+        }
+    })
 
-// }
+    const ress = response.data
+    return res.json(ress)
+
+}
 
 
