@@ -11,6 +11,7 @@ const PORT = 8050
 const app = express()
 
 app.use(bodyParser.urlencoded({urlencoded:false}))
+app.use(bodyParser.json());
 
 
 const room_router = require('./routers/room_router')
@@ -29,9 +30,9 @@ app.use('',login)
 app.use('',room_router)
 app.use('',group_router)
 app.use('',messageRouter)
-app.use('',(req,res)=>{
-    res.sendFile(__dirname +"/templates/index.html")
-})
+// app.use('',(req,res)=>{
+//     res.sendFile(__dirname +"/templates/index.html")
+// })
 
 
 
