@@ -47,12 +47,11 @@ exports.getGroupByUser = async(req,res)=>{
     const appToken = tokenBuilder.appTokenBuild(3000)
     const user = req.params.username
 
-    const group = await axios.get(`${HOST_URL_APP_KEY}/users/${user}/joined_chatgroups`,{
+    const group = await axios.get(`${HOST_URL_APP_KEY}/users/${user}/joined_chatgroups`,{},{
         headers:{
             Authorization: `Bearer ${appToken}`,
             'Accept' : 'application/json'
-        }
-    })
+        }})
     const groupsData = group.data
     return res.json(groupsData)
 }
@@ -62,7 +61,7 @@ exports.deleteGroup = async(req,res)=>{
     const groupId = req.params.chatgroupid
 
 
-    const response = await axios.delete(`${HOST_URL_APP_KEY}/chatgroups/${groupId}`,{
+    const response = await axios.delete(`${HOST_URL_APP_KEY}/chatgroups/${groupId}`,{},{
         headers:{
             Authorization: `Bearer ${appToken}`,
             'Accept' : 'application/json'
