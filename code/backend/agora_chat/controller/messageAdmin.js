@@ -11,7 +11,7 @@ exports.oneToOneMessageTxt = async(req,res)=>{
     const msg = req.body.msg
     const type = 'txt'
 
-    
+
     const mess = await axios.post(`${HOST_URL_APP_KEY}/messages/users`,{
         from: from,
         to: [to],
@@ -25,33 +25,65 @@ exports.oneToOneMessageTxt = async(req,res)=>{
         }
         
     })
-
-    return res.json({mess})
+    const messageData = mess.data
+    return res.json({messageData})
+   
 
 }
 
-exports.groupMessage = async(req,res)=>{
-    const userToken = tokenBuilder.userTokenBuild(3000)
-    const roomid = req.body.chatroomid
+exports.roomMessage = async(req,res)=>{
+    const appToken = tokenBuilder.appTokenBuild(50000)
+    const roomId = req.body.roomid
     const me = req.body.me
     const msg = req.body.msg
 
     const mess = await axios.post(`${HOST_URL_APP_KEY}/messages/chatrooms`,{
         from:me,
-        to:[roomid],
+        to:[roomId],
         type:'txt',
         body:{
             'msg':msg
-        }
+        },
+        "routetype":"ROUTE_ONLINE",
+        "sync_device":true
     },{
         headers:
         {
-            Authorization: `Bearer ${userToken}`,
+            Authorization: `Bearer ${appToken}`,
             'Content-Type': 'application/json',
             'Accept' : 'application/json'
         }
 
     })
+    const ress = mess.data
+    return res.json(ress)
+}
 
-    return res.json({mess})
+
+exports.groupMessage = async(req,res)=>{
+    const appToken = tokenBuilder.appTokenBuild(50000)
+    const groupId = req.body.groupid
+    const me = req.body.me
+    const msg = req.body.msg
+
+    const mess = await axios.post(`${HOST_URL_APP_KEY}/messages/chatgroups`,{
+        from:me,
+        to:[groupId],
+        type:'txt',
+        body:{
+            'msg':msg
+        },
+        "routetype":"ROUTE_ONLINE",
+        "sync_device":true
+    },{
+        headers:
+        {
+            Authorization: `Bearer ${appToken}`,
+            'Content-Type': 'application/json',
+            'Accept' : 'application/json'
+        }
+
+    })
+    const ress = mess.data
+    return res.json(ress)
 }

@@ -1,3 +1,14 @@
-from django.shortcuts import render
+from rest_framework.viewsets import ModelViewSet
+from .models import Case
+from negoflict_app import permissions
 
-# Create your views here.
+
+
+
+class CaseView(ModelViewSet):
+    queryset = Case.objects.all()
+    # permission_classes = [permissions.IsStaff]
+
+
+
+

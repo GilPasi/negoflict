@@ -9,6 +9,7 @@ from . import permissions
 
 
 class UserView(ModelViewSet):
+    permission_classes=[permissions.IsStaff]
     queryset = User.objects.all()
     serializer_class = UserCreateSerializer
 
