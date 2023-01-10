@@ -19,7 +19,6 @@ function App() {
       <CreateUserOptionPage></CreateUserOptionPage>
       <NewUser></NewUser>
     </React.Fragment>
-
   );
 }
 export default App;
