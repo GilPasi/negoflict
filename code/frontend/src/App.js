@@ -1,6 +1,10 @@
 import WebIM from './WebIM';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
+import { TextField } from "@mui/material";
+import { Button } from "@mui/material";
+import  "./components/chat_components/Panel.css";
+
 
 
 function App() {
@@ -22,8 +26,10 @@ function App() {
    
   }
   const messageHandler = (msg)=>{
-    const arr = [...messages,msg]
+    const from = msg.from
+    const arr = [...messages,`${from}: ${msg.sourceMsg}`]
     setMessages(arr)
+   
   }
 
   useEffect(()=>{
@@ -44,7 +50,7 @@ function App() {
   }
 
   WebIM.conn.listen({
-    onTextMessage: (message)=>messageHandler(message.sourceMsg),
+    onTextMessage: (message)=>messageHandler(message),
     onGroupChange:(message)=>messageHandler(message.sourceMsg),
     onChannelMessage:(message)=>messageHandler(message.sourceMsg)
   })
@@ -58,11 +64,16 @@ function App() {
   }
   const handleSub = (event)=>{
     event.preventDefault();
+
+
    
     const a = user;
     const b = to
     const c = msgSend
-    messageHandler(c)
+
+    const arr = [...messages,`${a}: ${c}`]
+
+    setMessages(arr)
      axios.post('http://localhost:8050//one_to_one_message',{
       me: a,
       to: b,
@@ -75,21 +86,35 @@ function App() {
 
   return (
     <div className="App">
-      <input onChange={handleChange}/>
-      <button onClick={getToken}>Submit</button>
-      <ul>
-        {messages.map((message) => (
-          <li key={counter++}>{message}</li>
-        ))}
-      </ul>
-      <form onSubmit={handleSub}>
-        <input onChange={handleMsgSend} name='msg'/>
-        <input onChange={handleMsgSend} name='to'/>
-        <button>send</button>
-      </form>
+       {token==='' ? (
+        <div>
+          <TextField onChange={handleChange}/>
+          <Button onClick={getToken}>Login</Button>
+        </div>
+         ):(
+
+          <div className="messages">
+           <center>
+           {messages.map((message) => (
+             <div className="message" id="message" key={counter++} >{message}</div>
+             ))}
+           </center>
+
+             <form onSubmit={handleSub}>
+              <div className ="input-fields">
+
+
+              <TextField onChange={handleMsgSend} name='to' className ="to" />
+              <TextField onChange={handleMsgSend} name='msg' className="msg"/>
+              <Button type="submit">send</Button>
+
+              </div>
+          </form>
+          </div>
+           
+        )}
        
     </div>
->>>>>>> 570c7def5328e9059f5d12edb3ffe4ff5ff1eae6
   );
 }
 
