@@ -43,7 +43,6 @@ function Panel() {
           <Button id="send-btn" onClick={(e) => handleSend(e)}>
             Send
           </Button>
-          <p id="op"></p>
         </Grid>
         <Grid item className="spacer" xs="4"></Grid>
       </Grid>

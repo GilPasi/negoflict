@@ -44,3 +44,31 @@
     
 
 }
+.msg{
+    position: fixed;
+    left:0px;
+    bottom:0px;
+    width : 400px;
+    margin :0px;
+}
+
+.to{
+    width:250px;
+    
+}  
+
+.input-fields{
+    position: absolute;
+    bottom:0px;
+    background:white;
+    
+    
+}
+
+body{
+
+    overflow-anchor: none;
+
+
+
+}
