@@ -1,3 +1,4 @@
+
 :root{
     --message-color:rgb(217,217,217);
     
@@ -34,41 +35,55 @@
     padding: 1em;
     max-width:10em;
 }
-
-/* TODO: fix centering */
-.content{
-    
-    border: transparent 1px solid;
-    display: flex;
-    justify-content: center;
-    
-
-}
 .msg{
-    position: fixed;
+    
     left:0px;
     bottom:0px;
-    width : 400px;
-    margin :0px;
+    width : 1180px;
+    display: inline-block;
+    align-self: flex-end;
 }
 
 .to{
     width:250px;
-    
 }  
 
-.input-fields{
+/* .input-fields{
     position: absolute;
-    bottom:0px;
-    background:white;
-    
-    
+    bottom: 0;
+    left: 0;    
+    display:block;
+} */
+
+.footer{
+    position:fixed;
+    margin-bottom:5px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    text-align: center;
+}
+.user{
+    padding: 8px;
+    margin:  15px;
+    float:left;
+    border: 2px solid rgb(0, 89, 255);
+    border-radius: 4px; 
+}
+.Login{
+    margin-top: 20px;
+}
+nav .messages{
+    height:750px; 
+    width:100%;
+
+}
+nav .messages{
+    overflow:hidden;
+    overflow-y:scroll;
 }
 
-body{
+/* .messages{
 
-    overflow-anchor: none;
-
-
-
-}
+} */

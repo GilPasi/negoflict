@@ -29,6 +29,7 @@ function App() {
     const from = msg.from
     const arr = [...messages,`${from}: ${msg.sourceMsg}`]
     setMessages(arr)
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
    
   }
 
@@ -74,41 +75,55 @@ function App() {
     const arr = [...messages,`${a}: ${c}`]
 
     setMessages(arr)
-     axios.post('http://localhost:8050//one_to_one_message',{
+    const element = 'messages'
+    var elem = document.getElementById('messages');
+    elem.scrollTop = elem.scrollHeight;
+        axios.post('http://localhost:8050//one_to_one_message',{
       me: a,
       to: b,
       msg: c
     })
   }
 
-
-  
-
   return (
     <div className="App">
        {token==='' ? (
-        <div>
+        <div className="Login">
           <TextField onChange={handleChange}/>
+          <br/>
           <Button onClick={getToken}>Login</Button>
         </div>
          ):(
-
-          <div className="messages">
+      
+        
+          <div className="chat">
+             <div className="user">
+          
+          <label>  Connected User : {user}</label>
+      
+        </div>
            <center>
+             <nav>
+
+             <div className="messages" id="messages">
            {messages.map((message) => (
              <div className="message" id="message" key={counter++} >{message}</div>
-             ))}
+             ))}      
+             </div>
+       
+             </nav>
            </center>
-
+      
              <form onSubmit={handleSub}>
-              <div className ="input-fields">
-
+               <footer>
+             <div class="footer">
 
               <TextField onChange={handleMsgSend} name='to' className ="to" />
               <TextField onChange={handleMsgSend} name='msg' className="msg"/>
               <Button type="submit">send</Button>
 
               </div>
+              </footer>
           </form>
           </div>
            
