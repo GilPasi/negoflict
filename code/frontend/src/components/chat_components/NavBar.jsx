@@ -9,6 +9,13 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import Stack from '@mui/material/Stack';
 import MenuIcon from '@mui/icons-material/Menu';
+import Grid from "@mui/material/Grid";
+import { spacing } from '@mui/system';
+import { SpaceBarRounded } from '@mui/icons-material';
+import { Box } from '@mui/material';
+import "./NavBar.css";
+
+
 
 export default function NavBar() {
   const [open, setOpen] = React.useState(false);
@@ -25,6 +32,11 @@ export default function NavBar() {
 
     setOpen(false);
   };
+
+  const theme = {
+    spacing: 8
+    
+  }
 
   function handleListKeyDown(event) {
     if (event.key === 'Tab') {
@@ -45,7 +57,69 @@ export default function NavBar() {
   }, [open]);
 
   return (
-    <Stack direction="row" spacing={2}>
+      <div>
+        <Grid container>
+          <Grid item mr={169}>
+          <Button
+          ref={anchorRef}
+          id="composition-button"
+          aria-controls={open ? 'composition-menu' : undefined}
+          aria-expanded={open ? 'true' : undefined}
+          aria-haspopup="true"
+          onClick={handleToggle}
+        >
+           <MenuIcon fontSize="large"></MenuIcon>
+        </Button>
+        <Popper
+          open={open}
+          anchorEl={anchorRef.current}
+          role={undefined}
+          placement="bottom-start"
+          transition
+          disablePortal
+        >
+          
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              style={{
+                transformOrigin:
+                  placement === 'bottom-start' ? 'left top' : 'left bottom',
+              }}
+            >
+              <Paper>
+                <ClickAwayListener onClickAway={handleClose}>
+                  <MenuList
+                    autoFocusItem={open}
+                    id="composition-menu"
+                    aria-labelledby="composition-button"
+                    onKeyDown={handleListKeyDown}
+                  >
+                    <MenuItem onClick={handleClose}>Choose</MenuItem>
+                    <MenuItem onClick={handleClose}>An</MenuItem>
+                    <MenuItem onClick={handleClose}>Option</MenuItem>
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          
+          )}
+        </Popper>
+          </Grid>
+          
+          <Grid >
+          <img item sm={3} src="" alt="Negoflict-logo" className="logo" />
+          </Grid>
+        
+       
+  
+          </Grid>
+      </div>
+    
+  );
+}
+
+{/* <Stack direction="row" spacing={2}>
       <Paper>
       </Paper>
       <div>
@@ -76,7 +150,6 @@ export default function NavBar() {
                   placement === 'bottom-start' ? 'left top' : 'left bottom',
               }}
             >
-              
               <Paper>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList
@@ -92,10 +165,13 @@ export default function NavBar() {
                 </ClickAwayListener>
               </Paper>
             </Grow>
+          
           )}
         </Popper>
-        <img src="" alt="Negoflict-logo" className="logo" />
+        <Grid container>
+        
+        <img item sm={3} src="" alt="Negoflict-logo" className="logo" />
+  
+          </Grid>
       </div>
-    </Stack>
-  );
-}
+    </Stack> */}
