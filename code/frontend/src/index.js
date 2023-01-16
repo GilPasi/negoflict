@@ -2,12 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import NewUser from './components/NewUser';
+import CreateUserOptionPage from './components/CreateUserOptionPage';
+import Chat from './components/chat_components/Chat';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Chat/>
+    <CreateUserOptionPage/>
+    <NewUser></NewUser>
   </React.StrictMode>
 );
 
