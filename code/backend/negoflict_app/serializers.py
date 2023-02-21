@@ -1,12 +1,34 @@
 from rest_framework import serializers
 from .models import Mediator, Address, AddressMediator
+from core.serializers import  UserCreateSerializer
+from core.models import User
+
+
+
 
 
 class MediatorSerializer(serializers.ModelSerializer):
-    mediator_user = serializers.IntegerField(read_only=True)
+    user = UserCreateSerializer()
     class Meta:
         model = Mediator
-        fields = ['id','mediator_user','phone','education','relevant_experience','mediation_areas','certification_course']
+        fields = ['id','phone','education','relevant_experience','mediation_areas','certification_course','user']
+        depth = 1
+        
+    
+   
+        
+    
+        
+        
+    
+   
+    
+             
+        
+        
+    
+    
+        
 
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
