@@ -43,12 +43,11 @@ class MediatorView(ModelViewSet):
     
     def create(self, request, *args, **kwargs):
         user_data = {key[5:]: value for key, value in request.data.items() if key.startswith('user') }
-        print(user_data)
+        user_data['is_staff'] = True
         serializer =UserCreateSerializer(data=user_data)
         serializer.is_valid(raise_exception=True)
         user_instanse =serializer.save()
         
-        user_id = user_instanse
         
         new_object = Mediator.objects.create(
             phone = request.data.get('phone'),
@@ -56,12 +55,12 @@ class MediatorView(ModelViewSet):
             relevant_experience = request.data.get('relevant_experience'),
             mediation_areas = request.data.get('mediation_areas'),
             certification_course = True,
-            user = user_id
+            user = user_instanse
         )
-        mediator = MediatorSerializer(new_object)
+        mediator = MediatorSerializer(new_object).data
         
         
-        return Response({'user': user_instanse,'mediator':mediator}, status=status.HTTP_201_CREATED)
+        return Response({'mediator':mediator}, status=status.HTTP_201_CREATED)
     
     @action(detail=False,methods=['GET','PUT'],permission_classes=[permissions.IsStaff])
     def me(self,request):
