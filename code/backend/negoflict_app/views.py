@@ -49,12 +49,14 @@ class MediatorView(ModelViewSet):
         user_instanse =serializer.save()
         
         
+        
+        
         new_object = Mediator.objects.create(
             phone = request.data.get('phone'),
             education = request.data.get('education'),
             relevant_experience = request.data.get('relevant_experience'),
             mediation_areas = request.data.get('mediation_areas'),
-            certification_course = True,
+            certification_course = bool(request.data.get('certification_course')),
             user = user_instanse
         )
         mediator = MediatorSerializer(new_object).data
