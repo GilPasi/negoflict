@@ -2,17 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import NewUser from './components/NewUser';
-import CreateUserOptionPage from './components/CreateUserOptionPage';
-import Chat from './components/chat_components/Chat';
+// import NewUser from './components/NewUser';
+// import CreateUserOptionPage from './components/CreateUserOptionPage';
+// import Login from './components/Login';
+// import Chat from './components/chat_components/Chat';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <App></App>
+    {/* <Login></Login>
     <Chat/>
     <CreateUserOptionPage/>
-    <NewUser></NewUser>
+    <NewUser></NewUser> */}
   </React.StrictMode>
 );
 
