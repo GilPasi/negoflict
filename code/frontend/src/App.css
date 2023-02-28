@@ -1,4 +1,52 @@
 *{
+  font-family: Inter,sans-serif;
+  --green-dark : #4AAC65;
+  --green-light : #89E0A2;
 
-  
+
+}
+
+
+
+
+.header-large{
+
+}
+
+.header-large--menu-img{
+  width:50px;
+  height:50px;
+  padding:2.5em;
+
+
+}
+
+.header-large--menu{
+  position:relative;
+  margin-right: 100%;
+  background-color: transparent;
+  border:none;
+  transition: background-color 0.5s ease;
+
+
+}
+
+.header-large--menu:hover::after{
+  background-color:rgba(128, 128, 128, 0.307);
+}
+
+.header-large--menu::after{
+  content: '';
+  position: absolute;
+  width: 60px;
+  height: 50px;
+  top:27%;
+  left:27%;
+  transition:0.25s ease-out;
+}
+
+.header-large--title{
+  font-family: Bowlby One SC , sans-serif;
+  color:var(--green-dark);
+
 }

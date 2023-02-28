@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
-
-
+import HeaderLarge from "./components/general/HeaderLarge.js"
+import './App.css'
 
 
 function App() {
@@ -129,6 +129,7 @@ function App() {
            
         )}
        
+        <HeaderLarge />
     </div>
   );
 }
