@@ -2,16 +2,14 @@
   font-family: Inter,sans-serif;
   --green-dark : #4AAC65;
   --green-light : #89E0A2;
+  --font-large: 3em;
+  --font-medium: 1em;
 
 
-}
-
-
-
-
-.header-large{
 
 }
+/*__ Large header component __*/
+
 
 .header-large--menu-img{
   width:50px;
@@ -48,5 +46,32 @@
 .header-large--title{
   font-family: Bowlby One SC , sans-serif;
   color:var(--green-dark);
+  font-size: var(--font-large);
+}
+
+/*__ Text Field component __*/
+
+.text-field-input{ 
+  width:17.5em;
+  height: 4em;
+  padding:0.5em;
+
+  font-size: var(--font-medium);
+  border-radius: 5px;
+  border:none;
+  background-color:var(--green-light);
+
+  margin:1em;
+}
+
+.text-field-input::placeholder{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  
+
+
+  /* padding-left:35%; */
+  color:black;
 
 }
