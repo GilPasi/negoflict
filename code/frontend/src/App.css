@@ -5,46 +5,74 @@
 
   --green-light : #89E0A2;
   --font-large: 3em;
-  --font-medium: 1em;
+  --font-medium: 1.5em;
 
 
 
 }
 /*__ Large header component __*/
 
+a{
+  text-decoration: none;
+  color:#1D62F0;
+}
+a:hover{
+  color:#1d63f0d3;
 
-.header-large--menu-img{
+}
+
+.hl--menu-wrapper{
+  display: flex;
+}
+
+/* Dropdown Button */
+.hl-menu-button {
+  padding: 16px;
+  border: none;
+  display: inline;
+  margin-left:2em;
+}
+
+.hl--menu-img{
   min-width:50px;
   max-width: 200px;
   height:50px;
-  padding:2.5em;
-
-
 }
 
-.header-large--menu{
-  position:relative;
-  margin-right: 100%;
-  background-color: transparent;
-  border:none;
-  transition: background-color 0.5s ease;
-
-
+/* The container <div> - needed to position the dropdown content */
+.hl--menu {
+  justify-content: left;
+  position: relative;
+  display: inline-block;
 }
 
-.header-large--menu:hover::after{
-  background-color:rgba(128, 128, 128, 0.307);
-}
-
-.header-large--menu::after{
-  content: '';
+/* Dropdown Content (Hidden by Default) */
+.hl--menu-content {
+  display: none;
   position: absolute;
-  width: 60px;
-  height: 50px;
-  top:27%;
-  left:27%;
-  transition:0.25s ease-out;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
 }
+
+/* Links inside the dropdown */
+.hl--menu-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.hl--menu-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.hl--menu:hover .hl--menu-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.hl--menu:hover .hl-menu-button {background-color: #ddd;}
+
 
 .header-large--title{
   font-family: Bowlby One SC , sans-serif;
@@ -55,9 +83,9 @@
 /*__ Text Field component __*/
 
 .text-field-input{ 
-  width:17.5em;
-  height: 4em;
-  padding:0.5em;
+  width:15.5em;
+  height: 2.5em;
+  padding-bottom:1em;
 
   font-size: var(--font-medium);
   border-radius: 5px;
@@ -76,7 +104,7 @@
   transform: translateX(-50%) translateY(100%);
 
 }
-
+/*__ Button component __*/
 .button{
   width:min-content;
   height:3em;
@@ -87,6 +115,7 @@
   border-radius: 2.5em;
   margin:1.5em;
   font-size: 1.5em;
+  transition: 0.1s ease-in-out
 }
 
 .button:active {
@@ -102,3 +131,10 @@
   min-width: 10em;
 }
 
+/*__ Login page component __*/
+.login-page--title{
+  text-align: left;
+  padding:0em 3em 1em 3em;
+  font-weight: 700;
+
+}
