@@ -1,6 +1,8 @@
 *{
   font-family: Inter,sans-serif;
   --green-dark : #4AAC65;
+  --green-dark-shaded : #459d5e;
+
   --green-light : #89E0A2;
   --font-large: 3em;
   --font-medium: 1em;
@@ -12,7 +14,8 @@
 
 
 .header-large--menu-img{
-  width:50px;
+  min-width:50px;
+  max-width: 200px;
   height:50px;
   padding:2.5em;
 
@@ -66,12 +69,36 @@
 
 .text-field-input::placeholder{
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%) translateY(100%);
-  
-
-
-  /* padding-left:35%; */
   color:black;
 
+  /* Center the sub-titles */
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+
 }
+
+.button{
+  width:min-content;
+  height:3em;
+  background-color: var(--green-dark);
+  color:white;
+  border:none;
+  box-shadow: 0px 3px 4px 0px #46464640;
+  border-radius: 2.5em;
+  margin:1.5em;
+  font-size: 1.5em;
+}
+
+.button:active {
+  background-color: var(--green-dark-shaded);
+}
+
+/* Two possible designs for buttons */
+.button-large{
+  min-width: 15em;
+}
+
+.button-small{
+  min-width: 10em;
+}
+
