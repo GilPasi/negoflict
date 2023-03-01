@@ -3,8 +3,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
-import  "./components/chat_components/Panel.css";
+import HeaderLarge from "./components/general/HeaderLarge.js"
+import TextInput from "./components/general/TextInput.js"
+ import ButtonSmall from "./components/general/Button.js"
 
+
+import './App.css'
 
 
 function App() {
@@ -129,7 +133,27 @@ function App() {
            
         )}
        
+        <HeaderLarge />
+        <TextInput 
+            type="text"
+            placeHolder="Full Name"
+         />
+
+
+<TextInput 
+            type="email"
+            placeHolder="Email"
+         />
+
+<TextInput 
+            type="password"
+            placeHolder="Password"
+         />
+
+         <ButtonSmall text="Register" size="small"/>
     </div>
+
+    
   );
 }
 

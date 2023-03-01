@@ -1,38 +1,104 @@
-.App {
-  text-align: center;
+*{
+  font-family: Inter,sans-serif;
+  --green-dark : #4AAC65;
+  --green-dark-shaded : #459d5e;
+
+  --green-light : #89E0A2;
+  --font-large: 3em;
+  --font-medium: 1em;
+
+
+
+}
+/*__ Large header component __*/
+
+
+.header-large--menu-img{
+  min-width:50px;
+  max-width: 200px;
+  height:50px;
+  padding:2.5em;
+
+
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.header-large--menu{
+  position:relative;
+  margin-right: 100%;
+  background-color: transparent;
+  border:none;
+  transition: background-color 0.5s ease;
+
+
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.header-large--menu:hover::after{
+  background-color:rgba(128, 128, 128, 0.307);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.header-large--menu::after{
+  content: '';
+  position: absolute;
+  width: 60px;
+  height: 50px;
+  top:27%;
+  left:27%;
+  transition:0.25s ease-out;
 }
 
-.App-link {
-  color: #61dafb;
+.header-large--title{
+  font-family: Bowlby One SC , sans-serif;
+  color:var(--green-dark);
+  font-size: var(--font-large);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/*__ Text Field component __*/
+
+.text-field-input{ 
+  width:17.5em;
+  height: 4em;
+  padding:0.5em;
+
+  font-size: var(--font-medium);
+  border-radius: 5px;
+  border:none;
+  background-color:var(--green-light);
+
+  margin:1em;
 }
+
+.text-field-input::placeholder{
+  position: absolute;
+  color:black;
+
+  /* Center the sub-titles */
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+
+}
+
+.button{
+  width:min-content;
+  height:3em;
+  background-color: var(--green-dark);
+  color:white;
+  border:none;
+  box-shadow: 0px 3px 4px 0px #46464640;
+  border-radius: 2.5em;
+  margin:1.5em;
+  font-size: 1.5em;
+}
+
+.button:active {
+  background-color: var(--green-dark-shaded);
+}
+
+/* Two possible designs for buttons */
+.button-large{
+  min-width: 15em;
+}
+
+.button-small{
+  min-width: 10em;
+}
+
