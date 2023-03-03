@@ -14,16 +14,13 @@ from django.forms.models import model_to_dict
 
 
 class UserView(ModelViewSet):
-    permission_classes=[permissions.IsStaff]
+    permission_classes=[permissions.IsSuperUser]
     queryset = User.objects.all()
     serializer_class = UserCreateSerializer
     
  
     
-    
-        
-
-
+  
 class MediatorView(ModelViewSet):
     queryset = Mediator.objects.select_related('user').all()
     serializer_class = MediatorSerializer
@@ -71,23 +68,7 @@ class MediatorView(ModelViewSet):
         return Response(serializer.data,status=status.HTTP_302_FOUND)
     
     
-    
-    
-    
-
-   
-    
-    
-    
-
-   
-        
-       
-
-         
-
-
-
+ 
 class AddressView(ModelViewSet):
     queryset = Address.objects.all()
     serializer_class = AddressSerializer

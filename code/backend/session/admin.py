@@ -26,12 +26,6 @@ class GroupMember(admin.ModelAdmin):
     list_display = []
     list_select_related = ['user']
 
-@admin.register(models.Image)
-class GroupMember(admin.ModelAdmin):
-    list_display = []
-    list_select_related = ['user']
-
-
 
 
 
