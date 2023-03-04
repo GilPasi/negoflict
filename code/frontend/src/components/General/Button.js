@@ -1,6 +1,6 @@
 import {react} from 'react'
 
-export default function Button(props){
+const  Button=(props)=>{
     const {text , size} = props
     return(
         <div>
@@ -12,3 +12,4 @@ export default function Button(props){
         </div>
 
 )}
+export default Button

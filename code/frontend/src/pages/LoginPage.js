@@ -1,10 +1,10 @@
 import {react} from 'react'
-import HeaderLarge from "./general/HeaderLarge.js"
-import TextInput from "./general/TextInput.js"
- import Button from "./general/Button.js"
+import HeaderLarge from "../components/general/HeaderLarge.js"
+import TextInput from "../components/general/TextInput.js"
+ import Button from "../components/general/Button.js"
  
 
-export default function LoginPage(){
+const LoginPage=()=>{
     
 
 
@@ -42,3 +42,4 @@ export default function LoginPage(){
 
         </div>
 )}
+export default LoginPage

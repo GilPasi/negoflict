@@ -1,6 +1,6 @@
 import {React} from 'react'
 
-export default function TextField(props){
+const  TextField=(props)=>{
     console.log(props.placeHolder)
 
     
@@ -11,3 +11,4 @@ export default function TextField(props){
         </div>
 
     )}
+export default TextField
