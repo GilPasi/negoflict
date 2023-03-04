@@ -1,8 +1,7 @@
 from django.db import models
 from django.conf import settings
 
-
-class Mediator(models.Model):
+class category():
     FAMALY = 'FA'
     FRIENDS = 'FR'
     NEIGHBORS = 'NE'
@@ -22,11 +21,14 @@ class Mediator(models.Model):
         (POLITICS, 'Politics'),
         (OTHER, 'Other')
     ]
+
+
+class Mediator(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     phone = models.CharField(max_length=50)
     education = models.CharField(max_length=255)
     relevant_experience = models.TextField()
-    mediation_areas = models.CharField(max_length=2, choices=MEDIATION_CHOICES, default=OTHER)
+    mediation_areas = models.CharField(max_length=2, choices=category.MEDIATION_CHOICES, default=category.OTHER)
     certification_course = models.BooleanField(default=False)
 
     def __str__(self) -> str:
@@ -35,32 +37,45 @@ class Mediator(models.Model):
     class Meta:
         ordering = ['user__username']
 
-    
-
-    
-
-    
+   
 class Address(models.Model):
     city = models.CharField(max_length=150)
     street = models.CharField(max_length=150)
-    zip = models.CharField(max_length=20)
+    zip = models.CharField(max_length=20, null=True)
 
     def __str1__(self) -> str:
         return f'{self.city} / { self.street} / {self.zip}'
 
     def __str__(self) -> str:
         return self.city
-
     
+    class Meta:
+        unique_together = ('city', 'street')
 
-   
+ 
 
 
 class AddressMediator(models.Model):
     mediator = models.ForeignKey(Mediator,on_delete=models.CASCADE)
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
+    
+  
 
+    
+    
+    
+
+
+
+
+    
+    
+    
+        
+    
  
 
-class client(models.Model):
-    pass
+    
+    
+
+

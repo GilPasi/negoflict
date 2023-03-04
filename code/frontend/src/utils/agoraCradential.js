@@ -1,0 +1,1 @@
+exports.AppKey = process.env.REACT_APP_APP_KEY

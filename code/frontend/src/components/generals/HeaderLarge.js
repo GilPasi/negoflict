@@ -1,6 +1,6 @@
 import {React} from 'react'
 
-export default function HeaderLarge(){
+const  HeaderLarge=()=>{
 
     return(
         <div >
@@ -28,3 +28,4 @@ export default function HeaderLarge(){
 
     )
 }
+export default HeaderLarge

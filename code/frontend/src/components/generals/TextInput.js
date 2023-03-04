@@ -1,13 +1,14 @@
 import {React} from 'react'
+import { useState } from 'react'
 
-export default function TextField(props){
-    console.log(props.placeHolder)
-
+const  TextField=({type,placeHolder, onChange,name})=>{
     
+
     return(
         <div className="text-field">
-            <input className="text-field-input" type={props.type} placeholder={props.placeHolder} 
+            <input name={name}  onChange={onChange} className="text-field-input" type={type} placeholder={placeHolder} 
             align="left"></input>
         </div>
 
     )}
+export default TextField

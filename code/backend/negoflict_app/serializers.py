@@ -15,20 +15,6 @@ class MediatorSerializer(serializers.ModelSerializer):
         depth = 1
         
     
-   
-        
-    
-        
-        
-    
-   
-    
-             
-        
-        
-    
-    
-        
 
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
