@@ -5,10 +5,8 @@ import TextInput from "./general/TextInput.js"
  
 
 export default function LoginPage(){
-    
-
-
     return(
+
         <div className="login-page">
 
             <HeaderLarge />
@@ -39,6 +37,5 @@ export default function LoginPage(){
                 
                 
             </form>
-
         </div>
 )}

@@ -84,8 +84,8 @@ a:hover{
 
 .text-field-input{ 
   width:15.5em;
-  height: 2.5em;
-  padding-bottom:1em;
+  height: 1.5em;
+  padding:1em;
 
   font-size: var(--font-medium);
   border-radius: 5px;
@@ -93,6 +93,7 @@ a:hover{
   background-color:var(--green-light);
 
   margin:1em;
+  
 }
 
 .text-field-input::placeholder{
@@ -101,7 +102,7 @@ a:hover{
 
   /* Center the sub-titles */
   left: 50%;
-  transform: translateX(-50%) translateY(100%);
+  transform: translateX(-50%);
 
 }
 /*__ Button component __*/
