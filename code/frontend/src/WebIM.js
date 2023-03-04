@@ -1,5 +1,6 @@
 import {EaseChat} from 'agora-chat-uikit'
+import agoraCradential from './utils/agoraCradential'
 
-const WebIM = EaseChat.getSdk({appkey:'71864841#1052059'})
+const WebIM = EaseChat.getSdk({appkey:agoraCradential.AppKey})
 
 export default WebIM
