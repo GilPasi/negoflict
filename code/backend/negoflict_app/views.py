@@ -1,4 +1,4 @@
-xfrom core.serializers import UserCreateSerializer, UserSerializer
+from core.serializers import UserCreateSerializer, UserSerializer
 from core.models import User
 from .serializers import MediatorSerializer, AddressMediatorSerializer, AddressSerializer
 from .models import Mediator, Address, AddressMediator
