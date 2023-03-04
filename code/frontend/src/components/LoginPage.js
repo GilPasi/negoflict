@@ -1,7 +1,7 @@
 import {react} from 'react'
-import HeaderLarge from "./general/HeaderLarge.js"
-import TextInput from "./general/TextInput.js"
- import Button from "./general/Button.js"
+import HeaderLarge from "./generals/HeaderLarge.js"
+import TextInput from "./generals/TextInput.js"
+ import Button from "./generals/Button.js"
  
 
 export default function LoginPage(){
@@ -17,7 +17,7 @@ export default function LoginPage(){
             <form>
                 <TextInput 
                             type="text"
-                            placeHolder="Full Name"
+                            placeHolder="User Name"
                         />
 
 
