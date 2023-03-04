@@ -2,10 +2,11 @@ from django.db import models
 from django.conf import settings
 from negoflict_app.models import Mediator
 from negoflict_app.models import category
+import uuid
 
 
 class Case(models.Model):
-    id = models.UUIDField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4,editable=False)
     create_at =models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=150)
     mediator = models.ForeignKey(Mediator,on_delete=models.SET_NULL, null=True, related_name='+')
