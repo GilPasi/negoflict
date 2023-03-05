@@ -1,6 +1,6 @@
-import HeaderLarge from "../components/general/HeaderLarge.js"
-import TextInput from "../components/general/TextInput.js"
-import Button from '../components/general/Button'
+import HeaderLarge from "../components/generals/HeaderLarge"
+import TextInput from "../components/generals/TextInput"
+import Button from '../components/generals/Button'
 import { useEffect, useState } from "react"
 import {GetJWTToken, GetUserId, ValidateEmail} from "../api_handler/submit.js"
 import { useDispatch, useSelector } from 'react-redux'
