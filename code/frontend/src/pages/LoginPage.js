@@ -1,12 +1,19 @@
 import HeaderLarge from "../components/general/HeaderLarge.js"
 import TextInput from "../components/general/TextInput.js"
 import Button from '../components/general/Button'
-import { useState } from "react"
-import GetJWTToken from "../api_handler/submit.js"
+import { useEffect, useState } from "react"
+import {GetJWTToken, GetUserId, ValidateEmail} from "../api_handler/submit.js"
+import { useDispatch, useSelector } from 'react-redux'
+import { login } from '../store/index'
+import { useNavigate } from "react-router-dom"
+
 
 
 
 const LoginPage=()=>{
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const user = useSelector(state=>state.user)    
     
     const [formData,setFormData] = useState({})
 
@@ -21,16 +28,38 @@ const LoginPage=()=>{
     
 
 
-   const submitHandler = (event,term)=>{
+   const submitHandler =async (event,term)=>{
+   
     event.preventDefault()
-    const userDetail = formData
-    GetJWTToken(userDetail)
+    const validEmail =await ValidateEmail(formData.email)
 
+    if(!validEmail)
+        return
+
+    const {refresh,access} = await GetJWTToken(formData)
+    const userId =await GetUserId(formData.username,access)
+
+    const {username,email} = formData
+    dispatch(login({
+        id:userId,
+        username:username,
+        email:email,
+        refreshToken:refresh,
+        accessToken:access
+    }))
+    setNullFields()
+   
+    navigate('/welcome')
+    
 }
+    const setNullFields = ()=>[
+        setFormData({})
+    ]
 
 
     return(
         <div className="login-page">
+            
 
             <HeaderLarge />
                 <h1 className="login-page--title">Log-in<br/>Mediator</h1>
@@ -65,10 +94,12 @@ const LoginPage=()=>{
                         
 
                         <Button  text="Submit" size="small"/>
+                        
+                        
                 
                 
             </form>
-
+            <p>{()=>console.log(user)}</p>
         </div>
 )}
 export default LoginPage
