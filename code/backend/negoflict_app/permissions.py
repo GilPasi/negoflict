@@ -16,5 +16,9 @@ class IsStaff(BasePermission):
     def has_permission(self, request, view):
         return bool(request.user.is_staff)
     
+class All(BasePermission):
+    def has_permission(self, request, view):
+        return True
+    
     
 
