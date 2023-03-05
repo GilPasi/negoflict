@@ -31,7 +31,6 @@ class UserView(ModelViewSet):
     @action(detail=False,methods=['GET'],permission_classes=[permissions.All])
     def is_email_exist(self,request):
         email = request.GET.get('email',None)
-        print(email)
         if email:
             try:
                 answer = self.queryset.get(email=email)
@@ -41,6 +40,23 @@ class UserView(ModelViewSet):
                 pass
                 
         return Response('Not exist',status=status.HTTP_404_NOT_FOUND)
+    
+    @action(detail=False,methods=['GET'],permission_classes=[permissions.IsAdminOrUser])
+    def role(self,request):
+        id = request.GET.get('id',None)
+        if id:
+            try:
+                user = self.queryset.get(pk=id)
+                if user.is_superuser:
+                    return Response({'role':1},status=status.HTTP_200_OK)
+                elif user.is_staff:
+                    return Response({'role':2},status=status.HTTP_200_OK)
+                else:
+                    return Response({'role':3},status=status.HTTP_200_OK)
+            except:
+                return Response('cant find user',status=status.HTTP_404_NOT_FOUND)
+        return Response('id cant be null',status=status.HTTP_400_BAD_REQUEST)
+        
             
             
     

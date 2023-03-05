@@ -2,7 +2,7 @@ import HeaderLarge from "../components/generals/HeaderLarge"
 import TextInput from "../components/generals/TextInput"
 import Button from '../components/generals/Button'
 import { useEffect, useState } from "react"
-import {GetJWTToken, GetUserId, ValidateEmail} from "../api_handler/submit.js"
+import {GetJWTToken, GetUserId, ValidateEmail, GetRole} from "../api_handler/submit.js"
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../store/index'
 import { useNavigate } from "react-router-dom"
@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom"
 const LoginPage=()=>{
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const user = useSelector(state=>state.user)    
+    const user = useSelector(state=>console.log(state.user))    
     
     const [formData,setFormData] = useState({})
 
@@ -38,6 +38,7 @@ const LoginPage=()=>{
 
     const {refresh,access} = await GetJWTToken(formData)
     const userId =await GetUserId(formData.username,access)
+    const role = await GetRole(userId,access)
 
     const {username,email} = formData
     dispatch(login({
@@ -45,7 +46,8 @@ const LoginPage=()=>{
         username:username,
         email:email,
         refreshToken:refresh,
-        accessToken:access
+        accessToken:access,
+        role:role
     }))
     setNullFields()
    

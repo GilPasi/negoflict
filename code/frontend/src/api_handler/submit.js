@@ -37,3 +37,16 @@ export const ValidateEmail = async (email)=>{
     }
     return true    
 }
+export const GetRole = async (id, accsessToken)=>{
+    const {data} =await axios.get(`${Server_url}/users/user_view/role/`,{
+        params:{
+            id:id
+        },
+        headers:{
+            Authorization: `JWT ${accsessToken}`
+        }
+
+    })
+    
+    return data.role
+}
