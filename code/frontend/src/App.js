@@ -2,11 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import LoginPage from "./pages/LoginPage.js"
 import { Route, Routes } from 'react-router-dom';
-import Welcom from './pages/Welcom.js';
 import RequireAuth from './pages/RequireAuth.js';
 
 
 import './App.css'
+
 
 
  const App=()=> {
@@ -18,8 +18,8 @@ import './App.css'
         <Route path='/login' element={<LoginPage/>}/>
 
 
-        <Route element={<RequireAuth/>}>
-            <Route path='welcome' element={<Welcom/>}/>
+        <Route path='/welcome' element={<RequireAuth/>}>
+              
         </Route>
         
       </Routes>
