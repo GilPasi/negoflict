@@ -3,19 +3,25 @@ const tokenBuilder = require('../utils/tokens')
 const HOST_URL_APP_KEY = require('../utils/hosts')
 
 
-
-
 exports.registerUser = async(req,res)=>{
     const appToken = tokenBuilder.appTokenBuild(3000)
     const access = req.body.access
     const password = req.body.password
     const username = req.body.username
 
-    const uid = await axios.post(`${process.env.SERVER_URL}/session/chat_users/`,{},{
+    
+
+    const response = await axios.post(`${process.env.SERVER_URL}/session/chat_users/`,{},{
         headers:{
-            Authorization: `JWT ${access}`
+            origin:'*',
         }
     })
+    .catch(err=>console.log(err))
+    console.log(response.data.chat_user_id)
+
+    const uid_response = response.data.chat_user_id.toString()
+    const uid = uid_response.replace(/-/g, "")
+    
     
 
     const user = await axios.post(`${HOST_URL_APP_KEY}/users`,{
@@ -29,8 +35,9 @@ exports.registerUser = async(req,res)=>{
     },
     })
     .catch(err=>console.log(err))
+    .then(()=>console.log('success'))
 
-    await axios.put(`${process.env.SERVER_URL}/session/chat_users/${uid}`,{
+    await axios.put(`${process.env.SERVER_URL}/session/chat_users/${uid_response}/`,{
         nickname: username,
         password:password,
     },{
@@ -38,11 +45,13 @@ exports.registerUser = async(req,res)=>{
             Authorization: `JWT ${access}`
         }
             
-    })
+    },[])
     .catch(err=>console.log(err))
+    .then(()=>console.log('sucsess'))
 
-
-    return res.json({user})
+    
+    
+    
 }
 
 exports.deleteUser = async(req,res) =>{
