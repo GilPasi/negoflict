@@ -1,4 +1,4 @@
-import HeaderLarge from "../components/generals/HeaderLarge"
+import HeaderLarge from "../components/generals/Header"
 import TextInput from "../components/generals/TextInput"
 import Button from '../components/generals/Button'
 import { useEffect, useState } from "react"

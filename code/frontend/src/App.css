@@ -21,35 +21,34 @@ a:hover{
 
 }
 
-.hl--menu-wrapper{
-  display: flex;
-  margin-top: 5%;
+.centerizer{
+  display:flex;
+  justify-content:center;
 }
+
 
 /* Dropdown Button */
-.hl-menu-button {
-  padding: 16px;
+.header--menu-button {
   border: none;
-  display: inline;
   margin-left:2em;
-}
-
-.hl--menu-img{
-  min-width:50px;
-  max-width: 200px;
-  height:50px;
   
 }
 
+.header--menu-img{
+  width:45px;
+  height:45px;
+}
+
 /* The container <div> - needed to position the dropdown content */
-.hl--menu {
+.header--menu {
+
   justify-content: left;
-  position: relative;
   display: inline-block;
+  margin:1em;
 }
 
 /* Dropdown Content (Hidden by Default) */
-.hl--menu-content {
+.header--menu-content {
   display: none;
   position: absolute;
   background-color: #f1f1f1;
@@ -59,7 +58,7 @@ a:hover{
 }
 
 /* Links inside the dropdown */
-.hl--menu-content a {
+.header--menu-content a {
   color: black;
   padding: 12px 16px;
   text-decoration: none;
@@ -67,20 +66,21 @@ a:hover{
 }
 
 /* Change color of dropdown links on hover */
-.hl--menu-content a:hover {background-color: #ddd;}
+.header--menu-content a:hover {background-color: #ddd;}
 
 /* Show the dropdown menu on hover */
-.hl--menu:hover .hl--menu-content {display: block;}
+.header--menu:hover .header--menu-content {display: block;}
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
-.hl--menu:hover .hl-menu-button {background-color: #ddd;}
+.header--menu:hover .header-menu-button {background-color: #ddd;}
 
 
-.header-large--title{
-  font-family: Bowlby One SC , sans-serif;
+.header--title{
+  font-family:"Bowlby One SC" , sans-serif;
   color:var(--green-dark);
-  font-size: var(--font-large);
+  margin: 1em;
 }
+
 
 /*__ Text Field component __*/
 
@@ -139,6 +139,7 @@ a:hover{
   text-align: left;
   padding:0em 3em 1em 3em;
   font-weight: 700;
+
   
 
 }

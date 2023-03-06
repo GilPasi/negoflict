@@ -1,4 +1,16 @@
 
-const  ChatPage = ()=>{
-    
+
+
+const  ChatPage = ()=> {
+
+    return(
+        <div className="chat">
+
+            
+
+
+
+        </div>
+
+    )
 } 
