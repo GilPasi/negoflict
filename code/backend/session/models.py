@@ -94,3 +94,17 @@ class Survey(models.Model):
 
 
 
+class AgoraUser(models.Model):
+    chat_user_id = models.UUIDField(max_length=50,primary_key=True, default=uuid.uuid4,editable=False)
+    nickname = models.CharField(null=True,max_length=50)
+    password = models.CharField(max_length=20, null=True)
+    case = models.ForeignKey(Case, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    assigned_data_time = models.DateTimeField(auto_now=True)
+    active = models.BooleanField(null=True)
+    
+    class Meta:
+         unique_together = ('user', 'case')
+    
+
+

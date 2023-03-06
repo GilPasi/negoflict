@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Case,GroupChat,GroupMember,Message, Survey
+from .models import Case,GroupChat,GroupMember,Message, Survey,AgoraUser
 
 
 class CaseSerializer(serializers.ModelSerializer):
@@ -23,4 +23,18 @@ class SurveySerializer(serializers.ModelSerializer):
     class Meta:
         model = Survey
         fields = '__all__'
+        
+        
+class AgoraUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AgoraUser
+        fields = '__all__'
+        
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = '__all__'
+    
+        
+    
         

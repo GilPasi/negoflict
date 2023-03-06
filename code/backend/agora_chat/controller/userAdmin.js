@@ -7,9 +7,15 @@ const HOST_URL_APP_KEY = require('../utils/hosts')
 
 exports.registerUser = async(req,res)=>{
     const appToken = tokenBuilder.appTokenBuild(3000)
-    const uid = req.body.uid
+    const access = req.body.access
     const password = req.body.password
     const username = req.body.username
+
+    const uid = await axios.post(`${process.env.SERVER_URL}/session/chat_users/`,{},{
+        headers:{
+            Authorization: `JWT ${access}`
+        }
+    })
     
 
     const user = await axios.post(`${HOST_URL_APP_KEY}/users`,{
@@ -21,8 +27,21 @@ exports.registerUser = async(req,res)=>{
             Authorization: `Bearer ${appToken}`,
             'Content-Type': 'application/json'
     },
-    }).then(user=>console.log(user))
+    })
     .catch(err=>console.log(err))
+
+    await axios.put(`${process.env.SERVER_URL}/session/chat_users/${uid}`,{
+        nickname: username,
+        password:password,
+    },{
+        headers:{
+            Authorization: `JWT ${access}`
+        }
+            
+    })
+    .catch(err=>console.log(err))
+
+
     return res.json({user})
 }
 
