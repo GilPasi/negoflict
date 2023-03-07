@@ -10,7 +10,6 @@
 
 
 }
-/*__ Large header component __*/
 
 a{
   text-decoration: none;
@@ -26,6 +25,7 @@ a:hover{
   justify-content:center;
 }
 
+/*__ Header component __*/
 
 /* Dropdown Button */
 .header--menu-button {
@@ -134,12 +134,80 @@ a:hover{
   min-width: 10em;
 }
 
+/* __Toolbar component__ */
+
+
+.toolbar--container{
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  height:10em;
+  background-color: #89E0A240;
+
+}
+
+.toolbar--add-icon{
+  width:2em;
+  margin-top:3.5em;
+
+
+}
+.toolbar--add-icon img{
+  width:100%;
+  padding:1em 0.5em 1em 1em;
+  border:3px solid transparent
+
+}
+
+.toolbar--add-icon img:hover{
+  border-color: rgba(65, 65, 65, 0.285);
+
+}
+
+.toolbar--title{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.toolbar--name{
+  color:var(--green-dark);
+  font-size: var(--font-medium);
+
+}
+
+.toolbar--id{
+  font-size: var(--font-medium);
+  color:var(--green-dark);
+  transform:translateY(-100%);
+  font-weight:light;
+  font:serif;
+
+
+
+}
+
+.toolbar--search-icon{
+  width:2em;
+  margin-top:3.5em;
+}
+
+.toolbar--search-icon img{
+  width:100%;
+  padding:1em 0.75em 0.75em 0.75em;
+  border:3px solid transparent
+
+}
+.toolbar--search-icon img:hover{
+  border-color: rgba(65, 65, 65, 0.285);
+
+}
+
 /*__ Login page component __*/
 .login-page--title{
   text-align: left;
   padding:0em 3em 1em 3em;
   font-weight: 700;
 
-  
-
 }
+

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import LoginPage from "./pages/LoginPage.js"
 import { Route, Routes } from 'react-router-dom';
 import RequireAuth from './pages/RequireAuth.js';
-import HeaderLarge from './components/generals/Header.js';
+import ToolBar from "./components/generals/ToolBar.js";
 
 import './App.css'
 
@@ -23,9 +23,8 @@ import './App.css'
         
       </Routes>
 
-      <HeaderLarge isLarge={false}/>
       
-        
+        <ToolBar conflictName="A political conflict" id="100777"/>
        
 
     </div>
