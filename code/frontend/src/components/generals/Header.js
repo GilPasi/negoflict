@@ -16,7 +16,7 @@ const  HeaderLarge=({isLarge})=>{
     }
 
     return(
-        <div>
+        <div className="header">
             <div style={wrapperStyle}>
 
             <div className="header--menu">

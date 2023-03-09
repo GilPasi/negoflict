@@ -39,18 +39,18 @@ const ToolBar =({conflictName , id})=>{
     }
 
     return(
+        <div className="ss">
+            
+            <button id="ss--pa" style={selectedBtn === 1 ?whiteStyle: blackStyle } className="ss--btn"  onClick={()=>handleShuttle(1)}>
+                <p  className="ss--btn-content">Party A</p> </button>
+            <button style={selectedBtn === 2 ?whiteStyle: blackStyle } className="ss--btn"  onClick={()=>handleShuttle(2)}>
+                <p className="ss--btn-content">Main</p></button>
+            <button style={selectedBtn === 3 ?whiteStyle: blackStyle } className="ss--btn"  onClick={()=>handleShuttle(3)}>
+                <p id="ss--pb" className="ss--btn-content">Party B</p> </button>
+            
+            <div className="ss-selector" style={selectorStyle}></div>
+        </div>
 
-            <div className="ss">
-                
-                <button id="ss--pa" style={selectedBtn === 1 ?whiteStyle: blackStyle } className="ss--btn"  onClick={()=>handleShuttle(1)}>
-                    <p  className="ss--btn-content">Party A</p> </button>
-                <button style={selectedBtn === 2 ?whiteStyle: blackStyle } className="ss--btn"  onClick={()=>handleShuttle(2)}>
-                    <p className="ss--btn-content">Main</p></button>
-                <button style={selectedBtn === 3 ?whiteStyle: blackStyle } className="ss--btn"  onClick={()=>handleShuttle(3)}>
-                    <p id="ss--pb" className="ss--btn-content">Party B</p> </button>
-                
-                <div className="ss-selector" style={selectorStyle}></div>
-            </div>
         )
 }
 export default ToolBar
