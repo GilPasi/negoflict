@@ -1,4 +1,4 @@
-import HeaderLarge from "../components/generals/HeaderLarge"
+import Header from "../components/generals/Header"
 import TextInput from "../components/generals/TextInput"
 import Button from '../components/generals/Button'
 import { useEffect, useState } from "react"
@@ -63,7 +63,7 @@ const LoginPage=()=>{
         <div className="login-page">
             
 
-            <HeaderLarge />
+            <Header isLarge={true} />
                 <h1 className="login-page--title">Log-in<br/>Mediator</h1>
                 
             

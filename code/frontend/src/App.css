@@ -4,52 +4,66 @@
   --green-dark-shaded : #459d5e;
 
   --green-light : #89E0A2;
+  --green-light-shaded : #D1EAD8;
+
+  --blue-anchor:#1D62F0;
+
+
   --font-large: 3em;
   --font-medium: 1.5em;
 
+  --weight-semi :600;
+  --weight-bold :700;
+
+  --width-minimum:30em;
+
+  
+
 
 
 }
-/*__ Large header component __*/
 
 a{
   text-decoration: none;
-  color:#1D62F0;
+  color:var(--blue-anchor);
 }
 a:hover{
-  color:#1d63f0d3;
+  color:var(--blue-anchor);
 
 }
 
-.hl--menu-wrapper{
-  display: flex;
-  margin-top: 5%;
+.centerizer{
+  display:flex;
+  justify-content:center;
 }
+
+/*__ Header component __*/
 
 /* Dropdown Button */
-.hl-menu-button {
-  padding: 16px;
-  border: none;
-  display: inline;
-  margin-left:2em;
+.header{
+  min-width: var(--width-minimum);
 }
-
-.hl--menu-img{
-  min-width:50px;
-  max-width: 200px;
-  height:50px;
+.header--menu-button {
+  border: none;
+  margin-left:2em;
   
 }
 
+.header--menu-img{
+  width:45px;
+  height:45px;
+}
+
 /* The container <div> - needed to position the dropdown content */
-.hl--menu {
+.header--menu {
+
   justify-content: left;
-  position: relative;
   display: inline-block;
+  margin:1em;
 }
 
 /* Dropdown Content (Hidden by Default) */
-.hl--menu-content {
+.header--menu-content {
   display: none;
   position: absolute;
   background-color: #f1f1f1;
@@ -59,7 +73,7 @@ a:hover{
 }
 
 /* Links inside the dropdown */
-.hl--menu-content a {
+.header--menu-content a {
   color: black;
   padding: 12px 16px;
   text-decoration: none;
@@ -67,20 +81,21 @@ a:hover{
 }
 
 /* Change color of dropdown links on hover */
-.hl--menu-content a:hover {background-color: #ddd;}
+.header--menu-content a:hover {background-color: #ddd;}
 
 /* Show the dropdown menu on hover */
-.hl--menu:hover .hl--menu-content {display: block;}
+.header--menu:hover .header--menu-content {display: block;}
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
-.hl--menu:hover .hl-menu-button {background-color: #ddd;}
+.header--menu:hover .header-menu-button {background-color: #ddd;}
 
 
-.header-large--title{
-  font-family: Bowlby One SC , sans-serif;
+.header--title{
+  font-family:"Bowlby One SC" , sans-serif;
   color:var(--green-dark);
-  font-size: var(--font-large);
+  margin: 1em;
 }
+
 
 /*__ Text Field component __*/
 
@@ -134,11 +149,240 @@ a:hover{
   min-width: 10em;
 }
 
+/* __Toolbar component__ */
+
+.toolbar{
+  min-width: 31em;
+}
+.toolbar--header{
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  height:10em;
+  background-color: #89E0A240;
+
+}
+
+.toolbar--add-icon{
+  width:2em;
+  margin-top:3.5em;
+
+
+}
+.toolbar--add-icon img{
+  width:100%;
+  padding:1em 0.5em 1em 1em;
+  border:3px solid transparent
+
+}
+
+.toolbar--add-icon img:hover{
+  border-color: rgba(65, 65, 65, 0.285);
+
+}
+
+.toolbar--title{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.toolbar--name{
+  color:var(--green-dark);
+  font-size: var(--font-medium);
+
+}
+
+.toolbar--id{
+  font-size: var(--font-medium);
+  color:var(--green-dark);
+  transform:translateY(-100%);
+  font-weight:100;
+  font:serif;
+}
+
+.toolbar--search-icon{
+  width:2em;
+  margin-top:3.5em;
+}
+
+.toolbar--search-icon img{
+  width:100%;
+  padding:1em 0.75em 0.75em 0.75em;
+  border:3px solid transparent
+
+}
+.toolbar--search-icon img:hover{
+  border-color: rgba(65, 65, 65, 0.285);
+
+}
+
+/* __Shuttle switch component__ */
+.ss{
+  display:flex;
+  justify-content: space-between;
+  background:var(--green-light-shaded);
+  padding: 0.1em 0em 0.1em 0em;
+  margin:1em;
+  border-radius: 10px;
+  position: relative;
+  min-width: var(--width-minimum);
+}
+
+.ss--btn{
+  font-weight:var(--weight-semi);
+  border:none;
+  font-size:var(--font-small);
+  z-index: 1;
+  border-radius: 15px;
+  padding: 1em;
+  
+  min-width: 5em;
+  max-height:2.5em;
+  margin:0.1em;
+  flex-wrap: wrap;
+  cursor: pointer;
+  background:none;
+  
+}
+.ss--btn-content{
+  transform: translateY(-100%) ;
+  white-space: nowrap;
+  transition:300ms
+}
+#ss--pa{
+  margin-left: 2.5em;
+}
+
+#ss--pb{
+  margin-right: 2.5em;
+}
+
+.ss-selector{
+  padding: 1.2em 5em 1.2em 5em;
+  background: var(--green-dark-shaded);
+  position: absolute;
+  top:4.5px;
+  left:0;
+  border-radius: 10px;
+  box-shadow: 0px 3px 1px 0px #0000000A;
+  transition: 300ms;
+  width:min-content;
+}
+
+/* __Message component__ */
+.message{
+  display: flex;
+
+}
+
+.message-content{
+  height: min-content;
+  padding: 1em;
+  margin:1em;
+  border-radius:15px;
+  width:max-content;
+}
+
+.message--text{
+  font-weight: var(--weight-semi);
+  font-size: var(--font-small);
+  margin:0;
+}
+#message--title{
+  text-align: right;
+  
+}
+
+
 /*__ Login page component __*/
 .login-page--title{
   text-align: left;
   padding:0em 3em 1em 3em;
   font-weight: 700;
-  
+
+}
+
+/* __Chat page component__ */
+
+.cp{
+  padding: 1em;
+}
+
+.cp--paper{
+    padding-top:3em;
+    max-width:60em; 
+    min-width: var(--width-minimum); 
+}
+
+.cp--top{
+  width: 50%;
+}
+
+.cp--send{
+  transform:rotate(0.6125turn) translateX(5%);
+}
+
+.cp--input{
+  display: flex;
+  justify-content: center;
+  background-color: #F5F5F5;
+  padding:1em;
+  width:50%;
+  min-width: var(--width-minimum);
+}
+
+.cp--input-btn {
+  border: none;
+  cursor: pointer;
+  padding: 0.25em;
+  border-radius:50%;
+  display: inline-block;
+  margin: 15px 30px;
+  position: relative;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+  background: var(--green-dark);
+  color: #fff;
+}
+.cp--input-btn:after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.cp--input-btn:hover {
+  background: var(--green-dark-shaded);
+}
+
+.cp--input-btn:active {
+  background: var(--green-dark-shaded);
+  top: 2px;
+}
+.cp--input-btn:before {
+  text-transform: none;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+}
+
+.cp--input-box{
+  height:2em;
+  margin:1em;
+  border-radius: 3em;
+  border:2px solid #828282;
+}
+.cp--help{
+  margin:0.75em;
+  color:#828282;
+
+}
+
+.cp--help:hover{
+  color:var(--blue-anchor);
+  cursor: pointer;
 
 }
