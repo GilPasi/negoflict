@@ -3,7 +3,10 @@ import React, { useState, useEffect } from 'react';
 import LoginPage from "./pages/LoginPage.js"
 import { Route, Routes } from 'react-router-dom';
 import RequireAuth from './pages/RequireAuth.js';
+import ShuttleSwitch from "./components/generals/ShuttleSwitch.js";
 import ToolBar from "./components/generals/ToolBar.js";
+import Message from "./components/generals/Message.js"
+
 
 import './App.css'
 
@@ -25,7 +28,9 @@ import './App.css'
 
       
         <ToolBar conflictName="A political conflict" id="100777"/>
-       
+        <ShuttleSwitch/>
+        <Message />
+
 
     </div>
   );
