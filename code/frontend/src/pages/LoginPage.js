@@ -1,11 +1,13 @@
-import Header from "../components/generals/Header"
-import TextInput from "../components/generals/TextInput"
-import Button from '../components/generals/Button'
+import "../styles/login_page.css"
+import Header from "../components/general/Header"
+import TextInput from "../components/general/TextInput"
+import Button from '../components/general/Button'
 import { useEffect, useState } from "react"
 import {GetJWTToken, GetUserId, ValidateEmail, GetRole} from "../api_handler/submit.js"
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../store/index'
 import { useNavigate } from "react-router-dom"
+
 
 
 
@@ -77,48 +79,41 @@ const LoginPage=()=>{
 
 
     return(
-        <div className="login-page">
-            
+        <div className="lp">
+            <div className="limiter">
+                <Header isLarge={true} />
+                <h1 className="lp--title">Log-in<br/>Mediator</h1>
 
-            <Header isLarge={true} />
-                <h1 className="login-page--title">Log-in<br/>Mediator</h1>
-                
-            
-
-            <form onSubmit={submitHandler}>
-                <TextInput 
-                            type="text"
-                            placeHolder="Username"
-                            onChange = {handleChange}
-                            name = 'username'
-                        />
+                <form onSubmit={submitHandler} className="lp--form">
+                    <TextInput 
+                                type="text"
+                                placeHolder="Username"
+                                onChange = {handleChange}
+                                name = 'username'
+                            />
 
 
-                <TextInput 
-                            type="email"
-                            placeHolder="Email"
-                            onChange = {handleChange}
-                            name='email'
-                        />
+                    <TextInput 
+                                type="email"
+                                placeHolder="Email"
+                                onChange = {handleChange}
+                                name='email'
+                            />
 
-                <TextInput 
-                            type="password"
-                            placeHolder="Password"
-                            onChange = {handleChange}
-                            name='password'
-                        />
+                    <TextInput 
+                                type="password"
+                                placeHolder="Password"
+                                onChange = {handleChange}
+                                name='password'
+                            />
 
-                        <p>Disclaimer Lorem ispum dolor T&C <a href="#"> Link</a></p>
+                            <p>Disclaimer Lorem ispum dolor T&C <a href="#"> Link</a></p>
+                    <Button  text="Submit" size="small"/>
+                </form> 
 
-                        
+                <p>{()=>console.log(user)}</p>
 
-                        <Button  text="Submit" size="small"/>
-                        
-                        
-                
-                
-            </form>
-            <p>{()=>console.log(user)}</p>
+            </div>
         </div>
 )}
 export default LoginPage

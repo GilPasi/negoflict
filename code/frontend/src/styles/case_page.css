@@ -1,0 +1,122 @@
+.cap{
+    flex-direction: column;
+    align-items: center;
+}
+
+.cap--plus{
+    position: relative;
+    padding: 2em;
+    display: inline-block;
+}
+.cap--plus-wrapper{
+    padding:1.5em;
+    display: inline-block;
+    margin:5em;
+}
+
+.cap--plus-wrapper:hover{
+    box-shadow: 3px 2px 5px 0px rgba(0,0,0,0.62);
+-webkit-box-shadow: 3px 2px 5px 0px rgba(0,0,0,0.62);
+-moz-box-shadow: 3px 2px 5px 0px rgba(0,0,0,0.62);
+}
+.cap--plus-wrapper:active{
+    box-shadow: 3px 2px 5px 0px rgba(0,0,0,0.62) inset;
+-webkit-box-shadow: 3px 2px 5px 0px rgba(0,0,0,0.62) inset;
+-moz-box-shadow: 3px 2px 5px 0px rgba(0,0,0,0.62) inset;
+
+}
+
+.cap--line{
+    position:absolute;
+    padding:0.1em;
+    background-color:var(--green-dark);
+    border-radius:5px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+#cap--line-ver{
+  width: 0.5em;
+  height:100%;
+  left:50%;  
+}
+
+#cap--line-hor{
+    width: 100%;
+    height:0.5em;
+    top:50%;
+  }
+
+  .cap--title{
+    font-size: var(--font-large);
+  }
+
+  .cap--description{
+    width:var(--width-minimum);
+    text-align: left;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin:1em;
+    
+  }
+
+  .cap--description h6{
+    font-size: var(--font-medium);
+    font-weight: var(--weight-medium);
+    margin: 0;
+  }
+
+  .cap--description textarea{
+    height: 10em;
+    padding:1em;
+    background-color: #E9E9E9;
+    border-radius: 10px;
+    border: none;
+    resize: none;
+    font-size: var(--font-medium);
+    direction: auto;
+
+}
+.cap--description textarea:focus { 
+    outline: none;     
+}
+
+.cap--description-bot{
+    display: flex;
+    width:var(--width-minimum);
+    justify-content:space-between;
+}
+
+.cap--description-bot button{
+    background:none;
+    border:none;
+    font-size: var(--font-small);
+    font-weight: var(--weight-bold);
+    margin-bottom: 5em;
+    padding: 1em;
+    transition: 400ms;
+    cursor: pointer;
+}
+
+.cap--description-bot button:hover{
+    scale:1.2;
+    opacity:0.7;
+
+}
+
+.cap--description-bot button:active{
+    top:2px;
+}
+
+#cap-description-send{
+    color:var(--green-dark) ;
+}
+
+#cap-description-update{
+    color:var(--grey) ;
+}
+
+
+
+

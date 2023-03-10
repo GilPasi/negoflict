@@ -1,6 +1,5 @@
+import "../../styles/text_field.css"
 import {React} from 'react'
-import { useState } from 'react'
-
 const  TextField=({type,placeHolder, onChange,name})=>{
     
 

@@ -1,3 +1,4 @@
+import "../../styles/header.css"
 import {React} from 'react'
 
 const  HeaderLarge=({isLarge})=>{

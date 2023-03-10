@@ -2,11 +2,17 @@
 import React, { useState, useEffect } from 'react';
 import LoginPage from "./pages/LoginPage.js"
 import { Route, Routes } from 'react-router-dom';
+<<<<<<< HEAD
 import RequireAuth from './components/Authntication/RequireAuth.js';
 import Chatpage from "./pages/Chatpage.js"
 import Layout from './components/generals/Layout.js';
 import {UserLandingPage,MediatorLandingPage,SuperUserLandingPage} from './pages/LendingPage'
 
+=======
+import RequireAuth from './pages/RequireAuth.js';
+import Chatpage from "./pages/ChatPage.js"
+import CasePage from "./pages/CasePage.js"
+>>>>>>> 48-create-case-page
 
 
 
@@ -37,11 +43,6 @@ import './App.css'
           {/* catch */}
         </Route>
       </Routes>
-
-     
-   
-     
-
     </div>
   );
 }

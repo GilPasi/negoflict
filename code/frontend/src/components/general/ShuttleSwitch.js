@@ -1,5 +1,5 @@
 import {useState} from 'react'
-
+import "../../styles/shuttle_switch.css"
 const ToolBar =({conflictName , id})=>{
 
     const[selectorOffset , setSelectorOffset] = useState(50)

@@ -1,0 +1,25 @@
+/*__ Text Field component __*/
+
+.text-field-input{ 
+    width:15.5em;
+    height: 1.5em;
+    padding:1em;
+  
+    font-size: var(--font-medium);
+    border-radius: 5px;
+    border:none;
+    background-color:var(--green-light);
+  
+    margin:1em;
+    
+  }
+  
+  .text-field-input::placeholder{
+    position: absolute;
+    color:black;
+  
+    /* Center the sub-titles */
+    left: 50%;
+    transform: translateX(-50%);
+  
+  }
