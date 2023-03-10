@@ -1,21 +1,13 @@
-import ShuttleSwitch from "../components/generals/ShuttleSwitch.js";
-import ToolBar from "../components/generals/ToolBar.js";
-import Message from "../components/generals/Message.js";
-import Header from "../components/generals/Header.js";
+import ShuttleSwitch from "../../../components/generals/ShuttleSwitch.js";
+import ToolBar from "../../../components/generals/ToolBar.js";
+import Message from "../../../components/generals/Message.js";
+import Header from "../../../components/generals/Header.js";
 import {useState} from 'react'
-import mockMessages from "./MockMessages.js"
+import mockMessages from "../../MockMessages.js"
+import MessageList from "../../../components/chat/MessageList.js";
 
 const  ChatPage = ()=> {
     const [texts , setTexts] = useState(mockMessages)
-
-    //Map over the messages and extract
-    const messages = texts.map(({text , sender , isSelf})=>
-            <Message
-                 text={text} 
-                 sender={sender} 
-                 isSelf={isSelf}
-            />
-        )
 
         const handleSend =(event)=>{
             event.preventDefault();
@@ -36,11 +28,10 @@ const  ChatPage = ()=> {
 
         }
     
-
     return(
 
         
-        <div className="cp">
+        <div className="cp" >
 
             <div className="centerizer">
                 <div className="cp--top">
@@ -52,7 +43,7 @@ const  ChatPage = ()=> {
 
             <div className="centerizer">
                 <div className="cp--paper">
-                    {messages}
+                    <MessageList messages={texts}/>
                 </div>
             </div>
 

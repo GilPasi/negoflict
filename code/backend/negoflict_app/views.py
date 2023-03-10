@@ -28,7 +28,7 @@ class UserView(ModelViewSet):
             return User.objects.none()
         return super().get_queryset()
     
-    @action(detail=False,methods=['GET'],permission_classes=[permissions.All])
+    @action(detail=False,methods=['GET'],permission_classes=[permissions.IsAdminOrUser])
     def is_email_exist(self,request):
         email = request.GET.get('email',None)
         if email:
