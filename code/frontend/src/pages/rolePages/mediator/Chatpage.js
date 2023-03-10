@@ -1,13 +1,41 @@
-import ShuttleSwitch from "../../../components/generals/ShuttleSwitch.js";
+import ShuttleSwitch from "../../../components/generals/ShuttleSwitch";
 import ToolBar from "../../../components/generals/ToolBar.js";
 import Message from "../../../components/generals/Message.js";
 import Header from "../../../components/generals/Header.js";
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import mockMessages from "../../MockMessages.js"
 import MessageList from "../../../components/chat/MessageList.js";
+import { useSelector } from "react-redux";
 
 const  ChatPage = ()=> {
     const [texts , setTexts] = useState(mockMessages)
+    const [textsA , setTextsA] = useState([])
+    const [textsB , setTextsB] = useState([])
+    const [msgScreen,setMsgScreen] = useState(texts)
+    
+    
+
+    const {pos} = useSelector(state=>state.pos)
+    
+    
+
+   
+
+    useEffect(()=>{
+        switch(pos){
+            case 1:
+                setMsgScreen(textsA)
+                break
+            case 2:
+                setMsgScreen(texts)
+                break
+            case 3:
+                setMsgScreen(textsB)
+                break
+        }
+    }, [pos,texts,textsA,textsB])
+
+    
 
         const handleSend =(event)=>{
             event.preventDefault();
@@ -19,14 +47,42 @@ const  ChatPage = ()=> {
 
             // Mock values , to be replaced by the backend (Hen)
             const sender = 1
-            setTexts(prevText=>[...prevText,{
-                text:msg,
-                sender:sender,
-                isSelf:true,
+            
+           
+          
+            
 
-            }])
-
+            switch(pos){
+                case 1:{
+                    setTextsA(prevText=>[...prevText,{
+                        text:msg,
+                        sender:sender,
+                        isSelf:true,
+        
+                    }])
+                    break
+                }
+                case 2:{
+                    setTexts(prevText=>[...prevText,{
+                        text:msg,
+                        sender:sender,
+                        isSelf:true,
+        
+                    }])
+                    break
+                }   
+                case 3:{
+                    setTextsB(prevText=>[...prevText,{
+                        text:msg,
+                        sender:sender,
+                        isSelf:true,
+        
+                    }])
+                }
+                break
+                }
         }
+        
     
     return(
 
@@ -41,9 +97,12 @@ const  ChatPage = ()=> {
                 </div>
             </div>
 
+            
+
+
             <div className="centerizer">
                 <div className="cp--paper">
-                    <MessageList messages={texts}/>
+                    <MessageList messages={msgScreen}/>
                 </div>
             </div>
 

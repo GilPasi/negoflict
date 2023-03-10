@@ -7,7 +7,6 @@ const MessageList =( { messages } )=> {
   console.log(messages)
 
   useEffect(() => {
-    // Scroll to the bottom of the message box when new messages are received
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
   
@@ -16,9 +15,9 @@ const MessageList =( { messages } )=> {
   return (
     <div 
     style={{
-        height: '1000px', // set a fixed height for the container
+        height: '860px', 
         width: '800px',
-        overflowY: 'scroll', // add vertical scrollbar when content exceeds container height
+        overflowY: 'scroll', 
       }}
     >
       {messages.map(message => (
