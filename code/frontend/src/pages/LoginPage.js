@@ -50,8 +50,25 @@ const LoginPage=()=>{
         role:role
     }))
     setNullFields()
+    
+    switch(role){
+        case 1:{
+            navigate('/admin')
+            break;
+        }
+        case 2:{
+            navigate('/mediator')
+            break
+        }
+        case 3:{
+            navigate('/user')
+            break
+        }
+        default:
+            navigate('/login')
+    }
    
-    navigate('/welcome')
+    
     
 }
     const setNullFields = ()=>[

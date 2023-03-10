@@ -16,11 +16,6 @@
   --weight-bold :700;
 
   --width-minimum:30em;
-
-  
-
-
-
 }
 
 a{
@@ -42,10 +37,12 @@ a:hover{
 /* Dropdown Button */
 .header{
   min-width: var(--width-minimum);
+  display: inline-block;
 }
 .header--menu-button {
   border: none;
   margin-left:2em;
+  
   
 }
 
@@ -131,7 +128,7 @@ a:hover{
   border:none;
   box-shadow: 0px 3px 4px 0px #46464640;
   border-radius: 2.5em;
-  margin:1.5em;
+  margin: 10px 10px 10px 10px;
   font-size: 1.5em;
   transition: 0.1s ease-in-out
 }
@@ -143,6 +140,7 @@ a:hover{
 /* Two possible designs for buttons */
 .button-large{
   min-width: 15em;
+  
 }
 
 .button-small{
@@ -386,3 +384,5 @@ a:hover{
   cursor: pointer;
 
 }
+
+

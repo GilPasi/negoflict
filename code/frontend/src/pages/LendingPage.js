@@ -1,7 +1,10 @@
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Routes,Route } from "react-router-dom";
 import {getPerm} from '../utils/permissions.js'
 import { useState } from "react";
+import AdminMenu from "./roleMenu/admin_menu.js";
+import AddMediator from './rolePages/admin/AddMediator'
+
 
 import React from 'react'
 import { RegisterNewChatUser } from "../api_handler/server_to_agora.js";
@@ -47,9 +50,11 @@ const SuperUserLandingPage = ()=>{
 
     return(
         <div>
-            <h1>hello</h1>
+            {/* <h1>hello</h1>
+            <Link to='/chat'>
             <button>start chat</button>
-            <form
+            </Link> */}
+            {/* <form
                 onSubmit={handleSubmit}>
                     <input
                         type='text'
@@ -68,7 +73,14 @@ const SuperUserLandingPage = ()=>{
                         type="submit">
                             <h3>submit</h3>
                         </button>
-                </form>
+                </form> */}
+                <Routes>
+                    <Route path="/addmediator" element={<AddMediator/>}/>
+                    <Route path="/" element={<AdminMenu/>}/>
+                </Routes>
+                
+                
+
             
         </div>
     )

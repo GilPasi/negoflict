@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useLocation, Navigate, Outlet } from "react-router-dom";
-import {getPerm} from '../utils/permissions'
-import { UserLandingPage,MediatorLandingPage,SuperUserLandingPage } from "./LendingPage";
+import {getPerm} from '../../utils/permissions'
+import { UserLandingPage,MediatorLandingPage,SuperUserLandingPage } from "../../pages/LendingPage";
 
 
 
@@ -17,19 +17,19 @@ const RequireAuth = ()=>{
         case 'user':
             return(
                 id
-                ? <UserLandingPage/>
+                ? <Outlet/>
                 : <Navigate to='/login' state={{from: location}} replace />
             )
         case 'mediator':
                 return(
                     id
-                    ? <MediatorLandingPage/>
+                    ? <Outlet/>
                     : <Navigate to='/login' state={{from: location}} replace />
                 )
         case 'super_user':
             return(
                 id
-                ? <SuperUserLandingPage/>
+                ? <Outlet/>
                 : <Navigate to='/login' state={{from: location}} replace />
             )
         default:

@@ -1,7 +1,13 @@
 import { Outlet } from "react-router-dom";
 
 const Layout = ()=>{
-    return <Outlet />
+    return (
+        <main className="App">
+              <Outlet />
+
+        </main>
+    )
+  
 }
 
 

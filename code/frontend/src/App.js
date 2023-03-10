@@ -2,8 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import LoginPage from "./pages/LoginPage.js"
 import { Route, Routes } from 'react-router-dom';
-import RequireAuth from './pages/RequireAuth.js';
+import RequireAuth from './components/Authntication/RequireAuth.js';
 import Chatpage from "./pages/Chatpage.js"
+import Layout from './components/generals/Layout.js';
+import {UserLandingPage,MediatorLandingPage,SuperUserLandingPage} from './pages/LendingPage'
+
 
 
 
@@ -16,16 +19,28 @@ import './App.css'
 
   return (
     <div className="App">
+     
       <Routes>
-        <Route path='/login' element={<LoginPage/>}/>
+        <Route path='/' element={<Layout/>}>
+          {/* public routes */}
+       
+        <Route  path='/login' element={<LoginPage/>}/>
 
-        <Route path='/welcome' element={<RequireAuth/>}>
-              
+        {/* protected routes */}
+       
+        <Route  path='/' element={<RequireAuth/>}>
+          <Route path='user/*' element={<UserLandingPage/>}/>
+          <Route path='mediator/*' element={<MediatorLandingPage/>}/>
+          <Route path='admin/*' element={<SuperUserLandingPage/>}/>
+          <Route path='chat' element={<Chatpage/>}/>
         </Route>
-        
+          {/* catch */}
+        </Route>
       </Routes>
 
-      <Chatpage/>
+     
+   
+     
 
     </div>
   );
