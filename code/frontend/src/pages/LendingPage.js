@@ -16,6 +16,7 @@ const UserLandingPage = () => {
 
 
 const MediatorLandingPage = ()=>{
+    
 
 }
 
@@ -25,7 +26,7 @@ const SuperUserLandingPage = ()=>{
     
 
     return(
-        <div>
+        
                 <Routes>
                     <Route path="/addmediator" element={<AddMediator/>}/>
                     <Route path="/" element={<AdminMenu/>}/>
@@ -34,7 +35,7 @@ const SuperUserLandingPage = ()=>{
                 
 
             
-        </div>
+      
     )
 
 }
