@@ -4,6 +4,7 @@ import LoginPage from "./pages/LoginPage.js"
 import { Route, Routes } from 'react-router-dom';
 import RequireAuth from './pages/RequireAuth.js';
 import Chatpage from "./pages/ChatPage.js"
+import CasePage from "./pages/CasePage.js"
 
 
 
@@ -25,7 +26,7 @@ import './App.css'
         
       </Routes>
 
-      <LoginPage />
+      <CasePage />
     </div>
   );
 }

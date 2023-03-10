@@ -4,14 +4,17 @@
   --font-large: 3em;
   --font-medium: 1.5em;
 
-  --weight-semi :600;
-  --weight-bold :700;
+  --weight-medium:500;
+  --weight-semi:600;
+  --weight-bold:700;
 
   --green-dark : #4AAC65;
   --green-dark-shaded : #459d5e;
 
   --green-light : #89E0A2;
   --green-light-shaded : #D1EAD8;
+
+  --grey:#828282;
 
   --blue-anchor:#1D62F0;
 
@@ -27,6 +30,7 @@ a:hover{
   color:var(--blue-anchor);
 
 }
+
 .limiter{
   width:50%;
   max-width: var(--width-medium);

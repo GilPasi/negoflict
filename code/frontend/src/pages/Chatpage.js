@@ -1,8 +1,8 @@
 import "../styles/chat_page.css"
-import ShuttleSwitch from "../components/generals/ShuttleSwitch.js";
-import ToolBar from "../components/generals/ToolBar.js";
-import Message from "../components/generals/Message.js";
-import Header from "../components/generals/Header.js";
+import ShuttleSwitch from "../components/general/ShuttleSwitch.js";
+import ToolBar from "../components/general/ToolBar.js";
+import Message from "../components/general/Message.js";
+import Header from "../components/general/Header.js";
 import {useState} from 'react'
 import mockMessages from "./MockMessages.js"
 

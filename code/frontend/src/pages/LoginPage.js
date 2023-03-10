@@ -1,7 +1,7 @@
 import "../styles/login_page.css"
-import Header from "../components/generals/Header"
-import TextInput from "../components/generals/TextInput"
-import Button from '../components/generals/Button'
+import Header from "../components/general/Header"
+import TextInput from "../components/general/TextInput"
+import Button from '../components/general/Button'
 import { useEffect, useState } from "react"
 import {GetJWTToken, GetUserId, ValidateEmail, GetRole} from "../api_handler/submit.js"
 import { useDispatch, useSelector } from 'react-redux'
