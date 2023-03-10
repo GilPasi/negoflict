@@ -1,0 +1,23 @@
+/* __Message component__ */
+.message{
+    display: flex;
+  
+  }
+  
+  .message-content{
+    height: min-content;
+    padding: 1em;
+    margin:1em;
+    border-radius:15px;
+    width:max-content;
+  }
+  
+  .message--text{
+    font-weight: var(--weight-semi);
+    font-size: var(--font-small);
+    margin:0;
+  }
+  #message--title{
+    text-align: right;
+    
+  }

@@ -1,0 +1,87 @@
+
+/* __Chat page component__ */
+
+.cp{
+    padding: 1em;
+  }
+  
+  .cp--paper{
+      padding-top:3em;
+      min-width: var(--width-minimum);
+      max-width:50%;
+      display: flex;
+      flex-direction: column; 
+  }
+  
+  .cp--top{
+    min-width: var(--width-minimum);
+    max-width: 50%;
+  }
+  
+  .cp--send{
+    transform:rotate(0.6125turn) translateX(5%);
+  }
+  
+  .cp--input{
+    display: flex;
+    justify-content: center;
+    background-color: #F5F5F5;
+    padding:1em;
+    width:50%;
+    min-width: var(--width-minimum);
+  }
+  
+  .cp--input-btn {
+    border: none;
+    cursor: pointer;
+    padding: 0.25em;
+    border-radius:50%;
+    display: inline-block;
+    margin: 15px 30px;
+    position: relative;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+    background: var(--green-dark);
+    color: #fff;
+  }
+  .cp--input-btn:after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+  }
+  
+  .cp--input-btn:hover {
+    background: var(--green-dark-shaded);
+  }
+  
+  .cp--input-btn:active {
+    background: var(--green-dark-shaded);
+    top: 2px;
+  }
+  .cp--input-btn:before {
+    text-transform: none;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  .cp--input-box{
+    height:2em;
+    margin:1em;
+    border-radius: 3em;
+    border:2px solid #828282;
+  }
+  .cp--help{
+    margin:0.75em;
+    color:#828282;
+  
+  }
+  
+  .cp--help:hover{
+    color:var(--blue-anchor);
+    cursor: pointer;
+  
+  }

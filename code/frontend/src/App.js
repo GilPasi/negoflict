@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import LoginPage from "./pages/LoginPage.js"
 import { Route, Routes } from 'react-router-dom';
 import RequireAuth from './pages/RequireAuth.js';
-import Chatpage from "./pages/Chatpage.js"
+import Chatpage from "./pages/ChatPage.js"
 
 
 
@@ -25,8 +25,7 @@ import './App.css'
         
       </Routes>
 
-      <Chatpage/>
-
+      <LoginPage />
     </div>
   );
 }

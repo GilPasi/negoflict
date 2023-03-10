@@ -1,3 +1,4 @@
+import "../styles/chat_page.css"
 import ShuttleSwitch from "../components/generals/ShuttleSwitch.js";
 import ToolBar from "../components/generals/ToolBar.js";
 import Message from "../components/generals/Message.js";
@@ -33,46 +34,37 @@ const  ChatPage = ()=> {
                 isSelf:true,
 
             }])
-
         }
     
-
     return(
 
         
         <div className="cp">
-
-            <div className="centerizer">
-                <div className="cp--top">
+            <center>
+                <div className="cp--paper">
                 <Header size="small"/>
                     <ToolBar conflictName="A political conflict" id="100777"/>
                     <ShuttleSwitch/>
-                </div>
-            </div>
-
-            <div className="centerizer">
-                <div className="cp--paper">
                     {messages}
                 </div>
-            </div>
 
+                <div className="cp--input">
+                    {/* help icon */}
 
-        <div className="centerizer">
-            <div className="cp--input">
-                    {/* send Icon */}
+                    <span class="material-symbols-outlined cp--help">
+                        help
+                    </span>
+                    
+                    <input type="text" className="cp--input-box" id="cp--input-tb"></input>
+                        {/* send icon */}
 
-                <span class="material-symbols-outlined cp--help">
-                    help
-                </span>
-                <input type="text" className="cp--input-box" id="cp--input-tb"></input>
-
-                    <button class="btn cp--input-btn">
+                    <button class="cp--input-btn">
                         <span class="material-symbols-outlined cp--send" onClick={handleSend}>
                             send
                         </span>
                     </button>
                 </div>
-            </div>
+            </center>
         </div>
     )
 } 

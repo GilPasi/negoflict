@@ -1,3 +1,4 @@
+import "../../styles/message.css"
 
 const Message=({text,sender,isSelf})=>{
     let messageColor = ""

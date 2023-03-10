@@ -1,0 +1,53 @@
+/* __Shuttle switch component__ */
+.ss{
+    display:flex;
+    justify-content: space-between;
+    background:var(--green-light-shaded);
+    padding: 0.1em 0em 0.1em 0em;
+    margin-top:1em;
+    border-radius: 10px;
+    position: relative;
+    min-width: var(--width-minimum);
+    width:100%
+  }
+  
+  .ss--btn{
+    font-weight:var(--weight-semi);
+    border:none;
+    font-size:var(--font-small);
+    z-index: 1;
+    border-radius: 15px;
+    padding: 1em;
+    
+    min-width: 5em;
+    max-height:2.5em;
+    margin:0.1em;
+    flex-wrap: wrap;
+    cursor: pointer;
+    background:none;
+    
+  }
+  .ss--btn-content{
+    transform: translateY(-100%) ;
+    white-space: nowrap;
+    transition:300ms
+  }
+  #ss--pa{
+    margin-left: 2.5em;
+  }
+  
+  #ss--pb{
+    margin-right: 2.5em;
+  }
+  
+  .ss-selector{
+    padding: 1.2em 5em 1.2em 5em;
+    background: var(--green-dark-shaded);
+    position: absolute;
+    top:4.5px;
+    left:0;
+    border-radius: 10px;
+    box-shadow: 0px 3px 1px 0px #0000000A;
+    transition: 300ms;
+    width:min-content;
+  }
