@@ -1,9 +1,15 @@
 import {useState} from 'react'
 import "../../styles/shuttle_switch.css"
+import {useEffect, useState} from 'react'
+import { useDispatch } from 'react-redux'
+import { updatePosition } from '../../store'
+
 const ToolBar =({conflictName , id})=>{
 
     const[selectorOffset , setSelectorOffset] = useState(50)
     const[selectedBtn , setSelectedBtn] = useState(2)
+
+    const dispatch = useDispatch()
     
     const whiteStyle={color : "white"}
     const blackStyle={color : "black"}
@@ -12,9 +18,7 @@ const ToolBar =({conflictName , id})=>{
         left : `${selectorOffset}%`,
         transform : `translateX(-${selectorOffset}%)`
     }
-
-
-
+    dispatch(updatePosition(selectedBtn))
 
 
     const handleShuttle=(btnPosition)=>{

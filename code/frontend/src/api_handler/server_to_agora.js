@@ -13,8 +13,4 @@ export const RegisterNewChatUser =async ({accessToken},username,password)=>{
     }).catch(err=>console.log(err))
 
     return user.data
-
-
-    
-    
 }

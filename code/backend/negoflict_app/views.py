@@ -28,7 +28,7 @@ class UserView(ModelViewSet):
             return User.objects.none()
         return super().get_queryset()
     
-    @action(detail=False,methods=['GET'],permission_classes=[permissions.All])
+    @action(detail=False,methods=['GET'],permission_classes=[permissions.IsAdminOrUser])
     def is_email_exist(self,request):
         email = request.GET.get('email',None)
         if email:
@@ -96,12 +96,11 @@ class MediatorView(ModelViewSet):
     
     def create(self, request, *args, **kwargs):
         user_data = {key[5:]: value for key, value in request.data.items() if key.startswith('user') }
-        user_data['is_staff'] = True
         serializer =UserCreateSerializer(data=user_data)
         serializer.is_valid(raise_exception=True)
         user_instanse =serializer.save()
-        
-        
+        user_instanse.is_staff =True
+        user_instanse.save()
         
         
         new_object = Mediator.objects.create(
