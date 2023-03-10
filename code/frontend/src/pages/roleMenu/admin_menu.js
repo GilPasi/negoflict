@@ -1,5 +1,5 @@
-import Header from '../../components/generals/Header'
-import Button from '../../components/generals/Button'
+import Header from '../../components/general/Header'
+import Button from '../../components/general/Button'
 import {Link} from 'react-router-dom'
 
 const AdminMenu = ()=>{

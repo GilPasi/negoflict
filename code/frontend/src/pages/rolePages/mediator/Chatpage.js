@@ -1,7 +1,7 @@
-import ShuttleSwitch from "../../../components/generals/ShuttleSwitch";
-import ToolBar from "../../../components/generals/ToolBar.js";
-import Message from "../../../components/generals/Message.js";
-import Header from "../../../components/generals/Header.js";
+import ShuttleSwitch from "../../../components/general/ShuttleSwitch";
+import ToolBar from "../../../components/general/ToolBar.js";
+import Message from "../../../components/general/Message.js";
+import Header from "../../../components/general/Header.js";
 import {useEffect, useState} from 'react'
 import mockMessages from "../../MockMessages.js"
 import MessageList from "../../../components/chat/MessageList.js";

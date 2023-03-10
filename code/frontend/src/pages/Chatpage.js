@@ -6,7 +6,7 @@ import Header from "../components/general/Header.js";
 import {useState} from 'react'
 import mockMessages from "./MockMessages.js"
 
-const  ChatPage = ()=> {
+const  Chatpage = ()=> {
     const [texts , setTexts] = useState(mockMessages)
 
     //Map over the messages and extract
@@ -68,4 +68,4 @@ const  ChatPage = ()=> {
         </div>
     )
 } 
-export default ChatPage
+export default Chatpage
