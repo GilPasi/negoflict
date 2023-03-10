@@ -4,10 +4,8 @@ import LoginPage from "./pages/LoginPage.js"
 import { Route, Routes } from 'react-router-dom'; 
 import RequireAuth from './components/Authntication/RequireAuth.js';
 import Chatpage from "./pages/rolePages/mediator/Chatpage.js"
-import Layout from './components/generals/Layout.js';
-import {UserLandingPage,MediatorLandingPage,SuperUserLandingPage} from './pages/LendingPage'
-import RequireAuth from './pages/RequireAuth.js';
-import Chatpage from "./pages/ChatPage.js"
+import Layout from './components/general/Layout';
+import {UserLandingPage,MediatorLandingPage,SuperUserLandingPage} from './pages/LandingPage';
 import './App.css'
 
 

@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import {getPerm} from '../../utils/permissions'
-import { UserLandingPage,MediatorLandingPage,SuperUserLandingPage } from "../../pages/LendingPage";
 
 
 

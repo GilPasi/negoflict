@@ -1,6 +1,5 @@
 import {useState} from 'react'
 import "../../styles/shuttle_switch.css"
-import {useEffect, useState} from 'react'
 import { useDispatch } from 'react-redux'
 import { updatePosition } from '../../store'
 

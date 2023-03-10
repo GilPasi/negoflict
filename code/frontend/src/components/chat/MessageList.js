@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import Message from '../generals/Message';
+import Message from '../general/Message';
 
 const MessageList =( { messages } )=> {
   const messagesEndRef = useRef(null);

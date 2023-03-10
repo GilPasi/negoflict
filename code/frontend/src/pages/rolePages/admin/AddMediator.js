@@ -1,8 +1,8 @@
 import React from "react"
-import Header from '../../../components/generals/Header'
-import TextInput from '../../../components/generals/TextInput'
+import Header from '../../../components/general/Header'
+import TextInput from '../../../components/general/TextInput'
 import { useState } from "react"
-import Button from "../../../components/generals/Button"
+import Button from "../../../components/general/Button"
 
 
 
