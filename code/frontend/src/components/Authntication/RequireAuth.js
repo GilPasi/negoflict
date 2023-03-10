@@ -1,12 +1,7 @@
 import { useSelector } from "react-redux";
 import { useLocation, Navigate, Outlet } from "react-router-dom";
-<<<<<<< HEAD:code/frontend/src/components/Authntication/RequireAuth.js
 import {getPerm} from '../../utils/permissions'
 import { UserLandingPage,MediatorLandingPage,SuperUserLandingPage } from "../../pages/LendingPage";
-=======
-import {getPerm} from '../utils/permissions'
-import { UserLandingPage,MediatorLandingPage,SuperUserLandingPage } from "./LandingPage";
->>>>>>> 48-create-case-page:code/frontend/src/pages/RequireAuth.js
 
 
 
