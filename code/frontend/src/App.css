@@ -26,6 +26,7 @@ a{
   text-decoration: none;
   color:var(--blue-anchor);
 }
+
 a:hover{
   color:var(--blue-anchor);
 
