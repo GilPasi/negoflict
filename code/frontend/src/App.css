@@ -18,8 +18,11 @@
 
   --blue-anchor:#1D62F0;
 
-  --width-minimum:30em;
-
+  --width-minimum:50em;
+  --width-maximum:80em;
+}
+h1,h2,h3,h4,h5,h6{
+  user-select: none;
 }
 
 a{
@@ -34,7 +37,7 @@ a:hover{
 
 .limiter{
   width:50%;
-  max-width: var(--width-medium);
+  max-width: var(--width-maximum);
   min-width: var(--width-minimum);
   
 }
