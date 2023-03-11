@@ -10,33 +10,26 @@ const RequireAuth = ()=>{
 
     const role = getPerm(user)
     const {id} = user
+
+
+    const auth = location.pathname.split('/')[1]
+
+
+    if(role !== auth)
+        return <Navigate to='/anauthhorized' state={{from: location}} replace={true}/>
+    
     
 
-    switch(role){
-        case 'user':
-            return(
-                id
-                ? <Outlet/>
-                : <Navigate to='/login' state={{from: location}} replace />
-            )
-        case 'mediator':
-                return(
-                    id
-                    ? <Outlet/>
-                    : <Navigate to='/login' state={{from: location}} replace />
-                )
-        case 'super_user':
-            return(
-                id
-                ? <Outlet/>
-                : <Navigate to='/login' state={{from: location}} replace />
-            )
-        default:
-            return <Navigate to='/login' state={{from: location}} replace />
-    }
-   
-}
 
+        
+    return(
+        id
+            ? <Outlet/>
+            : <Navigate to='/login' state={{from: location}} replace={true} />
+        )
+   
+
+    }
 export default RequireAuth
 
 
