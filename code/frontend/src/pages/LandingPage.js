@@ -16,12 +16,7 @@ const UserLandingPage = () => {
             {/* <Route path="/" element={}/> */}
         </Routes>
     )
-   
-
- 
 }
-
-
 const MediatorLandingPage = ()=>{
     
 
