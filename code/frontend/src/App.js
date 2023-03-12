@@ -3,7 +3,7 @@ import React from 'react';
 import LoginPage from "./pages/LoginPage.js"
 import CasePage from "./pages/CasePage.js"
 import { Route, Routes } from 'react-router-dom'; 
-import RequireAuth from './components/Authntication/RequireAuth.js';
+import RequireAuth from './components/Authentication/RequireAuth'
 import ChatPage from "./pages/rolePages/mediator/Chatpage.js"
 import Layout from './components/general/Layout';
 import {UserLandingPage,MediatorLandingPage,SuperUserLandingPage} from './pages/LandingPage';
@@ -34,8 +34,6 @@ import './App.css'
           {/* catch */}
         </Route>
       </Routes>
-      <ChatPage isMediator={false} />
-
     </div>
   );
 }
