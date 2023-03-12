@@ -41,8 +41,6 @@ import './App.css'
         </Route>
       </Routes>
 
-      <ChatPage isMediator={false} />
-
     </div>
   );
 }

@@ -1,14 +1,15 @@
 import React, { useRef, useEffect } from 'react';
 import Message from '../general/Message';
 
-const MessageList =( { messages } )=> {
+const MessageList =( { messages, position } )=> {
   const messagesEndRef = useRef(null);
-
-  console.log(messages)
 
   useEffect(() => {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  const filteredMessages = messages.filter((message) => message.position === position);
+
   
   
 
@@ -20,7 +21,7 @@ const MessageList =( { messages } )=> {
         overflowY: 'scroll', 
       }}
     >
-      {messages.map(message => (
+      {filteredMessages.map(message => (
          
             <Message 
                 key={message.text}

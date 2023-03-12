@@ -9,36 +9,47 @@ import MessageList from "../../../components/chat/MessageList.js";
 import { useSelector } from "react-redux";
 
 const  ChatPage = ({isMediator})=> {
-    const [texts , setTexts] = useState(mockMessages)
+    const [texts , setTexts] = useState([])
     const [textsA , setTextsA] = useState([])
     const [textsB , setTextsB] = useState([])
-    const [msgScreen,setMsgScreen] = useState(texts)
-    
+    const [msgScreen,setMsgScreen] = useState([])
+    console.log('lala')
+
+    useEffect(()=>{
+        setMsgScreen(texts)
+    },[])
     
 
     const {pos} = useSelector(state=>state.pos)
+    console.log(pos)
+    console.log(msgScreen)
     
     
 
    
 
     useEffect(()=>{
-        switch(pos){
+        const position = pos
+        switch(position){
             case 1:
+                setMsgScreen([])
                 setMsgScreen(textsA)
                 break
             case 2:
+                setMsgScreen([])
                 setMsgScreen(texts)
                 break
             case 3:
+                setMsgScreen([])
                 setMsgScreen(textsB)
                 break
         }
-    }, [pos,texts,textsA,textsB])
+    },[pos,texts,textsA,textsB])
 
     
 
         const handleSend =(event)=>{
+            const position = pos
             event.preventDefault();
             const msg = document.querySelector("#cp--input-tb").value;
 
@@ -49,36 +60,24 @@ const  ChatPage = ({isMediator})=> {
             // Mock values , to be replaced by the backend (Hen)
             const sender = 1
             
-           
-          
-            
+           const newMessage = {
+            text:msg,
+            sender:sender,
+            isSelf:true,
+            position:position
 
-            switch(pos){
+           }
+            switch(position){
                 case 1:{
-                    setTextsA(prevText=>[...prevText,{
-                        text:msg,
-                        sender:sender,
-                        isSelf:true,
-        
-                    }])
+                    setTextsA(prevText=>[...prevText,newMessage])
                     break
                 }
                 case 2:{
-                    setTexts(prevText=>[...prevText,{
-                        text:msg,
-                        sender:sender,
-                        isSelf:true,
-        
-                    }])
+                    setTexts(prevText=>[...prevText,newMessage])
                     break
                 }   
                 case 3:{
-                    setTextsB(prevText=>[...prevText,{
-                        text:msg,
-                        sender:sender,
-                        isSelf:true,
-        
-                    }])
+                    setTextsB(prevText=>[...prevText,newMessage])
                 }
                 break
                 }
@@ -99,7 +98,7 @@ const  ChatPage = ({isMediator})=> {
             </div>
             <div className="centerizer">
                 <div className="cp--paper">
-                    <MessageList messages={msgScreen}/>
+                    <MessageList messages={msgScreen} position={pos}/>
                 </div>
             </div>
             <div className="centerizer">

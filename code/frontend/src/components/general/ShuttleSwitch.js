@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import "../../styles/shuttle_switch.css"
 import { useDispatch } from 'react-redux'
 import { updatePosition } from '../../store'
@@ -10,8 +10,17 @@ const ShuttleSwitch =({isMediator})=>{
     const[selectorOffsetU , setSelectorOffsetU] = useState(10)
     const[selectedBtnU , setSelectedBtnU] = useState(1)
 
-
+    
     const dispatch = useDispatch()
+
+    useEffect(()=>{
+        
+        
+        const btnpos =  isMediator?selectedBtn:selectedBtnU
+      
+        dispatch(updatePosition(btnpos))
+
+    },[selectedBtn,selectedBtnU])
     
     const whiteStyle={color : "white"}
     const blackStyle={color : "black"}
@@ -20,15 +29,17 @@ const ShuttleSwitch =({isMediator})=>{
         left : `${selectorOffset}%`,
         transform : `translateX(-${selectorOffset}%)`
     }
-    dispatch(updatePosition(selectedBtn))
+   
 
     const selectorStyleU={
         left : `50%`,
         transform : `translateX(${selectorOffsetU}%)`
     }
 
+    
+
     const handleShuttleU=(btnPosition)=>{
-        let offset = btnPosition === 2 ? 10 : -90
+        const offset = btnPosition === 2 ? 10 : -90
         setSelectorOffsetU(offset)
         setSelectedBtnU(btnPosition)
     }
@@ -48,9 +59,7 @@ const ShuttleSwitch =({isMediator})=>{
         }
         setSelectorOffset(offset)
         setSelectedBtn(btnPosition)
-
-
-
+       
     }
     const userStyle={
         justifyContent: 'center',
