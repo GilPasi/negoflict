@@ -1,3 +1,4 @@
+import "../../../styles/chat_page.css"
 import ShuttleSwitch from "../../../components/general/ShuttleSwitch";
 import ToolBar from "../../../components/general/ToolBar.js";
 import Message from "../../../components/general/Message";
@@ -7,7 +8,7 @@ import mockMessages from "../../MockMessages.js"
 import MessageList from "../../../components/chat/MessageList.js";
 import { useSelector } from "react-redux";
 
-const  ChatPage = ()=> {
+const  ChatPage = ({isMediator})=> {
     const [texts , setTexts] = useState(mockMessages)
     const [textsA , setTextsA] = useState([])
     const [textsB , setTextsB] = useState([])
@@ -90,37 +91,29 @@ const  ChatPage = ()=> {
         <div className="cp" >
 
             <div className="centerizer">
-                <div className="cp--top">
+                <div className="limiter">
                 <Header size="small"/>
                     <ToolBar conflictName="A political conflict" id="100777"/>
-                    <ShuttleSwitch/>
+                    <ShuttleSwitch isMediator={isMediator}/>
                 </div>
             </div>
-
-            
-
-
             <div className="centerizer">
                 <div className="cp--paper">
                     <MessageList messages={msgScreen}/>
                 </div>
             </div>
+            <div className="centerizer">
+                <div className="cp--input limiter">
 
-
-        <div className="centerizer">
-            <div className="cp--input">
-                    {/* send Icon */}
-
-                <span class="material-symbols-outlined cp--help">
-                    help
-                </span>
-                <input type="text" className="cp--input-box" id="cp--input-tb"></input>
-
-                    <button class="btn cp--input-btn">
-                        <span class="material-symbols-outlined cp--send" onClick={handleSend}>
-                            send
-                        </span>
-                    </button>
+                    <span class="material-symbols-outlined cp--help">
+                        help
+                    </span>
+                    <textarea  className="cp--input-box" id="cp--input-tb"></textarea>
+                        <button class="cp--input-btn">
+                            <span class="material-symbols-outlined cp--send" onClick={handleSend}>
+                                send
+                            </span>
+                        </button>
                 </div>
             </div>
         </div>

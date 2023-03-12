@@ -8,7 +8,6 @@ const userSlice   = createSlice({
         id:null,
         username:'',
         email:'',
-        refreshToken:null,
         accessToken:null,
         role: null,
     },
@@ -21,7 +20,6 @@ const userSlice   = createSlice({
             state.id = id
             state.username = username
             state.email = email
-            state.refreshToken = refreshToken
             state.accessToken = accessToken
             state.role = role 
         },
@@ -29,7 +27,6 @@ const userSlice   = createSlice({
             state.id = null
             state.username = ''
             state.email = ''
-            state.refreshToken = null
             state.accessToken = null
             state.role = null
         }

@@ -1,10 +1,10 @@
 // import WebIM from './WebIM';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import LoginPage from "./pages/LoginPage.js"
 import CasePage from "./pages/CasePage.js"
 import { Route, Routes } from 'react-router-dom'; 
-import Chatpage from "./pages/rolePages/mediator/Chatpage.js"
-import RequireAuth from './components/Authentication/RequireAuth.js';
+import RequireAuth from './components/Authntication/RequireAuth.js';
+import ChatPage from "./pages/rolePages/mediator/Chatpage.js"
 import Layout from './components/general/Layout';
 import {UserLandingPage,MediatorLandingPage,SuperUserLandingPage} from './pages/LandingPage';
 import './App.css'
@@ -29,13 +29,13 @@ import './App.css'
           <Route path='user/*' element={<UserLandingPage/>}/>
           <Route path='mediator/*' element={<MediatorLandingPage/>}/>
           <Route path='admin/*' element={<SuperUserLandingPage/>}/>
-          <Route path='chat' element={<Chatpage/>}/>
+          <Route path='chat' element={<ChatPage/>}/>
         </Route>
           {/* catch */}
         </Route>
       </Routes>
+      <ChatPage isMediator={false} />
 
-      <CasePage />
     </div>
   );
 }

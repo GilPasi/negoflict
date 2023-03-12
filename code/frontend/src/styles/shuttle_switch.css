@@ -27,6 +27,10 @@
     background:none;
     
   }
+  .ss--spacer{
+    width: 3em;
+  }
+
   .ss--btn-content{
     transform: translateY(-100%) ;
     white-space: nowrap;

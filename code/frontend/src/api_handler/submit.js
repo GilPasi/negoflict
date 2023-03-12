@@ -7,11 +7,30 @@ import {Server_url} from '../utils/roots'
 
 export const GetJWTToken =async (userDetail)=>{
     
-    const {data} = await axios.post(`${Server_url}/auth/jwt/create`,{
+    const {data} = await axios.post(`${Server_url}/core/auth/token/`,{
         username:userDetail.username,
         password:userDetail.password
-    })
-    return data 
+    },{
+        withCredentials:true,
+        headers:{
+            'Content-Type':'application/json',
+            'Accept':'application/json',
+        }
+    }
+    
+    )
+    return data
+}
+export const GetNewAccessToken = async ()=>{
+    try{
+        const {data} = await axios.post(`${Server_url}/core/auth/token/refresh/`,{},{
+            withCredentials:true
+        })
+        return data.access
+    }catch(err){
+        console.log(err)}
+    
+
 }
 
 export const GetUserId = async (username,accessToken)=>{
@@ -49,4 +68,12 @@ export const GetRole = async (id, accsessToken)=>{
     })
     
     return data.role
+}
+
+export const LogOut = async()=>{
+
+    const {data} =await axios.get(`${Server_url}/core/auth/logout/`,{
+        withCredentials:true
+    })
+    console.log(data)
 }

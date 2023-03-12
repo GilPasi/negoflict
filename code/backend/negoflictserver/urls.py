@@ -24,5 +24,6 @@ urlpatterns = [
     path('auth/', include('djoser.urls.jwt')),
     path('users/',include('negoflict_app.urls')),
     path('session/',include('session.urls')),
+    path('core/',include('core.urls'))
     
 ]

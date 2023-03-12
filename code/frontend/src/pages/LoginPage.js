@@ -3,7 +3,7 @@ import Header from "../components/general/Header"
 import TextInput from "../components/general/TextInput"
 import Button from '../components/general/Button'
 import { useEffect, useState } from "react"
-import {GetJWTToken, GetUserId, ValidateEmail, GetRole} from "../api_handler/submit.js"
+import {GetJWTToken, GetUserId, ValidateEmail, GetRole, GetNewAccessToken,LogOut} from "../api_handler/submit.js"
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../store/index'
 import { useNavigate } from "react-router-dom"
@@ -12,10 +12,22 @@ import { useNavigate } from "react-router-dom"
 
 
 
+
+
 const LoginPage=()=>{
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const user = useSelector(state=>console.log(state.user))    
+    const user = useSelector(state=>console.log(state.user))
+    
+
+    useEffect(()=>{
+        LogOut()
+
+    })
+    
+   
+    
+    
     
     const [formData,setFormData] = useState({})
 
@@ -56,6 +68,7 @@ const LoginPage=()=>{
     switch(role){
         case 1:{
             navigate('/admin')
+            GetNewAccessToken()
             break;
         }
         case 2:{

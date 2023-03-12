@@ -4,7 +4,6 @@ import { positionReducer,updatePosition } from "./slices/psitionSlice";
 
 
 
-
 const store = configureStore({
     reducer:{
         user: userReducer,

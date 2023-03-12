@@ -4,7 +4,7 @@ export const getPerm=(user)=>{
    
     switch (u){
         case 1:
-            return 'super_user'
+            return 'admin'
         case 2:
             return 'mediator'
         case 3:
