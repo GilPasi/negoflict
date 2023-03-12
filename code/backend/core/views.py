@@ -3,6 +3,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from django.http import JsonResponse
 from rest_framework_simplejwt.views import TokenRefreshView
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from django.http import HttpResponse
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
@@ -35,3 +37,16 @@ class CustomTokenRefreshView(TokenRefreshView):
             return Response({'error': str(e)}, status=400)
 
 
+class CustomDeleteCookieView(APIView):
+    def delete_cookie(self, request):
+         response = Response('Cookie deleted')
+         response.delete_cookie('refresh_token')
+         return response
+     
+    def get(self,request):
+        response = self.delete_cookie(request)
+        return response
+         
+        
+          
+          

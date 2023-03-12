@@ -19,7 +19,6 @@ export const GetJWTToken =async (userDetail)=>{
     }
     
     )
-    console.log(data)
     return data
 }
 export const GetNewAccessToken = async ()=>{
@@ -69,4 +68,12 @@ export const GetRole = async (id, accsessToken)=>{
     })
     
     return data.role
+}
+
+export const LogOut = async()=>{
+
+    const {data} =await axios.get(`${Server_url}/core/auth/logout/`,{
+        withCredentials:true
+    })
+    console.log(data)
 }
