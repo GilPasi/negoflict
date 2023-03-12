@@ -2,7 +2,7 @@
 import React from 'react';
 import LoginPage from "./pages/LoginPage.js"
 import CasePage from "./pages/CasePage.js"
-
+import ShuttleSwitch from "./components/general/ShuttleSwitch.js"
 import { Route, Routes } from 'react-router-dom'; 
 import RequireAuth from './components/Authntication/RequireAuth.js';
 import ChatPage from "./pages/rolePages/mediator/Chatpage.js"
@@ -35,6 +35,9 @@ import './App.css'
           {/* catch */}
         </Route>
       </Routes>
+
+      <ChatPage isMediator={false} />
+
     </div>
   );
 }
