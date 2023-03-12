@@ -22,7 +22,6 @@ const LoginPage=()=>{
 
     useEffect(()=>{
         LogOut()
-
     })
     
    
