@@ -8,7 +8,7 @@ import mockMessages from "../../MockMessages.js"
 import MessageList from "../../../components/chat/MessageList.js";
 import { useSelector } from "react-redux";
 
-const  ChatPage = ()=> {
+const  ChatPage = ({isMediator})=> {
     const [texts , setTexts] = useState(mockMessages)
     const [textsA , setTextsA] = useState([])
     const [textsB , setTextsB] = useState([])
@@ -94,7 +94,7 @@ const  ChatPage = ()=> {
                 <div className="limiter">
                 <Header size="small"/>
                     <ToolBar conflictName="A political conflict" id="100777"/>
-                    <ShuttleSwitch/>
+                    <ShuttleSwitch isMediator={isMediator}/>
                 </div>
             </div>
             <div className="centerizer">
