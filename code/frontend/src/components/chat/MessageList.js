@@ -10,9 +10,8 @@ const MessageList =( { messages, position } )=> {
 
   const filteredMessages = messages.filter((message) => message.position === position);
 
-  
-  
-
+  console.log('in list')
+  console.log(messages.firstName)
   return (
     <div 
     style={{
@@ -28,6 +27,8 @@ const MessageList =( { messages, position } )=> {
                 text={message.text}
                 sender={message.sender}
                 isSelf={message.isSelf}
+                time = {message.time}
+                name = {message.senderName}
                 />
         
       ))}

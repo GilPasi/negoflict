@@ -1,20 +1,18 @@
 import "../../styles/message.css"
-const Message=({text,sender,isSelf})=>{
+const Message=({text,sender,isSelf, time, name})=>{
     let messageColor = ""
-    let title =""
+  console.log('in message')
+  console.log(name)
 
     switch(sender){
         case 1:
             messageColor = "#BFE8FB"
-            title = "Party A"
             break;
         case 2:
             messageColor = "#89E0A2"
-            title = "Mediator"
             break;
         case 3:
             messageColor = "#F4D1BD"
-            title = "Party B"
             break;
         }
 
@@ -27,7 +25,11 @@ const Message=({text,sender,isSelf})=>{
         <div className="message" style={{justifyContent:isSelf ?"left" :"right"}}>
 
             <div className="message-content" style={messageStyle}>
-                <h6 className="message--text" id="message--title">{title}</h6>
+            <div className="message-header">
+                <h6 className="message--text" id="message--title">{name}</h6>
+                <h7 className="message--time">{time}</h7>
+               
+                </div>
                 <p className="message--text">{text}</p>
             </div>
 

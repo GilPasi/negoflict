@@ -1,23 +1,28 @@
 import "../../../styles/chat_page.css"
 import ShuttleSwitch from "../../../components/general/ShuttleSwitch";
 import ToolBar from "../../../components/general/ToolBar";
-import Message from "../../../components/general/Message";
 import Header from "../../../components/general/Header";
 import {useEffect, useState} from 'react'
-import mockMessages from "../../MockMessages.js"
 import MessageList from "../../../components/chat/MessageList.js";
 import { useSelector } from "react-redux";
+
 
 const  ChatPage = ({isMediator})=> {
     const [texts , setTexts] = useState([])
     const [textsA , setTextsA] = useState([])
     const [textsB , setTextsB] = useState([])
     const [msgScreen,setMsgScreen] = useState([])
-    console.log('lala')
+    const {firstName} = useSelector(state=>state.user)
+    
+
+
+  
 
     useEffect(()=>{
         setMsgScreen(texts)
     },[])
+    
+
     
 
     const {pos} = useSelector(state=>state.pos)
@@ -59,13 +64,18 @@ const  ChatPage = ({isMediator})=> {
 
             // Mock values , to be replaced by the backend (Hen)
             const sender = 1
+
+            const now = new Date();
+            const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
             
            const newMessage = {
             text:msg,
             sender:sender,
             isSelf:true,
-            position:position
-
+            position:position,
+            time:time,
+            senderName:firstName,
            }
             switch(position){
                 case 1:{
