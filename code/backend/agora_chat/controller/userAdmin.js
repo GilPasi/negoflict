@@ -10,7 +10,6 @@ exports.registerUser = async(req,res)=>{
     const username = req.body.username
 
     
-
     const response = await axios.post(`${process.env.SERVER_URL}/session/chat_users/`,{},{
         headers:{
             origin:'*',
@@ -23,7 +22,6 @@ exports.registerUser = async(req,res)=>{
     const uid = uid_response.replace(/-/g, "")
     
     
-
     const user = await axios.post(`${HOST_URL_APP_KEY}/users`,{
     username:uid,
     password: password,

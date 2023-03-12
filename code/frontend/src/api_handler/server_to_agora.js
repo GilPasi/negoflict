@@ -14,3 +14,4 @@ export const RegisterNewChatUser =async ({accessToken},username,password)=>{
 
     return user.data
 }
+
