@@ -2,7 +2,9 @@
 import React from 'react';
 import LoginPage from "./pages/LoginPage.js"
 import CasePage from "./pages/CasePage.js"
-import ShuttleSwitch from "./components/general/ShuttleSwitch.js"
+
+import useInactivityRedirect from './hooks/useInActiveRediract.js';
+
 import { Route, Routes } from 'react-router-dom'; 
 import RequireAuth from './components/Authntication/RequireAuth.js';
 import ChatPage from "./pages/rolePages/mediator/Chatpage.js"
@@ -13,6 +15,7 @@ import './App.css'
 
 
  const App=()=> {
+  const isActive = useInactivityRedirect();
 
 
   return (
@@ -25,6 +28,7 @@ import './App.css'
         <Route  path='/login' element={<LoginPage/>}/>
 
         {/* protected routes */}
+        {isActive?(
        
         <Route  path='/' element={<RequireAuth/>}>
           <Route path='user/*' element={<UserLandingPage/>}/>
@@ -32,6 +36,7 @@ import './App.css'
           <Route path='admin/*' element={<SuperUserLandingPage/>}/>
           <Route path='chat' element={<ChatPage/>}/>
         </Route>
+        ):(<div>not active</div>)}
           {/* catch */}
         </Route>
       </Routes>
