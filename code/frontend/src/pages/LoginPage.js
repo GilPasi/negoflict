@@ -23,9 +23,8 @@ const LoginPage=()=>{
     useEffect(()=>{
         LogOut()
     })
-    
+
    
-    
     
     
     const [formData,setFormData] = useState({})

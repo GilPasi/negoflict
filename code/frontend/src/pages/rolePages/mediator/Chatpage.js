@@ -5,6 +5,8 @@ import Header from "../../../components/general/Header";
 import {useEffect, useState} from 'react'
 import MessageList from "../../../components/chat/MessageList.js";
 import { useSelector } from "react-redux";
+import useChat from "../../../hooks/useChat";
+
 
 
 const  ChatPage = ({isMediator})=> {
@@ -13,10 +15,29 @@ const  ChatPage = ({isMediator})=> {
     const [textsB , setTextsB] = useState([])
     const [msgScreen,setMsgScreen] = useState([])
     const {firstName} = useSelector(state=>state.user)
+    const {openConn, messagelistener, sendPrivateMessage} = useChat()
+    
+
+    useEffect(()=>{
+            openConn()
+        
+    },[])
+
+    messagelistener()
+    
     
 
 
+
+
+
+
   
+
+    
+
+
+    
 
     useEffect(()=>{
         setMsgScreen(texts)
@@ -56,6 +77,7 @@ const  ChatPage = ({isMediator})=> {
         const handleSend =(event)=>{
             const position = pos
             event.preventDefault();
+            sendPrivateMessage()
             const msg = document.querySelector("#cp--input-tb").value;
 
             //Avoid empty messages re-rendering
