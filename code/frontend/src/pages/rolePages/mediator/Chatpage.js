@@ -14,16 +14,23 @@ const  ChatPage = ({isMediator})=> {
     const [textsA , setTextsA] = useState([])
     const [textsB , setTextsB] = useState([])
     const [msgScreen,setMsgScreen] = useState([])
-    const {firstName} = useSelector(state=>state.user)
-    const {openConn, messagelistener, sendPrivateMessage} = useChat()
+    const {firstName, username} = useSelector(state=>state.user)
+    const {openConn, messagelistener, getGropByUser} = useChat()
     
 
     useEffect(()=>{
-            openConn()
-        
+             openConn()
+          
     },[])
 
+    
+
     messagelistener()
+    
+   
+
+
+    
     
     
 
@@ -74,10 +81,10 @@ const  ChatPage = ({isMediator})=> {
 
     
 
-        const handleSend =(event)=>{
+        const handleSend = (event)=>{
             const position = pos
             event.preventDefault();
-            sendPrivateMessage()
+            
             const msg = document.querySelector("#cp--input-tb").value;
 
             //Avoid empty messages re-rendering

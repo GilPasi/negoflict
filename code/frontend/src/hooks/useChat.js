@@ -1,19 +1,21 @@
 import WebIM from "../WebIM";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import getToken from "./useToken";
+import axios from 'axios'
+import { ChatServerURL } from "../utils/agoraCradential";
 
 
 const useChat = (props)=>{
     const { username } = useSelector(state=>state.user)
+    const {getUserToken} = getToken()  
 
-    
 
-    
-    const openConn = ()=>{
-
+    const openConn = async ()=>{ 
+        const token = await getUserToken(username)
         WebIM.conn.open({
-            user:'naor',
-            agoraToken:'007eJxTYHj8uunydKUlLKVnfBr2veG5Z/fBOf3Mx/nOc9f9+Cw88dNiBQZzo+SUtBRzI2MDA3OTROOUxCSDxERzCxMDi0TL5OTE5N8H+FIaAhkZipT5mRkZWBkYgRDEV2EwszQyT001N9C1MDVO1jU0TE3RBWpM1U00Nk+xMExOskg1NAIA8Aoqqg=='
+            user:username,
+            agoraToken:token
         })
     }
 
@@ -22,11 +24,28 @@ const useChat = (props)=>{
         onTextMessage: message =>console.log(message.sourceMsg)
        })
     }
+    const sendGroupMsg =async (props)=>{
+       
+        await axios.post('http://localhost:8050/group_message',{
+            groupid:props.groupId,
+            me:props.username,
+            msg:props.msg
+          }).then(()=>console.log('sucseesssss'))
+        .catch(err=>console.log(err))
+    
+      }
+
+    const getGropByUser =async (user)=>{
+        const groups =await axios.get(`${ChatServerURL}/get_group_by_user/${user}`)
+        return groups.data
+    }
     
 
     return{
         openConn,
-        messagelistener
+        messagelistener,
+        sendGroupMsg,
+        getGropByUser
     }
 
     
