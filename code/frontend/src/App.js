@@ -40,6 +40,8 @@ import './App.css'
           {/* catch */}
         </Route>
       </Routes>
+      <CasePage/>
+      
 
     </div>
   );

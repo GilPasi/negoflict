@@ -9,6 +9,7 @@ import useChat from "../../../hooks/useChat";
 
 
 
+
 const  ChatPage = ({isMediator})=> {
     const [texts , setTexts] = useState([])
     const [textsA , setTextsA] = useState([])
