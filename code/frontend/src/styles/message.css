@@ -1,7 +1,9 @@
 /* __Message component__ */
 .message{
     display: flex;
-  
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 10px 0px;
   }
   
   .message-content{
@@ -16,8 +18,21 @@
     font-weight: var(--weight-semi);
     font-size: var(--font-small);
     margin:0;
+    padding-right: 20px;
   }
   #message--title{
     text-align: right;
+    margin: 0px;
     
+  }
+  .message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  .message--time {
+    margin: 0px;
+    font-size: 0.8em;
   }

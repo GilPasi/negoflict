@@ -23,9 +23,8 @@ const LoginPage=()=>{
     useEffect(()=>{
         LogOut()
     })
-    
+
    
-    
     
     
     const [formData,setFormData] = useState({})
@@ -50,12 +49,14 @@ const LoginPage=()=>{
         return
 
     const {refresh,access} = await GetJWTToken(formData)
-    const userId =await GetUserId(formData.username,access)
-    const role = await GetRole(userId,access)
+    const {id,first_name} =await GetUserId(formData.username,access)
+    const role = await GetRole(id,access)
+    
 
     const {username,email} = formData
     dispatch(login({
-        id:userId,
+        id:id,
+        firstName:first_name,
         username:username,
         email:email,
         refreshToken:refresh,

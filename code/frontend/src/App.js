@@ -6,9 +6,8 @@ import CaseFormPage from "./pages/CaseFormPage.js"
 
 
 import useInactivityRedirect from './hooks/useInActiveRediract.js';
-
 import { Route, Routes } from 'react-router-dom'; 
-import RequireAuth from './components/Authntication/RequireAuth.js';
+import RequireAuth from './components/Authentication/RequireAuth'
 import ChatPage from "./pages/rolePages/mediator/Chatpage.js"
 import Layout from './components/general/Layout';
 import {UserLandingPage,MediatorLandingPage,SuperUserLandingPage} from './pages/LandingPage';

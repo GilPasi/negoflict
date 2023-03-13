@@ -12,12 +12,18 @@ const UserLandingPage = () => {
 
     return (
         <Routes>
-            <Route path="/" element={<ChatPage/>}/>
+            <Route path="/" element={<ChatPage isMediator={false}/>}/>
             {/* <Route path="/" element={}/> */}
         </Routes>
     )
 }
 const MediatorLandingPage = ()=>{
+    return (
+        <Routes>
+            <Route path="/" element={<ChatPage isMediator={true}/>}/>
+            {/* <Route path="/" element={}/> */}
+        </Routes>
+    )
     
 
 }
