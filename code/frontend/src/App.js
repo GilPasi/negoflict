@@ -41,10 +41,7 @@ import './App.css'
         ):(<div>not active</div>)}
           {/* catch */}
         </Route>
-      </Routes>
-
-      <ChatPage isMediator={true}/>
-      
+      </Routes>      
 
     </div>
   );
