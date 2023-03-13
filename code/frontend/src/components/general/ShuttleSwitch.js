@@ -1,9 +1,6 @@
-<<<<<<< HEAD
-=======
+
 import {useEffect, useState} from 'react'
->>>>>>> ada4cf0446ba499304394a67061de52e64692194
 import "../../styles/shuttle_switch.css"
-import {useState} from 'react'
 import { useDispatch } from 'react-redux'
 import { updatePosition } from '../../store'
 

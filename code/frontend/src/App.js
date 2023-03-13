@@ -2,12 +2,7 @@
 import React from 'react';
 import LoginPage from "./pages/LoginPage.js"
 import CasePage from "./pages/CasePage.js"
-<<<<<<< HEAD
-=======
-
 import useInactivityRedirect from './hooks/useInActiveRediract.js';
-
->>>>>>> ada4cf0446ba499304394a67061de52e64692194
 import { Route, Routes } from 'react-router-dom'; 
 import RequireAuth from './components/Authentication/RequireAuth'
 import ChatPage from "./pages/rolePages/mediator/Chatpage.js"

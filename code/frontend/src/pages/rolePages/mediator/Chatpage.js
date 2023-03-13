@@ -1,11 +1,7 @@
 import "../../../styles/chat_page.css"
 import ShuttleSwitch from "../../../components/general/ShuttleSwitch";
-<<<<<<< HEAD
 import ToolBar from "../../../components/general/ToolBar.js";
 import Message from "../../../components/general/Message";
-=======
-import ToolBar from "../../../components/general/ToolBar";
->>>>>>> ada4cf0446ba499304394a67061de52e64692194
 import Header from "../../../components/general/Header";
 import {useEffect, useState} from 'react'
 import MessageList from "../../../components/chat/MessageList.js";
