@@ -1,8 +1,7 @@
 import { useSelector } from "react-redux";
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import {getPerm} from '../../utils/permissions'
-import Cookies from 'js-cookie'
-
+import { UserLandingPage,MediatorLandingPage,SuperUserLandingPage } from "../../pages/LandingPage";
 
 
 const RequireAuth = ()=>{
