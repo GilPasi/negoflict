@@ -1,8 +1,7 @@
 // import WebIM from './WebIM';
 import React from 'react';
 import LoginPage from "./pages/LoginPage.js"
-import CasePage from "./pages/CasePage.js"
-import CaseFormPage from "./pages/CaseFormPage.js"
+
 
 
 import useInactivityRedirect from './hooks/useInActiveRediract.js';
