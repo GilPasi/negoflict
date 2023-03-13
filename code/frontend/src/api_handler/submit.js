@@ -42,7 +42,7 @@ export const GetUserId = async (username,accessToken)=>{
         Authorization: `JWT ${accessToken}`
         }
     })
-    return data.id
+    return data
 }
 export const ValidateEmail = async (email)=>{
     try{

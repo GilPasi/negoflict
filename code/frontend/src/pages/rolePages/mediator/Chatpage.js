@@ -1,45 +1,95 @@
 import "../../../styles/chat_page.css"
 import ShuttleSwitch from "../../../components/general/ShuttleSwitch";
+<<<<<<< HEAD
 import ToolBar from "../../../components/general/ToolBar.js";
 import Message from "../../../components/general/Message";
+=======
+import ToolBar from "../../../components/general/ToolBar";
+>>>>>>> ada4cf0446ba499304394a67061de52e64692194
 import Header from "../../../components/general/Header";
 import {useEffect, useState} from 'react'
-import mockMessages from "../../MockMessages.js"
 import MessageList from "../../../components/chat/MessageList.js";
 import { useSelector } from "react-redux";
+import useChat from "../../../hooks/useChat";
+
+
 
 const  ChatPage = ({isMediator})=> {
-    const [texts , setTexts] = useState(mockMessages)
+    const [texts , setTexts] = useState([])
     const [textsA , setTextsA] = useState([])
     const [textsB , setTextsB] = useState([])
-    const [msgScreen,setMsgScreen] = useState(texts)
+    const [msgScreen,setMsgScreen] = useState([])
+    const {firstName, username} = useSelector(state=>state.user)
+    const {openConn, messagelistener, getGropByUser} = useChat()
     
+
+    useEffect(()=>{
+             openConn()
+          
+    },[])
+
+    
+
+    messagelistener()
+    
+   
+
+
+    
+    
+    
+
+
+
+
+
+
+  
+
+    
+
+
+    
+
+    useEffect(()=>{
+        setMsgScreen(texts)
+    },[])
+    
+
     
 
     const {pos} = useSelector(state=>state.pos)
+    console.log(pos)
+    console.log(msgScreen)
     
     
 
    
 
     useEffect(()=>{
-        switch(pos){
+        const position = pos
+        switch(position){
             case 1:
+                setMsgScreen([])
                 setMsgScreen(textsA)
                 break
             case 2:
+                setMsgScreen([])
                 setMsgScreen(texts)
                 break
             case 3:
+                setMsgScreen([])
                 setMsgScreen(textsB)
                 break
         }
-    }, [pos,texts,textsA,textsB])
+    },[pos,texts,textsA,textsB])
 
     
 
-        const handleSend =(event)=>{
+        const handleSend = (event)=>{
+            const position = pos
             event.preventDefault();
+            
             const msg = document.querySelector("#cp--input-tb").value;
 
             //Avoid empty messages re-rendering
@@ -48,37 +98,30 @@ const  ChatPage = ({isMediator})=> {
 
             // Mock values , to be replaced by the backend (Hen)
             const sender = 1
-            
-           
-          
-            
 
-            switch(pos){
+            const now = new Date();
+            const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            
+           const newMessage = {
+            text:msg,
+            sender:sender,
+            isSelf:true,
+            position:position,
+            time:time,
+            senderName:firstName,
+           }
+            switch(position){
                 case 1:{
-                    setTextsA(prevText=>[...prevText,{
-                        text:msg,
-                        sender:sender,
-                        isSelf:true,
-        
-                    }])
+                    setTextsA(prevText=>[...prevText,newMessage])
                     break
                 }
                 case 2:{
-                    setTexts(prevText=>[...prevText,{
-                        text:msg,
-                        sender:sender,
-                        isSelf:true,
-        
-                    }])
+                    setTexts(prevText=>[...prevText,newMessage])
                     break
                 }   
                 case 3:{
-                    setTextsB(prevText=>[...prevText,{
-                        text:msg,
-                        sender:sender,
-                        isSelf:true,
-        
-                    }])
+                    setTextsB(prevText=>[...prevText,newMessage])
                 }
                 break
                 }
@@ -99,7 +142,7 @@ const  ChatPage = ({isMediator})=> {
             </div>
             <div className="centerizer">
                 <div className="cp--paper">
-                    <MessageList messages={msgScreen}/>
+                    <MessageList messages={msgScreen} position={pos}/>
                 </div>
             </div>
             <div className="centerizer">
