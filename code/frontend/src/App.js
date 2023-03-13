@@ -39,8 +39,7 @@ import './App.css'
         ):(<div>not active</div>)}
           {/* catch */}
         </Route>
-      </Routes>      
-
+      </Routes>
     </div>
   );
 }
