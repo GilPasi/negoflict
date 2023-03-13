@@ -57,3 +57,14 @@
     margin: 1em;
   }
   
+  select {
+    appearance: none;
+
+  }
+
+  #dog-names{
+    --webkit-appearance: none;
+    -webkit-border-radius: 0; 
+    border-radius: 0;   
+  
+  }

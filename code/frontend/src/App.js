@@ -2,6 +2,9 @@
 import React from 'react';
 import LoginPage from "./pages/LoginPage.js"
 import CasePage from "./pages/CasePage.js"
+import CaseFormPage from "./pages/CaseFormPage.js"
+
+
 import useInactivityRedirect from './hooks/useInActiveRediract.js';
 import { Route, Routes } from 'react-router-dom'; 
 import RequireAuth from './components/Authentication/RequireAuth'
@@ -37,7 +40,8 @@ import './App.css'
         ):(<div>not active</div>)}
           {/* catch */}
         </Route>
-      </Routes>
+      </Routes>      
+
     </div>
   );
 }
