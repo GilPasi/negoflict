@@ -2,6 +2,8 @@
 import React from 'react';
 import LoginPage from "./pages/LoginPage.js"
 import CasePage from "./pages/CasePage.js"
+import CaseFormPage from "./pages/CaseFormPage.js"
+
 
 import useInactivityRedirect from './hooks/useInActiveRediract.js';
 
@@ -40,8 +42,7 @@ import './App.css'
           {/* catch */}
         </Route>
       </Routes>
-
-      <ChatPage isMediator={false} />
+      
 
     </div>
   );
