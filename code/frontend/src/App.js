@@ -36,6 +36,8 @@ import './App.css'
           {/* catch */}
         </Route>
       </Routes>
+
+      <ChatPage isMediator={false}/>
     </div>
   );
 }
