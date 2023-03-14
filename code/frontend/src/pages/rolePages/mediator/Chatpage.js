@@ -25,29 +25,9 @@ const  ChatPage = ({isMediator})=> {
           
     },[])
 
-    
-
     messagelistener()
     
    
-
-
-    
-    
-    
-
-
-
-
-
-
-  
-
-    
-
-
-    
-
     useEffect(()=>{
         setMsgScreen(texts)
     },[])

@@ -9,12 +9,12 @@ const AdminMenu = ()=>{
         <div className='am'>
             <Header className='' isLarge={true}/>
             <div className='text_header'>
-            <p>
+            <div>
                 <h1>Hello</h1>
-            </p>
-            <p>
+            </div>
+            <div>
                 <h3>System Manager</h3>
-            </p>
+            </div>
             </div>
             <div className='am--menu'>
                 <Link to='addmediator'>

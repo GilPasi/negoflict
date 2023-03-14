@@ -22,7 +22,7 @@ const LoginPage=()=>{
 
     useEffect(()=>{
         LogOut()
-    })
+    },[])
 
    
     
@@ -124,7 +124,7 @@ const LoginPage=()=>{
                     <Button  text="Submit" size="small"/>
                 </form> 
 
-                <p>{()=>console.log(user)}</p>
+               
 
             </div>
         </div>

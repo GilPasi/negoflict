@@ -1,9 +1,5 @@
-// import WebIM from './WebIM';
 import React from 'react';
 import LoginPage from "./pages/LoginPage.js"
-
-
-
 import useInactivityRedirect from './hooks/useInActiveRediract.js';
 import { Route, Routes } from 'react-router-dom'; 
 import RequireAuth from './components/Authentication/RequireAuth'
@@ -36,7 +32,7 @@ import './App.css'
           <Route path='admin/*' element={<SuperUserLandingPage/>}/>
           <Route path='chat' element={<ChatPage/>}/>
         </Route>
-        ):(<div>not active</div>)}
+        ):(<div><h1>not active</h1></div>)}
           {/* catch */}
         </Route>
       </Routes>

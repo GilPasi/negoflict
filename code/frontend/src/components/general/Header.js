@@ -28,7 +28,7 @@ const  HeaderLarge=({isLarge})=>{
                     alt="menu symbol"/>  
                 </button>
                 
-                <div class="header--menu-content">
+                <div className="header--menu-content">
                     <a href="#">Link 1</a>
                     <a href="#">Link 2</a>
                     <a href="#">Link 3</a>
