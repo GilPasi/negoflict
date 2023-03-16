@@ -3,6 +3,7 @@
 /* Dropdown Button */
 .header{
     min-width: var(--width-minimum);
+    position: relative;
   }
   .header--menu-button {
     border: none;
@@ -21,6 +22,8 @@
     justify-content: left;
     display: inline-block;
     margin:1em;
+    background-color: blue;
+    display:block;
   }
   
   /* Dropdown Content (Hidden by Default) */
@@ -56,4 +59,9 @@
     color:var(--green-dark);
     margin: 1em;
   }
+
+  select{
+    appearance: none;
+  }
+  
   
