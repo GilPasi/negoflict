@@ -10,6 +10,7 @@ import ChatPage from "./pages/rolePages/mediator/Chatpage.js"
 import Layout from './components/general/Layout';
 import {UserLandingPage,MediatorLandingPage,SuperUserLandingPage} from './pages/LandingPage';
 import './App.css'
+import TextHolder from './components/general/TextHolder';
 
 
 
@@ -21,8 +22,10 @@ import './App.css'
     <div className="App">
      
       <Routes>
+      
         <Route path='/' element={<Layout/>}>
           {/* public routes */}
+         
        
         <Route  path='/login' element={<LoginPage/>}/>
 
@@ -37,10 +40,12 @@ import './App.css'
         </Route>
         ):(<div><h1>not active</h1></div>)}
           {/* catch */}
+        
         </Route>
       </Routes>
-
-      <CaseFormPage />
+      
+      
+          
     </div>
   );
 }

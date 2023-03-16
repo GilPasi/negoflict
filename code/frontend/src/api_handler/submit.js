@@ -1,21 +1,26 @@
 import axios from 'axios'
 import {Server_url} from '../utils/roots'
+const CoreAuthPath = 'http://localhost:8000/core/auth'
 
 
 
 
 
 export const GetJWTToken =async (userDetail)=>{
+   
     
-    const {data} = await axios.post(`${Server_url}/core/auth/token/`,{
+    
+    const {data} = await axios.post(`${CoreAuthPath}/token/`,{
         username:userDetail.username,
         password:userDetail.password
     },{
         withCredentials:true,
+
         headers:{
             'Content-Type':'application/json',
             'Accept':'application/json',
         }
+        
     }
     
     )
@@ -23,7 +28,7 @@ export const GetJWTToken =async (userDetail)=>{
 }
 export const GetNewAccessToken = async ()=>{
     try{
-        const {data} = await axios.post(`${Server_url}/core/auth/token/refresh/`,{},{
+        const {data} = await axios.post(`${CoreAuthPath}/token/refresh/`,{},{
             withCredentials:true
         })
         return data.access
@@ -72,8 +77,8 @@ export const GetRole = async (id, accsessToken)=>{
 
 export const LogOut = async()=>{
 
-    const {data} =await axios.get(`${Server_url}/core/auth/logout/`,{
-        withCredentials:true
+    const {data} =await axios.get(`${CoreAuthPath}/logout/`,{
+        withCredentials:true,
     })
     console.log(data)
 }

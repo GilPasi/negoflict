@@ -14,6 +14,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             user = serializer.user
             refresh = RefreshToken.for_user(user)
             access = refresh.access_token
+            print(refresh)
 
             # Set the refresh token in a secure cookie
             response = JsonResponse({'access': str(access)})
@@ -39,8 +40,10 @@ class CustomTokenRefreshView(TokenRefreshView):
 
 class CustomDeleteCookieView(APIView):
     def delete_cookie(self, request):
+         print('before delete',request.COOKIES.get('refresh_token'))
          response = Response('Cookie deleted')
          response.delete_cookie('refresh_token')
+         print('after delete',request.COOKIES.get('refresh_token'))
          return response
      
     def get(self,request):

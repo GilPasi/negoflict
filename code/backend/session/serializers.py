@@ -5,7 +5,7 @@ from .models import Case,GroupChat,GroupMember,Message, Survey,AgoraUser
 class CaseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Case
-        fields = ['id','create_at','title','mediator','category','sub_category','problem_brief','close_at','summary']
+        fields = ['id','create_at','title','mediator','category','sub_category','problem_brief','close_at','summary','is_active']
         
 class GroupChatSerializer(serializers.ModelSerializer):
     class Meta:
