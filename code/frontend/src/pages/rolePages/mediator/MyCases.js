@@ -1,8 +1,9 @@
 import { useEffect,useState } from 'react'
 import { useSelector } from 'react-redux'
 import useServer from '../../../hooks/useServer'
-import HeaderLarge from '../../../components/general/Header'
 import TextHolder from '../../../components/general/TextHolder'
+import '../../../styles/case_page.css'
+
 
 
 const MyCases = ()=>{
@@ -21,9 +22,8 @@ const MyCases = ()=>{
 
     return(
         <div>
-            <HeaderLarge/>
-            <p>My Cases</p>
-
+         
+            <h1 className='cap--title'> My cases </h1>
             {cases.map(caseData=>(
                 <div key={caseData.id}>
                     <TextHolder caseData={caseData}/>

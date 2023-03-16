@@ -20,6 +20,9 @@ const MediatorMenu = ()=>{
                 <Link to='cases'>
                     <Button text='My Cases' size='small'/>
                 </Link>
+                <Link to='new_case'>
+                    <Button text={'New case'} size='small'/>
+                </Link>
             
             
             </div>
