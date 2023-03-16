@@ -1,6 +1,7 @@
 /*__ Text Field component __*/
 
 .text-field-input{ 
+  position: relative;
     width:15.5em;
     height: 1.5em;
     padding:1em;
@@ -23,3 +24,57 @@
     transform: translateX(-50%);
   
   }
+  .text-field-box{
+    display: grid;
+    grid-template-columns: 1fr 10px;
+    background-color: var(--green-light);
+    width: 250px;
+    height: 80px;
+    border: none;
+    border-radius: 7px;
+    font-size: x-large;
+    margin: 0 auto;
+    /* justify-content: center; */
+    align-items: center;
+    
+    
+    
+  }
+  
+  .text-field-box-info{
+    margin-left: 5px;
+    display: flex;
+    justify-content: end;
+    height: inherit;
+  
+
+    
+    
+  }
+  .text-field-box-info-button{
+    height: 100%;
+    border-style:none;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+    font-size: xx-large;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+  .text-field-box-info-button:active{
+    box-shadow: 2px 0px 0px 4px rgba(0, 0, 0, 0.04) inset;
+    font-weight: 300;
+
+  }
+  .box-holder{
+    display: grid;
+    grid-template-columns: 1fr 45%;
+    margin: 10px;
+    
+    
+  }
+  .box-holder-pos{
+    display: grid;
+    justify-content:end;
+  }
+ 

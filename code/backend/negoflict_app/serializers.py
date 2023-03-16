@@ -11,7 +11,7 @@ class MediatorSerializer(serializers.ModelSerializer):
     user = UserCreateSerializer()
     class Meta:
         model = Mediator
-        fields = ['id','phone','education','relevant_experience','mediation_areas','certification_course','user']
+        fields = ['phone','education','relevant_experience','mediation_areas','certification_course','user']
         depth = 1
         
     
