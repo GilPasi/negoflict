@@ -13,24 +13,25 @@ const  Header=({isLarge})=>{
         display: isLarge ? "flex" : "flex",
         justifyContent: "space-between",
         width: '100%',
-        right:'0' 
     }
-    
-    const menuStyle={
-        justifyContent:"left"
 
-    }
+    const title = <h1 style={titleStyle} className="header--title" >
+                    negoflict
+                </h1>
+    
+
     return(
         <div className="header">
             <div style={wrapperStyle}>
                 <div className="header--menu">
-                    <div style={menuStyle}>
-                        <button className="header--menu-button" style={menuStyle}>
+                    <div >
+                        <button className="header--menu-button">
                             <img className="header--menu-img"
                             src="../../../assets/images/menu_symbol.png" 
                             alt="menu symbol"/>  
                         </button>
                     </div>
+
                 <div className="header--menu-content">
                     <a href="#">Link 1</a>
                     <a href="#">Link 2</a>
@@ -40,21 +41,13 @@ const  Header=({isLarge})=>{
 
 
 
-                {isLarge && (
+                {!isLarge && (
                     <div className="centerizer" >
-                
-                    <h1 style={titleStyle} className="header--title">
-                            negoflict
-                    </h1>
-                    
+                        {title}
                 </div>)}
-                    
-                {!isLarge &&<h1 style={titleStyle} className="header--title" >
-                            negoflict
-                </h1>}
-                    
 
             </div>
+            {isLarge &&title}
 
         </div>
 

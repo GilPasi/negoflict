@@ -44,7 +44,6 @@ a:hover{
 .centerizer{
   display:flex;
   justify-content:center;
-  background-color: red;
   display: block;
 }
 
