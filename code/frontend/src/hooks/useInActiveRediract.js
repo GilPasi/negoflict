@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 
-const useInactivityRedirect = (inactiveTime = 900000, redirectUrl = '/login') => {
+
+const useInactivityRedirect = (inactiveTime = 90000, redirectUrl = '/login') => {
   const [isActive, setIsActive] = useState(true);
   const timerRef = useRef(null);
 
@@ -9,6 +10,7 @@ const useInactivityRedirect = (inactiveTime = 900000, redirectUrl = '/login') =>
       setIsActive(true);
       clearTimeout(timerRef.current);
       timerRef.current = setTimeout(() => {
+        if(window.location.pathname !== '/login')
         window.location.href = redirectUrl;
       }, inactiveTime);
     };

@@ -17,9 +17,8 @@ import { useNavigate } from "react-router-dom"
 const LoginPage=()=>{
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const user = useSelector(state=>console.log(state.user))
+    // const user = useSelector(state=>console.log(state.user))
     
-
     useEffect(()=>{
         LogOut()
     },[])
@@ -40,8 +39,7 @@ const LoginPage=()=>{
     
 
 
-   const submitHandler =async (event,term)=>{
-   
+   const submitHandler =async (event)=>{
     event.preventDefault()
     const validEmail =await ValidateEmail(formData.email)
 
@@ -68,7 +66,6 @@ const LoginPage=()=>{
     switch(role){
         case 1:{
             navigate('/admin')
-            GetNewAccessToken()
             break;
         }
         case 2:{

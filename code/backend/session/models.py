@@ -13,8 +13,9 @@ class Case(models.Model):
     category = models.CharField(max_length=2, choices=category.MEDIATION_CHOICES, default=category.OTHER)
     sub_category = models.CharField(max_length=50)
     problem_brief = models.CharField(max_length=150,null=True)
-    close_at = models.DateTimeField(auto_now_add=True,null=True)
+    close_at = models.DateTimeField(null=True, blank=True)
     summary = models.TextField(null=True)
+    is_active = models.BooleanField(null=True,blank=True)
     
 
     

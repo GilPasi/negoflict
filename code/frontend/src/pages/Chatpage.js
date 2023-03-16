@@ -51,15 +51,15 @@ const  Chatpage = ()=> {
                 <div className="cp--input">
                     {/* help icon */}
 
-                    <span class="material-symbols-outlined cp--help">
+                    <span className="material-symbols-outlined cp--help">
                         help
                     </span>
                     
                     <input type="text" className="cp--input-box" id="cp--input-tb"></input>
                         {/* send icon */}
 
-                    <button class="cp--input-btn">
-                        <span class="material-symbols-outlined cp--send" onClick={handleSend}>
+                    <button className="cp--input-btn">
+                        <span className="material-symbols-outlined cp--send" onClick={handleSend}>
                             send
                         </span>
                     </button>
