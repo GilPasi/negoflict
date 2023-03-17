@@ -1,7 +1,6 @@
 import "../../styles/text_field.css"
 import {React} from 'react'
-const  TextField=({type,placeHolder,onChange,
-    name,value,align, length,altitude,})=>{
+const  TextField=({type,placeHolder,onChange,name,value})=>{
     
     let classPostfix = align === "left" ? "-la" : "" 
     

@@ -1,4 +1,4 @@
-import "../../styles/text_holder.css"
+import '../../styles/text_holder.css'
 import {React, useState} from 'react'
 import InfoBox from "../general/infoBox"
 

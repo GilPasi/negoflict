@@ -1,8 +1,20 @@
 from rest_framework import serializers
-from .models import Case,GroupChat,GroupMember,Message, Survey,AgoraUser
+from .models import Case,GroupChat,GroupMember,Message, Survey,AgoraUser,category
+
+class MediationChoiceField(serializers.Field):
+    def to_representation(self, value):
+        mediation_dict = dict(category.MEDIATION_CHOICES)
+        return mediation_dict.get(value, value)
+
+    def to_internal_value(self, data):
+        for key, value in category.MEDIATION_CHOICES:
+            if value == data:
+                return key
+        raise serializers.ValidationError("Invalid mediation area value.")
 
 
 class CaseSerializer(serializers.ModelSerializer):
+    category = MediationChoiceField()
     class Meta:
         model = Case
         fields = ['id','create_at','title','mediator','category','sub_category','problem_brief','close_at','summary','is_active']
