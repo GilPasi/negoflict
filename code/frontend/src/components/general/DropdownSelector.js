@@ -20,7 +20,7 @@ const DropdownSelector = ({options , placHolder,isDefault,
             <section className={`dd ${className}`} onChange={onChange}>
                 <div className="dd--arrow" style={buttonRot}></div>
                 <select name={name} defaultValue={value} value={options.value} onClick={handleClick}>
-                    <option >{placHolder}</option>
+                    <option>{placHolder}</option>
                     {optionElements}
                 </select>
             </section>
