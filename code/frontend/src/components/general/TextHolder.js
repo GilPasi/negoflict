@@ -1,6 +1,6 @@
 import "../../styles/text_holder.css"
 import {React, useState} from 'react'
-import InfoBox from "./InfoBox"
+import InfoBox from "../general/infoBox"
 
 const  TextHolder=({caseData})=>{
     const title = caseData.title
