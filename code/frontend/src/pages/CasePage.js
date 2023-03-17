@@ -3,6 +3,7 @@ import Header from "../components/general/Header"
 import React from "react"
 import MyCases from "./rolePages/mediator/MyCases"
 import { Link } from "react-router-dom"
+import GrayBox from "../components/general/GrayBox"
 
 const CasePage =()=>{
 
@@ -20,16 +21,6 @@ const CasePage =()=>{
                     </div>                    
                 </div>
                 </Link>
-                <center>
-                    <div className="cap--description">
-                        <h6>The problem:</h6>
-                        <textarea maxLength="200" placeholder={"200 characters"} type="textarea"></textarea>
-                    </div>
-                    <div className="cap--description-bot">
-                        <button id="cap-description-send">Send</button>
-                        <button id="cap-description-update">Update</button>
-                    </div>
-                </center>            
             </div>
         </article>
     )
