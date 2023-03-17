@@ -7,11 +7,7 @@ import GrayBox from "../components/general/GrayBox"
 
 const CasePage =()=>{
 
-
-
-
     return(
-
         <article>
             <div className="centerizer cap">
             <Header isLarge={true}/>
@@ -26,12 +22,6 @@ const CasePage =()=>{
                 </div>
                 </Link>
             </div>
-
-
-
-            
-
-            
         </article>
     )
 }

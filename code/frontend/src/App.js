@@ -24,7 +24,7 @@ import './App.css'
           {/* public routes */}
          
        
-        <Route  path='/login' element={<LoginPage/>}/>
+        <Route  path='/login' element={<CasePage/>}/>
 
         {/* protected routes */}
         {isActive?(
@@ -40,6 +40,8 @@ import './App.css'
         
         </Route>
       </Routes>
+
+          <CaseFormPage/>
       
       
           

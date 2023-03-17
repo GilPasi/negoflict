@@ -1,11 +1,10 @@
-import "../../styles/text_field.css"
+import "../../styles/text_holder.css"
 import {React, useState} from 'react'
-import InfoBox from "./infoBox"
+import InfoBox from "./InfoBox"
 
 const  TextHolder=({caseData})=>{
     const title = caseData.title
     const [info,setInfo] = useState(false)
-    const sign = ['>','<']
 
     const handleClick = ()=>{
         if(info)
@@ -14,43 +13,36 @@ const  TextHolder=({caseData})=>{
             setInfo(true)
 
     }
+    let renderInfo = info&&caseData.title 
+
+    const infoSize = {
+        transform : `scale(${renderInfo? '1' : '0'})`,
+        position: renderInfo ? "static" : "absolute",
+        margin: renderInfo ? "2.5em" : "0em",
+
+    }
     
 
     return(
-        <div className="box-holder">
-            <div className="box-holder-pos">
-                <div className="text-field-box">
-                    <div className="text-field-box-title">
-                        <p >{title}</p>
-                    </div>
+        <section className="th">
 
-                    <div className="text-field-box-info">
-                        <button onClick={handleClick} className="text-field-box-info-button"> {
-                            info?sign[1]:sign[0]
-                        }
+                <div className="th--box">
+                    <p>{title}</p>
+
+                    <div className="th--switch">
+                        <button
+                         onClick={handleClick}
+                          className="th--switch-arrow"> 
+                          {info?'<':'>'}
                          </button>
                     </div>
                 </div>
 
 
-            </div>
-            <div className="info">
-            {info&&caseData.title
-            ?
-            (<InfoBox obj={caseData}/>)
-            :(<div></div>)
-           
-            }
+            <div className="th--info">
+                <InfoBox obj={caseData} size={infoSize}/>
             </div>
 
-
-        </div>
-               
-                
-            
-         
-            
-        
-
+        </section>
     )}
 export default TextHolder
