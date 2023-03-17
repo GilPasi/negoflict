@@ -13,7 +13,7 @@ const ToolBar =({conflictName , id})=>{
     }
     
     return(
-            <div className="tb">
+            <div className="tb limiter">
                 <div className="tb--header">
                     <div className="tb--add-icon" onClick={handleAdd}>
                         <img src={`../../../assets/images/add_icon_dark.png`}

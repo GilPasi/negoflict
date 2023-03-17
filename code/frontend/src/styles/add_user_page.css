@@ -1,0 +1,54 @@
+.aup{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30em;
+}
+
+.aup--title{
+    color:black;
+    font-size: 2.5em;
+    font-weight: var(--weight-bold);
+    text-align:left;
+    display: block;
+    width: 100%;
+    margin: 1em 0 0 0;
+}
+
+.aup--grid{
+    display:grid;
+    grid-template-columns: 3;
+    grid-template-rows:5 ;
+    /* border:1px red solid; */
+    width: 25em;
+    row-gap:3em;
+    column-gap:1em ;
+
+
+}
+
+.aup--grid-row{
+    /* border:1px blue solid; */
+    grid-column: span 3 ;
+    grid-row: span 1;
+}
+
+.aup--grid-phone-prefix{
+    /* border:1px red solid; */
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+.aup--grid-phone-number{
+    /* border:1px green solid; */
+    grid-column: span 2;
+    grid-row: span 1;
+
+}
+
+.aup nav{
+    display:flex;
+    justify-content:space-between;
+    margin:2em 0em 0em 2em;
+}

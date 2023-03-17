@@ -6,7 +6,7 @@
   
   .tb--header{
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     width: 100%;
     height:10em;
     background-color: #89E0A240;
@@ -15,6 +15,7 @@
   
   .tb--add-icon{
     width:2em;
+    margin:1em;
     margin-top:3.5em;
   
   
@@ -53,7 +54,7 @@
   
   .tb--search-icon{
     width:2em;
-    margin-top:3.5em;
+    margin: 3.5em 3em 1em 1em;
   }
   
   .tb--search-icon img{

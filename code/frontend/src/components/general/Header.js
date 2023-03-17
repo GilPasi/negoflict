@@ -21,7 +21,7 @@ const  Header=({isLarge})=>{
     
 
     return(
-        <div className="header">
+        <div className="header limiter">
             <div style={wrapperStyle}>
                 <div className="header--menu">
                     <div >
