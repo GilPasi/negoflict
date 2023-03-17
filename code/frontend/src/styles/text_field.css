@@ -2,26 +2,39 @@
 
 .text-field-input{ 
   position: relative;
-    width:15.5em;
-    height: 1.5em;
-    padding:1em;
-  
-    font-size: var(--font-medium);
-    border-radius: 5px;
-    border:none;
-    background-color:var(--green-light);
-  
-    margin:1em;
+  padding: 1em;
+
+  font-size: var(--font-medium);
+  border-radius: 5px;
+  border:none;
+  background-color:var(--green-light);
     
-  }
-  
-  .text-field-input::placeholder{
-    position: absolute;
-    color:black;
-  
-    /* Center the sub-titles */
-    left: 50%;
-    transform: translateX(-50%);
-  
-  }
+}
+
+.text-field-input::placeholder{
+  position: absolute;
+  color:black;
+
+  /* Center the sub-titles */
+  left: 50%;
+  top:50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+/*A diffrent version for left align*/
+
+.text-field-input-la{ 
+  position: relative;
+  padding: 1em;
+
+  font-size: var(--font-medium);
+  border-radius: 5px;
+  border:none;
+  background-color:var(--green-light);
+    
+}
+
+.text-field-input-la::placeholder{
+  color:black;
+}
 

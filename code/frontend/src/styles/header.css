@@ -2,8 +2,8 @@
 
 /* Dropdown Button */
 .header{
-    min-width: var(--width-minimum);
   }
+
   .header--menu-button {
     border: none;
     margin-left:2em;

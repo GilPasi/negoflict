@@ -18,8 +18,8 @@
 
   --blue-anchor:#1D62F0;
 
-  --width-minimum:50em;
-  --width-maximum:80em;
+  --width-minimum:45em;
+  --width-maximum:60em;
 }
 h1,h2,h3,h4,h5,h6{
   user-select: none;
@@ -44,7 +44,7 @@ a:hover{
 .centerizer{
   display:flex;
   justify-content:center;
-  display: block;
+  /* display: block; */
 }
 
 .flexbox{

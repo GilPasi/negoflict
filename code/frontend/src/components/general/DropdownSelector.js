@@ -1,7 +1,8 @@
 import "../../styles/dropdown_selector.css"
 import {useState} from "react"
 
-const DropdownSelector = ({options , placHolder,name,value,onChange}) =>{
+const DropdownSelector = ({options , placHolder,isDefault,
+    name,value,onChange,className}) =>{
 
     const optionElements = options.map(option=><option key={option.id}>{option.value}</option>)
     const [isActive , setIsActive] = useState(false) 
@@ -16,7 +17,7 @@ const DropdownSelector = ({options , placHolder,name,value,onChange}) =>{
 
         return(
     
-            <section className="dd" onChange={onChange}>
+            <section className={`dd ${className}`} onChange={onChange}>
                 <div className="dd--arrow" style={buttonRot}></div>
                 <select name={name} defaultValue={value} value={options.value} onClick={handleClick}>
                     <option >{placHolder}</option>
