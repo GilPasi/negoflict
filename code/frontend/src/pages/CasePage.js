@@ -5,6 +5,7 @@ import MyCases from "./rolePages/mediator/MyCases"
 import { Link } from "react-router-dom"
 import GrayBox from "../components/general/GrayBox"
 
+
 const CasePage =()=>{
 
     return(
@@ -13,7 +14,7 @@ const CasePage =()=>{
             <Header isLarge={true}/>
                 <MyCases/>
                 <h1 className="cap--title">Create a new<br/>Case</h1>
-                <Link to='new_case'>
+                <Link to="new_case">
                 <div className="cap--plus-wrapper">
                     <div className="cap--plus">
                         <div className="cap--line" id="cap--line-ver"></div>

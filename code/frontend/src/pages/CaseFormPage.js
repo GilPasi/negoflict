@@ -5,35 +5,59 @@ import Button from "../components/general/Button"
 import DropdownSelector from "../components/general/DropdownSelector.js"
 import {useState} from "react"
 import GrayBox from "../components/general/GrayBox"
+import {MEDIATION_CHOICES} from '../utils/data'
+import { useSelector } from "react-redux"
+import useServer from "../hooks/useServer"
 
 
 const CaseFormPage = () =>{
-    //Mock Id , to be replaced by backend
-    const mediatorName = "Full Name"
+    const {
+        firstName,
+        lastName,
+        accessToken,
+        id
+        }= useSelector(state=>state.user)
+  
 
-    const [formData , setFormData] = useState({
-        confName : "",
-        confCategory  : "" , 
-        confSubcategory : "" ,
+    const { postNewCase } = useServer()
 
-    }) 
+    const mediatorName = `${firstName} ${lastName}`
+
+
+    const [formData , setFormData] = useState({}) 
 
     const handleChange = (event)=>{
-        const name = event.target.name
-        const value  = event.target.value
-
-        console.log(formData)
+        const {name, value} = event.target
+        if(name === 'category'&& value === 'Select Areas of Mediation')
+            value = null
 
         setFormData(prevForm=>({
             ...prevForm,
             [name] : value
         }))
+       
     }
 
-    const handleSubmit = (event) => {
-        event.reventDefault()
-        //submit formData to api - Hen
+    const handleSubmit =async (event) => {
+        event.preventDefault()
+        const title = formData.title
+        const category = formData.category
+        const sub_category = formData.subcategory
+        const problem_brief = formData.problem_brief
 
+
+        const data = {
+            title: title,
+            mediator:id,
+            category:category,
+            sub_category:sub_category,
+            problem_brief:problem_brief,
+            access:accessToken,
+        }
+
+        const res = await postNewCase(data)
+        console.log(res)
+     
     }
 
 
@@ -49,15 +73,15 @@ const CaseFormPage = () =>{
                     <h2 >Conflict name</h2>
                     <TextInput 
                     placeHolder="Free Text"
-                    name="confName"
+                    name="title"
                     onChange={handleChange}
                      />   
 
                     <h2 >Choose a Category</h2>
                     <DropdownSelector 
                     placHolder="Select Areas of Mediation"
-                     options={["Politics" , "Financial" , "Family"]}
-                     name="confSubcategory"
+                     options={MEDIATION_CHOICES}
+                     name="category"
                      onChange={handleChange}
                      />
 
@@ -65,11 +89,14 @@ const CaseFormPage = () =>{
                     <h2 >Subcategory</h2>
                     <TextInput 
                     placeHolder="Free Text"
-                    name="confSubcategory"
+                    name="subcategory"
                     onChange={handleChange}
                      />
 
-                     <GrayBox/>
+                     <GrayBox onChange={handleChange}
+                      withButtons={false}
+                      name='problem_brief'
+                      />
                      
                     <Button size="small" text="Next"/>
                     </form>

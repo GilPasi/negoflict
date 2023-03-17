@@ -5,23 +5,12 @@ const HOST_URL_APP_KEY = require('../utils/hosts')
 
 exports.registerUser = async(req,res)=>{
     const appToken = tokenBuilder.appTokenBuild(3000)
-    const access = req.body.access
+    const tempUid = req.body.uid.toString()
     const password = req.body.password
     const username = req.body.username
 
-    
-    const response = await axios.post(`${process.env.SERVER_URL}/session/chat_users/`,{},{
-        headers:{
-            origin:'*',
-        }
-    })
-    .catch(err=>console.log(err))
-    console.log(response.data.chat_user_id)
+    const uid = tempUid.replace(/-/g, "")
 
-    const uid_response = response.data.chat_user_id.toString()
-    const uid = uid_response.replace(/-/g, "")
-    
-    
     const user = await axios.post(`${HOST_URL_APP_KEY}/users`,{
     username:uid,
     password: password,
@@ -31,26 +20,11 @@ exports.registerUser = async(req,res)=>{
             Authorization: `Bearer ${appToken}`,
             'Content-Type': 'application/json'
     },
-    })
+    }).then(user=>console.log(user))
     .catch(err=>console.log(err))
-    .then(()=>console.log('success'))
-
-    await axios.put(`${process.env.SERVER_URL}/session/chat_users/${uid_response}/`,{
-        nickname: username,
-        password:password,
-    },{
-        headers:{
-            Authorization: `JWT ${access}`
-        }
-            
-    },[])
-    .catch(err=>console.log(err))
-    .then(()=>console.log('sucsess'))
-
-    
-    
-    
+    return res.json({user})
 }
+
 
 exports.deleteUser = async(req,res) =>{
     
