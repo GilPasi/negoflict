@@ -37,4 +37,9 @@
 .text-field-input-la::placeholder{
   color:black;
 }
+.text-field-input-la::-webkit-inner-spin-button,
+.text-field-input-la::-webkit-outer-spin-button{
+  -webkit-appearance: none;
+  margin: 0;
+}
 

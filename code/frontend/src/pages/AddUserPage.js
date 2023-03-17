@@ -4,6 +4,7 @@ import ToolBar from '../components/general/ToolBar.js'
 import TextInput from '../components/general/TextInput.js'
 import DropdownSelector from '../components/general/DropdownSelector.js'
 import Button from '../components/general/Button.js'
+import { AREA_CODES } from '../utils/data'
 
 import {useState} from "react"
 
@@ -70,9 +71,9 @@ const AddUserPage =({side})=>{
 
                     <div className="aup--grid-phone-prefix">
                         <DropdownSelector 
-                            placHolder="+972"
+                            placHolder="--"
                             isDefault={true}
-                            options={["+1" , "+7"]}
+                            options={AREA_CODES}
                             name="phonePrefix"
                             value={userData.phonePrefix}
                             onChange={handleChange}
@@ -87,8 +88,8 @@ const AddUserPage =({side})=>{
                         value={userData.phoneNumber}
                         onChange={handleChange}
                         length="100%"
-                        altitude="0.5em"
-                        type="tel"
+                        altitude="2em"
+                        type="number"
                         align="left"
                         />
                     </div>

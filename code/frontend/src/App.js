@@ -1,5 +1,4 @@
 import React from 'react';
-import AddUserPage from "./pages/AddUserPage.js"
 import LoginPage from './pages/LoginPage.js';
 import useInactivityRedirect from './hooks/useInActiveRediract.js';
 import { Route, Routes } from 'react-router-dom'; 
@@ -8,6 +7,7 @@ import ChatPage from "./pages/rolePages/mediator/Chatpage.js"
 import Layout from './components/general/Layout';
 import {UserLandingPage,MediatorLandingPage,SuperUserLandingPage} from './pages/LandingPage';
 import './App.css'
+import AddUserPage from './pages/AddUserPage.js';
 
 
 
@@ -41,8 +41,9 @@ import './App.css'
         
         </Route>
       </Routes>
+      <AddUserPage/>
 
-      <AddUserPage side="A"/>
+      
 
 
           
