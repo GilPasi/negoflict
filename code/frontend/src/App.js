@@ -1,8 +1,6 @@
 import React from 'react';
-import CasePage from "./pages/CasePage.js"
 import AddUserPage from "./pages/AddUserPage.js"
-
-
+import LoginPage from './pages/LoginPage.js';
 import useInactivityRedirect from './hooks/useInActiveRediract.js';
 import { Route, Routes } from 'react-router-dom'; 
 import RequireAuth from './components/Authentication/RequireAuth'
