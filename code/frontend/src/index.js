@@ -5,6 +5,8 @@ import App from './App';
 import { store } from './store/index'
 import { Provider } from 'react-redux'
 import { BrowserRouter, Routes, Route} from 'react-router-dom'
+import AddUserPage from "./pages/AddUserPage.js"
+import CaseFormPage from "./pages/CaseFormPage.js"
 
 
 
@@ -14,6 +16,7 @@ root.render(
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
+            <Route path='/test' element={<CaseFormPage/>}/>
             <Route path='/*' element={ <App />}/>
         </Routes>
       </BrowserRouter>

@@ -4,11 +4,11 @@ import TextInput from "../components/general/TextInput"
 import Button from "../components/general/Button"
 import DropdownSelector from "../components/general/DropdownSelector.js"
 import {useState} from "react"
+import GrayBox from "../components/general/GrayBox"
 
 
 const CaseFormPage = () =>{
     //Mock Id , to be replaced by backend
-    const caseID = 100777
     const mediatorName = "Full Name"
 
     const [formData , setFormData] = useState({
@@ -43,7 +43,7 @@ const CaseFormPage = () =>{
                 <Header isLarge={false} />
                 <center>
                     <form onSubmit={handleSubmit}>
-                    <h1 className="cfp--title">New Case <br/> I.D {caseID}</h1>
+                    <h1 className="cfp--title">New Case</h1>
                     <h2 >Mediator name</h2>
                     <h3 className="cfp--m-name">{mediatorName}</h3>
                     <h2 >Conflict name</h2>
@@ -67,7 +67,9 @@ const CaseFormPage = () =>{
                     placeHolder="Free Text"
                     name="confSubcategory"
                     onChange={handleChange}
-                     />   
+                     />
+
+                     <GrayBox/>
                      
                     <Button size="small" text="Next"/>
                     </form>
