@@ -1,14 +1,20 @@
-.box{
-    padding-right: 10px;
+.ib{
+    text-align: left;
+    padding: 1em;
     width: fit-content;
     height: fit-content;
     background-color: var(--green-light);
+    font-size: var(--font-medium);
     border-radius: 10px;
-    margin: 5px;
-    display: grid;
-    
+
+    display: flex;
+    align-items:center;
+    justify-content: left;
+    flex-direction: column;
+
+    transition: margin 0.5s , scale 0.5s;
 }
-.start-chat{
+.ib--start{
     background-color: rgb(248, 243, 243);
     margin-bottom: 5px;
     border: none;
@@ -18,9 +24,9 @@
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.472);
     font-size: large;
     font-weight: 600;
-    transition: all 0.01s;
+    transition: all 1s;
 }
-.start-chat:active{
+.ib--start:active{
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.811);
     background-color: var(--green-dark);
     

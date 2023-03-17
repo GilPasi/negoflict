@@ -1,7 +1,8 @@
 import React from 'react';
 import LoginPage from "./pages/LoginPage.js"
-import AddUserPage from "./pages/AddUserPage.js"
+import CasePage from "./pages/CasePage.js"
 import CaseFormPage from "./pages/CaseFormPage.js"
+
 
 import useInactivityRedirect from './hooks/useInActiveRediract.js';
 import { Route, Routes } from 'react-router-dom'; 
@@ -27,7 +28,7 @@ import TextHolder from './components/general/TextHolder';
           {/* public routes */}
          
        
-        <Route  path='/login' element={<LoginPage/>}/>
+        <Route  path='/login' element={<CasePage/>}/>
 
         {/* protected routes */}
         {isActive?(
@@ -43,6 +44,8 @@ import TextHolder from './components/general/TextHolder';
         
         </Route>
       </Routes>
+
+          <CaseFormPage/>
       
       
           

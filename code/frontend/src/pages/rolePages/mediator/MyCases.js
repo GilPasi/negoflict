@@ -10,14 +10,28 @@ const MyCases = ()=>{
 
     const {accessToken,id} = useSelector(state=>state.user)
     const {getMyCases} = useServer()
-    const [cases,setCases] = useState([])
+    const [cases,setCases] = useState([
+        {
+            title: "conf1" ,
+            time:"dsa",
+            id :"123",
+        },
+        {
+            title: "conf1" ,
+            time:"dsa",
+            id :"123",
+        }
+    ])
 
 
-    useEffect(()=>{
-       getMyCases(id,accessToken)
-       .then(data=>setCases(data))
-       .catch(err=>console.log(err))
-    },[])
+    // useEffect(()=>{
+    //    getMyCases(id,accessToken)
+    //    .then(data=>setCases(data))
+    //    .catch(err=>console.log(err))
+    // },[])
+
+    
+    
 
 
     return(
