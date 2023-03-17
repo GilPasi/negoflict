@@ -5,6 +5,7 @@ import Button from "../components/general/Button"
 import DropdownSelector from "../components/general/DropdownSelector.js"
 import {useState} from "react"
 import GrayBox from "../components/general/GrayBox"
+import {MEDIATION_CHOICES} from '../utils/data'
 
 
 const CaseFormPage = () =>{
@@ -56,7 +57,7 @@ const CaseFormPage = () =>{
                     <h2 >Choose a Category</h2>
                     <DropdownSelector 
                     placHolder="Select Areas of Mediation"
-                     options={["Politics" , "Financial" , "Family"]}
+                     options={MEDIATION_CHOICES}
                      name="confSubcategory"
                      onChange={handleChange}
                      />
