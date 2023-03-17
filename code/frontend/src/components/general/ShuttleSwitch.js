@@ -9,7 +9,7 @@ const ShuttleSwitch =({isMediator})=>{
     const[selectorOffset , setSelectorOffset] = useState(50)
     const[selectedBtn , setSelectedBtn] = useState(2)
     const[selectorOffsetU , setSelectorOffsetU] = useState(10)
-    const[selectedBtnU , setSelectedBtnU] = useState(1)
+    const[selectedBtnU , setSelectedBtnU] = useState(2)
 
     
     const dispatch = useDispatch()

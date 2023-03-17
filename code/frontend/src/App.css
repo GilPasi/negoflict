@@ -44,4 +44,9 @@ a:hover{
 .centerizer{
   display:flex;
   justify-content:center;
+  display: block;
+}
+
+.flexbox{
+  display:flex;
 }

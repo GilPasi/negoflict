@@ -1,17 +1,14 @@
 
 /* __Chat page component__ */
-
-.a{
-  background:red;
-  
-}
 .cp{
     padding: 1em;
   }
   
   .cp--paper{
       margin-top:3em;
+      max-height: 45em;
   }
+
   
   
   .cp--send{
