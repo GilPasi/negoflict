@@ -1,6 +1,6 @@
 import "../../styles/text_field.css"
 import {React} from 'react'
-const  TextField=({type,placeHolder, onChange,name,value})=>{
+const  TextField=({type,placeHolder,onChange,name,value})=>{
     
 
     return(

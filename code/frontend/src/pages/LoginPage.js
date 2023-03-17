@@ -47,7 +47,7 @@ const LoginPage=()=>{
         return
 
     const {refresh,access} = await GetJWTToken(formData)
-    const {id,first_name} =await GetUserId(formData.username,access)
+    const {id,first_name, last_name} =await GetUserId(formData.username,access)
     const role = await GetRole(id,access)
     
 
@@ -59,7 +59,8 @@ const LoginPage=()=>{
         email:email,
         refreshToken:refresh,
         accessToken:access,
-        role:role
+        role:role,
+        lastName:last_name,
     }))
     setNullFields()
     

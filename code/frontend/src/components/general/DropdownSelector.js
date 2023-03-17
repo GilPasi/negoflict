@@ -3,7 +3,7 @@ import {useState} from "react"
 
 const DropdownSelector = ({options , placHolder,name,value,onChange}) =>{
 
-    const optionElements = options.map(option=><option value={option}>{option}</option>)
+    const optionElements = options.map(option=><option key={option.id}>{option.value}</option>)
     const [isActive , setIsActive] = useState(false) 
 
     const buttonRot ={
@@ -11,20 +11,15 @@ const DropdownSelector = ({options , placHolder,name,value,onChange}) =>{
     }
 
     const handleClick = ()=>{
-        //Update UI
         setIsActive(prevState=>!prevState)
-
-        //Update form
-        onChange()
-
     }
 
         return(
     
             <section className="dd" onChange={onChange}>
                 <div className="dd--arrow" style={buttonRot}></div>
-                <select onClick={handleClick}>
-                    <option value="" disabled selected>{placHolder}</option>
+                <select name={name} defaultValue={value} value={options.value} onClick={handleClick}>
+                    <option >{placHolder}</option>
                     {optionElements}
                 </select>
             </section>
