@@ -6,11 +6,7 @@ import { Link } from "react-router-dom"
 
 const CasePage =()=>{
 
-
-
-
     return(
-
         <article>
             <div className="centerizer cap">
             <Header isLarge={true}/>
@@ -24,22 +20,17 @@ const CasePage =()=>{
                     </div>                    
                 </div>
                 </Link>
-              
-                <div className="cap--description">
-                    <h6>The problem:</h6>
-                    <textarea maxLength="200" placeholder={"200 characters"} type="textarea"></textarea>
-                </div>
-                <div className="cap--description-bot">
-                    <button id="cap-description-send">Send</button>
-                    <button id="cap-description-update">Update</button>
-                </div>
+                <center>
+                    <div className="cap--description">
+                        <h6>The problem:</h6>
+                        <textarea maxLength="200" placeholder={"200 characters"} type="textarea"></textarea>
+                    </div>
+                    <div className="cap--description-bot">
+                        <button id="cap-description-send">Send</button>
+                        <button id="cap-description-update">Update</button>
+                    </div>
+                </center>            
             </div>
-
-
-
-            
-
-            
         </article>
     )
 }

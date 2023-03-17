@@ -75,7 +75,7 @@
     border: none;
     resize: none;
     font-size: var(--font-medium);
-    direction: auto;
+    
 
 }
 .cap--description textarea:focus { 
