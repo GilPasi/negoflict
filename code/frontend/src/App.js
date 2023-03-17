@@ -1,7 +1,6 @@
 import React from 'react';
-import LoginPage from "./pages/LoginPage.js"
 import CasePage from "./pages/CasePage.js"
-import CaseFormPage from "./pages/CaseFormPage.js"
+import AddUserPage from "./pages/AddUserPage.js"
 
 
 import useInactivityRedirect from './hooks/useInActiveRediract.js';
@@ -45,9 +44,9 @@ import './App.css'
         </Route>
       </Routes>
 
-          <CaseFormPage/>
-      
-      
+      <AddUserPage side="A"/>
+
+
           
     </div>
   );
