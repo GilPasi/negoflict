@@ -8,40 +8,32 @@ import { AREA_CODES } from '../utils/data'
 import { useLocation, useNavigate } from 'react-router-dom'
 import useNodeS from '../hooks/useNodeS'
 import useSubmit from '../hooks/useSubmit'
-
 import {useEffect, useState} from "react"
-import { current } from '@reduxjs/toolkit'
+import { useSelector, useDispatch } from 'react-redux'
+import { save } from '../store'
+
 
 const AddUserPage =({side,idCase})=>{
     const location = useLocation()
     const navigate = useNavigate()
-    const queryParam = new URLSearchParams(location.search)
-    const [prevUser,setPrevUser] = useState({})
-    const [userData , setUserData] = useState({})
+    const dispatch = useDispatch()
     const { registerManyUsers } = useNodeS()
     const { GetNewAccessToken } = useSubmit()
 
+
+    let temp = useSelector(state=>state.tempUser) ?? {}
+    console.log(temp)
+    const queryParam = new URLSearchParams(location.search)
+    const [users,setUsers] = useState()
+
+   
     side = side?side:queryParam.get('side')
     const id = idCase?idCase:queryParam.get('id')
 
-    
-
-    useEffect(()=>{
-        const state = location.state
-        const prev = state?.prev?.prev ?? {}
-        const current = 
-        state?.prev?.current ?? {}
-        
-        const temp = prev
-        setPrevUser(current)
-        setUserData(temp)
-
-        console.log('current'+current)
-        console.log('prev'+prev)
-    },[side])
+    const current = side ==='A'?temp?.temp?.[0] ?? {}:temp?.temp?.[1] ?? {}
 
     
-    
+        const [userData , setUserData] = useState({current})
     
 
 
@@ -52,14 +44,10 @@ const AddUserPage =({side,idCase})=>{
             [name] : value
         }))
     }
-    console.log('prevvvvvvv')
-    console.log(prevUser)
+ 
 
     const handleSubmit =async ()=>{
-        if(!prevUser){
-            console.log('data from user A not forwarded')
-            return
-        }
+      
         // const users =[prevUser, userData]
         // const newAccess =await GetNewAccessToken()
 
@@ -71,23 +59,20 @@ const AddUserPage =({side,idCase})=>{
 
     const  next= event=>{
         event.preventDefault()
-        console.log('nexxxttt')
-        console.log(userData)
-        navigate(`/mediator/add_user/?side=B&id=${id}`,{
-            state:{
-                prev:prevUser,
-                current:userData}
-        })
+        userData['side'] = side
+        dispatch(save(userData))
+        const current1 = side ==='A'?temp?.temp?.[0] ?? {}:temp?.temp?.[1] ?? {}
+        setUserData(current1)
+        navigate(`/mediator/add_user/?side=B&id=${id}`)
     }
+
     const goBack = event=>{
         event.preventDefault()
-        navigate(-1,{
-            state:{
-                prev:prevUser,
-                current:userData}
-        })
-        
-
+        userData['side'] = side
+        const current1 = side ==='A'?temp?.temp?.[0] ?? {}:temp?.temp?.[1] ?? {}
+        setUserData(current1)
+        dispatch(save(userData))
+        navigate(-1)
     }
     
 
@@ -100,6 +85,17 @@ const AddUserPage =({side,idCase})=>{
                 <form className="aup--grid">
                  <h2 className="aup--title">Party {side}</h2>
                     <div className="aup--grid-row">
+                    <TextInput
+                            placeHolder="User name"
+                            name="username"
+                            value={userData.username || ''}
+                            onChange={handleChange}
+                            length="100%"
+                            align="left"
+                            />
+                    </div>
+                    <div className="aup--grid-row">
+                   
                         <TextInput
                             placeHolder="First Name"
                             name="firstName"
