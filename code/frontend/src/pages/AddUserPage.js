@@ -5,35 +5,88 @@ import TextInput from '../components/general/TextInput.js'
 import DropdownSelector from '../components/general/DropdownSelector.js'
 import Button from '../components/general/Button.js'
 import { AREA_CODES } from '../utils/data'
+import { useLocation, useNavigate } from 'react-router-dom'
+import useNodeS from '../hooks/useNodeS'
+import useSubmit from '../hooks/useSubmit'
 
-import {useState} from "react"
+import {useEffect, useState} from "react"
+import { current } from '@reduxjs/toolkit'
 
-const AddUserPage =({side})=>{
+const AddUserPage =({side,idCase})=>{
+    const location = useLocation()
+    const navigate = useNavigate()
+    const queryParam = new URLSearchParams(location.search)
+    const [prevUser,setPrevUser] = useState({})
+    const [userData , setUserData] = useState({})
+    const { registerManyUsers } = useNodeS()
+    const { GetNewAccessToken } = useSubmit()
 
-    const id = 100777
+    side = side?side:queryParam.get('side')
+    const id = idCase?idCase:queryParam.get('id')
 
-    const [userData , setUserData] = useState({
-        firstName: "",
-        lastName: "" ,
-        phonePrefix: "",
-        phoneNumber: "" ,
-        email: ""  
-    })
+    
+
+    useEffect(()=>{
+        const state = location.state
+        const prev = state?.prev?.prev ?? {}
+        const current = 
+        state?.prev?.current ?? {}
+        
+        const temp = prev
+        setPrevUser(current)
+        setUserData(temp)
+
+        console.log('current'+current)
+        console.log('prev'+prev)
+    },[side])
+
+    
+    
+    
+
 
     const handleChange = (event)=>{
-        const name = event.target.name
-        const value = event.target.value
+        const {name, value} = event.target
         setUserData(prevState=>({
             ...prevState,
             [name] : value
         }))
     }
+    console.log('prevvvvvvv')
+    console.log(prevUser)
 
-    //Backend:
+    const handleSubmit =async ()=>{
+        if(!prevUser){
+            console.log('data from user A not forwarded')
+            return
+        }
+        // const users =[prevUser, userData]
+        // const newAccess =await GetNewAccessToken()
 
-    const handleSubmit=(event)=>{
+        // setTimeout(()=>{
+        //     registerManyUsers(users,newAccess)
+        // },0)
+        
+    }
+
+    const  next= event=>{
         event.preventDefault()
-
+        console.log('nexxxttt')
+        console.log(userData)
+        navigate(`/mediator/add_user/?side=B&id=${id}`,{
+            state:{
+                prev:prevUser,
+                current:userData}
+        })
+    }
+    const goBack = event=>{
+        event.preventDefault()
+        navigate(-1,{
+            state:{
+                prev:prevUser,
+                current:userData}
+        })
+        
 
     }
     
@@ -50,7 +103,7 @@ const AddUserPage =({side})=>{
                         <TextInput
                             placeHolder="First Name"
                             name="firstName"
-                            value={userData.firstName}
+                            value={userData.firstName || ''}
                             onChange={handleChange}
                             length="100%"
                             align="left"
@@ -61,7 +114,7 @@ const AddUserPage =({side})=>{
                         <TextInput
                             placeHolder="Last Name"
                             name="lastName"
-                            value={userData.lastName}
+                            value={userData.lastName || ''}
                             onChange={handleChange}
                             length="100%"
                             align="left"
@@ -75,7 +128,7 @@ const AddUserPage =({side})=>{
                             isDefault={true}
                             options={AREA_CODES}
                             name="phonePrefix"
-                            value={userData.phonePrefix}
+                            value={userData.phonePrefix || ''}
                             onChange={handleChange}
                             align="left"
                             />
@@ -85,7 +138,7 @@ const AddUserPage =({side})=>{
                         <TextInput
                         placeHolder="Phone"
                         name="phoneNumber"
-                        value={userData.phoneNumber}
+                        value={userData.phoneNumber || ''}
                         onChange={handleChange}
                         length="100%"
                         altitude="2em"
@@ -98,7 +151,7 @@ const AddUserPage =({side})=>{
                         <TextInput
                             placeHolder="Email"
                             name="email"
-                            value={userData.email}
+                            value={userData.email || ''}
                             onChange={handleChange}
                             length="100%"
                             align="left"
@@ -111,15 +164,28 @@ const AddUserPage =({side})=>{
                         size="small"
                         text="Back"
                         margin="0.2em"
+                        onClick={goBack}
                     />
-                    <Button 
-                        size="small"
-                        text="Next"
-                        margin="0.2em"
-                        type="submit"
-                        onClick={handleSubmit}
-
-                    />
+                    {
+                        side === 'B'?(
+                            <Button
+                                size='small'
+                                text='Create case'
+                                type='submit'
+                                onClick={handleSubmit}
+                                margin='0.2em'
+                                color='#09680b'
+                            />
+                        ):(
+                        <Button 
+                            size="small"
+                            text="Next"
+                            margin="0.2em"
+                            type="submit"
+                            onClick={next}
+                        />
+                        )
+                    }
 
 
                 </nav>

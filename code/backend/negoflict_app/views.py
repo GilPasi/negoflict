@@ -72,6 +72,19 @@ class UserView(ModelViewSet):
             return Response('Not found',status=status.HTTP_404_NOT_FOUND)
             
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    
+    
+    @action(detail=False,methods=['POST'],permission_classes=[permissions.IsSuperUser])
+    def create_users(self,request):
+        data = request.data
+        
+        for user_data in data:
+            serializer = self.get_serializer(data=user_data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+        
+        return Response('Users created', status=status.HTTP_201_CREATED)
 
     
  

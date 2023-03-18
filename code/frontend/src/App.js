@@ -7,7 +7,6 @@ import ChatPage from "./pages/rolePages/mediator/Chatpage.js"
 import Layout from './components/general/Layout';
 import {UserLandingPage,MediatorLandingPage,SuperUserLandingPage} from './pages/LandingPage';
 import './App.css'
-import AddUserPage from './pages/AddUserPage.js';
 
 
 
@@ -41,7 +40,7 @@ import AddUserPage from './pages/AddUserPage.js';
         
         </Route>
       </Routes>
-      <AddUserPage/>
+   
 
       
 

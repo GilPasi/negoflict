@@ -11,6 +11,7 @@ router.get('/get_token',AuthHandler.getAppToken)
 
 router.post('/register_user',UserHandler.registerUser)
 router.delete('/delete_user/:userid',UserHandler.deleteUser)
+router.post('/register_many_users',UserHandler.registerUsers)
 
 
 

@@ -8,9 +8,11 @@ import GrayBox from "../components/general/GrayBox"
 import {MEDIATION_CHOICES} from '../utils/data'
 import { useSelector } from "react-redux"
 import useServer from "../hooks/useServer"
+import { useNavigate } from "react-router-dom"
 
 
 const CaseFormPage = () =>{
+    const navigate = useNavigate()
     const {
         firstName,
         lastName,
@@ -56,7 +58,17 @@ const CaseFormPage = () =>{
         }
 
         const res = await postNewCase(data)
-        console.log(res)
+        if(res.status===201){
+            const  caseId= res.data.id.slice(-7) 
+        navigate(`/mediator/add_user/?side=A&id=${caseId}`,{
+            replace:true,
+        })
+
+            }
+            
+        
+
+        
      
     }
 
