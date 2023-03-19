@@ -7,13 +7,14 @@ import ChatPage from "./pages/rolePages/mediator/Chatpage.js"
 import Layout from './components/general/Layout';
 import {UserLandingPage,MediatorLandingPage,SuperUserLandingPage} from './pages/LandingPage';
 import './App.css'
+import useNodeS from './hooks/useNodeS.js';
 
 
 
 
  const App=()=> {
   const isActive = useInactivityRedirect();
-
+  
 
   return (
     <div className="App">

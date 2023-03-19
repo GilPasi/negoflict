@@ -24,22 +24,13 @@ const AddUserPage =({side,idCase, goBack, next, handleSubmit, handleChange, user
 
                 <form className="aup--grid">
                  <h2 className="aup--title">Party {side}</h2>
-                    <div className="aup--grid-row">
-                    <TextInput
-                            placeHolder="User name"
-                            name="username"
-                            value={userData?.username || ''}
-                            onChange={handleChange}
-                            length="100%"
-                            align="left"
-                            />
-                    </div>
+                  
                     <div className="aup--grid-row">
                    
                         <TextInput
                             placeHolder="First Name"
-                            name="firstName"
-                            value={userData?.firstName || ''}
+                            name="first_name"
+                            value={userData?.first_name || ''}
                             onChange={handleChange}
                             length="100%"
                             align="left"
@@ -49,8 +40,8 @@ const AddUserPage =({side,idCase, goBack, next, handleSubmit, handleChange, user
                     <div className="aup--grid-row">
                         <TextInput
                             placeHolder="Last Name"
-                            name="lastName"
-                            value={userData?.lastName || ''}
+                            name="last_name"
+                            value={userData?.last_name || ''}
                             onChange={handleChange}
                             length="100%"
                             align="left"

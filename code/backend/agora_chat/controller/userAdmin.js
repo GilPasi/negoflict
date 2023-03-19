@@ -10,14 +10,14 @@ exports.registerUsers = async(req,res)=>{
     let registeredUsers = []
 
     for(let i=0; i<users.length; i++){
-        const tempUid = users[i].uid.toString()
+        const tempUid = users[i].username.toString().replace(/[^\w\s]/gi, '');
         const password = users[i].password
-        const username = users[i].username
+        const username = users[i].first_name
 
-        const uid = tempUid.replace(/-/g, "")
+        // const uid = tempUid.replace(/-/g, "")
 
         const user = await axios.post(`${HOST_URL_APP_KEY}/users`,{
-            username:uid,
+            username: tempUid,
             password: password,
             nickname: username
         },{
@@ -31,7 +31,7 @@ exports.registerUsers = async(req,res)=>{
         registeredUsers.push(user.data)
     }
 
-    const createUsersRequest = await axios.post('http://localhost:8000/user_view/create_users/', users,{
+    const createUsersRequest = await axios.post(`${process.env.SERVER_URL}/users/user_view/create_users/`, users,{
         headers:{
             Authorization: `JWT ${access}`
         }

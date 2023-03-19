@@ -19,9 +19,6 @@ const useNodeS = ()=>{
 
     }
 
-
-
-
     return{
         registerManyUsers,
 

@@ -20,7 +20,7 @@ class UserView(ModelViewSet):
     
     def get_permissions(self):
         if not self.request.method == 'GET':
-            self.permission_classes = [permissions.IsSuperUser]
+            self.permission_classes = [permissions.IsAdminOrUser]
         return super().get_permissions()
     
     def get_queryset(self):
@@ -75,7 +75,7 @@ class UserView(ModelViewSet):
     
     
     
-    @action(detail=False,methods=['POST'],permission_classes=[permissions.IsSuperUser])
+    @action(detail=False,methods=['POST','GET'],permission_classes=[permissions.IsAdminOrUser])
     def create_users(self,request):
         data = request.data
         

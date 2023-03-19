@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
 import AddUserPage from '../../pages/AddUserPage'
 import { useNavigate } from "react-router-dom"
+import useNodeS from "../../hooks/useNodeS"
+import useSubmit from '../../hooks/useSubmit'
 
 
 const CreateUserWraper = ()=>{
@@ -11,6 +13,8 @@ const CreateUserWraper = ()=>{
 
     const location = useLocation()
     const navigate = useNavigate()
+    const { registerManyUsers } = useNodeS()
+    const { GetNewAccessToken } = useSubmit()
 
 
 
@@ -54,10 +58,38 @@ const CreateUserWraper = ()=>{
       }
       
 
-    const handleSubmit =(event)=>[
+    const handleSubmit =async(event)=>{
         event.preventDefault()
+        const arrUser = userData
 
-    ]
+        arrUser.forEach(user=>{
+          let pass = `Negoflict${user.phoneNumber}`
+          user.username = user.email
+          user.password = pass
+        })
+        
+        console.log(arrUser)
+
+
+
+
+        const newToken = await GetNewAccessToken()
+        console.log(newToken)
+        
+
+
+        
+          registerManyUsers(arrUser,newToken)
+          .then(res=>console.log(res))
+        
+        
+
+        navigate('/mediator/cases',{
+          replace:true
+        })
+    }
+
+    
 
     const next = ()=>{
         navigate(`?side=B&id=${idCase}`)

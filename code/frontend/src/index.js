@@ -16,7 +16,6 @@ root.render(
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-            <Route path='/test' element={<AddUserPage/>}/>
             <Route path='/*' element={ <App />}/>
         </Routes>
       </BrowserRouter>
