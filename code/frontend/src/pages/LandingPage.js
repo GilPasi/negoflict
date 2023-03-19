@@ -4,7 +4,7 @@ import AddMediator from './rolePages/admin/AddMediator'
 import ChatPage from './rolePages/mediator/Chatpage'
 import MediatorMenu from "./rolePages/mediator/MediatorMenu.js";
 import CaseFormPage from "./CaseFormPage.js";
-import AddUserPage from "./AddUserPage.js";
+import CreateUserWraper from "../components/general/CreateUserWrapper.js";
 
 
 
@@ -29,7 +29,7 @@ const MediatorLandingPage = ()=>{
             <Route path="/chat" element={<ChatPage isMediator={true}/>}/>
             <Route path="/cases" element={<CasePage/>}/>
             <Route path="cases/new_case" element={<CaseFormPage/>}/>
-            <Route path="/add_user" element={<AddUserPage/>}/>
+            <Route path="create_users" element={<CreateUserWraper/>}/>
                 
             
 
