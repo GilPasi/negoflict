@@ -21,7 +21,7 @@ const useServer = ()=>{
     const postNewCase =async ({title,mediator,category,sub_category,problem_brief, access})=>{
 
         try{
-            const response =await axios.post(`${userServerURL}/case/`,{
+            const response =await axios.post(`${userServerURL}/case/create_case_and_groups/`,{
                 title: title,
                 mediator:mediator,
                 category:category,
@@ -36,6 +36,7 @@ const useServer = ()=>{
             }
                 
             )
+            console.log(response.data)
 
             return response
 

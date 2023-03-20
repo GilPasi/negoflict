@@ -22,7 +22,7 @@ class Case(models.Model):
 
     
     
-class GroupChat(models.Model):
+class GroupChat(models.Model): #define the group side of the conflict and where message is send to
     CHAT_WITH_A = 'A'
     CHAT_WITH_B = 'B'
     CHAT_WITH_GROUP = 'G'
@@ -38,10 +38,10 @@ class GroupChat(models.Model):
     chat = models.CharField(max_length=1,choices=CHAT_CHOICES, default=CHAT_WITH_GROUP)
 
 
-class GroupMember(models.Model):
+class GroupMember(models.Model): #define the user side in the conflict
     SIDE_A = 'A'
     SIDE_B = 'B'
-    SIDE_NULL = 'N'
+    SIDE_NULL = 'G'
 
     SIDES_CHOICES = [
         (SIDE_A,'Side A'),
@@ -50,7 +50,7 @@ class GroupMember(models.Model):
     ]
     group_chat = models.ForeignKey(GroupChat,on_delete=models.CASCADE)
     side = models.CharField(max_length=1,choices=SIDES_CHOICES,default=SIDE_NULL)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True,null=True)
     case = models.ForeignKey(Case,on_delete=models.CASCADE)
     mediator = models.ForeignKey(Mediator,on_delete=models.CASCADE)
 
