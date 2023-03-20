@@ -79,12 +79,15 @@ class UserView(ModelViewSet):
     def create_users(self,request):
         data = request.data
         
+        created_users =[]
+        
         for user_data in data:
             serializer = self.get_serializer(data=user_data)
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
+            created_users.append(serializer.data)
         
-        return Response('Users created', status=status.HTTP_201_CREATED)
+        return Response(created_users, status=status.HTTP_201_CREATED)
 
     
  

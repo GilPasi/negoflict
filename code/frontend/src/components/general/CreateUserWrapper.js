@@ -4,6 +4,7 @@ import AddUserPage from '../../pages/AddUserPage'
 import { useNavigate } from "react-router-dom"
 import useNodeS from "../../hooks/useNodeS"
 import useSubmit from '../../hooks/useSubmit'
+import useServer from "../../hooks/useServer"
 
 
 const CreateUserWraper = ()=>{
@@ -11,10 +12,18 @@ const CreateUserWraper = ()=>{
     const [idCase,setIdCase] = useState(null)
     const [sideVal,setSideVal] = useState(0)
 
+
     const location = useLocation()
     const navigate = useNavigate()
     const { registerManyUsers } = useNodeS()
+    const { createGroupMember } = useServer()
     const { GetNewAccessToken } = useSubmit()
+
+    const { dataCase } = location.state || {};
+
+    
+    // const memberGroups = res?[...res.data.members_groups]:{}
+
 
 
 
@@ -28,14 +37,12 @@ const CreateUserWraper = ()=>{
         setSideVal(val)
 
 
-        console.log(userData)
     },[side])
    
 
 
     useEffect(()=>{
         const urlId = quaryParams.get('id')
-        console.log(urlId)
         setIdCase(urlId)
     },[])
 
@@ -67,36 +74,37 @@ const CreateUserWraper = ()=>{
           user.username = user.email
           user.password = pass
         })
-        
-        console.log(arrUser)
-
-
-
 
         const newToken = await GetNewAccessToken()
-        console.log(newToken)
         
 
 
         
-          registerManyUsers(arrUser,newToken)
-          .then(res=>console.log(res))
-        
-        
+          const res =await registerManyUsers(arrUser,newToken)
 
+          const users = [...res.dbResult]
+
+          const response_final_step = await createGroupMember(users,newToken,dataCase)
+
+          console.log(response_final_step)
         navigate('/mediator/cases',{
-          replace:true
+          replace:true,
         })
     }
 
     
 
     const next = ()=>{
-        navigate(`?side=B&id=${idCase}`)
+        navigate(`?side=B&id=${idCase}`,{
+          state: { dataCase }
+        })
 
     }
     const goBack = ()=>{
-        navigate(-1)
+        navigate(-1,{
+          state: { dataCase }
+        }
+          )
 
     }
     

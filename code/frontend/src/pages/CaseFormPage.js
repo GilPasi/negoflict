@@ -59,9 +59,13 @@ const CaseFormPage = () =>{
 
         const res = await postNewCase(data)
         if(res.status===201){
-            const  caseId= res.data.case.id.slice(-7) 
+            const  dataCase= res.data.case.id
+            console.log(dataCase)
+            const  caseId = dataCase.slice(-7)
         navigate(`/mediator/create_users/?side=A&id=${caseId}`,{
             replace:true,
+            // state: { res },
+            state:{ dataCase },
         })
 
             }
