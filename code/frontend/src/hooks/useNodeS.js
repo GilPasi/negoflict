@@ -12,7 +12,7 @@ const useNodeS = ()=>{
             users:users,
             access:access
         })
-        console.log(res)
+        return res.data
     }catch(err){
         console.log(err)
     }

@@ -47,10 +47,30 @@ const useServer = ()=>{
         
 
     }
+    const createGroupMember =async (users,accss,idCase)=>{
+
+        const sides = ['A','B']
+
+        const responses =[]
+
+        for(let i=0; i<2; i++){
+            const res =await axios.put(`${userServerURL}/chat_members/get_group_member_by_user/?case=${idCase}&side=${sides[i]}`,{
+                user:users[i].id
+            },{
+                headers:{
+                    Authorization: `JWT ${accss}`
+                }
+            })
+            responses.push(res.data)
+        }
+
+        return responses
+    }
 
     return {
         getMyCases,
         postNewCase,
+        createGroupMember,
     }
 
 }

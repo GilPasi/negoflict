@@ -5,6 +5,7 @@ from .serializers import CaseSerializer, AgoraUserSerializer, GroupChatSerialize
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from core.models import User
+from rest_framework import status
 
 
 
@@ -74,13 +75,32 @@ class GroupMemberView(ModelViewSet):
     serializer_class = GroupMemberSerializer
     permission_classes = [permissions.IsAdminOrUser]
     
-    @action(detail=False, methods=['GET','PUT'], permission_classes=[permissions.IsAdminOrUser])
-    def update_group_to_user(self,request):
-        data = request.data
-        
-        
-        
+    @action(detail=False, methods=['GET', 'PUT', 'DELETE'], permission_classes=[permissions.IsAdminOrUser])
+    def get_group_member_by_user(self, request):
+        case = request.GET.get('case', None)
+        side = request.GET.get('side', None)
 
+        if case and side:
+            try:
+                member = self.queryset.select_related('group_chat').get(case=case, side=side)
 
+                if self.request.method == 'PUT':
+                    user_id = request.data.get('user')
+                    if user_id:
+                        user = User.objects.get(id=user_id)
+                        member.user = user
+                    serializer = GroupMemberSerializer(member, data=request.data, partial=True)
+                    serializer.is_valid(raise_exception=True)
+                    serializer.save()
+                    return Response(serializer.data, status=status.HTTP_200_OK)
+
+                elif self.request.method == 'GET':
+                    serializer = GroupMemberSerializer(member)
+                    return Response(serializer.data, status=status.HTTP_200_OK)
+
+            except GroupMember.DoesNotExist:
+                return Response('not found', status=status.HTTP_404_NOT_FOUND)
+
+        return Response('bad request', status=status.HTTP_400_BAD_REQUEST)
 
 
