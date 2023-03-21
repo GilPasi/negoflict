@@ -44,12 +44,6 @@ const useNodeS = ()=>{
         const userA = users[0].username.replace(/[^\w\s]/gi, '')
         const userB = users[1].username.replace(/[^\w\s]/gi, '')
 
-        
-        console.log(userA)
-        console.log(userB)
-        console.log(groupA)
-        console.log(groupB)
-        console.log(groupG)
         const responses = []
 
         const res1 =await axios.post(`${ServerUrl}/add_users_to_groups`,{

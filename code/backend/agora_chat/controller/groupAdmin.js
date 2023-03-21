@@ -128,9 +128,6 @@ exports.addUsersToGroups = async(req,res)=>{
     let groupsId = []
     groupsId = req.body.groupsId
     user = req.body.user
-    console.log('isdjgoiahdsgiha')
-    console.log(groupsId)
-    console.log(user)
 
     const responses = []
 
