@@ -57,15 +57,17 @@ const CaseFormPage = () =>{
             access:accessToken,
         }
 
-        const res = await postNewCase(data)
+        const {res, resAgora} = await postNewCase(data)
+        const groupArr = [...resAgora.AgraResponse]
+        
+        // console.log(resAgora.AgraResponse[0].A.data.groupid)
         if(res.status===201){
             const  dataCase= res.data.case.id
-            console.log(dataCase)
             const  caseId = dataCase.slice(-7)
         navigate(`/mediator/create_users/?side=A&id=${caseId}`,{
             replace:true,
             // state: { res },
-            state:{ dataCase },
+            state:{ dataCase, groupArr },
         })
 
             }

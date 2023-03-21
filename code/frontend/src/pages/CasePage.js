@@ -3,7 +3,7 @@ import Header from "../components/general/Header"
 import React from "react"
 import MyCases from "./rolePages/mediator/MyCases"
 import { Link } from "react-router-dom"
-import GrayBox from "../components/general/GrayBox"
+
 
 
 const CasePage =()=>{
