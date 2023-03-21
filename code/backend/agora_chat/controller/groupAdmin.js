@@ -125,15 +125,18 @@ exports.addUserToGroup = async(req,res)=>{
 }
 exports.addUsersToGroups = async(req,res)=>{
     const appToken = tokenBuilder.appTokenBuild(3000)
-    const groupsId = []
+    let groupsId = []
     groupsId = req.body.groupsId
     user = req.body.user
+    console.log('isdjgoiahdsgiha')
+    console.log(groupsId)
+    console.log(user)
 
     const responses = []
 
     for(let i=0; i<groupsId.length; i++){
         const groupId = groupsId[i]
-        const response = await axios.post(`${HOST_URL_APP_KEY}/chatgroups/${groupId}/users/${username}`,{}, {
+        const response = await axios.post(`${HOST_URL_APP_KEY}/chatgroups/${groupId}/users/${user}`,{}, {
             headers:{
                 Authorization: `Bearer ${appToken}`,
                 'Content-Type': 'application/json',
@@ -146,6 +149,7 @@ exports.addUsersToGroups = async(req,res)=>{
     }
    
     return res.json({'responses':responses})
+
 
 }
 
