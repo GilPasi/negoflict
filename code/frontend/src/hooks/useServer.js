@@ -22,7 +22,7 @@ const useServer = ()=>{
         return data
     }
 
-    const postNewCase =async ({title,mediator,category,sub_category,problem_brief, access})=>{
+    const postNewCase =async ({title,mediator,category,sub_category,problem_brief, access, owner})=>{
 
         try{
 
@@ -43,11 +43,8 @@ const useServer = ()=>{
             }
                 
             )
+            const resAgora =await createNewGroup(title,problem_brief,3,owner)
 
-            const resAgora =await createNewGroup(title,problem_brief,3,mediator)
-
-            
-            
 
             return {res, resAgora}
 

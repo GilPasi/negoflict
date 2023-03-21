@@ -17,7 +17,8 @@ const CaseFormPage = () =>{
         firstName,
         lastName,
         accessToken,
-        id
+        id,
+        username
         }= useSelector(state=>state.user)
   
 
@@ -55,6 +56,7 @@ const CaseFormPage = () =>{
             sub_category:sub_category,
             problem_brief:problem_brief,
             access:accessToken,
+            owner:username
         }
 
         const {res, resAgora} = await postNewCase(data)

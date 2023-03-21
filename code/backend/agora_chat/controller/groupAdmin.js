@@ -28,13 +28,14 @@ exports.createGroup = async(req,res)=>{
     const id = groupId.data.id
     return res.json({id})
 }
+
 exports.createGroups = async(req,res)=>{
     const appToken = tokenBuilder.appTokenBuild(50000)
     const name = req.body.groupname
     const description = req.body.desc
     const max_users = req.body.maxusers
-    // const owner = req.body.owner.toString()
-    const owner = 'hen'
+    const owner = req.body.owner
+    // const owner = 'hen'
     
     
     const sides = ['A','B','G']
