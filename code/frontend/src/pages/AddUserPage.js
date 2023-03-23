@@ -18,7 +18,7 @@ const AddUserPage =({side,idCase, goBack, next, handleSubmit, handleChange, user
  
         return(
 
-        <article className="aup centerizer">
+        <article className="aup centerizer page">
                     <Header size={"small"}/>
                     <ToolBar conflictName="A political conflict" id={idCase}/>
 

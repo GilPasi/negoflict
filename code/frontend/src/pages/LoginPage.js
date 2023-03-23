@@ -92,7 +92,7 @@ const LoginPage=()=>{
 
     return(
         <div className="lp">
-            <div className="limiter">
+            <div className="limiter page">
                 <Header isLarge={true} />
                 <h1 className="lp--title">Log-in<br/>Mediator</h1>
 

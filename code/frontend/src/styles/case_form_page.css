@@ -1,3 +1,10 @@
+.aaa{
+    margin-left: 70%;
+    display: flex;
+    justify-content: center;
+
+}
+
 .cfp--title{
     font-size:var(--font-large);
     margin:1.5em;

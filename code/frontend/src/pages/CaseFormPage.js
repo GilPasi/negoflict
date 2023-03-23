@@ -81,7 +81,7 @@ const CaseFormPage = () =>{
     
             <article className="cfp">
                 <Header isLarge={false} />
-                <center>
+                <div className="aaa">
                     <form onSubmit={handleSubmit}>
                     <h1 className="cfp--title">New Case</h1>
                     <h2 >Mediator name</h2>
@@ -116,7 +116,7 @@ const CaseFormPage = () =>{
                      
                     <Button size="small" text="Next"/>
                     </form>
-                </center>
+                </div>
             </article>
         )
 
