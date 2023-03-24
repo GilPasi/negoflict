@@ -1,12 +1,13 @@
-import "../../styles/text_field.css"
+import "../../styles/components/text_field.css"
 import {React} from 'react'
-const  TextField=({type,placeHolder,onChange,name,value, length,altitude,align})=>{
+const  TextField=({type,placeHolder,onChange,
+    name,value, length,altitude,align})=>{
     
     let classPostfix = align === "left" ? "-la" : "" 
     
     const widthStyle = {
-        width: length? length : "15.5em",
-        height: altitude? altitude : "2.5em",
+        width: length? length : "12em",
+        height: altitude? altitude : "1em",
         margin: length === "100%" ? "0" : "1em",
     }
     /*This designated for a specific case 
@@ -16,19 +17,17 @@ const  TextField=({type,placeHolder,onChange,name,value, length,altitude,align})
     
 
     return(
-        <section>
             <input
-            name={name}
-            value={value}
-            onChange={onChange} 
-            className={`text-field-input${classPostfix}`}
-            type={type} 
-            placeholder={placeHolder} 
-            align="left"
-            style={widthStyle}
+                name={name}
+                // value={value}
+                onChange={onChange} 
+                className={`text-field-input${classPostfix}`}
+                type={type} 
+                placeholder={placeHolder} 
+                align="left"
+                style={widthStyle}
             
             />
-        </section>
 
     )}
 export default TextField

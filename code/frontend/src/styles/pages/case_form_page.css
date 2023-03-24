@@ -1,8 +1,5 @@
-.aaa{
-    margin-left: 70%;
-    display: flex;
-    justify-content: center;
-
+.cfp{
+    height: 100em;
 }
 
 .cfp--title{
@@ -10,10 +7,12 @@
     margin:1.5em;
 }
 
- .cfp h2{
+ .cfp--h2{
     font-size: 2em;
     font-weight: var(--weight-semi);
     color : black;
+    margin:0;
+    margin-top: 1em;;
 }
 
 .cfp--m-name{

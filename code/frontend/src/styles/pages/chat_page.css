@@ -1,0 +1,97 @@
+
+/* __Chat page component__ */
+
+
+.cp--paper{
+    height: 20em;
+    width:90%;
+
+}
+
+.cp--send{
+  top:50%;
+  left: 50%;
+  position: absolute;
+  transform:rotate(0.6125turn) translateX(80%) translateY(10%) ;
+  font-size:var(--font-large);
+  user-select: none;
+
+}
+
+.cp--input{
+  display: flex;
+  justify-content: center;
+  background-color: #F5F5F5;
+  padding:1em;
+  height: 2em;
+}
+
+.cp--input-btn {
+  width: 7.5em;
+  height: 5em;
+  margin-left: 2em;
+
+  border-radius:50%;
+  transform: scale(0.8) translateY(-20%);
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+  background: var(--green-dark);
+  color: #fff;
+  font-size: 0.6em;
+}
+.cp--input-btn:after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.cp--input-btn:hover {
+  background: var(--green-dark-shaded);
+}
+
+.cp--input-btn:active {
+  background: var(--green-dark-shaded);
+  top: 2px;
+}
+.cp--input-btn:before {
+  text-transform: none;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+}
+
+.cp--input-box{
+  width:100%;
+  height:0em;
+  /* padding:1.2em 1em 1.1em 1em; */
+  padding:1em 1em 0.6em 1em;
+
+  border-radius: 3em;
+  border:2px solid #828282;
+  /* scroll-behavior: auto; */
+  resize: none;
+  overflow: hidden;
+  font-size: 1.2em;
+  display: inline;
+}
+
+.cp--help{
+  color:black;
+  display: inline;
+  margin:10px;
+  margin-top:5px ;
+  user-select: none;
+}
+
+.cp--help:hover{
+  color:var(--blue-anchor);
+  cursor: pointer;
+
+}

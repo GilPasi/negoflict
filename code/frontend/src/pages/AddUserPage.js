@@ -1,4 +1,4 @@
-import '../styles/add_user_page.css'
+import '../styles/pages/add_user_page.css'
 import Header from '../components/general/Header.js'
 import ToolBar from '../components/general/ToolBar.js'
 import TextInput from '../components/general/TextInput.js'
@@ -9,7 +9,8 @@ import { AREA_CODES } from '../utils/data'
 
 
 
-const AddUserPage =({side,idCase, goBack, next, handleSubmit, handleChange, userData})=>{
+const AddUserPage =({side,idCase, goBack, next,
+     handleSubmit, handleChange, userData})=>{
    
     
 
@@ -18,25 +19,26 @@ const AddUserPage =({side,idCase, goBack, next, handleSubmit, handleChange, user
  
         return(
 
-        <article className="aup centerizer page">
-                    <Header size={"small"}/>
+        <article className="aup">
+                    <Header/>
                     <ToolBar conflictName="A political conflict" id={idCase}/>
 
                 <form className="aup--grid">
-                 <h2 className="aup--title">Party {side}</h2>
+                 <h2 className="aup--title aup--grid-row">Party {side}</h2>
                   
                     <div className="aup--grid-row">
-                   
                         <TextInput
                             placeHolder="First Name"
                             name="first_name"
                             value={userData?.first_name || ''}
                             onChange={handleChange}
                             length="100%"
+                            height="0.5em"
+                            altitude="0.5em"
                             align="left"
                             />
                     </div>
-
+ 
                     <div className="aup--grid-row">
                         <TextInput
                             placeHolder="Last Name"
@@ -58,6 +60,8 @@ const AddUserPage =({side,idCase, goBack, next, handleSubmit, handleChange, user
                             value={userData?.phonePrefix || ''}
                             onChange={handleChange}
                             align="left"
+                            width="100%"
+                            height="2em"
                             />
                     </div>
 
@@ -72,7 +76,7 @@ const AddUserPage =({side,idCase, goBack, next, handleSubmit, handleChange, user
                         type="number"
                         align="left"
                         />
-                    </div>
+                    </div> 
 
                     <div className="aup--grid-row">
                         <TextInput

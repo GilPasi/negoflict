@@ -1,4 +1,4 @@
-import "../../styles/header.css"
+import "../../styles/components/header.css"
 import {React} from 'react'
 
 const  Header=({isLarge})=>{
@@ -6,7 +6,8 @@ const  Header=({isLarge})=>{
 
     // __UI properies__
     const titleStyle = {
-        fontSize:isLarge ? "var(--font-large)" :"var(--font-medium)"
+        fontSize:isLarge ? "2em" :"var(--font-medium)",
+        margin:isLarge ? "0.5em 0.5em 3.5em 0.5em" : "0.5em",
     }
 
     const wrapperStyle = {
@@ -15,13 +16,19 @@ const  Header=({isLarge})=>{
         width: '100%',
     }
 
+    const centerStyle={
+        display:"flex",
+        justifyContent:"center",
+        backgroundColor:"red",
+    }
+
     const title = <h1 style={titleStyle} className="header--title" >
                     negoflict
                 </h1>
     
 
     return(
-        <div className="header limiter">
+        <div className="header">
             <div style={wrapperStyle}>
                 <div className="header--menu">
                     <div >
@@ -42,12 +49,16 @@ const  Header=({isLarge})=>{
 
 
                 {!isLarge && (
-                    <div className="centerizer" >
+                    <div className="" >
                         {title}
-                </div>)}
+                </div>
+                )}
 
             </div>
-            {isLarge &&title}
+            <center>
+                {isLarge &&title}
+
+            </center>
 
         </div>
 

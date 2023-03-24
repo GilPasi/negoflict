@@ -1,6 +1,6 @@
 
 import {useEffect, useState} from 'react'
-import "../../styles/shuttle_switch.css"
+import "../../styles/components/shuttle_switch.css"
 import { useDispatch } from 'react-redux'
 import { updatePosition } from '../../store'
 
@@ -8,7 +8,7 @@ const ShuttleSwitch =({isMediator})=>{
 
     const[selectorOffset , setSelectorOffset] = useState(50)
     const[selectedBtn , setSelectedBtn] = useState(2)
-    const[selectorOffsetU , setSelectorOffsetU] = useState(10)
+    const[selectorOffsetU , setSelectorOffsetU] = useState(5)
     const[selectedBtnU , setSelectedBtnU] = useState(2)
 
     
@@ -26,6 +26,12 @@ const ShuttleSwitch =({isMediator})=>{
     const whiteStyle={color : "white"}
     const blackStyle={color : "black"}
 
+    const style ={
+        width:isMediator ? "95%":"12.5em",
+        height:isMediator ? "27.5px" : "2em",
+
+    }
+
     const selectorStyle={
         left : `${selectorOffset}%`,
         transform : `translateX(-${selectorOffset}%)`
@@ -40,7 +46,7 @@ const ShuttleSwitch =({isMediator})=>{
     
 
     const handleShuttleU=(btnPosition)=>{
-        const offset = btnPosition === 2 ? 10 : -90
+        const offset = btnPosition === 2 ? 5 : -103
         setSelectorOffsetU(offset)
         setSelectedBtnU(btnPosition)
     }
@@ -49,13 +55,13 @@ const ShuttleSwitch =({isMediator})=>{
         let offset = 0
         switch(btnPosition) {
             case 1:
-                offset = 0;
+                offset = 0.5;
                 break;
             case 2:
                 offset = 50;
                 break;
             case 3:
-                offset = 100;
+                offset = 99.5;
                 break;
         }
         setSelectorOffset(offset)
@@ -67,7 +73,7 @@ const ShuttleSwitch =({isMediator})=>{
     }
 
     const mediatorVersion =(
-                <div className="ss">        
+                <div className="ss" style={style}>        
                     <button id="ss--pa" style={selectedBtn === 1 ?whiteStyle: blackStyle } className="ss--btn"  onClick={()=>handleShuttle(1)}>
                         <p  className="ss--btn-content">Party A</p> </button>
                     <button style={selectedBtn === 2 ?whiteStyle: blackStyle } className="ss--btn"  onClick={()=>handleShuttle(2)}>

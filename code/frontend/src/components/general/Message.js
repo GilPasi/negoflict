@@ -1,4 +1,4 @@
-import "../../styles/message.css"
+import "../../styles/components/message.css"
 const Message=({text,sender,isSelf, time, name})=>{
     let messageColor = ""
   console.log('in message')

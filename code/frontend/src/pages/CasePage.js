@@ -1,16 +1,15 @@
-import "../styles/case_page.css"
+import "../styles/pages/case_page.css"
 import Header from "../components/general/Header"
 import React from "react"
 import MyCases from "./rolePages/mediator/MyCases"
 import { Link } from "react-router-dom"
-import GrayBox from "../components/general/GrayBox"
+import GrayBox from "../components/general/TextArea"
 
 
 const CasePage =()=>{
 
     return(
-        <article>
-            <div className="centerizer cap">
+        <article className="cap">
             <Header isLarge={true}/>
                 <MyCases/>
                 <h1 className="cap--title">Create a new<br/>Case</h1>
@@ -22,7 +21,6 @@ const CasePage =()=>{
                     </div>                    
                 </div>
                 </Link>
-            </div>
         </article>
     )
 }

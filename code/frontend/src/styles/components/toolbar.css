@@ -1,0 +1,62 @@
+/* __Toolbar component__ */
+
+
+.tb{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height:4em;
+  padding-top: 1.5em;
+  background-color: #89E0A240;
+
+}
+
+.tb--btn{
+  position: relative;
+  padding: 1em;
+  width: 1.5em;
+  height: 1.5em;
+  margin:1em;
+  /* transition: ease-in ; */
+
+}
+.tb--btn::before{
+  content:'';
+  position: absolute;
+  padding: 1.5em;
+  top:50%;
+  left: 50%;
+  transform: translateX(-50%)  translateY(-50%);
+  border: 2px solid transparent;
+
+
+}
+.tb--btn::before:hover {
+  border-color: var(--grey);
+}
+
+.tb--btn-img{
+width:100%;
+margin: 50% 0% 0% 50%;
+transform: translateX(-50%)  translateY(-50%);
+}
+
+.tb--title{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.tb--name{
+  color:var(--green-dark);
+  font-size: var(--font-small);
+}
+
+.tb--id{
+  font-size: var(--font-small);
+  color:var(--green-dark);
+  transform:translateY(-100%);
+  font-weight:100;
+  font:serif;
+}

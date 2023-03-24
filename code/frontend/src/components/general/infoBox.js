@@ -1,4 +1,4 @@
-import '../../styles/info_box.css'
+import '../../styles/components/info_box.css'
 import { Link } from 'react-router-dom';
 const InfoBox = ({obj,size})=>{
     const objKeys = Object.keys(obj)

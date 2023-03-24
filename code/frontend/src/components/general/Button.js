@@ -1,10 +1,11 @@
-import "../../styles/button.css"
+import "../../styles/components/button.css"
 import {react} from 'react'
 
 const  Button=({text , size, margin,type,onClick,color})=>{
 
     const style = {
-        minWidth: size === "small" ? "10em" : "15em" ,
+        minWidth: size === "small" ? "8em" : "10em" ,
+        height: size==="small" ? "2em" : "3em",
         margin: margin ? margin : "1.5em",
         type: type ? type : "",
         backgroundColor: color? color:''

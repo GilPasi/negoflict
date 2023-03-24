@@ -1,4 +1,4 @@
-import "../styles/chat_page.css"
+import "../styles/pages/chat_page.css"
 import ShuttleSwitch from "../components/general/ShuttleSwitch.js";
 import ToolBar from "../components/general/ToolBar.js";
 import Message from "../components/general/Message.js";
