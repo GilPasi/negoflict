@@ -15,11 +15,11 @@ const CreateUserWraper = ()=>{
 
     const location = useLocation()
     const navigate = useNavigate()
-    const { registerManyUsers } = useNodeS()
+    const { registerManyUsers, registerUsersTogroups } = useNodeS()
     const { createGroupMember } = useServer()
     const { GetNewAccessToken } = useSubmit()
 
-    const { dataCase } = location.state || {};
+    const { dataCase, groupArr } = location.state || {};
 
     
     // const memberGroups = res?[...res.data.members_groups]:{}
@@ -81,6 +81,8 @@ const CreateUserWraper = ()=>{
 
         
           const res =await registerManyUsers(arrUser,newToken)
+          const res2 = await registerUsersTogroups(groupArr,arrUser)
+          console.log(res2)
 
           const users = [...res.dbResult]
 
@@ -96,13 +98,13 @@ const CreateUserWraper = ()=>{
 
     const next = ()=>{
         navigate(`?side=B&id=${idCase}`,{
-          state: { dataCase }
+          state: { dataCase, groupArr}
         })
 
     }
     const goBack = ()=>{
         navigate(-1,{
-          state: { dataCase }
+          state: { dataCase,groupArr }
         }
           )
 

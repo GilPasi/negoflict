@@ -1,13 +1,17 @@
 import axios from "axios";
+import useNodeS from "./useNodeS";
 
 
 const useServer = ()=>{
-    const userServerURL = 'http://localhost:8000/session'
+    const sessionServerUrl = 'http://localhost:8000/session'
+    const { createNewGroup } = useNodeS()
+    
+    
 
 
     const getMyCases =async (id,access)=>{
         console.log(id)
-        const {data} = await axios.get(`${userServerURL}/case/casess_by_mediator/`,{
+        const {data} = await axios.get(`${sessionServerUrl}/case/casess_by_mediator/`,{
             params:{
                 id:id
             }
@@ -18,10 +22,13 @@ const useServer = ()=>{
         return data
     }
 
-    const postNewCase =async ({title,mediator,category,sub_category,problem_brief, access})=>{
+    const postNewCase =async ({title,mediator,category,sub_category,problem_brief, access, owner})=>{
 
         try{
-            const response =await axios.post(`${userServerURL}/case/create_case_and_groups/`,{
+
+            
+
+            const res =await axios.post(`${sessionServerUrl}/case/create_case_and_groups/`,{
                 title: title,
                 mediator:mediator,
                 category:category,
@@ -36,9 +43,10 @@ const useServer = ()=>{
             }
                 
             )
-            console.log(response.data)
+            const resAgora =await createNewGroup(title,problem_brief,3,owner)
 
-            return response
+
+            return {res, resAgora}
 
         }
         catch(err){
@@ -54,7 +62,7 @@ const useServer = ()=>{
         const responses =[]
 
         for(let i=0; i<2; i++){
-            const res =await axios.put(`${userServerURL}/chat_members/get_group_member_by_user/?case=${idCase}&side=${sides[i]}`,{
+            const res =await axios.put(`${sessionServerUrl}/chat_members/get_group_member_by_user/?case=${idCase}&side=${sides[i]}`,{
                 user:users[i].id
             },{
                 headers:{
@@ -63,6 +71,7 @@ const useServer = ()=>{
             })
             responses.push(res.data)
         }
+       
 
         return responses
     }

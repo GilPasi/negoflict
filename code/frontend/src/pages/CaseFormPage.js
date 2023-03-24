@@ -17,7 +17,8 @@ const CaseFormPage = () =>{
         firstName,
         lastName,
         accessToken,
-        id
+        id,
+        username
         }= useSelector(state=>state.user)
   
 
@@ -55,17 +56,20 @@ const CaseFormPage = () =>{
             sub_category:sub_category,
             problem_brief:problem_brief,
             access:accessToken,
+            owner:username
         }
 
-        const res = await postNewCase(data)
+        const {res, resAgora} = await postNewCase(data)
+        const groupArr = [...resAgora.AgraResponse]
+        
+        // console.log(resAgora.AgraResponse[0].A.data.groupid)
         if(res.status===201){
             const  dataCase= res.data.case.id
-            console.log(dataCase)
             const  caseId = dataCase.slice(-7)
         navigate(`/mediator/create_users/?side=A&id=${caseId}`,{
             replace:true,
             // state: { res },
-            state:{ dataCase },
+            state:{ dataCase, groupArr },
         })
 
             }

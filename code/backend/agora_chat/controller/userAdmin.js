@@ -7,29 +7,29 @@ exports.registerUsers = async(req,res)=>{
     const users = req.body.users
     const access = req.body.access
 
-    // let registeredUsers = []
+    let registeredUsers = []
 
-    // for(let i=0; i<users.length; i++){
-    //     const tempUid = users[i].username.toString().replace(/[^\w\s]/gi, '');
-    //     const password = users[i].password
-    //     const username = users[i].first_name
+    for(let i=0; i<users.length; i++){
+        const tempUid = users[i].username.toString().replace(/[^\w\s]/gi, '');
+        const password = users[i].password
+        const username = users[i].first_name
 
-    //     // const uid = tempUid.replace(/-/g, "")
+        // const uid = tempUid.replace(/-/g, "")
 
-    //     const user = await axios.post(`${HOST_URL_APP_KEY}/users`,{
-    //         username: tempUid,
-    //         password: password,
-    //         nickname: username
-    //     },{
-    //         headers:{
-    //             Authorization: `Bearer ${appToken}`,
-    //             'Content-Type': 'application/json'
-    //         },
-    //     }).then(user=>user)
-    //     .catch(err=>console.log(err))
+        const user = await axios.post(`${HOST_URL_APP_KEY}/users`,{
+            username: tempUid,
+            password: password,
+            nickname: username
+        },{
+            headers:{
+                Authorization: `Bearer ${appToken}`,
+                'Content-Type': 'application/json'
+            },
+        }).then(user=>user)
+        .catch(err=>console.log(err))
 
-    //     registeredUsers.push(user.data)
-    // }
+        registeredUsers.push(user.data)
+    }
 
     const createUsersRequest = await axios.post(`${process.env.SERVER_URL}/users/user_view/create_users/`, users,{
         headers:{
@@ -39,8 +39,8 @@ exports.registerUsers = async(req,res)=>{
     .then(response => response)
     .catch(err => console.log(err))
 
-    // return res.json({'users': registeredUsers, 'dbResult': createUsersRequest.data})
-    return res.json({'dbResult': createUsersRequest.data})
+    return res.json({'users': registeredUsers, 'dbResult': createUsersRequest.data})
+    // return res.json({'dbResult': createUsersRequest.data})
 }
 
 
