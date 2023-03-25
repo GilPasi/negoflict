@@ -18,13 +18,21 @@
 
   --blue-anchor:#1D62F0;
 
-  --width-minimum:45em;
-  --width-maximum:60em;
+  --width-minimum:10em;
+  --width-maximum:45em;
 }
-h1,h2,h3,h4,h5,h6{
+.page{
+  display: flex;
+  justify-content: center;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  width: 20em;
+
+
+}
+
+h1,h2,h3,h4,h5,h6,img{
   user-select: none;
-  
- 
 }
 
 a{
@@ -36,18 +44,20 @@ a:hover{
   color:var(--blue-anchor);
 
 }
-
-.limiter{
-  width:50%;
-  max-width: var(--width-maximum);
-  min-width: var(--width-minimum);
-  
-}
 .centerizer{
-  display:flex;
-  justify-content:center;
-  /* display: block; */
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  /* background-color: var(--blue-anchor); */
 }
+.aligner{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
 
 .flexbox{
   display:flex;

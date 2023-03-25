@@ -15,8 +15,8 @@ const MessageList =( { messages, position } )=> {
   return (
     <div 
     style={{
-        height: '600px', 
-        width: '800px',
+        height: '350px', 
+        width: '100%',
         overflowY: 'scroll', 
       }}
     >

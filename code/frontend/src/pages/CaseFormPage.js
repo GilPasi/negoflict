@@ -1,10 +1,10 @@
-import "../styles/case_form_page.css"
+import "../styles/pages/case_form_page.css"
 import Header from "../components/general/Header"
 import TextInput from "../components/general/TextInput"
 import Button from "../components/general/Button"
 import DropdownSelector from "../components/general/DropdownSelector.js"
 import {useState} from "react"
-import GrayBox from "../components/general/GrayBox"
+import TextArea from "../components/general/TextArea"
 import {MEDIATION_CHOICES} from '../utils/data'
 import { useSelector } from "react-redux"
 import useServer from "../hooks/useServer"
@@ -85,42 +85,42 @@ const CaseFormPage = () =>{
     
             <article className="cfp">
                 <Header isLarge={false} />
-                <center>
-                    <form onSubmit={handleSubmit}>
-                    <h1 className="cfp--title">New Case</h1>
-                    <h2 >Mediator name</h2>
-                    <h3 className="cfp--m-name">{mediatorName}</h3>
-                    <h2 >Conflict name</h2>
-                    <TextInput 
-                    placeHolder="Free Text"
-                    name="title"
-                    onChange={handleChange}
-                     />   
+                    <form onSubmit={handleSubmit} className="aligner">
+                        <h1 className="cfp--title">New Case</h1>
+                        <h2 className="cfp--h2">Mediator name</h2>
+                        <h3 className="cfp--m-name">{mediatorName}</h3>
+                        <h2 className="cfp--h2">Conflict name</h2>
+                        <TextInput 
+                            placeHolder="Free Text"
+                            name="title"
+                            onChange={handleChange}
+                        />   
 
-                    <h2 >Choose a Category</h2>
-                    <DropdownSelector 
-                    placHolder="Select Areas of Mediation"
-                     options={MEDIATION_CHOICES}
-                     name="category"
-                     onChange={handleChange}
-                     />
+                        <h2 className="cfp--h2">Choose a Category</h2>
+                        <DropdownSelector 
+                            placHolder="Select Areas of Mediation"
+                            options={MEDIATION_CHOICES}
+                            name="category"
+                            onChange={handleChange}
+                            height={{height:"2em"}}
+                            margin="25px"
+                        />
 
 
-                    <h2 >Subcategory</h2>
-                    <TextInput 
-                    placeHolder="Free Text"
-                    name="subcategory"
-                    onChange={handleChange}
-                     />
+                        <h2 className="cfp--h2">Subcategory</h2>
+                        <TextInput 
+                            placeHolder="Free Text"
+                            name="subcategory"
+                            onChange={handleChange}
+                        />
 
-                     <GrayBox onChange={handleChange}
-                      withButtons={false}
-                      name='problem_brief'
-                      />
-                     
-                    <Button size="small" text="Next"/>
+                        <TextArea onChange={handleChange}
+                            withButtons={false}
+                            name='problem_brief'
+                        />
+                        
+                        <Button size="small" text="Next"/>
                     </form>
-                </center>
             </article>
         )
 

@@ -1,0 +1,22 @@
+/*__ Login page component __*/
+.lp{
+  height: 70em;
+}
+  
+.lp--title{
+  text-align: left;
+  font-weight: 700;
+  display: block;
+  margin-left: 1em;
+}
+
+.lp--form{
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+  align-items: center;
+}
+
+#lp--checkbox{
+  display: inline;
+}

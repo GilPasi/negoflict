@@ -2,7 +2,7 @@ import { useEffect,useState } from 'react'
 import { useSelector } from 'react-redux'
 import useServer from '../../../hooks/useServer'
 import TextHolder from '../../../components/general/TextHolder'
-import '../../../styles/case_page.css'
+import '../../../styles/pages/case_page.css'
 
 
 

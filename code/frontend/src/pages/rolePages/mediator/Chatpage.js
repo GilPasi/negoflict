@@ -1,4 +1,4 @@
-import "../../../styles/chat_page.css"
+import "../../../styles/pages/chat_page.css"
 import ShuttleSwitch from "../../../components/general/ShuttleSwitch";
 import ToolBar from "../../../components/general/ToolBar.js";
 import Message from "../../../components/general/Message";
@@ -76,6 +76,10 @@ const  ChatPage = ({isMediator})=> {
             // Mock values , to be replaced by the backend (Hen)
             const sender = 1
 
+            //Delete message after writing
+            document.getElementById("cp--input-tb").value = ''
+
+
             const now = new Date();
             const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
@@ -109,15 +113,15 @@ const  ChatPage = ({isMediator})=> {
 
         
         <div className="cp" >
-
-            <div className="centerizer">
-                <div className="limiter">
-                <Header size="small"/>
+            <div className="limiter">
+                <div>
+                <Header isLarge={false}/>
                     <ToolBar conflictName="A political conflict" id="100777"/>
                     <ShuttleSwitch isMediator={isMediator}/>
+
                 </div>
             </div>
-            <div className="centerizer">
+            <div >
                 <div className="cp--paper">
                     <MessageList messages={msgScreen} position={pos}/>
                 </div>

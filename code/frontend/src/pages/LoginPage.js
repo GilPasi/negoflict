@@ -1,4 +1,4 @@
-import "../styles/login_page.css"
+import "../styles/pages/login_page.css"
 import Header from "../components/general/Header"
 import TextInput from "../components/general/TextInput"
 import Button from '../components/general/Button'
@@ -91,43 +91,38 @@ const LoginPage=()=>{
 
 
     return(
-        <div className="lp">
-            <div className="limiter">
-                <Header isLarge={true} />
-                <h1 className="lp--title">Log-in<br/>Mediator</h1>
+        <article className="lp">
+            <Header isLarge={true} />
+            <h1 className="lp--title">Log-in<br/>Mediator</h1>
 
-                <form onSubmit={submitHandler} className="lp--form">
+            <form onSubmit={submitHandler} className="lp--form">
+                <TextInput 
+                            type="text"
+                            placeHolder="Username"
+                            onChange = {handleChange}
+                            name = 'username'
+                        />
+
+
+                <TextInput 
+                            type="email"
+                            placeHolder="Email"
+                            onChange = {handleChange}
+                            name='email'
+                        />
+
                     <TextInput 
-                                type="text"
-                                placeHolder="Username"
-                                onChange = {handleChange}
-                                name = 'username'
-                            />
-
-
-                    <TextInput 
-                                type="email"
-                                placeHolder="Email"
-                                onChange = {handleChange}
-                                name='email'
-                            />
-
-                    <TextInput 
-                                type="password"
-                                placeHolder="Password"
-                                onChange = {handleChange}
-                                name='password'
-                            />
-                            <div className="flexbox">
-                                <input type="checkbox" id="lp--checkbox"/>
-                                <label htmlFor="lp--checkbox">Disclaimer Lorem ispum dolor T&C <a href="#"> Link</a></label>
-                            </div>
-                    <Button  text="Submit" size="small"/>
-                </form> 
-
-               
-
-            </div>
-        </div>
+                            type="password"
+                            placeHolder="Password"
+                            onChange = {handleChange}
+                            name='password'
+                        />
+                        <div className="flexbox">
+                            <input type="checkbox" id="lp--checkbox"/>
+                            <label htmlFor="lp--checkbox">Disclaimer Lorem ispum dolor T&C <a href="#"> Link</a></label>
+                        </div>
+                <Button  text="Submit" size="large"/>
+            </form> 
+        </article>
 )}
 export default LoginPage

@@ -1,12 +1,18 @@
+.cfp{
+    height: 100em;
+}
+
 .cfp--title{
     font-size:var(--font-large);
     margin:1.5em;
 }
 
- .cfp h2{
+ .cfp--h2{
     font-size: 2em;
     font-weight: var(--weight-semi);
     color : black;
+    margin:0;
+    margin-top: 1em;;
 }
 
 .cfp--m-name{
