@@ -49,7 +49,7 @@ const CasePage =({isMediator})=>{
                 ):(<div></div>)}
                 
              
-            </div>
+           
         </article>
     )
 }

@@ -151,6 +151,14 @@ const LoginPage=()=>{
                             </div>
                     <Button  text="Submit" size="small"/>
                 </form> 
+                <label style={{padding:'10px'}}>
+                                <a href="" onClick={event=>{
+                                    event.preventDefault()
+
+                                    isMediator?setIsMediator(false):setIsMediator(true)
+
+                                }}>Login as Mediator </a>
+                                </label>
 
                
 

@@ -14,9 +14,10 @@ const MessageList =( { messages, position } )=> {
   return (
     <div 
     style={{
-        height: '350px', 
+        height: '400px', 
         width: '100%',
         overflowY: 'scroll', 
+        margin:'0',
       }}
     
     >
@@ -29,6 +30,7 @@ const MessageList =( { messages, position } )=> {
                 isSelf={message.isSelf}
                 time = {message.time}
                 name = {message.senderName}
+                
                 />
         
       ))}
