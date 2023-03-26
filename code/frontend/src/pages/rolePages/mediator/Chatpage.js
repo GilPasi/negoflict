@@ -1,7 +1,7 @@
 import "../../../styles/pages/chat_page.css"
 import ShuttleSwitch from "../../../components/general/ShuttleSwitch";
 import ToolBar from "../../../components/general/ToolBar.js";
-import Message from "../../../components/general/Message";
+import UserPanel from "../../../components/general/UserPanel";
 import Header from "../../../components/general/Header";
 import {useEffect, useState} from 'react'
 import MessageList from "../../../components/chat/MessageList.js";
@@ -140,6 +140,7 @@ const  ChatPage = ({isMediator})=> {
                         </button>
                 </div>
             </div>
+            <UserPanel/>
         </div>
     )
 } 

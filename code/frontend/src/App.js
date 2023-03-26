@@ -13,6 +13,7 @@ import Layout from './components/general/Layout';
 import {UserLandingPage,MediatorLandingPage,SuperUserLandingPage} from './pages/LandingPage';
 import './App.css'
 import useNodeS from './hooks/useNodeS.js';
+import Chat from 'agora-chat-uikit/lib/EaseChat/chat/index.js';
 
 
 
@@ -22,29 +23,9 @@ import useNodeS from './hooks/useNodeS.js';
   
 
   return (
-    <div className="app">      
-      <Routes>
-            
-      <Route path='/' element={<Layout/>}>
-        {/* public routes */}
-      
-      
-      <Route  path='/login' element={<LoginPage/>}/>
-      
-      {/* protected routes */}
-      {isActive?(
-      
-      <Route  path='/' element={<RequireAuth/>}>
-        <Route path='user/*' element={<UserLandingPage/>}/>
-        <Route path='mediator/*' element={<MediatorLandingPage/>}/>
-        <Route path='admin/*' element={<SuperUserLandingPage/>}/>
-        <Route path='chat' element={<ChatPage/>}/>
-      </Route>
-      ):(<div><h1>not active</h1></div>)}
-        {/* catch */}
-      
-      </Route>
-      </Routes>          
+    <div className="app">     
+      <ChatPage/> 
+        {/* <LoginPage/> */}
     </div>
   );
 }
@@ -52,3 +33,26 @@ import useNodeS from './hooks/useNodeS.js';
 export default App;
 
 
+
+      // <Routes>
+            
+      // <Route path='/' element={<Layout/>}>
+      //   {/* public routes */}
+      
+      
+      // <Route  path='/login' element={<LoginPage/>}/>
+      
+      // {/* protected routes */}
+      // {isActive?(
+      
+      // <Route  path='/' element={<RequireAuth/>}>
+      //   <Route path='user/*' element={<UserLandingPage/>}/>
+      //   <Route path='mediator/*' element={<MediatorLandingPage/>}/>
+      //   <Route path='admin/*' element={<SuperUserLandingPage/>}/>
+      //   <Route path='chat' element={<ChatPage/>}/>
+      // </Route>
+      // ):(<div><h1>not active</h1></div>)}
+      //   {/* catch */}
+      
+      // </Route>
+      // </Routes>          

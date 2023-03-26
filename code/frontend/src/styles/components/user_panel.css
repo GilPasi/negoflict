@@ -1,0 +1,11 @@
+.user-panel{
+    display: flex;
+    justify-content: center;
+}
+
+.user-panel-btn{
+    padding: 1em;
+    background:var(--grey);
+    display: inline;
+    margin:1em;
+}
