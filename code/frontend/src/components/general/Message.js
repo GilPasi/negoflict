@@ -1,8 +1,6 @@
 import "../../styles/components/message.css"
 const Message=({text,sender,isSelf, time, name})=>{
     let messageColor = ""
-  console.log('in message')
-  console.log(name)
 
     switch(sender){
         case 1:
@@ -22,12 +20,12 @@ const Message=({text,sender,isSelf, time, name})=>{
 
     return(
 
-        <div className="message" style={{justifyContent:isSelf ?"left" :"right"}}>
+        <div className={`message ${isSelf ? "" : "message-right"}`} >
 
             <div className="message-content" style={messageStyle}>
             <div className="message-header">
                 <h6 className="message--text" id="message--title">{name}</h6>
-                <h7 className="message--time">{time}</h7>
+                <h6 className="message--time">{time}</h6>
                
                 </div>
                 <p className="message--text">{text}</p>

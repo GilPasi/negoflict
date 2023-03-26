@@ -1,14 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { userReducer,login, logout, updateAccessToken } from './slices/userSlice'
 import { positionReducer,updatePosition } from "./slices/psitionSlice";
-import { save, erase, tempUserReducer } from "./slices/tempUserSlice";
+import { groupsReducer,addGroups } from "./slices/groupsSlice";
 
 
 const store = configureStore({
     reducer:{
         user: userReducer,
         pos: positionReducer,
-        tempUser: tempUserReducer
+        groups: groupsReducer,
+        
     }
 })
 
@@ -18,6 +19,6 @@ export{
     logout,
     updateAccessToken,
     updatePosition,
-    save,
-    erase,
+    addGroups,
+   
 }

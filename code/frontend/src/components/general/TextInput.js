@@ -9,6 +9,7 @@ const  TextField=({type,placeHolder,onChange,
         width: length? length : "12em",
         height: altitude? altitude : "1em",
         margin: length === "100%" ? "0" : "1em",
+        // backgroundColor: isMobile() ? "red": "black"
     }
     /*This designated for a specific case 
     where we might want the field to 

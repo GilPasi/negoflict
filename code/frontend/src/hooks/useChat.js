@@ -1,19 +1,27 @@
 import WebIM from "../WebIM";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 import getToken from "./useToken";
 import axios from 'axios'
 import { ChatServerURL } from "../utils/agoraCradential";
 
 
 const useChat = (props)=>{
-    const { username } = useSelector(state=>state.user)
+    let { username } = useSelector(state=>state.user)
     const {getUserToken} = getToken()  
 
 
-    const openConn = async ()=>{ 
+    const openConn = async (isUser)=>{ 
+        if(!isUser){
+            console.log('username1',username)
+
+        
+            username = username.replace(/[^\w\s]/gi, '')
+
+            console.log('username2',username)
+        }
+        
         const token = await getUserToken(username)
-        WebIM.conn.open({
+       await WebIM.conn.open({
             user:username,
             agoraToken:token
         })
@@ -36,8 +44,14 @@ const useChat = (props)=>{
       }
 
     const getGropByUser =async (user)=>{
+        try{
         const groups =await axios.get(`${ChatServerURL}/get_group_by_user/${user}`)
         return groups.data
+        }
+        catch(err){
+            console.error(err)
+            throw new Error(err)
+        }
     }
     
 
