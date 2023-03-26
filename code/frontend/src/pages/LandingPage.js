@@ -17,7 +17,8 @@ const UserLandingPage = () => {
 
     return (
         <Routes>
-            <Route path="/" element={<ChatPage isMediator={false}/>}/>
+            <Route path="/" element = {<CasePage isMediator={false}/>}/>
+            <Route path="/chat/*" element={<ChatPage isMediator={false}/>}/>
             {/* <Route path="/" element={}/> */}
         </Routes>
     )
@@ -26,8 +27,8 @@ const MediatorLandingPage = ()=>{
     return (
         <Routes>
             <Route path="/" element={<MediatorMenu/>}/>
-            <Route path="/chat" element={<ChatPage isMediator={true}/>}/>
-            <Route path="/cases" element={<CasePage/>}/>
+            <Route path="/chat/*" element={<ChatPage isMediator={true}/>}/>
+            <Route path="/cases" element={<CasePage isMediator={true}/>}/>
             <Route path="cases/new_case" element={<CaseFormPage/>}/>
             <Route path="create_users" element={<CreateUserWraper/>}/>
                 

@@ -1,6 +1,9 @@
 import "../../styles/text_field.css"
 import {React} from 'react'
+import { isMobile } from '../general/Responsive'
 const  TextField=({type,placeHolder,onChange,name,value, length,altitude,align})=>{
+    
+
     
     let classPostfix = align === "left" ? "-la" : "" 
     
@@ -8,6 +11,7 @@ const  TextField=({type,placeHolder,onChange,name,value, length,altitude,align})
         width: length? length : "15.5em",
         height: altitude? altitude : "2.5em",
         margin: length === "100%" ? "0" : "1em",
+        // backgroundColor: isMobile() ? "red": "black"
     }
     /*This designated for a specific case 
     where we might want the field to 
@@ -17,7 +21,7 @@ const  TextField=({type,placeHolder,onChange,name,value, length,altitude,align})
 
     return(
         <section>
-            <input
+            <input 
             name={name}
             value={value}
             onChange={onChange} 

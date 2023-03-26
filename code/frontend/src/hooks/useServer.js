@@ -9,9 +9,14 @@ const useServer = ()=>{
     
 
 
-    const getMyCases =async (id,access)=>{
+    const getMyCases =async (id,access,isMediator)=>{
         console.log(id)
-        const {data} = await axios.get(`${sessionServerUrl}/case/casess_by_mediator/`,{
+        console.log('is mediator',isMediator)
+
+        const url = isMediator? `${sessionServerUrl}/case/casess_by_mediator/`:
+         `${sessionServerUrl}/chat_members/get_case_by_user/?id=${id}`
+
+        const {data} = await axios.get(url,{
             params:{
                 id:id
             }
@@ -21,6 +26,8 @@ const useServer = ()=>{
         })
         return data
     }
+
+    
 
     const postNewCase =async ({title,mediator,category,sub_category,problem_brief, access, owner})=>{
 

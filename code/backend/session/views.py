@@ -102,5 +102,18 @@ class GroupMemberView(ModelViewSet):
                 return Response('not found', status=status.HTTP_404_NOT_FOUND)
 
         return Response('bad request', status=status.HTTP_400_BAD_REQUEST)
+    
+    @action(detail=False, methods=['GET'], permission_classes=[permissions.IsAdminOrUser])
+    def get_case_by_user(self,request):
+        id = request.GET.get('id',None)
+        
+        if id:
+            member = self.queryset.get(user=id)
+            caseId = member.case_id
+            queryset = Case.objects.filter(pk=caseId)
+            serializer = CaseSerializer(queryset, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response('Not found',status=status.HTTP_404_NOT_FOUND)
+            
 
 
