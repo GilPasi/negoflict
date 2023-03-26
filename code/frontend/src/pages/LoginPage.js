@@ -14,15 +14,24 @@ import { useNavigate } from "react-router-dom"
 
 
 
+
+
+
 const LoginPage=()=>{
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const {GetJWTToken, ValidateEmail,LogOut, GetRole, GetUserId} = useSubmit()
+    const [isMediator,setIsMediator] = useState(false)
+
+
+
 
     
     useEffect(()=>{
         LogOut()
     },[])
+
+    
 
    
     
@@ -37,17 +46,35 @@ const LoginPage=()=>{
             [name]: value,
           }))
     }
+
+    const submitHandlerUser =async (event)=>{
+        event.preventDefault()
+
+        const {password, username} = formData
+
+
+        const data = {password:`Negoflict${password}`, username:username}
+
+        submitLogin(data)
+
+    }
     
 
 
-   const submitHandler =async (event)=>{
+   const submitHandlerMediator =async (event)=>{
     event.preventDefault()
     const validEmail =await ValidateEmail(formData.email)
 
     if(!validEmail)
         return
 
-    const {refresh,access} = await GetJWTToken(formData)
+    submitLogin(formData)
+
+}
+
+    const submitLogin =async (data)=>{
+
+    const {refresh,access} = await GetJWTToken(data)
     const {id,first_name, last_name} =await GetUserId(formData.username,access)
     const role = await GetRole(id,access)
     
@@ -81,48 +108,53 @@ const LoginPage=()=>{
         default:
             navigate('/login')
     }
-   
-    
-    
-}
+
+    }
     const setNullFields = ()=>[
         setFormData({})
     ]
 
 
     return(
-        <article className="lp">
-            <Header isLarge={true} />
-            <h1 className="lp--title">Log-in<br/>Mediator</h1>
+        <article className="lp" >
+            <div className="limiter">
+                <Header isLarge={true} />
+                <h1 className="lp--title">Log-in<br/>{isMediator?<span>Mediator</span>:<div></div>}</h1>
 
-            <form onSubmit={submitHandler} className="lp--form">
-                <TextInput 
-                            type="text"
-                            placeHolder="Username"
-                            onChange = {handleChange}
-                            name = 'username'
-                        />
+                <form onSubmit={isMediator?submitHandlerMediator:submitHandlerUser} className="lp--form">
+                    {isMediator?
+                   ( <TextInput 
+                    type="text"
+                    placeHolder="Username"
+                    onChange = {handleChange}
+                    name = 'username'
+                />):(<div></div>)}
+                    
 
-
-                <TextInput 
-                            type="email"
-                            placeHolder="Email"
-                            onChange = {handleChange}
-                            name='email'
-                        />
 
                     <TextInput 
-                            type="password"
-                            placeHolder="Password"
-                            onChange = {handleChange}
-                            name='password'
-                        />
-                        <div className="flexbox">
-                            <input type="checkbox" id="lp--checkbox"/>
-                            <label htmlFor="lp--checkbox">Disclaimer Lorem ispum dolor T&C <a href="#"> Link</a></label>
-                        </div>
-                <Button  text="Submit" size="large"/>
-            </form> 
+                                type="email"
+                                placeHolder="Email"
+                                onChange = {handleChange}
+                                name={isMediator?'email':'username'}
+                            />
+
+                    <TextInput 
+                                type="password"
+                                placeHolder="Password"
+                                onChange = {handleChange}
+                                name='password'
+                            />
+                            <div className="flexbox">
+                                <input type="checkbox" id="lp--checkbox"/>
+                                <label htmlFor="lp--checkbox">Disclaimer Lorem ispum dolor T&C <a href="#"> Link</a></label>
+                            </div>
+                    <Button  text="Submit" size="small"/>
+                </form> 
+
+               
+
+            </div>
         </article>
 )}
 export default LoginPage

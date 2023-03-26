@@ -10,8 +10,7 @@ const MessageList =( { messages, position } )=> {
 
   const filteredMessages = messages.filter((message) => message.position === position);
 
-  console.log('in list')
-  console.log(messages.firstName)
+
   return (
     <div 
     style={{
@@ -19,11 +18,12 @@ const MessageList =( { messages, position } )=> {
         width: '100%',
         overflowY: 'scroll', 
       }}
+    
     >
       {filteredMessages.map(message => (
          
             <Message 
-                key={message.text}
+                key={message.id}
                 text={message.text}
                 sender={message.sender}
                 isSelf={message.isSelf}
