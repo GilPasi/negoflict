@@ -13,6 +13,7 @@ const MessageList =( { messages, position } )=> {
 
   console.log('in list')
   console.log(messages.firstName)
+
   return (
     <div 
     style={{
@@ -21,9 +22,10 @@ const MessageList =( { messages, position } )=> {
         // overflowY: 'scroll', 
         //Alternatively you can use the scrollable message list
         //Nonetheless it will cause no responsability throughout 
-        //different devices
+        //different d
         paddingBottom: '10em',
-        paddingTop: '10em'
+        paddingTop: '10em',
+        
       }}
     >
       {filteredMessages.map(message => (
@@ -42,5 +44,4 @@ const MessageList =( { messages, position } )=> {
     </div>
   );
 }
-
 export default MessageList

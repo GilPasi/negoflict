@@ -1,5 +1,4 @@
 import "../../styles/components/user_panel.css"
-import {useState} from 'react'
 const UserPanel=({
     handleSwitch , isSwitched
 })=>{
@@ -15,15 +14,16 @@ const UserPanel=({
                 />  
                 <h5>Save</h5>
             </div>
-            <div className="user-panel--btn">
+            <div onClick={handleSwitch}
+                className="user-panel--btn"
+            >
                 <img
                     className="user-panel--img"
                     src="../../../assets/images/shuttle_icon.png" 
                     alt="menu symbol"
                     id="user-pannel--shuttle-img"
                 />
-                    <div
-                        onClick={handleSwitch} 
+                    <div 
                         className="user-panel-shuttle-circle"
                         style={{transform:`translateX(${isSwitched ? "-75%" : "0"})`}}
                         ></div>
@@ -36,10 +36,7 @@ const UserPanel=({
                     src="../../../assets/images/end_icon.png" 
                     alt="menu symbol"/>
                 <h5>End</h5>
-  
             </div>
-
-
         </section>
     )
 }
