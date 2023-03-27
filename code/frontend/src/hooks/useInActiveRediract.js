@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 
 
-const useInactivityRedirect = (inactiveTime = 90000, redirectUrl = '/login') => {
+const useInactivityRedirect = (inactiveTime = 900000, redirectUrl = '/login') => {
   const [isActive, setIsActive] = useState(true);
   const timerRef = useRef(null);
 

@@ -1,9 +1,7 @@
 
 /* __Chat page component__ */
-
-
 .cp--paper{
-    height: 20em;
+    height: 18.5em;
     width:90%;
     background-color: black;
     height: calc(100% - var(--cp-footer-height));

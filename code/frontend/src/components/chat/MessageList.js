@@ -27,16 +27,18 @@ const MessageList =( { messages, position } )=> {
         paddingTop: '10em',
         
       }}
+    
     >
       {filteredMessages.map(message => (
          
             <Message 
-                key={message.text}
+                key={message.id}
                 text={message.text}
                 sender={message.sender}
                 isSelf={message.isSelf}
                 time = {message.time}
                 name = {message.senderName}
+                
                 />
         
       ))}
