@@ -20,7 +20,12 @@
 
   --width-minimum:10em;
   --width-maximum:45em;
+
+
+  --cp-footer-height:9em;
 }
+html, body { height: 100%; width: 100%; margin: 0; }
+
 .page{
   display: flex;
   justify-content: center;

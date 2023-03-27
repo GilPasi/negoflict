@@ -1,7 +1,7 @@
 import "../../../styles/pages/chat_page.css"
 import ShuttleSwitch from "../../../components/general/ShuttleSwitch";
 import ToolBar from "../../../components/general/ToolBar.js";
-import Message from "../../../components/general/Message";
+import UserPanel from "../../../components/general/UserPanel";
 import Header from "../../../components/general/Header";
 import {useEffect, useState} from 'react'
 import MessageList from "../../../components/chat/MessageList.js";
@@ -18,6 +18,7 @@ const  ChatPage = ({isMediator})=> {
     const [msgScreen,setMsgScreen] = useState([])
     const {firstName, username} = useSelector(state=>state.user)
     const {openConn, messagelistener, getGropByUser} = useChat()
+    const [isShuttled , setIsShuttled] = useState(false)
     
 
     useEffect(()=>{
@@ -107,14 +108,29 @@ const  ChatPage = ({isMediator})=> {
                 break
                 }
         }
+
+
+        const handleShuttle =()=> {
+            setIsShuttled(prevState=>{
+                console.log("prevState " + prevState)
+                return(!prevState)    
+            })
+        }
         
     
     return(
 
         
-        <div className="cp" >
+        <article className="cp" >
             <div className="limiter">
-                <div>
+                <div
+                 style={{
+                    position:"fixed",
+                    top:"0",
+                    width:"100%",
+                    backgroundColor:"white" //This is crucial for hiding the MessageList
+
+                }}>
                 <Header isLarge={false}/>
                     <ToolBar conflictName="A political conflict" id="100777"/>
                     <ShuttleSwitch isMediator={isMediator}/>
@@ -122,13 +138,11 @@ const  ChatPage = ({isMediator})=> {
                 </div>
             </div>
             <div >
-                <div className="cp--paper">
-                    <MessageList messages={msgScreen} position={pos}/>
-                </div>
+                <MessageList messages={msgScreen} position={pos}/>
             </div>
-            <div className="centerizer">
-                <div className="cp--input limiter">
-
+            <div>
+            <section className="cp--footer">
+                <div className="cp--input">
                     <span class="material-symbols-outlined cp--help">
                         help
                     </span>
@@ -139,8 +153,13 @@ const  ChatPage = ({isMediator})=> {
                             </span>
                         </button>
                 </div>
+                <UserPanel
+                    handleSwitch={handleShuttle}
+                    isSwitched={isShuttled}
+                />
+            </section>
             </div>
-        </div>
+        </article>
     )
 } 
 export default ChatPage
