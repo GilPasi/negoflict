@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import useChat from "../../../hooks/useChat";
 import { useLocation } from "react-router-dom";
 import WebIM from "../../../WebIM";
+import { useRef } from "react";
 
 
 
@@ -22,6 +23,8 @@ const  ChatPage = ({isMediator})=> {
     const [groups,setaGroups] = useState([])
     const [sideColor,setSideColor] = useState(1)
     const [caseId,setCaseId] = useState('')
+    const [textAreaSize, setTextAreaSize] = useState(0)
+    const [higt,setHigth] = useState(0)
  
     const { firstName }= useSelector(state=>state.user)
     const { openConn } = useChat()
@@ -257,7 +260,20 @@ const  ChatPage = ({isMediator})=> {
             })
         }
         
-    
+          const size = ({target})=>{
+            const txtS = textAreaSize
+            console.log(target.scrollHeight)
+            console.log(target.offsetHeight)
+            const {scrollHeight} = target
+            if(txtS!= scrollHeight){
+                const resize = txtS< scrollHeight?1:-1
+                if(higt>=2 && resize>0)
+                    return
+                setHigth(higt+resize)
+                setTextAreaSize(target.scrollHeight)
+            }
+              
+          }   
     return(
 
         
@@ -286,7 +302,8 @@ const  ChatPage = ({isMediator})=> {
                     <span class="material-symbols-outlined cp--help">
                         help
                     </span>
-                    <textarea  className="cp--input-box" id="cp--input-tb"></textarea>
+                    <textarea style={{height:`${higt}em`}} onChange={size} rows='3' cols='50' className="cp--input-box" id="cp--input-tb"></textarea>
+
                         <button className="cp--input-btn">
                             <span className="material-symbols-outlined cp--send" onClick={handleSend}>
                                 send
