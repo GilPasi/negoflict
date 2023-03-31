@@ -25,6 +25,7 @@ const  ChatPage = ({isMediator})=> {
     const [caseId,setCaseId] = useState('')
     const [textAreaSize, setTextAreaSize] = useState(0)
     const [higt,setHigth] = useState(0)
+    const [isShuttled, setIsShuttled] = useState(false)
  
     const { firstName }= useSelector(state=>state.user)
     const { openConn } = useChat()
@@ -317,7 +318,8 @@ const  ChatPage = ({isMediator})=> {
             </section>
             </div>
             <UserPanel/>
-        </div>
+        </article>
+     
     )
 } 
 export default ChatPage
