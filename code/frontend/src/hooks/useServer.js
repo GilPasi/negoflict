@@ -4,7 +4,25 @@ import useNodeS from "./useNodeS";
 
 const useServer = ()=>{
     const sessionServerUrl = 'http://localhost:8000/session'
+    const authServerUrl = 'http://localhost:8000/auth'
     const { createNewGroup } = useNodeS()
+
+
+
+
+    const verifyAccessToken =async ({token})=>{
+        
+        const {status} = await axios.post(`${authServerUrl}/jwt/verify/`,{
+            token: token
+        })
+
+        console.log(status)
+
+        if(status === 200)
+            return true
+        
+        return false
+    }
     
     
 
@@ -87,6 +105,7 @@ const useServer = ()=>{
         getMyCases,
         postNewCase,
         createGroupMember,
+        verifyAccessToken,
     }
 
 }

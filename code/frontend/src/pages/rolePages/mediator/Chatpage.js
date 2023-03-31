@@ -30,34 +30,36 @@ const  ChatPage = ({isMediator})=> {
     const { firstName }= useSelector(state=>state.user)
     const { openConn } = useChat()
     const location = useLocation()
+    const {pos} = useSelector(state=>state.pos)
   
 
 
     useEffect(()=>{
             const tokenUser = isMediator?.true ?? false  
-             openConn(tokenUser)
-            const GroupsSubmit = ()=>{
-                const groups = location.state?.groups ?? []
-                setaGroups(groups)
-                console.log(groups)
-
-                if(groups.length<=2){
-                    const groupColor = groups.findIndex(group=>group.groupname.endsWith('_B'))
-                    const tempSide =groupColor? 2:3
-                    setSideColor(tempSide)
-                }
-            }
-            const getCaseId = ()=>{
-                let id = location.state?.caseId ?? '100777'
-
-                id = id.slice(-10)
-
-                setCaseId(id)
-            }
+            openConn(tokenUser)
             GroupsSubmit()
             getCaseId()
+            setMsgScreen(texts)
                 
     },[])
+
+
+    const GroupsSubmit = ()=>{
+        const groups = location.state?.groups ?? []
+        setaGroups(groups)
+
+        if(groups.length<=2){
+            const groupColor = groups.findIndex(group=>group.groupname.endsWith('_B'))
+            const tempSide =groupColor? 2:3
+            setSideColor(tempSide)
+        }
+    }
+    const getCaseId = ()=>{
+        let id = location.state?.caseId ?? 'invalid case id'
+        id = id.slice(-10)
+        setCaseId(id)
+    }
+
 
     WebIM.conn.listen({
         onTextMessage: (message)=>handleRecive(message)
@@ -68,12 +70,8 @@ const  ChatPage = ({isMediator})=> {
 
     const handleRecive = (message)=>{
         const {to, from, data, ext} = message
-
-
-
         let messageTo = groups.find(group=>group.groupid === to)
   
-
         if(!message || messageTo === 'undifined')
             return
 
@@ -84,36 +82,35 @@ const  ChatPage = ({isMediator})=> {
         }
         console.log(groups)
       
-            
+    
+        const sideSend = messageTo.groupname.charAt(messageTo.groupname.length - 1);
+        console.log('sidddeeee',sideSend)
         
-            const sideSend = messageTo.groupname.charAt(messageTo.groupname.length - 1);
-            console.log('sidddeeee',sideSend)
-        
-            let sideSendMessage
-            if(isMediator){
-                switch(sideSend){
-                    case 'A':
-                        sideSendMessage=1
-                        break
-                    case 'G':
-                        sideSendMessage=2
-                        break
-                    case 'B':
-                        sideSendMessage=3
-                        break
+        let sideSendMessage
+        if(isMediator){
+            switch(sideSend){
+                case 'A':
+                    sideSendMessage=1
+                    break
+                case 'G':
+                    sideSendMessage=2
+                    break
+                case 'B':
+                    sideSendMessage=3
+                    break
                 }
             }
-            else{
-                switch(sideSend){
-                    case 'A':
-                        sideSendMessage=1
-                        break
-                    case 'G':
-                        sideSendMessage=2
-                        break
-                    case 'B':
-                        sideSendMessage=1
-                        break
+        else{
+            switch(sideSend){
+                case 'A':
+                    sideSendMessage=1
+                    break
+                case 'G':
+                    sideSendMessage=2
+                    break
+                case 'B':
+                    sideSendMessage=1
+                    break
                 }
 
             }
@@ -128,17 +125,6 @@ const  ChatPage = ({isMediator})=> {
 
 
     }
-
-    useEffect(()=>{
-        setMsgScreen(texts)
-    },[])
-    
-
-    
-
-    const {pos} = useSelector(state=>state.pos)
-    
-    
 
     useEffect(()=>{
         const position = pos
@@ -205,7 +191,7 @@ const  ChatPage = ({isMediator})=> {
             const message = WebIM.message.create(option)
             WebIM.conn.send(message)
 
-            // Mock values , to be replaced by the backend (Hen)
+           
             postNewMessage({
                 msg:msg,
                 sender:1,
@@ -300,7 +286,7 @@ const  ChatPage = ({isMediator})=> {
             <div>
             <section className="cp--footer">
                 <div className="cp--input">
-                    <span class="material-symbols-outlined cp--help">
+                    <span className="material-symbols-outlined cp--help">
                         help
                     </span>
                     <textarea style={{height:`${higt}em`}} onChange={size} rows='3' cols='50' className="cp--input-box" id="cp--input-tb"></textarea>

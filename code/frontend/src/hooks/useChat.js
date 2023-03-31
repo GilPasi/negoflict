@@ -21,10 +21,12 @@ const useChat = (props)=>{
         }
         
         const token = await getUserToken(username)
-       await WebIM.conn.open({
+       const res =await WebIM.conn.open({
             user:username,
             agoraToken:token
         })
+
+        console.log('oooopppppeeennnnnn',res)
     }
 
     const messagelistener = ()=>{
