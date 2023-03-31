@@ -1,7 +1,7 @@
 
 /* __Chat page component__ */
 .cp--paper{
-    height: 18.5em;
+    height: 25em;
     width:90%;
 
 }
@@ -20,7 +20,10 @@
   display: flex;
   justify-content: center;
   background-color: #F5F5F5;
-  padding:1em;
+  padding-left:0.5em;
+  padding-right: 0.5em;
+  padding-bottom: 3em;
+  padding-top: 1em;
   height: 2em;
 }
 
@@ -67,17 +70,20 @@
 
 .cp--input-box{
   width:100%;
-  height:0em;
-  /* padding:1.2em 1em 1.1em 1em; */
-  padding:1em 1em 0.6em 1em;
 
-  border-radius: 3em;
+  /* padding:1.2em 1em 1.1em 1em; */
+  padding:1em 0.8em 0.4em 1em;
+
+  
+  border-radius: 1.5em;
   border:2px solid #828282;
   /* scroll-behavior: auto; */
   resize: none;
   overflow: hidden;
   font-size: 1.2em;
   display: inline;
+
+
 }
 
 .cp--help{
