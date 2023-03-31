@@ -253,6 +253,12 @@ const  ChatPage = ({isMediator})=> {
         }
 
 
+        const handleShuttle =()=> {
+            setIsShuttled(prevState=>{
+                console.log("prevState " + prevState)
+                return(!prevState)    
+            })
+        }
         
           const size = ({target})=>{
             const txtS = textAreaSize
@@ -271,9 +277,16 @@ const  ChatPage = ({isMediator})=> {
     return(
 
         
-        <div className="cp" >
+        <article className="cp" >
             <div className="limiter">
-                <div>
+                <div
+                 style={{
+                    position:"fixed",
+                    top:"0",
+                    width:"100%",
+                    backgroundColor:"white" //This is crucial for hiding the MessageList
+
+                }}>
                 <Header isLarge={false}/>
                     <ToolBar conflictName="A political conflict" id={caseId}/>
                     <ShuttleSwitch isMediator={isMediator}/>
@@ -281,14 +294,12 @@ const  ChatPage = ({isMediator})=> {
                 </div>
             </div>
             <div >
-                <div className="cp--paper">
-                    <MessageList messages={msgScreen} position={pos}/>
-                </div>
+                <MessageList messages={msgScreen} position={pos}/>
             </div>
-            <div className="centerizer">
-                <div className="cp--input limiter">
-
-                    <span className="material-symbols-outlined cp--help">
+            <div>
+            <section className="cp--footer">
+                <div className="cp--input">
+                    <span class="material-symbols-outlined cp--help">
                         help
                     </span>
                     <textarea style={{height:`${higt}em`}} onChange={size} rows='3' cols='50' className="cp--input-box" id="cp--input-tb"></textarea>
@@ -299,6 +310,11 @@ const  ChatPage = ({isMediator})=> {
                             </span>
                         </button>
                 </div>
+                <UserPanel
+                    handleSwitch={handleShuttle}
+                    isSwitched={isShuttled}
+                />
+            </section>
             </div>
             <UserPanel/>
         </div>

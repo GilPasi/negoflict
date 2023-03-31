@@ -3,7 +3,17 @@
 .cp--paper{
     height: 25em;
     width:90%;
+    background-color: black;
+    height: calc(100% - var(--cp-footer-height));
 
+}
+
+.cp--footer{
+  position: fixed;
+  bottom:0.5em;
+  width: 100%;
+  height: var(--cp-footer-height);
+  background-color: white;
 }
 
 .cp--send{
@@ -30,7 +40,7 @@
 .cp--input-btn {
   width: 7.5em;
   height: 5em;
-  margin-left: 2em;
+  margin-left: 1em;
 
   border-radius:50%;
   transform: scale(0.8) translateY(-20%);
