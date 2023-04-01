@@ -265,8 +265,7 @@ const  ChatPage = ({isMediator})=> {
             if(position===2)
                 chatGroupSide = 'G'
             else{
-                const sideCase = groups.findIndex(group=>group.groupname.endsWith('_B'))
-                chatGroupSide = sideCase? 'B':'A'
+                chatGroupSide = member.side
             }
             
             
