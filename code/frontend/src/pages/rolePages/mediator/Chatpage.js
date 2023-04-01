@@ -26,10 +26,13 @@ const  ChatPage = ({isMediator})=> {
     const [higt,setHigth] = useState(0)
     const [isShuttled, setIsShuttled] = useState(false)
  
-    const { firstName }= useSelector(state=>state.user)
-    const { openConn } = useChat()
     const location = useLocation()
     const {pos} = useSelector(state=>state.pos)
+
+
+    const { firstName }= useSelector(state=>state.user)
+    const { openConn } = useChat()
+   
   
 
 
@@ -39,12 +42,7 @@ const  ChatPage = ({isMediator})=> {
     },[])
 
 
-    const handleConnection =async ()=>{
-        const tokenUser = isMediator?.true ?? false  
-        getCaseId()
-        await openConn(tokenUser)
-        GroupsSubmit()
-    }
+    
 
     useEffect(()=>{
        
@@ -54,14 +52,46 @@ const  ChatPage = ({isMediator})=> {
                 WebIM.conn.getHistoryMessages({targetId:group.groupid ,chatType:'groupChat', pageSize: 50})
                 .then(res=>{
                    let messages = []
+                   console.log(res)
                    messages = [...res.messages]
                    messages.forEach(msg=>handleRecive(msg))
                 })
                
             });
-
-
     },[groups])
+
+    useEffect(()=>{
+        const position = pos
+        switch(position){
+            case 1:
+                setMsgScreen([])
+                setMsgScreen(textsA)
+                break
+            case 2:
+                setMsgScreen([])
+                setMsgScreen(texts)
+                break
+            case 3:
+                setMsgScreen([])
+                setMsgScreen(textsB)
+                break
+        }
+    },[pos,texts,textsA,textsB])
+
+
+    WebIM.conn.listen({
+        onTextMessage: (message)=>handleRecive(message),
+    })
+
+    
+
+
+    const handleConnection =async ()=>{
+        const tokenUser = isMediator?.true ?? false  
+        getCaseId()
+        await openConn(tokenUser)
+        GroupsSubmit()
+    }
 
    
 
@@ -89,17 +119,12 @@ const  ChatPage = ({isMediator})=> {
     }
 
 
-    WebIM.conn.listen({
-        onTextMessage: (message)=>handleRecive(message),
-    })
 
 
 
     const handleRecive = (message)=>{
         const {to, from, data, ext, msg} = message
 
-        console.log('memeeeesssssssss===>>>>>',message)
-        console.log('grouuuppppsss==>>>', groups)
         let messageTo = groups.find(group=>group.groupid === to)
   
         if(!message || messageTo === 'undifined')
@@ -124,11 +149,8 @@ const  ChatPage = ({isMediator})=> {
 
         const msgSend = data ?? msg
 
-       
-      
-    
+ 
         const sideSend = messageTo.groupname.charAt(messageTo.groupname.length - 1);
-        console.log('sidddeeee',sideSend)
         
         let sideSendMessage
         if(isMediator){
@@ -170,26 +192,7 @@ const  ChatPage = ({isMediator})=> {
 
     }
 
-    useEffect(()=>{
-        const position = pos
-        switch(position){
-            case 1:
-                setMsgScreen([])
-                setMsgScreen(textsA)
-                break
-            case 2:
-                setMsgScreen([])
-                setMsgScreen(texts)
-                break
-            case 3:
-                setMsgScreen([])
-                setMsgScreen(textsB)
-                break
-        }
-        console.log('pposoososososo',position)
-    },[pos,texts,textsA,textsB])
 
-    
 
         const handleSend = (event)=>{
             const position = pos
@@ -252,7 +255,7 @@ const  ChatPage = ({isMediator})=> {
             const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             const randId = Math.floor(Math.random() * 100000) + 1
 
-            console.log('in post new message',msg, position)
+            
 
             const newMessage = {
                 text:msg,

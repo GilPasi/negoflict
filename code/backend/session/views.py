@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
-from .models import Case, AgoraUser,GroupChat, GroupMember
+from .models import Case,GroupChat, GroupMember, Message
 from negoflict_app import permissions
-from .serializers import CaseSerializer, AgoraUserSerializer, GroupChatSerializer,GroupMemberSerializer
+from .serializers import CaseSerializer, GroupChatSerializer,GroupMemberSerializer, MessageSerializer
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from core.models import User
@@ -55,12 +55,7 @@ class CaseView(ModelViewSet):
     
             
             
-    
-    
-class AgoraUserView(ModelViewSet):
-    queryset = AgoraUser.objects.select_related('case','user').all()
-    serializer_class = AgoraUserSerializer
-    
+  
     
     
 class GroupChatView(ModelViewSet):
@@ -114,6 +109,15 @@ class GroupMemberView(ModelViewSet):
             serializer = CaseSerializer(queryset, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response('Not found',status=status.HTTP_404_NOT_FOUND)
+    
+    
+class MessageView(ModelViewSet):
+    queryset = Message.objects.select_related('group_chat').all()
+    serializer_class = MessageSerializer
+    # permission_classes = [permissions.IsAdminOrUser]
+    
+    
+    
             
 
 
