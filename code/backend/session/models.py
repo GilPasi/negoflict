@@ -58,12 +58,13 @@ class GroupMember(models.Model): #define the user side in the conflict
 
 class Message(models.Model):
     group_chat = models.ForeignKey(GroupChat,on_delete=models.CASCADE)
-    user = models.ForeignKey(GroupMember, on_delete=models.CASCADE)
+    user = models.ForeignKey(GroupMember, on_delete=models.CASCADE, null=True, blank=True)
     create_at = models.DateTimeField(auto_now_add=True)
-    date_time = models.DateTimeField(auto_now_add=True, null=True)
+    date_time = models.DateTimeField( null=True)
     time_left_last_message = models.DecimalField(decimal_places=2,max_digits=10)
     num_of_chars = models.IntegerField()
     text = models.TextField()
+
     
      
    

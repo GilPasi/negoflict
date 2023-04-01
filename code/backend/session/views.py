@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from .models import Case,GroupChat, GroupMember, Message
 from negoflict_app import permissions
-from .serializers import CaseSerializer, GroupChatSerializer,GroupMemberSerializer, MessageSerializer
+from .serializers import CaseSerializer, GroupChatSerializer,GroupMemberSerializer, MessageSerial
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from core.models import User
@@ -64,6 +64,21 @@ class GroupChatView(ModelViewSet):
     permission_classes = [permissions.IsAdminOrUser]
     
     
+    @action(detail=False, methods=['GET'], permission_classes=[permissions.IsAdminOrUser])
+    def get_group_chat_by_case(self,request):
+        case = request.GET.get('case')
+        chat = request.GET.get('chat')
+        
+        if case and chat:
+            groupChat = self.queryset.get(case=case, chat=chat)
+            if groupChat:
+                serializer = GroupChatSerializer(groupChat)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response('not found', status=status.HTTP_404_NOT_FOUND)
+        return Response('bad request',status=status.HTTP_400_BAD_REQUEST)
+            
+    
+    
     
 class GroupMemberView(ModelViewSet):
     queryset = GroupMember.objects.all()
@@ -112,8 +127,8 @@ class GroupMemberView(ModelViewSet):
     
     
 class MessageView(ModelViewSet):
-    queryset = Message.objects.select_related('group_chat').all()
-    serializer_class = MessageSerializer
+    queryset = Message.objects.all()
+    serializer_class = MessageSerial
     # permission_classes = [permissions.IsAdminOrUser]
     
     

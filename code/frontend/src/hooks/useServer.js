@@ -8,6 +8,37 @@ const useServer = ()=>{
     const { createNewGroup } = useNodeS()
 
 
+    const getChatGroupsByCase =async ({caseId,side}) => {
+
+        const res =await axios.get(`${sessionServerUrl}/chat_group/get_group_chat_by_case/?case=${caseId}&&chat=${side}`)
+
+        console.log('in use chat',res.data)
+
+        return res.data
+
+
+    }
+
+
+    const saveMessage = async({date_time, time_left_last_message,text,group_chat,user,num_of_chars})=>{
+        
+
+        const data = {
+            date_time:date_time,
+            time_left_last_message:time_left_last_message,
+            num_of_chars:num_of_chars,
+            text:text,
+            group_chat:group_chat,
+            user:user
+
+        }
+
+        const res =await axios.post(`${sessionServerUrl}/message/`,data)
+        return res.data
+
+    }
+
+
 
 
     const verifyAccessToken =async ({token})=>{
@@ -80,6 +111,19 @@ const useServer = ()=>{
         
 
     }
+
+    const getGroupMemberByUser =async ({caseId,side})=>{
+
+        
+
+        const {data} =await axios.get(`${sessionServerUrl}/chat_members/get_group_member_by_user/?case=${caseId}&side=${side}`)
+
+        console.log('ashfiuehaihfiuasdhfuisdhaifu>>>>>>>>>>',data)
+
+        return data
+
+
+    }
     const createGroupMember =async (users,accss,idCase)=>{
 
         const sides = ['A','B']
@@ -106,6 +150,9 @@ const useServer = ()=>{
         postNewCase,
         createGroupMember,
         verifyAccessToken,
+        saveMessage,
+        getChatGroupsByCase,
+        getGroupMemberByUser
     }
 
 }

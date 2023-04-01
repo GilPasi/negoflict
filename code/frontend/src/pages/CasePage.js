@@ -26,11 +26,8 @@ const CasePage =({isMediator})=>{
      const getGroups =async ()=>{
             
             username = isMediator? username: username.replace(/[^\w\s]/gi, '')
-            console.log('in case page',username)
-            
             const {data} = await getGropByUser(username)
             dispatch(addGroups(data))
-            console.log(data)
         }
     
 
