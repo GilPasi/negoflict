@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 
 const InfoBox = ({obj,size})=>{
     const {role} = useSelector(state=>state.user)
-    console.log(role)
     const gotRole = role<=2?'mediator':'user'; 
 
     const objKeys = Object.keys(obj)
@@ -13,7 +12,6 @@ const InfoBox = ({obj,size})=>{
     
     const chatPath = `/${gotRole}/chat/${path}`
 
-    console.log(chatPath)
    
     
 

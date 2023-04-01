@@ -9,6 +9,9 @@ import { useSelector } from "react-redux";
 import useChat from "../../../hooks/useChat";
 import { useLocation } from "react-router-dom";
 import WebIM from "../../../WebIM";
+import useServer from "../../../hooks/useServer";
+import { useRef } from "react";
+
 
 
 
@@ -25,18 +28,24 @@ const  ChatPage = ({isMediator})=> {
     const [textAreaSize, setTextAreaSize] = useState(0)
     const [higt,setHigth] = useState(0)
     const [isShuttled, setIsShuttled] = useState(false)
+    const [chatGroups,setChatGroups] = useState([])
+    const [member, setMember] = useState(null)
  
     const location = useLocation()
     const {pos} = useSelector(state=>state.pos)
+    const wasRenderd = useRef(false);
 
 
-    const { firstName }= useSelector(state=>state.user)
+    const { firstName, id }= useSelector(state=>state.user)
     const { openConn } = useChat()
+    const { saveMessage, getChatGroupsByCase, getGroupMemberByUser } = useServer()
    
   
 
 
     useEffect(()=>{
+        if(wasRenderd.current) return
+            wasRenderd.current = true
             handleConnection()
             setMsgScreen(texts)
     },[])
@@ -83,12 +92,38 @@ const  ChatPage = ({isMediator})=> {
         onTextMessage: (message)=>handleRecive(message),
     })
 
+
+    const getChatGroups = ()=>{
+        const caseId = location.state?.caseId ?? null
+        let side = groups.findIndex(group=>group.groupname.endsWith('_B'))
+        side = side?'B':'A'
+        if(!isMediator)
+            getGroupMemberByUser({caseId:caseId, side:side})
+            .then(res=>setMember(res))
+
+        let times = []
+
+        if(!isMediator){
+
+            times = [side, 'G']
+        }
+        else{
+            times = ['A','G','B']
+        }
+
+        times.forEach(side=>{
+            getChatGroupsByCase({caseId:caseId,side:side})
+            .then(res=>setChatGroups(prevState=> [...prevState, res]))
+        })
+    } 
+
     
 
 
     const handleConnection =async ()=>{
         const tokenUser = isMediator?.true ?? false  
         getCaseId()
+        getChatGroups()
         await openConn(tokenUser)
         GroupsSubmit()
     }
@@ -98,6 +133,8 @@ const  ChatPage = ({isMediator})=> {
 
     const GroupsSubmit =async ()=>{
         const groups = location.state?.groups ?? []
+
+        console.log(groups)
 
         setaGroups(groups)
 
@@ -114,6 +151,7 @@ const  ChatPage = ({isMediator})=> {
 
     const getCaseId = ()=>{
         let id = location.state?.caseId ?? 'invalid case id'
+
         id = id.slice(-10)
         setCaseId(id)
     }
@@ -204,24 +242,34 @@ const  ChatPage = ({isMediator})=> {
             if(!msg) 
                 return
             
-                
-            
             let toGroup
+            let chatGroupSide
             if(isMediator){
             switch(position){
                 case 1:
                     toGroup = groups[0].groupid
+                    chatGroupSide = 'A'
                     break
                 case 2:
                     toGroup = groups[2].groupid
+                    chatGroupSide = 'G'
                     break
                 case 3:
                     toGroup = groups[1].groupid
+                    chatGroupSide = 'B'
                     break
             }
         }
         else{
             toGroup = groups[position-1].groupid
+            if(position===2)
+                chatGroupSide = 'G'
+            else{
+                const sideCase = groups.findIndex(group=>group.groupname.endsWith('_B'))
+                chatGroupSide = sideCase? 'B':'A'
+            }
+            
+            
         }
 
             const option = {
@@ -246,6 +294,27 @@ const  ChatPage = ({isMediator})=> {
                 senderName:firstName,
                 isSelf:true
             })
+
+            setTimeout(()=>{
+                const dateTime = new Date().toISOString()
+
+                console.log('grouupppsss', chatGroups)
+                console.log(chatGroupSide)
+
+                const gr = chatGroups.find(group=>group.chat === chatGroupSide)
+
+                const memeberId = member?.id ?? null
+    
+                const msgSave = {
+                    date_time:dateTime,
+                    time_left_last_message:2,
+                    num_of_chars:msg.length,
+                    text:msg,
+                    group_chat:gr.id,
+                    user:memeberId,
+                }
+                saveMessage(msgSave)
+            },0)
         }
 
         
