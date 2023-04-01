@@ -9,7 +9,6 @@ import { useSelector } from "react-redux";
 import useChat from "../../../hooks/useChat";
 import { useLocation } from "react-router-dom";
 import WebIM from "../../../WebIM";
-import { useRef } from "react";
 
 
 
@@ -35,25 +34,54 @@ const  ChatPage = ({isMediator})=> {
 
 
     useEffect(()=>{
-            const tokenUser = isMediator?.true ?? false  
-            openConn(tokenUser)
-            GroupsSubmit()
-            getCaseId()
+            handleConnection()
             setMsgScreen(texts)
-                
     },[])
 
 
-    const GroupsSubmit = ()=>{
+    const handleConnection =async ()=>{
+        const tokenUser = isMediator?.true ?? false  
+        getCaseId()
+        await openConn(tokenUser)
+        GroupsSubmit()
+    }
+
+    useEffect(()=>{
+       
+            const groupsMasseges = [...groups]
+
+                groupsMasseges.forEach(group => {
+                WebIM.conn.getHistoryMessages({targetId:group.groupid ,chatType:'groupChat', pageSize: 50})
+                .then(res=>{
+                   let messages = []
+                   messages = [...res.messages]
+                   messages.forEach(msg=>handleRecive(msg))
+                })
+               
+            });
+
+
+    },[groups])
+
+   
+
+
+    const GroupsSubmit =async ()=>{
         const groups = location.state?.groups ?? []
+
         setaGroups(groups)
+
 
         if(groups.length<=2){
             const groupColor = groups.findIndex(group=>group.groupname.endsWith('_B'))
             const tempSide =groupColor? 2:3
             setSideColor(tempSide)
         }
+        return groups
+
+    
     }
+
     const getCaseId = ()=>{
         let id = location.state?.caseId ?? 'invalid case id'
         id = id.slice(-10)
@@ -62,25 +90,41 @@ const  ChatPage = ({isMediator})=> {
 
 
     WebIM.conn.listen({
-        onTextMessage: (message)=>handleRecive(message)
+        onTextMessage: (message)=>handleRecive(message),
     })
 
 
-    
 
     const handleRecive = (message)=>{
-        const {to, from, data, ext} = message
+        const {to, from, data, ext, msg} = message
+
+        console.log('memeeeesssssssss===>>>>>',message)
+        console.log('grouuuppppsss==>>>', groups)
         let messageTo = groups.find(group=>group.groupid === to)
   
         if(!message || messageTo === 'undifined')
             return
 
-        let colorMsg = ext.color
+        let colorMsg
+        let isSelf = false
+        if(ext.name !== firstName){
+
+            colorMsg = ext.color 
 
         if(colorMsg===1){
             colorMsg = sideColor===2?2:3
         }
-        console.log(groups)
+    }
+    else{
+        colorMsg = 1
+        isSelf = true
+        
+    }
+        
+
+        const msgSend = data ?? msg
+
+       
       
     
         const sideSend = messageTo.groupname.charAt(messageTo.groupname.length - 1);
@@ -116,11 +160,11 @@ const  ChatPage = ({isMediator})=> {
             }
 
         postNewMessage({
-                msg:data,
+                msg:msgSend,
                 sender:colorMsg,
                 position:sideSendMessage,
                 senderName:ext.name,
-                isSelf:false
+                isSelf:isSelf
             })
 
 
@@ -303,7 +347,7 @@ const  ChatPage = ({isMediator})=> {
                 />
             </section>
             </div>
-            <UserPanel/>
+           
         </article>
      
     )
