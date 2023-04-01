@@ -28,7 +28,9 @@ const Message=({text,sender,isSelf, time, name})=>{
                 <h6 className="message--time">{time}</h6>
                
                 </div>
+                <div className="message-continer">
                 <p className="message--text">{text}</p>
+                </div>
             </div>
 
         </div>

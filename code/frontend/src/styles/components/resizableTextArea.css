@@ -1,0 +1,20 @@
+.container {
+  position: relative;
+  width: 100%;
+  padding: 1px 15px;
+
+}
+
+textarea {
+  width: 100%;
+  resize: none;
+  box-sizing: border-box;
+  overflow: hidden;
+  border-radius: 1em;
+  border:2px solid #828282;
+   resize: none;
+  overflow: hidden;
+  font-size: 1em;
+  display: inline;
+    padding:1em 1em 0.6em 1em;
+}

@@ -19,17 +19,16 @@ const CasePage =({isMediator})=>{
     let { username } = useSelector(state=>state.user)
 
     useEffect(()=>{
-        const getGroups =async ()=>{
-            
-            username = isMediator? username: username.replace(/[^\w\s]/gi, '')
-            console.log('in case page',username)
-            
-            const {data} = await getGropByUser(username)
-            dispatch(addGroups(data))
-            console.log(data)
-        }
         getGroups()
     },[])
+    
+
+     const getGroups =async ()=>{
+            
+            username = isMediator? username: username.replace(/[^\w\s]/gi, '')
+            const {data} = await getGropByUser(username)
+            dispatch(addGroups(data))
+        }
     
 
     return(

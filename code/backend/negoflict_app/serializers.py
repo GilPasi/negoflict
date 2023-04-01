@@ -14,6 +14,7 @@ class MediatorSerializer(serializers.ModelSerializer):
         fields = ['phone','education','relevant_experience','mediation_areas','certification_course','user']
         depth = 1
         
+
     
 
 class AddressSerializer(serializers.ModelSerializer):

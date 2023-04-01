@@ -58,12 +58,13 @@ class GroupMember(models.Model): #define the user side in the conflict
 
 class Message(models.Model):
     group_chat = models.ForeignKey(GroupChat,on_delete=models.CASCADE)
-    user = models.ForeignKey(GroupMember, on_delete=models.CASCADE)
+    user = models.ForeignKey(GroupMember, on_delete=models.CASCADE, null=True, blank=True)
     create_at = models.DateTimeField(auto_now_add=True)
-    date_time = models.DateTimeField(auto_now_add=True, null=True)
+    date_time = models.DateTimeField( null=True)
     time_left_last_message = models.DecimalField(decimal_places=2,max_digits=10)
     num_of_chars = models.IntegerField()
     text = models.TextField()
+
     
      
    
@@ -90,22 +91,4 @@ class Survey(models.Model):
     case_rate = models.CharField(max_length=2,choices=VALUES_CHOICESS,default='', null=True)
     
     
-
-
-
-
-
-class AgoraUser(models.Model):
-    chat_user_id = models.UUIDField(max_length=50,primary_key=True, default=uuid.uuid4,editable=False)
-    nickname = models.CharField(null=True,max_length=50)
-    password = models.CharField(max_length=20, null=True)
-    case = models.ForeignKey(Case, on_delete=models.SET_NULL, null=True, blank=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
-    assigned_data_time = models.DateTimeField(auto_now=True)
-    active = models.BooleanField(null=True)
-    
-    # class Meta:
-    #      unique_together = ('user', 'case')
-    
-
 

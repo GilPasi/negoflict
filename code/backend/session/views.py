@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
-from .models import Case, AgoraUser,GroupChat, GroupMember
+from .models import Case,GroupChat, GroupMember, Message
 from negoflict_app import permissions
-from .serializers import CaseSerializer, AgoraUserSerializer, GroupChatSerializer,GroupMemberSerializer
+from .serializers import CaseSerializer, GroupChatSerializer,GroupMemberSerializer, MessageSerial
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from core.models import User
@@ -55,18 +55,28 @@ class CaseView(ModelViewSet):
     
             
             
-    
-    
-class AgoraUserView(ModelViewSet):
-    queryset = AgoraUser.objects.select_related('case','user').all()
-    serializer_class = AgoraUserSerializer
-    
+  
     
     
 class GroupChatView(ModelViewSet):
     queryset = GroupChat.objects.all()
     serializer_class = GroupChatSerializer
     permission_classes = [permissions.IsAdminOrUser]
+    
+    
+    @action(detail=False, methods=['GET'], permission_classes=[permissions.IsAdminOrUser])
+    def get_group_chat_by_case(self,request):
+        case = request.GET.get('case')
+        chat = request.GET.get('chat')
+        
+        if case and chat:
+            groupChat = self.queryset.get(case=case, chat=chat)
+            if groupChat:
+                serializer = GroupChatSerializer(groupChat)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response('not found', status=status.HTTP_404_NOT_FOUND)
+        return Response('bad request',status=status.HTTP_400_BAD_REQUEST)
+            
     
     
     
@@ -114,6 +124,15 @@ class GroupMemberView(ModelViewSet):
             serializer = CaseSerializer(queryset, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response('Not found',status=status.HTTP_404_NOT_FOUND)
+    
+    
+class MessageView(ModelViewSet):
+    queryset = Message.objects.all()
+    serializer_class = MessageSerial
+    # permission_classes = [permissions.IsAdminOrUser]
+    
+    
+    
             
 
 

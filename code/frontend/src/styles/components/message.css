@@ -5,6 +5,7 @@
     align-items: flex-start;
     margin: 0px 0px;
     width: 100%;
+    max-width: 10;
   }
   
   .message-content{
@@ -13,13 +14,16 @@
     margin:0.6em;
     border-radius:15px;
     width:max-content;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+    
   }
   
   .message--text{
     font-weight: var(--weight-semi);
     font-size: 0.8em;
     margin:0;
-    padding-right: 20px;
+    padding-right: 5px;
+
   }
   #message--title{
     text-align: right;
@@ -32,14 +36,22 @@
     align-items: center;
     width: 100%;
     margin-bottom: 5px;
+    width: 100px;
   }
   .message--time {
     margin: 0px;
-    font-size: 0.8em;
+    font-size: 0.4em;
   }
   .message-right {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     margin: 10px 0px;
+  }
+
+  .message-continer{
+    max-width: 200px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    
   }

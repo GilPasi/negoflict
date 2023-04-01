@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import Message from '../general/Message';
+//Note that all styles of the list is done in the component
 
 const MessageList =( { messages, position } )=> {
   const messagesEndRef = useRef(null);
@@ -10,14 +11,21 @@ const MessageList =( { messages, position } )=> {
 
   const filteredMessages = messages.filter((message) => message.position === position);
 
+  console.log('in list')
+  console.log(messages.firstName)
 
   return (
     <div 
     style={{
-        height: '400px', 
-        width: '100%',
-        overflowY: 'scroll', 
-        margin:'0',
+        width:'100%',
+        // height: "350px",
+        // overflowY: 'scroll', 
+        //Alternatively you can use the scrollable message list
+        //Nonetheless it will cause no responsability throughout 
+        //different d
+        paddingBottom: '10em',
+        paddingTop: '10em',
+        
       }}
     
     >
@@ -38,5 +46,4 @@ const MessageList =( { messages, position } )=> {
     </div>
   );
 }
-
 export default MessageList

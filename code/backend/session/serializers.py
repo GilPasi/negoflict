@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Case,GroupChat,GroupMember,Message, Survey,AgoraUser,category
+from .models import Case,GroupChat,GroupMember,Message, Survey,category
+
 
 class MediationChoiceField(serializers.Field):
     def to_representation(self, value):
@@ -24,6 +25,7 @@ class GroupChatSerializer(serializers.ModelSerializer):
         model = GroupChat
         fields = '__all__'
         
+        
 class GroupMemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = GroupMember
@@ -37,16 +39,11 @@ class SurveySerializer(serializers.ModelSerializer):
         fields = '__all__'
         
         
-class AgoraUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AgoraUser
-        fields = '__all__'
         
-class MessageSerializer(serializers.ModelSerializer):
+        
+class MessageSerial(serializers.ModelSerializer):
     class Meta:
         model = Message
         fields = '__all__'
-    
         
-    
         

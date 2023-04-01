@@ -7,34 +7,47 @@ import useSubmit from "../hooks/useSubmit.js"
 import { useDispatch,  } from 'react-redux'
 import { login } from '../store/index'
 import { useNavigate } from "react-router-dom"
-
-
-
-
-
-
-
-
+import useServer from '../hooks/useServer'
+import { useSelector } from "react-redux"
 
 
 const LoginPage=()=>{
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const {GetJWTToken, ValidateEmail,LogOut, GetRole, GetUserId} = useSubmit()
+    const { verifyAccessToken } = useServer()
     const [isMediator,setIsMediator] = useState(false)
+    const { accessToken, role} = useSelector(state=>state.user)
+
 
 
 
 
     
     useEffect(()=>{
-        LogOut()
+
+        isLogin()
     },[])
 
-    
 
-   
-    
+
+    const isLogin =async ()=>{
+
+        const token = accessToken || null
+
+        if(token){
+            
+            const res =await verifyAccessToken({token:token})
+
+            if(res){
+                directTo(role)
+                return
+            }
+        }
+
+        LogOut()
+    }
+
     
     const [formData,setFormData] = useState({})
 
@@ -91,25 +104,35 @@ const LoginPage=()=>{
         lastName:last_name,
     }))
     setNullFields()
+
+    directTo(role)
     
-    switch(role){
-        case 1:{
-            navigate('/admin')
-            break;
-        }
-        case 2:{
-            navigate('/mediator')
-            break
-        }
-        case 3:{
-            navigate('/user')
-            break
-        }
-        default:
-            navigate('/login')
     }
 
+
+
+
+    const directTo = (role)=>{
+
+        switch(role){
+            case 1:{
+                navigate('/admin')
+                break;
+            }
+            case 2:{
+                navigate('/mediator')
+                break
+            }
+            case 3:{
+                navigate('/user')
+                break
+            }
+            default:
+                navigate('/login')
+        }
+
     }
+
     const setNullFields = ()=>[
         setFormData({})
     ]
