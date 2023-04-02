@@ -172,6 +172,7 @@ const LoginPage=()=>{
                                 <input type="checkbox" id="lp--checkbox"/>
                                 <label htmlFor="lp--checkbox">Disclaimer Lorem ispum dolor T&C <a href="#"> Link</a></label>
                             </div>
+                            
                     <Button  text="Submit" size="small"/>
                 </form> 
                 <label style={{padding:'10px'}}>

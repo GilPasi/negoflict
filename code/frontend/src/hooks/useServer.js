@@ -100,7 +100,7 @@ const useServer = ()=>{
                 
             )
             const resAgora =await createNewGroup(title,problem_brief,3,owner)
-
+            console.log(resAgora.AgoraResponse)
 
             return {res, resAgora}
 

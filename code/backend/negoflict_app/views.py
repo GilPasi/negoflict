@@ -149,6 +149,7 @@ class AddressUserView(ModelViewSet):
     queryset = AddressMediator.objects.all()
     serializer_class = AddressMediatorSerializer
     permission_classes=[permissions.IsAdminOrUser]
+    
 
 
 

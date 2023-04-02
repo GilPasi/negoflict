@@ -60,7 +60,7 @@ const CaseFormPage = () =>{
         }
 
         const {res, resAgora} = await postNewCase(data)
-        const groupArr = [...resAgora.AgraResponse]
+        const groupArr = [...resAgora.AgoraResponse]
         
         // console.log(resAgora.AgraResponse[0].A.data.groupid)
         if(res.status===201){
