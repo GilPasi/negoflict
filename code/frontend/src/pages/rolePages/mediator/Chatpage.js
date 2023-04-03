@@ -44,7 +44,7 @@ const  ChatPage = ({isMediator})=> {
 
 
     useEffect(()=>{
-        if(wasRenderd.current) return
+            if(wasRenderd.current) return
             wasRenderd.current = true
             handleConnection()
             setMsgScreen(texts)
