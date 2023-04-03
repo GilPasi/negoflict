@@ -24,7 +24,7 @@ const MessageList =( { messages, position } )=> {
         //Nonetheless it will cause no responsability throughout 
         //different d
         paddingBottom: '10em',
-        paddingTop: '10em',
+        paddingTop: '12em',
         
       }}
     

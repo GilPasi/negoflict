@@ -8,6 +8,9 @@ import { useSelector } from "react-redux"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { addGroups } from "../store"
+import { useLocation } from "react-router-dom"
+import { useRef } from "react"
+import  useAlert  from '../hooks/useAlert'
 
 
 
@@ -16,10 +19,32 @@ const CasePage =({isMediator})=>{
     const [groups,setGroups] = useState([])
     const dispatch = useDispatch()
     const { getGropByUser } = useChat()
+    const location = useLocation()
     let { username } = useSelector(state=>state.user)
+    const {status} = location?.state || {}
+    const {render} = location?.state || true
+    const wasRenderd = useRef(render);
+    const {trigerNotification} = useAlert()
 
     useEffect(()=>{
         getGroups()
+
+        if(wasRenderd.current || !status)return
+        wasRenderd.current = true
+        let title, icon
+
+        if(status===200){
+            title = 'Case created successfuly'
+            icon = 'success'
+            
+        }
+        else{
+            title = 'Case was not created'
+            icon = 'error'
+        }
+        trigerNotification(title,icon)
+    
+
     },[])
     
 
@@ -29,6 +54,7 @@ const CasePage =({isMediator})=>{
             const {data} = await getGropByUser(username)
             dispatch(addGroups(data))
         }
+
     
 
     return(

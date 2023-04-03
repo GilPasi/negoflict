@@ -9,6 +9,7 @@ import { login } from '../store/index'
 import { useNavigate } from "react-router-dom"
 import useServer from '../hooks/useServer'
 import { useSelector } from "react-redux"
+import useAlert from "../hooks/useAlert"
 
 
 const LoginPage=()=>{
@@ -18,6 +19,8 @@ const LoginPage=()=>{
     const { verifyAccessToken } = useServer()
     const [isMediator,setIsMediator] = useState(false)
     const { accessToken, role} = useSelector(state=>state.user)
+    const { bigSuccessAlert } = useAlert()
+    const loginHref = isMediator?'Login as User': 'Login as Mediator'
 
 
 
@@ -113,6 +116,7 @@ const LoginPage=()=>{
 
 
     const directTo = (role)=>{
+        bigSuccessAlert('Login successfuly')
 
         switch(role){
             case 1:{
@@ -181,7 +185,7 @@ const LoginPage=()=>{
 
                                     isMediator?setIsMediator(false):setIsMediator(true)
 
-                                }}>Login as Mediator </a>
+                                }}>{loginHref}</a>
                                 </label>
 
                

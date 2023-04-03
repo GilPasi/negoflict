@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom"
 import useNodeS from "../../hooks/useNodeS"
 import useSubmit from '../../hooks/useSubmit'
 import useServer from "../../hooks/useServer"
+import { render } from "react-dom"
 
 
 const CreateUserWraper = ()=>{
@@ -31,6 +32,8 @@ const CreateUserWraper = ()=>{
   
     const side = quaryParams.get('side')
     console.log(side)
+    console.log(dataCase)
+
 
     useEffect(()=>{
         const val =side=='A'?0:1
@@ -48,7 +51,9 @@ const CreateUserWraper = ()=>{
 
     const handleChange = (event) => {
         const { name, value } = event.target
+        
         const index = sideVal
+        console.log('index',index)
       
         setUserData(prevState => {
           const prevData = [...prevState]
@@ -80,18 +85,33 @@ const CreateUserWraper = ()=>{
 
 
         
-          const res =await registerManyUsers(arrUser,newToken)
-          const res2 = await registerUsersTogroups(groupArr,arrUser)
-          console.log(res2)
+          const {data, status} =await registerManyUsers(arrUser,newToken,dataCase)
+          if(status !== 200)
+            rediract(status)
+            
 
-          const users = [...res.dbResult]
+          const res2 = await registerUsersTogroups(groupArr,arrUser)
+          
+
+          const users = [...data.dbResult]
 
           const response_final_step = await createGroupMember(users,newToken,dataCase)
 
           console.log(response_final_step)
-        navigate('/mediator/cases',{
-          replace:true,
-        })
+          rediract(status)
+       
+    }
+
+    const rediract = (status)=>{
+      navigate('/mediator/cases',{
+        replace:true,
+        state:{
+          status:status,
+          render:false
+        }
+        
+      })
+
     }
 
     

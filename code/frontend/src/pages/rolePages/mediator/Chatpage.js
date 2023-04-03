@@ -63,6 +63,7 @@ const  ChatPage = ({isMediator})=> {
                    let messages = []
                    console.log(res)
                    messages = [...res.messages]
+                   messages.sort((a,b)=>a.time - b.time)
                    messages.forEach(msg=>handleRecive(msg))
                 })
                
@@ -267,9 +268,12 @@ const  ChatPage = ({isMediator})=> {
             else{
                 chatGroupSide = member.side
             }
+
+            
             
             
         }
+        console.log('to group',toGroup)
 
             const option = {
                 chatType:'groupChat',
@@ -297,8 +301,6 @@ const  ChatPage = ({isMediator})=> {
             setTimeout(()=>{
                 const dateTime = new Date().toISOString()
 
-                console.log('grouupppsss', chatGroups)
-                console.log(chatGroupSide)
 
                 const gr = chatGroups.find(group=>group.chat === chatGroupSide)
 

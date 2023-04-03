@@ -14,6 +14,20 @@ class CaseView(ModelViewSet):
     serializer_class = CaseSerializer
     permission_classes= [permissions.IsAdminOrUser]
     
+    @action(detail=False, methods=['DELETE'], permission_classes=[permissions.All]) #change that permission
+    def delete_case(self,request):
+        id = request.GET.get('caseId')
+        
+        if id:
+            instance =self.queryset.get(pk=id)
+            if instance:
+                self.perform_destroy(instance)
+                return Response('object deleted',status=status.HTTP_200_OK)
+            return Response('Not found',status=status.HTTP_404_NOT_FOUND)
+        return Response('missing caseId',status=status.HTTP_400_BAD_REQUEST)
+        
+        
+    
     
     @action(detail=False, methods=['POST','GET'], permission_classes=[permissions.IsAdminOrUser])
     def create_case_and_groups(self,request):
