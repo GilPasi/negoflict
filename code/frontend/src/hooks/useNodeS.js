@@ -6,16 +6,19 @@ const useNodeS = ()=>{
     const ServerUrl = 'http://localhost:8050'
 
 
-    const registerManyUsers =async (users, access)=>{
+    const registerManyUsers =async (users, access,caseId)=>{
         try{
 
         const res =await axios.post(`${ServerUrl}/register_many_users`,{
             users:users,
-            access:access
+            access:access,
+            caseId:caseId
         })
-        return res.data
+        
+        return res
     }catch(err){
-        console.log(err)
+      
+        return err.response
     }
 
     }
@@ -30,6 +33,7 @@ const useNodeS = ()=>{
             maxusers: maxUsers,
             owner: owner
         })
+        
 
         return res.data
     }

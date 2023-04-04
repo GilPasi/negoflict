@@ -2,13 +2,15 @@ import "../styles/pages/login_page.css"
 import Header from "../components/general/Header"
 import TextInput from "../components/general/TextInput"
 import Button from '../components/general/Button'
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import useSubmit from "../hooks/useSubmit.js"
 import { useDispatch,  } from 'react-redux'
 import { login } from '../store/index'
 import { useNavigate } from "react-router-dom"
 import useServer from '../hooks/useServer'
 import { useSelector } from "react-redux"
+import useAlert from "../hooks/useAlert"
+
 
 
 const LoginPage=()=>{
@@ -18,6 +20,12 @@ const LoginPage=()=>{
     const { verifyAccessToken } = useServer()
     const [isMediator,setIsMediator] = useState(false)
     const { accessToken, role} = useSelector(state=>state.user)
+    const { bigSuccessAlert } = useAlert()
+    const loginHref = isMediator?'Login as User': 'Login as Mediator'
+
+    const WasMounts = useRef(false)
+
+    
 
 
 
@@ -25,20 +33,22 @@ const LoginPage=()=>{
 
     
     useEffect(()=>{
-
+        if(WasMounts.current) return
+        WasMounts.current = true
         isLogin()
     },[])
 
 
 
     const isLogin =async ()=>{
-
+     
+        
         const token = accessToken || null
 
         if(token){
             
             const res =await verifyAccessToken({token:token})
-
+           
             if(res){
                 directTo(role)
                 return
@@ -113,6 +123,7 @@ const LoginPage=()=>{
 
 
     const directTo = (role)=>{
+        bigSuccessAlert('Login successfuly')
 
         switch(role){
             case 1:{
@@ -181,7 +192,7 @@ const LoginPage=()=>{
 
                                     isMediator?setIsMediator(false):setIsMediator(true)
 
-                                }}>Login as Mediator </a>
+                                }}>{loginHref}</a>
                                 </label>
 
                
