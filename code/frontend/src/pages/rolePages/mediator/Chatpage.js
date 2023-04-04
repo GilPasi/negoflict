@@ -11,10 +11,7 @@ import { useLocation } from "react-router-dom";
 import WebIM from "../../../WebIM";
 import useServer from "../../../hooks/useServer";
 import { useRef } from "react";
-
-
-
-
+import Message from "../../../components/general/Message";
 
 
 const  ChatPage = ({isMediator})=> {
@@ -25,8 +22,6 @@ const  ChatPage = ({isMediator})=> {
     const [groups,setaGroups] = useState([])
     const [sideColor,setSideColor] = useState(1)
     const [caseId,setCaseId] = useState('')
-    const [textAreaSize, setTextAreaSize] = useState(0)
-    const [higt,setHigth] = useState(0)
     const [isShuttled, setIsShuttled] = useState(false)
     const [chatGroups,setChatGroups] = useState([])
     const [member, setMember] = useState(null)
@@ -238,9 +233,11 @@ const  ChatPage = ({isMediator})=> {
            
             const msg = document.querySelector("#cp--input-tb").value;
 
-            
+            //TODO add logic - cannot send during the shuttle mode
+
             if(!msg) 
                 return
+            
             
             let toGroup
             let chatGroupSide
@@ -357,54 +354,85 @@ const  ChatPage = ({isMediator})=> {
 
         const handleShuttle =()=> {
             setIsShuttled(prevState=>{
-                console.log("prevState " + prevState)
                 return(!prevState)    
             })
         }
-        
-          const size = ({target})=>{
-            const txtS = textAreaSize
-            console.log(target.scrollHeight)
-            console.log(target.offsetHeight)
-            const {scrollHeight} = target
-            if(txtS!= scrollHeight){
-                const resize = txtS< scrollHeight?1:-1
-                if(higt>=2 && resize>0)
-                    return
-                setHigth(higt+resize)
-                setTextAreaSize(target.scrollHeight)
-            }
-              
-          }   
+
+        const setInputHeight =(element, defaultHeight)=>{
+                if(element){
+                    const target= element.target ? element.target : element;
+                    target.style.height=defaultHeight
+                    target.style.height=`${target.scrollHeight}px`
+
+                }
+        }
+          
+
+
+          
     return(
 
         
         <article className="cp" >
-            <div className="limiter">
+            <div
+                className="cp--shuttle-block"
+                style={{
+                    display:isShuttled&&(msgScreen===texts)? "": "none",
+                    backgroundColor: "#011202db",
+                    opacity:"0.95"
+                }}
+                
+                >
+                    <div className="cp--shuttle-block-msg">
+                        {/* Render the right message according the user */}
+                            {isMediator?(
+                                <p>
+                                    Ths is is a Shuttle mode.
+                                    <br/>
+                                    You cannot contact the second party.
+                                    <br/>
+                                    <br/>
+                                    You can contact Mediator in your private chat.
+                                </p>
+                                ):(
+                                  <p>
+                                    You turned on the shuttle mode.<br/>
+                                    Only private chats are available for all users.
+                                  </p> 
+                                  )}
+                    </div>
+
+                </div>
+
+            <div className="cp--shuttle-block"></div>
                 <div
                  style={{
                     position:"fixed",
                     top:"0",
                     width:"100%",
-                    backgroundColor:"white" //This is crucial for hiding the MessageList
-
+                    backgroundColor:"white", //This is crucial for hiding the MessageList
+                    zIndex:"1",
                 }}>
-                <Header isLarge={false}/>
+
+                    <Header isLarge={false}/>
                     <ToolBar conflictName="A political conflict" id={caseId}/>
                     <ShuttleSwitch isMediator={isMediator}/>
-
                 </div>
-            </div>
+
             <div >
                 <MessageList messages={msgScreen} position={pos}/>
             </div>
             <div>
-            <section className="cp--footer">
+            <footer className="cp--footer">
                 <div className="cp--input">
                     <span className="material-symbols-outlined cp--help">
                         help
                     </span>
-                    <textarea style={{height:`${higt}em`}} onChange={size} rows='3' cols='50' className="cp--input-box" id="cp--input-tb"></textarea>
+                    <textarea
+                        onChange={event=>setInputHeight(event, '10px')}
+                        className="cp--input-box"
+                        id="cp--input-tb"
+                     />
 
                         <button className="cp--input-btn">
                             <span className="material-symbols-outlined cp--send" onClick={handleSend}>
@@ -415,10 +443,10 @@ const  ChatPage = ({isMediator})=> {
                 <UserPanel
                     handleSwitch={handleShuttle}
                     isSwitched={isShuttled}
+                    isComplex={isMediator}
                 />
-            </section>
+            </footer>
             </div>
-           
         </article>
      
     )

@@ -24,7 +24,7 @@
 
   --cp-footer-height:9em;
 }
-html, body { height: 100%; width: 100%; margin: 0; }
+html, body, .app { height: 100%; width: 100%; margin: 0;padding: 0em; }
 
 .page{
   display: flex;
@@ -67,3 +67,4 @@ a:hover{
 .flexbox{
   display:flex;
 }
+

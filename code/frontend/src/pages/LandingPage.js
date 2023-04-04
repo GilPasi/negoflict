@@ -1,7 +1,7 @@
 import { Routes,Route } from "react-router-dom";
 import AdminMenu from "./roleMenu/admin_menu.js";
 import AddMediator from './rolePages/admin/AddMediator'
-import ChatPage from './rolePages/mediator/Chatpage'
+import ChatPage from './rolePages/mediator/Chatpage.js'
 import MediatorMenu from "./rolePages/mediator/MediatorMenu.js";
 import CaseFormPage from "./CaseFormPage.js";
 import CreateUserWraper from "../components/general/CreateUserWrapper.js";
