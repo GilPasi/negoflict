@@ -429,13 +429,14 @@ const  ChatPage = ({isMediator})=> {
                         help
                     </span>
                     <textarea
+                        dir="auto"
                         onChange={event=>setInputHeight(event, '10px')}
                         className="cp--input-box"
                         id="cp--input-tb"
                      />
 
-                        <button className="cp--input-btn">
-                            <span className="material-symbols-outlined cp--send" onClick={handleSend}>
+                        <button className="cp--input-btn" onClick={handleSend}>
+                            <span className="material-symbols-outlined cp--send" >
                                 send
                             </span>
                         </button>
@@ -443,7 +444,7 @@ const  ChatPage = ({isMediator})=> {
                 <UserPanel
                     handleSwitch={handleShuttle}
                     isSwitched={isShuttled}
-                    isComplex={isMediator}
+                    isComplex={true}
                 />
             </footer>
             </div>

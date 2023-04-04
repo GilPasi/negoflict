@@ -19,18 +19,23 @@ const UserPanel=({
             {isComplex&&
                 <div
                     onClick={handleSwitch}
-                    className="user-panel--btn"
+                    className="user-panel--btn user-panel--shuttle"
                 >
-                    <img
+
+                    <div id="user-panel--shuttle-icon"
+                        style={{backgroundColor:isSwitched?"var(--green-dark)":""}}
+                    >
+                        <div 
+                            className="user-panel-shuttle-circle"
+                            style={{transform:`translateX(${isSwitched ? "-75%" : "55%"})`}}
+                        />
+                    </div>
+                    {/* <img
                         className="user-panel--img"
                         src="../../../assets/images/shuttle_icon.png" 
                         alt="menu symbol"
                         id="user-pannel--shuttle-img"
-                    />
-                        <div 
-                            className="user-panel-shuttle-circle"
-                            style={{transform:`translateX(${isSwitched ? "-75%" : "0"})`}}
-                            ></div>
+                    /> */}
                     <h5 id="user-pannel--shuttle-title">Shuttle</h5>
                 </div>
             

@@ -29,7 +29,7 @@ const Message=({text,sender,isSelf, time, name})=>{
                
                 </div>
                 <div className="message-continer">
-                <p className="message--text">{text}</p>
+                <p className="message--text" dir="auto" >{text}</p>
                 </div>
             </div>
 
