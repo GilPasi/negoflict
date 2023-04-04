@@ -1,5 +1,4 @@
 import "../../styles/components/button.css"
-import {react} from 'react'
 
 const  Button=({text , size, margin,type,onClick,color})=>{
 

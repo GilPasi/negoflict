@@ -1,7 +1,7 @@
 import "../../styles/components/dropdown_selector.css"
 import {useState} from "react"
 
-const DropdownSelector = ({options , placHolder,isDefault,
+const DropdownSelector = ({options , placHolder,
     name,value,onChange,className,height,width,margin}) =>{
 
     const optionElements = options.map(option=><option key={option.id}>{option.value}</option>)
