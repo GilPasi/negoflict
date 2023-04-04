@@ -10,7 +10,6 @@ const ShuttleSwitch =({isMediator})=>{
     const[selectedBtn , setSelectedBtn] = useState(2)
     const[selectorOffsetU , setSelectorOffsetU] = useState(5)
     const[selectedBtnU , setSelectedBtnU] = useState(2)
-
     
     const dispatch = useDispatch()
 
@@ -23,8 +22,6 @@ const ShuttleSwitch =({isMediator})=>{
 
     },[selectedBtn,selectedBtnU])
     
-    const whiteStyle={color : "white"}
-    const blackStyle={color : "black"}
 
     const style ={
         width:isMediator ? "95%":"12.5em",
@@ -74,21 +71,27 @@ const ShuttleSwitch =({isMediator})=>{
 
     const mediatorVersion =(
                 <div className="ss" style={style}>        
-                    <button id="ss--pa" style={selectedBtn === 1 ?whiteStyle: blackStyle } className="ss--btn"  onClick={()=>handleShuttle(1)}>
+                    <button id="ss--pa" style={{color : selectedBtn === 2 ?"white": "black"}}className="ss--btn"  onClick={()=>handleShuttle(1)}>
                         <p  className="ss--btn-content">Party A</p> </button>
-                    <button style={selectedBtn === 2 ?whiteStyle: blackStyle } className="ss--btn"  onClick={()=>handleShuttle(2)}>
+                    <button style={{color : selectedBtn === 2 ?"white": "black"}} className="ss--btn"  onClick={()=>handleShuttle(2)}>
                         <p className="ss--btn-content">Main</p></button>
-                    <button style={selectedBtn === 3 ?whiteStyle: blackStyle } className="ss--btn"  onClick={()=>handleShuttle(3)}>
+                    <button style={{color : selectedBtn === 2 ?"white": "black"}} className="ss--btn"  onClick={()=>handleShuttle(3)}>
                         <p id="ss--pb" className="ss--btn-content">Party B</p> </button>
                     <div className="ss-selector" style={selectorStyle}></div>
                 </div>)
 
     const userVersion=(   
                 <div className="ss" style={userStyle}>
-                    <button id="ss--pa" style={selectedBtnU === 1 ?whiteStyle: blackStyle } className="ss--btn ss--btn-uv"  onClick={()=>handleShuttleU(1)}>
+                    <button id="ss--pa" style={{color : selectedBtnU === 1 ?"white": "black"}} className="ss--btn ss--btn-uv"  onClick={()=>handleShuttleU(1)}>
                         <p  className="ss--btn-content">Me & Mediator</p> </button>
-                        <div className="ss--spacer"></div>
-                    <button style={selectedBtnU === 2 ?whiteStyle: blackStyle } className="ss--btn"  onClick={()=>handleShuttleU(2)}>
+                        <div className="ss--spacer" />
+                    <button
+                         style={{
+                            color: selectedBtnU === 2 ? "white" : "black",
+                         }}
+                         className="ss--btn"
+                         onClick={()=>handleShuttleU(2)
+                         }>
                         <p id="ss--pb" className="ss--btn-content">Main</p> </button>
                     
                     <div className="ss-selector" style={selectorStyleU}></div>

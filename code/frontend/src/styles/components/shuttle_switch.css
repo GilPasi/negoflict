@@ -21,6 +21,7 @@
     z-index: 1;
     padding: 1em;
     width: 10em;
+    border-radius: 5px;
     
     min-width: 5em;
     max-height:2.5em;
@@ -30,7 +31,6 @@
     background:none;
     
   }
-
 
   .ss--btn-content{
     transform: translateY(-100%) ;
