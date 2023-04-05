@@ -7,7 +7,8 @@ const  Header=({isLarge})=>{
     // __UI properies__
     const titleStyle = {
         fontSize:isLarge ? "2em" :"var(--font-medium)",
-        margin:isLarge ? "0.5em 0.5em 3.5em 0.5em" : "0.5em",
+        margin:isLarge ? "0.5em 0.5em 2em 0.5em" : "0.5em",
+        
     }
 
     const wrapperStyle = {
