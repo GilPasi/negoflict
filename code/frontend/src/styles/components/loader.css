@@ -1,0 +1,31 @@
+.loader{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    flex-direction: column;
+}
+.loader h1{
+    font-family:"Bowlby One SC" , sans-serif;
+    color:var(--green-dark);
+    margin: 1em;
+}
+.circle {
+    border: 5px solid #89E0A2;
+    border-radius: 50%;
+    border-top: 8px solid var(--green-dark);
+    width: 150px;
+    height: 150px;
+    -webkit-animation: spin 2.5s linear infinite; /* Safari */
+    animation: spin 2.5s linear infinite;
+  }
+  
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }

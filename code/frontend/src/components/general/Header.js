@@ -17,12 +17,6 @@ const  Header=({isLarge})=>{
         width: '100%',
     }
 
-    const centerStyle={
-        display:"flex",
-        justifyContent:"center",
-        backgroundColor:"red",
-    }
-
     const title = <h1 style={titleStyle} className="header--title" >
                     negoflict
                 </h1>
