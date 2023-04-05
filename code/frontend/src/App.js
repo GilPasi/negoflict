@@ -1,6 +1,6 @@
 import React from 'react';
 import LoginPage from './pages/LoginPage.js';
-import ChatPage from './pages/rolePages/mediator/Chatpage.js';
+import ChatPage from './pages/rolePages/mediator/ChatPage_.js';
  
 import useInactivityRedirect from './hooks/useInActiveRediract.js';
 import { Route, Routes } from 'react-router-dom'; 
@@ -11,6 +11,10 @@ import {UserLandingPage,MediatorLandingPage,SuperUserLandingPage} from './pages/
 import './App.css'
 import Chat from 'agora-chat-uikit/lib/EaseChat/chat/index.js';
 
+import AddMediatorPage from './pages/AddMediatorPage';
+import AddUserPage from './pages/AddUserPage';
+import CaseFormPage from './pages/CaseFormPage.js';
+import CasePage from './pages/CasePage.js';
 
 
 
@@ -20,30 +24,29 @@ import Chat from 'agora-chat-uikit/lib/EaseChat/chat/index.js';
   
 
   return (
-    <div className="app">      
-        <Routes>
-              
-        <Route path='/' element={<Layout/>}>
-          {/* public routes */}
-        
+    <div className="app">  
+      <Routes>
+          <Route path='/' element={<Layout/>}>
+            {/* public routes */}
 
-        <Route  path='/login' element={<LoginPage/>}/>
+          <Route  path='/login' element={<LoginPage/>}/>
+          
+          {/* protected routes */}
+          {isActive?(
 
-        {/* protected routes */}
-        {isActive?(
-
-        <Route  path='/' element={<RequireAuth/>}>
-          <Route path='user/*' element={<UserLandingPage/>}/>
-          <Route path='mediator/*' element={<MediatorLandingPage/>}/>
-          <Route path='admin/*' element={<SuperUserLandingPage/>}/>
-          {/* <Route path='chat' element={<ChatPage/>}/> */}
-        </Route>
-        ):(<div><h1>not active</h1></div>)}
-          {/* catch */}
-
-        </Route>
+          <Route  path='/' element={<RequireAuth/>}>
+            <Route path='user/*' element={<UserLandingPage/>}/>
+            <Route path='mediator/*' element={<MediatorLandingPage/>}/>
+            <Route path='admin/*' element={<SuperUserLandingPage/>}/>
+            {/* <Route path='chat' element={<ChatPage/>}/> */}
+          </Route>
+          ):(<div><h1>not active</h1></div>)}
+            {/* catch */}
+          
+          </Route>
         </Routes>
     </div>
   );
 }
 export default App;
+

@@ -1,12 +1,22 @@
 import "../../styles/components/dropdown_selector.css"
 import {useState} from "react"
 
-const DropdownSelector = ({options , placHolder,isDefault,
-    name,value,onChange,className,height,width,margin}) =>{
+const DropdownSelector = ({options,placHolder,parentRef,
+                            name,value,onChange,
+                            className,height,
+                            width,margin}) =>{
+        
+        const optionElements = options.map(option=><option key={option.id}>{option.value}</option>)
+        const [isActive , setIsActive] = useState(false) 
 
-    const optionElements = options.map(option=><option key={option.id}>{option.value}</option>)
-    const [isActive , setIsActive] = useState(false) 
 
+        //Listen to all the clicks on the screen to determine the arrow's side
+    document.querySelector("#root").addEventListener("click",
+        function(event){
+            if(event.target.id!=="dd--select")
+                setIsActive(false); 
+    });
+        
     const buttonRot ={
         transform:isActive ? "rotate(225deg)" : "rotate(45deg)"
     }
@@ -16,9 +26,9 @@ const DropdownSelector = ({options , placHolder,isDefault,
     }
 
     const style={
-        width : {width},
+        width : width,
         margin:margin? margin : "0",
-        height : {height},
+        height : height,
 
     }
 
@@ -32,10 +42,12 @@ const DropdownSelector = ({options , placHolder,isDefault,
               >
                 <div className="dd--arrow" style={buttonRot}></div>
                 <select
+                    id="dd--select"
                     name={name}
                     defaultValue={value}
                     value={options.value}
                     onClick={handleClick}
+                    ref={parentRef}
                 >
                     <option>{placHolder}</option>
                     {optionElements}

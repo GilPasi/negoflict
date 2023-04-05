@@ -186,14 +186,20 @@ const LoginPage=()=>{
                             
                     <Button  text="Submit" size="small"/>
                 </form> 
-                <label style={{padding:'10px'}}>
-                                <a href="" onClick={event=>{
-                                    event.preventDefault()
+                
+                <center>
+                    <label 
+                        style={{padding:'10px'}}>
+                        <a href=""
+                        onClick={event=>{
+                            event.preventDefault()
+                            isMediator?setIsMediator(false):setIsMediator(true)
+                        }}>
+                            {loginHref}
+                        </a>
+                    </label>
+                </center>
 
-                                    isMediator?setIsMediator(false):setIsMediator(true)
-
-                                }}>{loginHref}</a>
-                                </label>
 
                
 

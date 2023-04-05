@@ -1,7 +1,8 @@
 import "../../styles/components/text_field.css"
 import {React} from 'react'
-const  TextField=({type,placeHolder,onChange,
-    name,value, length,altitude,align})=>{
+const  TextField=({type,placeHolder,
+                onChange,name,length,
+                altitude,align,parentRef})=>{
     
     let classPostfix = align === "left" ? "-la" : "" 
     
@@ -9,7 +10,6 @@ const  TextField=({type,placeHolder,onChange,
         width: length? length : "12em",
         height: altitude? altitude : "1em",
         margin: length === "100%" ? "0" : "1em",
-        // backgroundColor: isMobile() ? "red": "black"
     }
     /*This designated for a specific case 
     where we might want the field to 
@@ -19,8 +19,8 @@ const  TextField=({type,placeHolder,onChange,
 
     return(
             <input
+                ref={parentRef}
                 name={name}
-                // value={value}
                 onChange={onChange} 
                 className={`text-field-input${classPostfix}`}
                 type={type} 
