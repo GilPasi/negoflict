@@ -15,6 +15,7 @@ import AddMediatorPage from './pages/AddMediatorPage';
 import AddUserPage from './pages/AddUserPage';
 import CaseFormPage from './pages/CaseFormPage.js';
 import CasePage from './pages/CasePage.js';
+import SystemOptionsPage from './pages/SystemOptionsPage.js';
 
 
 
@@ -45,7 +46,8 @@ import CasePage from './pages/CasePage.js';
       //     </Route>
       //   </Routes>
     <div className="app">  
-      <AddUserPage isMediator={true}/>
+      <SystemOptionsPage/>
+
 
     </div>
   );
