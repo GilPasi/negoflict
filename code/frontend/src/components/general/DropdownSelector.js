@@ -38,6 +38,7 @@ const DropdownSelector = ({options,placHolder,parentRef,
              className={`dd ${className}`}
               onChange={onChange}
               style={style}
+              onClick={()=>document.querySelector("#dd--select").click()}
 
               >
                 <div className="dd--arrow" style={buttonRot}></div>

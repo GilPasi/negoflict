@@ -1,0 +1,12 @@
+.sop h2{
+    font-size:2em;
+    color:var(--green-dark);
+    text-align:center;
+    margin:0;
+}
+.sop{
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    flex-direction: column;
+}
