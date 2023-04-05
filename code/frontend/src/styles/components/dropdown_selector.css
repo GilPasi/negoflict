@@ -48,21 +48,20 @@
 
 
 .dd select{
-transition:  300ms ease-in-out;
-color:var(--grey);
-border: none;
-outline: none;
-padding: 0em 2em 1em 1em;
-background-color: transparent;
-font-weight: 900;
-color: var(--green-dark);
-font-size:x-large;
-
+    transition:  300ms ease-in-out;
+    color:var(--grey);
+    border: none;
+    outline: none;
+    padding: 0em 2em 1em 1em;
+    background-color: transparent;
+    font-weight: 900;
+    color: var(--green-dark);
+    font-size:x-large;
+    width: 100%;
 }
 
 .dd select{
     font-size:1.1em;
-    /* width:20em; */
     color:var(--grey);
     font-weight: var(--weight-medium);
 }

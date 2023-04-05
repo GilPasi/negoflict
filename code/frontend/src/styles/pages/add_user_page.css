@@ -5,6 +5,12 @@
     align-items: center;
     margin-bottom: 20em;
 }
+#aup--m-title{
+    text-align:center;
+    font-size:2em;
+    color:black;
+    font-weight: var(--weight-medium);
+}
 
 .aup--title{
     color:black;

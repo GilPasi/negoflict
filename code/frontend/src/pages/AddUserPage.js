@@ -4,13 +4,13 @@ import ToolBar from '../components/general/ToolBar.js'
 import TextInput from '../components/general/TextInput.js'
 import DropdownSelector from '../components/general/DropdownSelector.js'
 import Button from '../components/general/Button.js'
-import { AREA_CODES } from '../utils/data'
+import { AREA_CODES , ISR_RESIDENCE } from '../utils/data'
 
 
 
 
 const AddUserPage =({side,idCase, goBack, next,
-     handleSubmit, handleChange, userData})=>{
+     handleSubmit, handleChange, userData,isMediator})=>{
    
     
 
@@ -21,10 +21,22 @@ const AddUserPage =({side,idCase, goBack, next,
 
         <article className="aup">
                     <Header/>
-                    <ToolBar conflictName="A political conflict" id={idCase}/>
-
+                    {!isMediator&&<ToolBar conflictName="A political conflict" id={idCase}/>}
                 <form className="aup--grid">
-                 <h2 className="aup--title aup--grid-row">Party {side}</h2>
+                {isMediator ?
+                    (
+                        <h2 className="aup--grid-row" id="aup--m-title">
+                            <span style={{
+                                color:"var(--green-dark)",
+                                fontWeight:"var(--weight-bold)"
+                                }}>Add Mediator</span><br/>
+                                Mediator personal details
+                        </h2>
+                    ):(
+                    <h2 className="aup--title aup--grid-row">
+                        Party {side}
+                    </h2>)
+                }
                   
                     <div className="aup--grid-row">
                         <TextInput
@@ -67,14 +79,14 @@ const AddUserPage =({side,idCase, goBack, next,
 
                     <div className="aup--grid-phone-number">
                         <TextInput
-                        placeHolder="Phone"
-                        name="phoneNumber"
-                        value={userData?.phoneNumber || ''}
-                        onChange={handleChange}
-                        length="100%"
-                        altitude="2em"
-                        type="number"
-                        align="left"
+                            placeHolder="Phone"
+                            name="phoneNumber"
+                            value={userData?.phoneNumber || ''}
+                            onChange={handleChange}
+                            length="100%"
+                            altitude="2em"
+                            type="number"
+                            align="left"
                         />
                     </div> 
 
@@ -88,6 +100,23 @@ const AddUserPage =({side,idCase, goBack, next,
                             align="left"
                         />
                     </div>
+                    {isMediator&&
+                    <div className="aup--grid-row">
+                        <DropdownSelector 
+                            placHolder="Residence"
+                            isDefault={true}
+                            options={ISR_RESIDENCE}
+                            name="phonePrefix"
+                            value={userData?.phonePrefix || ''}
+                            onChange={handleChange}
+                            align="left"
+                            width="100%"
+                            height="2em"
+                            />
+                    </div>
+                    }
+
+
                 </form>
 
                 <nav>
