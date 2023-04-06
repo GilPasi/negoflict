@@ -2,6 +2,9 @@ import { configureStore } from "@reduxjs/toolkit";
 import { userReducer,login, logout, updateAccessToken } from './slices/userSlice'
 import { positionReducer,updatePosition } from "./slices/psitionSlice";
 import { groupsReducer,addGroups } from "./slices/groupsSlice";
+import { setupListeners } from "@reduxjs/toolkit/dist/query";
+import { usersApi } from "./api/usersApi";
+
 
 
 const store = configureStore({
@@ -9,8 +12,13 @@ const store = configureStore({
         user: userReducer,
         pos: positionReducer,
         groups: groupsReducer,
+        [usersApi.reducerPath]: usersApi.reducer,
         
+    },
+    middleware: getDefaultMiddleware =>{
+        return getDefaultMiddleware().concat(usersApi.middleware)
     }
+    
 })
 
 export{
@@ -22,3 +30,7 @@ export{
     addGroups,
    
 }
+
+setupListeners(store.dispatch)
+
+export const { useLoginQuery } = usersApi
