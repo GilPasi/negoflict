@@ -21,8 +21,7 @@ const LoginPage=()=>{
     //hooks=====
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const {GetJWTToken,LogOut, GetUserId} = useSubmit()
-    const { verifyAccessToken } = useServer()
+    const {GetJWTToken} = useSubmit()
     const { bigSuccessAlert } = useAlert()
     //==========
 
