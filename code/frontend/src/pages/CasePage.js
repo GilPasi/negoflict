@@ -16,15 +16,24 @@ import  useAlert  from '../hooks/useAlert'
 
 
 const CasePage =({isMediator})=>{
-    const [groups,setGroups] = useState([])
+    //hooks==========
     const dispatch = useDispatch()
     const { getGropByUser } = useChat()
     const location = useLocation()
+    const {trigerNotification} = useAlert()
+    //============
+
+    //values=========
     let { username } = useSelector(state=>state.user)
     const {status} = location?.state || {}
     const {render} = location?.state || true
     const wasRenderd = useRef(render);
-    const {trigerNotification} = useAlert()
+    //===========
+  
+
+ 
+  
+   
 
     useEffect(()=>{
         getGroups()
@@ -51,6 +60,7 @@ const CasePage =({isMediator})=>{
      const getGroups =async ()=>{
             
             username = isMediator? username: username.replace(/[^\w\s]/gi, '')
+            console.log('username',username)
             const {data} = await getGropByUser(username)
             dispatch(addGroups(data))
         }

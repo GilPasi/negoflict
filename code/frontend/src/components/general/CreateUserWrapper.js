@@ -3,51 +3,43 @@ import { useLocation } from "react-router-dom"
 import AddUserPage from '../../pages/AddUserPage'
 import { useNavigate } from "react-router-dom"
 import useNodeS from "../../hooks/useNodeS"
-import useSubmit from '../../hooks/useSubmit'
 import useServer from "../../hooks/useServer"
-import { render } from "react-dom"
+import { useLazyGetNewAccessQuery } from '../../store/index'
+
 
 
 const CreateUserWraper = ()=>{
+  //hooks==========
+  const location = useLocation()
+  const navigate = useNavigate()
+  const { registerManyUsers, registerUsersTogroups } = useNodeS()
+  const { createGroupMember } = useServer()
+  const [fetchAccess] = useLazyGetNewAccessQuery()
+  //==============
+
+  //values=========
+  const { dataCase, groupArr } = location.state || {};
+  const quaryParams = new URLSearchParams(location.search)
+  const side = quaryParams.get('side')
+  //=============
+  
+  //state========
     const [userData,setUserData] = useState([])
     const [idCase,setIdCase] = useState(null)
     const [sideVal,setSideVal] = useState(0)
+  //===========
 
-
-    const location = useLocation()
-    const navigate = useNavigate()
-    const { registerManyUsers, registerUsersTogroups } = useNodeS()
-    const { createGroupMember } = useServer()
-    const { GetNewAccessToken } = useSubmit()
-
-    const { dataCase, groupArr } = location.state || {};
-
-    
-    // const memberGroups = res?[...res.data.members_groups]:{}
-
-
-
-
-    const quaryParams = new URLSearchParams(location.search)
-  
-    const side = quaryParams.get('side')
-    console.log(side)
-    console.log(dataCase)
-
-
+  //useEffects==========
     useEffect(()=>{
-        const val =side=='A'?0:1
-        setSideVal(val)
-
-
-    },[side])
+      const val =side=='A'?0:1
+      setSideVal(val)
+    },[side]);
    
-
-
     useEffect(()=>{
         const urlId = quaryParams.get('id')
         setIdCase(urlId)
-    },[])
+    },[]);
+    //=============
 
     const handleChange = (event) => {
         const { name, value } = event.target
@@ -68,69 +60,65 @@ const CreateUserWraper = ()=>{
           return prevData
         })
       }
+    //handlers===========
+    const handleSubmit =async(event)=>{
+      event.preventDefault()
+      const arrUser = userData
+
+      arrUser.forEach(user=>{
+        let pass = `Negoflict${user.phoneNumber}`
+        user.username = user.email
+        user.password = pass
+      })
+
+      const {data:newToken} = fetchAccess()
+      console.log('FETCHHH==>>>',newToken)
+      
       
 
-    const handleSubmit =async(event)=>{
-        event.preventDefault()
-        const arrUser = userData
 
-        arrUser.forEach(user=>{
-          let pass = `Negoflict${user.phoneNumber}`
-          user.username = user.email
-          user.password = pass
-        })
-
-        const newToken = await GetNewAccessToken()
-        
-
-
-        
-          const {data, status} =await registerManyUsers(arrUser,newToken,dataCase)
-          if(status !== 200)
-            rediract(status)
-            
-
-          const res2 = await registerUsersTogroups(groupArr,arrUser)
+      
+        const {data, status} =await registerManyUsers(arrUser,newToken,dataCase)
+        if(status !== 200)
+          rediract(status)
           
 
-          const users = [...data.dbResult]
-
-          const response_final_step = await createGroupMember(users,newToken,dataCase)
-
-          console.log(response_final_step)
-          rediract(status)
-       
-    }
-
-    const rediract = (status)=>{
-      navigate('/mediator/cases',{
-        replace:true,
-        state:{
-          status:status,
-          render:false
-        }
+        const res2 = await registerUsersTogroups(groupArr,arrUser)
         
+
+        const users = [...data.dbResult]
+
+        const response_final_step = await createGroupMember(users,newToken,dataCase)
+
+        console.log(response_final_step)
+        rediract(status)
+     };
+      //==============
+      //functions========
+      const rediract = (status)=>{
+        navigate('/mediator/cases',{
+          replace:true,
+          state:{
+            status:status,
+            render:false
+          } 
       })
 
     }
-
-    
-
     const next = ()=>{
-        navigate(`?side=B&id=${idCase}`,{
-          state: { dataCase, groupArr}
-        })
+      navigate(`?side=B&id=${idCase}`,{
+        state: { dataCase, groupArr}
+      })
 
-    }
-    const goBack = ()=>{
-        navigate(-1,{
-          state: { dataCase,groupArr }
-        }
-          )
+  }
+  const goBack = ()=>{
+      navigate(-1,{
+        state: { dataCase,groupArr }
+      }
+        )
 
-    }
-    
-
+  }
+  
 
     return(
         side==='A'

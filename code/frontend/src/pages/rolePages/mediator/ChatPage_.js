@@ -11,7 +11,6 @@ import { useLocation } from "react-router-dom";
 import WebIM from "../../../WebIM";
 import useServer from "../../../hooks/useServer";
 import { useRef } from "react";
-import Message from "../../../components/general/Message";
 
 
 const  ChatPage = ({isMediator})=> {

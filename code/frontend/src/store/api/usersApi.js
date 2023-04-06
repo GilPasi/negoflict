@@ -42,11 +42,20 @@ const usersApi = createApi({
                     }
                 } 
                 
-            })
+            }),
+            getNewAccess: builder.query({
+                query:()=>{
+                    return{
+                        url:'/core/auth/token/refresh/',
+                        credentials: 'include'
+                    }
+                }
+
+            }),
 
 
         }}})
 
 
-export const {useLoginQuery, useIs_loginQuery, useLog_outQuery} = usersApi
+
 export {usersApi}

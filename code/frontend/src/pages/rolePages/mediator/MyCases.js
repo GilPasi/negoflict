@@ -8,13 +8,13 @@ import '../../../styles/pages/case_page.css'
 
 const MyCases = ({isMediator})=>{
 
-    const {accessToken,id} = useSelector(state=>state.user)
+    const {access,id} = useSelector(state=>state.user)
     const {getMyCases} = useServer()
     const [cases,setCases] = useState([])
 
 
     useEffect(()=>{
-       getMyCases(id,accessToken,isMediator)
+       getMyCases(id,access,isMediator)
        .then(data=>setCases(data))
        .catch(err=>console.log(err))
     },[])

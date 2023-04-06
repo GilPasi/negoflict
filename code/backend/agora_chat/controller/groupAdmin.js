@@ -120,6 +120,8 @@ exports.getGroupByUser = async(req,res)=>{
     const appToken = tokenBuilder.appTokenBuild(3000)
     const user = req.params.username ?? null
 
+    console.log('in getGroups', user, appToken)
+
     const misingProps = {
         ...(user ? {} : {'error':'username missing'})
     }
