@@ -11,10 +11,13 @@ import useServer from '../hooks/useServer'
 import { useSelector } from "react-redux"
 import useAlert from "../hooks/useAlert"
 import { getPermSign } from "../utils/permissions"
+import { useLazyLoginQuery } from "../store/index"
 
 
 
 const LoginPage=()=>{
+
+    //
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const {GetJWTToken,LogOut, GetUserId} = useSubmit()
@@ -23,6 +26,10 @@ const LoginPage=()=>{
     const { accessToken, role} = useSelector(state=>state.user)
     const { bigSuccessAlert } = useAlert()
     const loginHref = isMediator?'Login as User': 'Login as Mediator'
+
+    const [fetchUser,{data,isLoading,error}] = useLazyLoginQuery()
+ 
+
 
     const WasMounts = useRef(false)
 
@@ -99,6 +106,10 @@ const LoginPage=()=>{
     const role = getPermSign(user)
     user = {...user, 'role':role, 'access':access}
     dispatch(login(user))
+
+    const {data:d, error} =await fetchUser({username:formData.username,access:access})
+    console.log('sore redux fetch>>>>>',d)
+    console.log(error)
 
 
     setNullFields()

@@ -12,7 +12,7 @@ const usersApi = createApi({
     endpoints(builder){
         return {
             login: builder.query({
-                query: (username,access) =>{
+                query: ({username,access}) =>{
                     return {
                         url: '/users/user_view/get_user/',
                         params:{
