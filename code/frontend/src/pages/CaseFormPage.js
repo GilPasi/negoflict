@@ -20,7 +20,8 @@ const CaseFormPage = () =>{
         id,
         username
         }= useSelector(state=>state.user)
-  
+
+    const user = useSelector(state=>console.log(state.user))  
 
     const { postNewCase } = useServer()
 

@@ -10,13 +10,14 @@ import { useNavigate } from "react-router-dom"
 import useServer from '../hooks/useServer'
 import { useSelector } from "react-redux"
 import useAlert from "../hooks/useAlert"
+import { getPermSign } from "../utils/permissions"
 
 
 
 const LoginPage=()=>{
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const {GetJWTToken, ValidateEmail,LogOut, GetRole, GetUserId} = useSubmit()
+    const {GetJWTToken,LogOut, GetUserId} = useSubmit()
     const { verifyAccessToken } = useServer()
     const [isMediator,setIsMediator] = useState(false)
     const { accessToken, role} = useSelector(state=>state.user)
@@ -86,10 +87,6 @@ const LoginPage=()=>{
 
    const submitHandlerMediator =async (event)=>{
     event.preventDefault()
-    const validEmail =await ValidateEmail(formData.email)
-
-    if(!validEmail)
-        return
 
     submitLogin(formData)
 
@@ -97,22 +94,13 @@ const LoginPage=()=>{
 
     const submitLogin =async (data)=>{
 
-    const {refresh,access} = await GetJWTToken(data)
-    const {id,first_name, last_name} =await GetUserId(formData.username,access)
-    const role = await GetRole(id,access)
-    
+    const {access} = await GetJWTToken(data)
+    let user =await GetUserId(formData.username,access)
+    const role = getPermSign(user)
+    user = {...user, 'role':role, 'access':access}
+    dispatch(login(user))
 
-    const {username,email} = formData
-    dispatch(login({
-        id:id,
-        firstName:first_name,
-        username:username,
-        email:email,
-        refreshToken:refresh,
-        accessToken:access,
-        role:role,
-        lastName:last_name,
-    }))
+
     setNullFields()
 
     directTo(role)

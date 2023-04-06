@@ -7,34 +7,34 @@ const userSlice   = createSlice({
     initialState: {
         id:null,
         username:'',
-        firstName:'',
-        lastName:'',
+        first_name:'',
+        last_name:'',
         email:'',
-        accessToken:null,
+        access:null,
         role: null,
     },
     reducers: {
         updateAccessToken:(state,action)=>{
-            state.accessToken = action.payload
+            state.access = action.payload
         },
         login:(state,action)=>{
-            const {id, username, email, accessToken, role, firstName, lastName} = action.payload
+            const {id, username, email, access, role, first_name, last_name} = action.payload
             state.id = id
             state.username = username
             state.email = email
-            state.accessToken = accessToken
+            state.access = access
             state.role = role
-            state.firstName = firstName
-            state.lastName = lastName
+            state.first_name = first_name
+            state.last_name = last_name
         },
         logout:(state,action)=>{
             state.id = null
             state.username = ''
             state.email = ''
-            state.accessToken = null
+            state.access = null
             state.role = null
-            state.firstName = ''
-            state.lastName = ''
+            state.first_name = ''
+            state.last_name = ''
         }
         
     }
