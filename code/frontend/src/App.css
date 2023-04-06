@@ -51,8 +51,9 @@ a:hover{
 .centerizer{
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-direction: column;
-  /* background-color: var(--blue-anchor); */
+
 }
 .aligner{
   display: flex;

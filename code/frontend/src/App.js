@@ -16,7 +16,7 @@ import AddUserPage from './pages/AddUserPage';
 import CaseFormPage from './pages/CaseFormPage.js';
 import CasePage from './pages/CasePage.js';
 import SystemOptionsPage from './pages/SystemOptionsPage.js';
-import Loader from './components/general/Loader.js';
+import SurveyPage from './pages/SurveyPage.js';
 
 
 
@@ -44,11 +44,12 @@ import Loader from './components/general/Loader.js';
           
       //     </Route>
       //   </Routes>
+      // const conflictStats={duration:"21" , stages:"17" , interactions:"50"}
 
   return (
     <div className="app">  
-    <Loader/>
-
+      
+        <SurveyPage  />
 
     </div>
   );

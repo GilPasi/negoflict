@@ -1,0 +1,152 @@
+.sp{
+    position:relative;
+    height: 50em;
+}
+
+.sp--gratitude-bg{
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    background-color:rgba(0, 0, 0, 0.442);
+    display: none;
+}
+.sp--gratitude-msg{
+    position: absolute;
+    top:20%;
+    left:50%;
+    transform: translateX(-50%);
+    padding:1em;
+    width:50%;
+    font-size:2em;
+    border-radius:20px;
+    text-align: center;
+    font-weight: var(--weight-bold);
+    box-shadow: 0px 3px 4px 5px #46464640 inset;
+    background-color:white;
+    opacity:1;
+}
+.sp h2{
+    font-size:1.4em;
+    color:black;
+    text-align: center;
+    margin: 1em;
+}
+
+/* The sp--option */
+.sp--option {
+  display: block;
+  position: relative;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width:50%;
+  text-align: left;
+  padding-left:2em;
+  margin-left: 20%;;
+
+}
+
+/* Hide the browser's default checkbox */
+.sp--option input {
+  /* position: absolute; */
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: var(--green-light);
+}
+
+/* On mouse-over, add a grey background color */
+.sp--option:hover input ~ .checkmark {
+  background-color: var(--green-light);
+}
+
+/* When the checkbox is checked, add a blue background */
+.sp--option input:checked ~ .checkmark {
+  background-color: var(--green-dark);
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.sp--option input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.sp--option .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.sp--summary{
+    margin-top:1em;
+    font-size:16px;
+    padding: 0.5em 3em ;
+}
+
+
+.sp--stat{
+    border:3px solid #D9D9D9;
+    text-align: left;
+    word-break: keep-all;
+    padding:5px;
+    padding-left: 10px;
+    position: relative;
+}
+
+.sp--stat:after {
+    content: attr(value);
+    position: absolute;
+    height: 135%;
+    width:75px;
+    padding-top:5px;
+    border:6px var(--green-light) solid;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: var(--green-light);
+    right:-5%;
+    top:-20%;
+
+    text-align: center;
+
+  }
+  
+  .sp--comment{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .sp--navigation{
+    margin-top:12em;
+    display: flex;
+
+  }
