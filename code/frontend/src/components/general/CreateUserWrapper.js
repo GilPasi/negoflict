@@ -5,7 +5,9 @@ import { useNavigate } from "react-router-dom"
 import useNodeS from "../../hooks/useNodeS"
 import useServer from "../../hooks/useServer"
 import { useLazyGetNewAccessQuery } from '../../store/index'
-
+import { useSelector } from "react-redux"
+import { caseApi } from "../../store/api/caseApi"
+import {store} from '../../store/index'
 
 
 const CreateUserWraper = ()=>{
@@ -15,6 +17,7 @@ const CreateUserWraper = ()=>{
   const { registerManyUsers, registerUsersTogroups } = useNodeS()
   const { createGroupMember } = useServer()
   const [fetchAccess] = useLazyGetNewAccessQuery()
+  
   //==============
 
   //values=========
@@ -39,6 +42,26 @@ const CreateUserWraper = ()=>{
         const urlId = quaryParams.get('id')
         setIdCase(urlId)
     },[]);
+  
+
+  useEffect(() => {
+    const unsubscribe = store.subscribe(() => {
+      const state = store.getState();
+
+      const resultCase = Object.values(state.case_api.mutations)[0]
+      if (resultCase && resultCase.status === 'fulfilled') 
+        setIdCase(resultCase.case.id)
+      
+      const resultGroups = Object.values(state.group_api.mutations)[0]
+      if (resultGroups && resultGroups.status === 'fulfilled') 
+        console.log('ResultGroups:', resultGroups.data);
+    });
+
+    // Cleanup function to unsubscribe from the store when the component is unmounted.
+    return () => {
+      unsubscribe();
+    };
+  }, [store]);
     //=============
 
     const handleChange = (event) => {

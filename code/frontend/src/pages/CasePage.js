@@ -23,7 +23,7 @@ const CasePage =({isMediator})=>{
     //use asyncronized fetch for better preformences
     //hooks==========
     const dispatch = useDispatch()
-    const { getGropByUser } = useChat()
+ 
     const location = useLocation()
     const {trigerNotification} = useAlert()
     //============

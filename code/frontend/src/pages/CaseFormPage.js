@@ -7,30 +7,27 @@ import { useState} from "react"
 import TextArea from "../components/general/TextArea"
 import {MEDIATION_CHOICES} from '../utils/data'
 import { useSelector } from "react-redux"
-import useServer from "../hooks/useServer"
 import { useNavigate } from "react-router-dom"
 import { addChatGroups, useCreateNewGroupMutation, usePost_new_caseMutation } from '../store/index'
-import { useDispatch } from "react-redux"
+
 
 const CaseFormPage = () =>{
     //hooks=========
     const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const { postNewCase } = useServer()
     const [addGroup, resultGroup] = useCreateNewGroupMutation()
     const [addCase, resultCase] = usePost_new_caseMutation()
     //===========
 
     //values========
     const {
-        firstName,
-        lastName,
+        first_name,
+        last_name,
         id,
         username,
         access,
         }= useSelector(state=>state.user)
 
-    const mediatorName = `${firstName} ${lastName}`
+    const mediatorName = `${first_name} ${last_name}`
     //state========
     const [formData , setFormData] = useState({})
      
@@ -64,24 +61,12 @@ const CaseFormPage = () =>{
             owner:username
         }
         addGroup(data)
-        .then(res=>dispatch(addChatGroups(res.data.AgoraResponse)))
-        addCase(data).then(res=>{
-            
+        addCase(data)
 
+        navigate('/mediator/create_users/?side=A',{
+            replace:true,
+          
         })
-
-        
-    
-        
-        
-        // if(res.status===201){
-        //     const  dataCase= res.data.case.id
-        //     const  caseId = dataCase.slice(-7)
-        // navigate(`/mediator/create_users/?side=A&id=${caseId}`,{
-        //     replace:true,
-        //     state:{dataCase, groupArr},
-        // })
-        //     }
     }
 
 
