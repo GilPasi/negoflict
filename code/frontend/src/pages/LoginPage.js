@@ -7,7 +7,6 @@ import useSubmit from "../hooks/useSubmit.js"
 import { useDispatch,  } from 'react-redux'
 import { login } from '../store/index'
 import { useNavigate } from "react-router-dom"
-import useServer from '../hooks/useServer'
 import { useSelector } from "react-redux"
 import useAlert from "../hooks/useAlert"
 import { getPermSign } from "../utils/permissions"
@@ -17,6 +16,8 @@ import { useLazyLoginQuery, useLazyIs_loginQuery,useLazyLog_outQuery } from "../
 
 const LoginPage=()=>{
     //dont change the order*******
+    //status = finished
+    //4 requests=>2 requests && move to redux-fetch usersApi
 
     //hooks=====
     const dispatch = useDispatch()
