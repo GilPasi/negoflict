@@ -3,17 +3,19 @@ import Header from "../components/general/Header"
 import TextInput from "../components/general/TextInput"
 import Button from "../components/general/Button"
 import DropdownSelector from "../components/general/DropdownSelector.js"
-import {useState} from "react"
+import { useState} from "react"
 import TextArea from "../components/general/TextArea"
 import {MEDIATION_CHOICES} from '../utils/data'
 import { useSelector } from "react-redux"
 import useServer from "../hooks/useServer"
 import { useNavigate } from "react-router-dom"
-import { useCreateNewGroupMutation, usePost_new_caseMutation } from '../store/index'
+import { addChatGroups, useCreateNewGroupMutation, usePost_new_caseMutation } from '../store/index'
+import { useDispatch } from "react-redux"
 
 const CaseFormPage = () =>{
     //hooks=========
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const { postNewCase } = useServer()
     const [addGroup, resultGroup] = useCreateNewGroupMutation()
     const [addCase, resultCase] = usePost_new_caseMutation()
@@ -33,6 +35,7 @@ const CaseFormPage = () =>{
     const [formData , setFormData] = useState({})
      
     //===========
+   
 
     //handles=======
     const handleChange = (event)=>{
@@ -61,10 +64,14 @@ const CaseFormPage = () =>{
             owner:username
         }
         addGroup(data)
-        const res =await addCase(data)
+        .then(res=>dispatch(addChatGroups(res.data.AgoraResponse)))
+        addCase(data).then(res=>{
+            
+
+        })
 
         
-        const groupArr = [...resAgora.AgoraResponse]
+    
         
         
         // if(res.status===201){
@@ -75,11 +82,6 @@ const CaseFormPage = () =>{
         //     state:{dataCase, groupArr},
         // })
         //     }
-            
-        
-
-        
-     
     }
 
 

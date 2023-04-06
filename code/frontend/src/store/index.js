@@ -6,6 +6,7 @@ import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { usersApi } from "./api/usersApi";
 import { caseApi } from './api/caseApi'
 import { groupApi } from "./api/groupApi";
+import { chatGroupsReducer, addChatGroups, removeChatGroups } from "./slices/chatGroupsSlice";
 
 
 
@@ -14,6 +15,8 @@ const store = configureStore({
         user: userReducer,
         pos: positionReducer,
         groups: groupsReducer,
+        chat_groups: chatGroupsReducer,
+
         [usersApi.reducerPath]: usersApi.reducer,
         [caseApi.reducerPath]: caseApi.reducer,
         [groupApi.reducerPath]: groupApi.reducer,
@@ -34,6 +37,9 @@ export{
     updateAccessToken,
     updatePosition,
     addGroups,
+    addChatGroups,
+    removeChatGroups,
+
    
 }
 
