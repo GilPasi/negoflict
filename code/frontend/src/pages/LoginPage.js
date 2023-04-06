@@ -28,6 +28,7 @@ const LoginPage=()=>{
 
     //state==========
     const [isMediator,setIsMediator] = useState(false)
+    const [formData,setFormData] = useState({})
     //===========
      
 
@@ -43,109 +44,83 @@ const LoginPage=()=>{
     const [fetch_logout] = useLazyLog_outQuery()
     //********
 
+    //useEffect=======
     useEffect(()=>{
         if(WasMounts.current)return
         isLogin()
+    },[]);
+    //==========
 
-    },[])
-
-        
-    const isLogin =async ()=>{ 
-        const token = accessToken || null
-
-        if(token){
-            
-            const {isSuccess} =await fetch_is_login(token)
-           
-            if(isSuccess){
-                directTo(role)
-                return
-            }
-        }
-
-       fetch_logout()
-    }
-
-    
-    const [formData,setFormData] = useState({})
-
+    //handlers=======
     const handleChange = ({currentTarget:input})=>{
         const {name,value} = input
 
         setFormData((prevState) => ({
             ...prevState,
             [name]: value,
-          }))
-    }
+          }))};
+    
+    const submitHandlerMediator =async (event)=>{
+    event.preventDefault()
+    submitLogin(formData)
+    };
 
     const submitHandlerUser =async (event)=>{
         event.preventDefault()
 
         const {password, username} = formData
-
-
         const data = {password:`Negoflict${password}`, username:username}
 
         submitLogin(data)
+    };   
+    //=============
 
-    }
-    
+    //functions==========
+    const isLogin =async ()=>{ 
+        const token = accessToken || null
 
+        if(token){ 
+            const {isSuccess} =await fetch_is_login(token)
 
-   const submitHandlerMediator =async (event)=>{
-    event.preventDefault()
-
-    submitLogin(formData)
-
-}
-
+            if(isSuccess){
+                directTo(role)
+                return
+            }
+        }
+       fetch_logout()
+    };
     const submitLogin =async (data)=>{
 
-    const {access} = await GetJWTToken(data)
-    let user =await GetUserId(formData.username,access)
-    const role = getPermSign(user)
-    user = {...user, 'role':role, 'access':access}
-    dispatch(login(user))
-
-    const {data:d, error} =await fetchUser({username:formData.username,access:access})
-    console.log('sore redux fetch>>>>>',d)
-    console.log(error)
-
-
-    setNullFields()
-
-    directTo(role)
+        const {access} = await GetJWTToken(data)
+        let {data:user} =await fetchUser({username:formData.username,access:access})
     
-    }
-
-
-
-
+        const role = getPermSign(user)
+        user = {...user, 'role':role, 'access':access}
+        dispatch(login(user))
+       
+        setNullFields()
+        directTo(role)
+        };
     const directTo = (role)=>{
         bigSuccessAlert('Login successfuly')
 
         switch(role){
-            case 1:{
+            case 1:
                 navigate('/admin')
                 break;
-            }
-            case 2:{
+            case 2:
                 navigate('/mediator')
                 break
-            }
-            case 3:{
+            case 3:
                 navigate('/user')
                 break
-            }
             default:
                 navigate('/login')
         }
-
-    }
-
-    const setNullFields = ()=>[
+    };
+    const setNullFields = ()=>{
         setFormData({})
-    ]
+    };
 
 
     return(
