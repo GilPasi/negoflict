@@ -48,16 +48,18 @@ exports.createGroup = async(req,res)=>{
 exports.createGroups = async(req,res)=>{
     const appToken = tokenBuilder.appTokenBuild(50000)
     const name = req.body.groupname 
-    const description = req.body.desc ?? 'No description'
-    const max_users = req.body.maxusers ?? 50
-    const owner = req.body.owner 
+    const description = req.body.desc || 'No description'
+    const max_users = req.body.maxusers || 50
+    const owner = req.body.owner
+
+    console.log(name,description,max_users,owner)
 
     const missingProps = {
         ...(name? {}: {'error':'groupname missing'}),
         ...(owner? {}:{'error':'owner missing'}),
     }
     if(Object.keys(missingProps).length >0)
-        return res.status(400).json(missingProps)
+        return res.status(400).json({'data':missingProps})
     
     
     

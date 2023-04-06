@@ -4,7 +4,7 @@ import { Server_url } from "../../utils/roots";
 const caseApi = createApi({
   reducerPath: "case_api",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${Server_url}`,
+    baseUrl: `${Server_url}`, //8000
   }),
   endpoints(builder) {
     return {
@@ -22,11 +22,34 @@ const caseApi = createApi({
             headers: {
               Authorization: `JWT ${access}`,
             },
-          };
-        },
+          }
+        }
       }),
-    };
-  },
+      post_new_case: builder.mutation({
+        query: ({title,mediator,category,sub_category,problem_brief, access})=>{
+
+          return {
+            url:'/session/case/create_case_and_groups/',
+            body:{
+              title: title,
+              mediator:mediator,
+              category:category,
+              sub_category:sub_category,
+              problem_brief:problem_brief,
+              summary:null,
+              is_cative:true,
+            },
+            headers:{
+              Authorization: `JWT ${access}`
+          },
+          method: 'POST'
+          }
+        }
+
+
+      }),
+    }
+  }
 });
 
 export  {caseApi};

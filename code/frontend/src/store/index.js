@@ -49,8 +49,10 @@ export const { useGetTokenQuery, useLazyGetTokenQuery} = usersApi
 //===========
 
 //caseApi=====
-export const {useGet_my_casesQuery, useLazyGet_my_casesQuery} = caseApi
+export const { useGet_my_casesQuery, useLazyGet_my_casesQuery } = caseApi
+export const { usePost_new_caseMutation } = caseApi
 //============
 
 //groupApi=====
 export const { useGetGroupsByUserQuery, useLazyGetGroupsByUserQuery} = groupApi
+export const { useCreateNewGroupMutation } = groupApi
