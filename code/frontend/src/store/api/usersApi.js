@@ -39,6 +39,7 @@ const usersApi = createApi({
                     return {
                         url:'/core/auth/logout/',
                         credentials:'include',
+                        method: 'GET'
                     }
                 } 
                 
@@ -47,11 +48,28 @@ const usersApi = createApi({
                 query:()=>{
                     return{
                         url:'/core/auth/token/refresh/',
-                        credentials: 'include'
+                        credentials: 'include',
+                        method: 'GET'
                     }
                 }
 
             }),
+            getToken: builder.query({
+                query: ({username,password})=>{
+                    return {
+                        url: '/core/auth/token/',
+                        body:{
+                            username:username,
+                            password:password,
+                        },
+                        credentials: 'include',
+                        headers:{
+                            'Content-Type':'application/json',
+                            'Accept':'application/json',
+                        },
+                        method: 'POST'
+                    }}
+                }),
 
 
         }}})

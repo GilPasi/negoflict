@@ -10,7 +10,8 @@ import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import useAlert from "../hooks/useAlert"
 import { getPermSign } from "../utils/permissions"
-import { useLazyLoginQuery, useLazyIs_loginQuery,useLazyLog_outQuery } from "../store/index"
+import { useLazyLoginQuery, useLazyIs_loginQuery,useLazyLog_outQuery, useLazyGetTokenQuery } from "../store/index"
+import Loader from "../components/general/Loader"
 
 
 
@@ -22,7 +23,6 @@ const LoginPage=()=>{
     //hooks=====
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const {GetJWTToken} = useSubmit()
     const { bigSuccessAlert } = useAlert()
     //==========
 
@@ -39,10 +39,12 @@ const LoginPage=()=>{
     //==========
   
     //apiHooks=====
-    const [fetchUser] = useLazyLoginQuery()
+    const [fetchUser,{isLoading:loadingFetchUser}] = useLazyLoginQuery()
+    const [fetchToken,{isLoading:loadingFetchToken}] = useLazyGetTokenQuery()
     const [fetch_is_login] = useLazyIs_loginQuery()
     const [fetch_logout] = useLazyLog_outQuery()
     //********
+    
 
     //useEffect=======
     useEffect(()=>{
@@ -50,6 +52,11 @@ const LoginPage=()=>{
         isLogin()
     },[]);
     //==========
+
+    //middleware=====
+    if(loadingFetchUser || loadingFetchToken)return <Loader/>
+
+    //=========
 
     //handlers=======
     const handleChange = ({currentTarget:input})=>{
@@ -91,11 +98,22 @@ const LoginPage=()=>{
     };
     const submitLogin =async (data)=>{
 
-        const {access} = await GetJWTToken(data)
-        let {data:user} =await fetchUser({username:formData.username,access:access})
-    
+        const {data:access_data,error:errorToken} = await fetchToken(data)
+        
+        if(errorToken){
+            console.log('token error',errorToken)
+            return
+        }
+
+        let {data:user, error:errorUser} =await fetchUser({username:formData.username,access:access_data.access})
+
+        if(errorUser){
+            console.log('user error',errorUser)
+            return
+        }
+        
         const role = getPermSign(user)
-        user = {...user, 'role':role, 'access':access}
+        user = {...user, 'role':role, 'access':access_data.access}
         dispatch(login(user))
        
         setNullFields()

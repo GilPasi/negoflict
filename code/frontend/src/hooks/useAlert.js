@@ -24,11 +24,11 @@ const useAlert = ()=>{
     }
     const bigSuccessAlert = (message)=>[
       Swal.fire({
-        position: 'top-end',
+        position: 'center',
         icon: 'success',
         title: message,
         showConfirmButton: false,
-        timer: 1500
+        timer: 1100
       })
     ]
 
