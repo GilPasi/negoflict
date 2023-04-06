@@ -34,3 +34,5 @@ export{
 setupListeners(store.dispatch)
 
 export const { useLoginQuery, useLazyLoginQuery } = usersApi
+export const { useIs_loginQuery, useLazyIs_loginQuery} = usersApi
+export const { useLog_outQuery, useLazyLog_outQuery} = usersApi

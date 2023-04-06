@@ -11,59 +11,59 @@ import useServer from '../hooks/useServer'
 import { useSelector } from "react-redux"
 import useAlert from "../hooks/useAlert"
 import { getPermSign } from "../utils/permissions"
-import { useLazyLoginQuery } from "../store/index"
+import { useLazyLoginQuery, useLazyIs_loginQuery,useLazyLog_outQuery } from "../store/index"
 
 
 
 const LoginPage=()=>{
+    //dont change the order*******
 
-    //
+    //hooks=====
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const {GetJWTToken,LogOut, GetUserId} = useSubmit()
     const { verifyAccessToken } = useServer()
-    const [isMediator,setIsMediator] = useState(false)
-    const { accessToken, role} = useSelector(state=>state.user)
     const { bigSuccessAlert } = useAlert()
+    //==========
+
+    //state==========
+    const [isMediator,setIsMediator] = useState(false)
+    //===========
+     
+
+    //values========
     const loginHref = isMediator?'Login as User': 'Login as Mediator'
-
-    const [fetchUser,{data,isLoading,error}] = useLazyLoginQuery()
- 
-
-
     const WasMounts = useRef(false)
+    const { accessToken, role } = useSelector(state=>state.user)
+    //==========
+  
+    //apiHooks=====
+    const [fetchUser] = useLazyLoginQuery()
+    const [fetch_is_login] = useLazyIs_loginQuery()
+    const [fetch_logout] = useLazyLog_outQuery()
+    //********
 
-    
-
-
-
-
-
-    
     useEffect(()=>{
-        if(WasMounts.current) return
-        WasMounts.current = true
+        if(WasMounts.current)return
         isLogin()
+
     },[])
 
-
-
-    const isLogin =async ()=>{
-     
         
+    const isLogin =async ()=>{ 
         const token = accessToken || null
 
         if(token){
             
-            const res =await verifyAccessToken({token:token})
+            const {isSuccess} =await fetch_is_login(token)
            
-            if(res){
+            if(isSuccess){
                 directTo(role)
                 return
             }
         }
 
-        LogOut()
+       fetch_logout()
     }
 
     

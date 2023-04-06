@@ -22,8 +22,31 @@ const usersApi = createApi({
                         Authorization: `JWT ${access}`
                         },
                         method: 'GET'
-                }}})}}})
+                }}}),
+
+            is_login: builder.query({
+                query: access =>{
+                    return{
+                        url: '/auth/jwt/verify/',
+                        body: {
+                            token:access
+                        },
+                        method: 'POST',
+                }}
+            }),
+            log_out: builder.query({
+                query:()=>{
+                    return {
+                        url:'/core/auth/logout/',
+                        credentials:'include',
+                    }
+                } 
+                
+            })
 
 
-export const {useLoginQuery} = usersApi
+        }}})
+
+
+export const {useLoginQuery, useIs_loginQuery, useLog_outQuery} = usersApi
 export {usersApi}
