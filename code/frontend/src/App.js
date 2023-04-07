@@ -41,10 +41,7 @@ import Chat from 'agora-chat-uikit/lib/EaseChat/chat/index.js';
           {/* catch */}
         
         </Route>
-      </Routes>
-    const conflictStats={duration:"21" , stages:"17" , interactions:"50"}
-      
-
+      </Routes>      
     </div>
   );
 }
