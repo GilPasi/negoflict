@@ -202,42 +202,43 @@ exports.addUserToGroup = async(req,res)=>{
 }
 exports.addUsersToGroups = async(req,res)=>{
     const appToken = tokenBuilder.appTokenBuild(3000)
-    let groupsId = []
-    groupsId = req.body.groupsId ?? null
-    user = req.body.user ?? null
+    let users = []
+    users = req.body?.users ?? null
+    const responses =[]
 
     const missingProps = {
-        ...(groupsId? {} : {'error': 'groupsId missing'}),
-        ...(user? {} : {'error': 'user missing'})
+        ...(users? {} : {'error': 'user missing'})
     }
     if(Object.keys(missingProps).length>0)
-        return res.status(400).json(missingProps)
+        return res.status(400).json({'missing properties':missingProps})
 
+    for (let i = 0; i < users.length; i++) {
+        try {
+            const response = await addSingleUserToGroup(users[i])
+            responses.push(response)
+        } catch (err) {
+            return res.status(500).json({ 'error': err.message })
+        }
+    }
+    return res.json({'message':'ok', 'responses':responses})
+}
 
-
+const addSingleUserToGroup =async ({id,groups})=> {
+    const appToken = tokenBuilder.appTokenBuild(3000)
     const responses = []
 
-    try{
-
-        for(let i=0; i<groupsId.length; i++){
-            const groupId = groupsId[i]
-            const response = await axios.post(`${HOST_URL_APP_KEY}/chatgroups/${groupId}/users/${user}`,{}, {
-                headers:{
+        for (let i = 0; i < groups.length; i++) {
+            const groupId = groups[i]
+            const response = await axios.post(`${HOST_URL_APP_KEY}/chatgroups/${groupId}/users/${id}`, {}, {
+                headers: {
                     Authorization: `Bearer ${appToken}`,
                     'Content-Type': 'application/json',
-                    'Accept' : 'application/json'
+                    'Accept': 'application/json'
                 }
-        
             })
             responses.push(response.data)
         }
-            return res.json({'responses':responses})
-
-    }catch(err){
-        return res.status(err?.status ?? 500).json({'errors':err})
-    }
-
-
+        return responses
 }
 
 exports.removeUserFromGroup = async(req,res)=>{

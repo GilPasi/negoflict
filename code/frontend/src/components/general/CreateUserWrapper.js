@@ -4,8 +4,8 @@ import AddUserPage from '../../pages/AddUserPage'
 import { useNavigate } from "react-router-dom"
 import useNodeS from "../../hooks/useNodeS"
 import useServer from "../../hooks/useServer"
-import { useLazyGetNewAccessQuery } from '../../store/index'
 import {store} from '../../store/index'
+import {useSelector} from "react-redux";
 
 
 const CreateUserWraper = ()=>{
@@ -13,14 +13,14 @@ const CreateUserWraper = ()=>{
   //hooks==========
   const location = useLocation()
   const navigate = useNavigate()
-  const { registerManyUsers, registerUsersTogroups } = useNodeS()
-  const { createGroupMember } = useServer()
-  const [fetchAccess] = useLazyGetNewAccessQuery()
+  const { registerManyUsers, registerUsersTogroups } = useNodeS() ///change
+  const { createGroupMember } = useServer() //change
+    const { access } = useSelector(state => state.user)
+
   
   //==============
 
   //values=========
-  const { dataCase, groupArr } = location.state || {};
   const quaryParams = new URLSearchParams(location.search)
   const side = quaryParams.get('side')
   //=============
@@ -34,14 +34,9 @@ const CreateUserWraper = ()=>{
 
   //useEffects==========
     useEffect(()=>{
-      const val =side=='A'?0:1
+      const val =side==='A'?0:1
       setSideVal(val)
     },[side]);
-   
-    useEffect(()=>{
-        const urlId = quaryParams.get('id')
-        setIdCase(urlId)
-    },[]);
   
   useEffect(() => {
     const unsubscribe = store.subscribe(() => {
@@ -51,7 +46,7 @@ const CreateUserWraper = ()=>{
       if (resultCase && resultCase.status === 'fulfilled'){
         const {error,data} = resultCase
         if(error)
-          alert('eror')
+          alert('error')
         setIdCase(data.case.id.slice(-7))
       } 
       const resultGroups = Object.values(state.group_api.mutations)[0]
@@ -65,16 +60,14 @@ const CreateUserWraper = ()=>{
     return () => {
       unsubscribe()
     };
-  }, [store]);
+  }, []);
     //================
 
     //handlers============
 
     const handleChange = (event) => {
         const { name, value } = event.target
-        
         const index = sideVal
-        console.log('index',index)
       
         setUserData(prevState => {
           const prevData = [...prevState]
@@ -85,7 +78,6 @@ const CreateUserWraper = ()=>{
           } else {
             prevData[index] = { [name]: value }
           }
-      
           return prevData
         })
       }
@@ -100,20 +92,17 @@ const CreateUserWraper = ()=>{
           user.password = pass
         })
 
-        const {data:newToken} = fetchAccess()
-      
-
-        const {data, status} =await registerManyUsers(arrUser,newToken,dataCase)
+        const {data, status} =await registerManyUsers(groups,access,idCase)
         if(status !== 200)
           rediract(status)
           
 
-        const res2 = await registerUsersTogroups(groupArr,arrUser)
+        const res2 = await registerUsersTogroups(groups,arrUser)
         
 
         const users = [...data.dbResult]
 
-        const response_final_step = await createGroupMember(users,newToken,dataCase)
+        const response_final_step = await createGroupMember(users,access,idCase)
 
         rediract(status)
      };
@@ -132,13 +121,13 @@ const CreateUserWraper = ()=>{
     }
     const next = ()=>{
       navigate(`?side=B&id=${idCase}`,{
-        state: { dataCase, groupArr}
+        state: { idCase, groups}
       })
 
   }
   const goBack = ()=>{
       navigate(-1,{
-        state: { dataCase,groupArr }
+        state: { idCase,groups }
       }
         )
   }
@@ -150,7 +139,7 @@ const CreateUserWraper = ()=>{
         ?
         <AddUserPage 
         side='A'
-        idCase={idCase}
+        idCase={idCase?.slice(-7) ?? idCase}
         next={next}
         handleChange={handleChange}
         userData={userData[0]}
@@ -158,7 +147,7 @@ const CreateUserWraper = ()=>{
         :
         <AddUserPage
         side='B'
-        idCase={idCase}
+        idCase={idCase?.slice(-7) ?? idCase}
         goBack={goBack}
         handleChange={handleChange}
         handleSubmit={handleSubmit}

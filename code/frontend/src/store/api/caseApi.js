@@ -25,6 +25,7 @@ const caseApi = createApi({
           }
         }
       }),
+
       post_new_case: builder.mutation({
         query: ({title,mediator,category,sub_category,problem_brief, access})=>{
 
@@ -45,9 +46,22 @@ const caseApi = createApi({
           method: 'POST'
           }
         }
-
-
       }),
+
+      putUserToMemberGroup: builder.mutation({
+        query: ({user,access,idCase,side})=>{
+          return{
+            url: `/session/chat_members/get_group_member_by_user/?case=${idCase}&side=${side}`,
+            body: {
+              user:user.id
+            },
+            headers:{
+                Authorization: `JWT ${access}`
+            },
+            method:'PUT'
+          }
+        }
+      })
     }
   }
 });

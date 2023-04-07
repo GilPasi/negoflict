@@ -8,14 +8,16 @@ import TextArea from "../components/general/TextArea"
 import {MEDIATION_CHOICES} from '../utils/data'
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { addChatGroups, useCreateNewGroupMutation, usePost_new_caseMutation } from '../store/index'
+import { useCreateNewGroupMutation, usePost_new_caseMutation } from '../store/index'
 
 
 const CaseFormPage = () =>{
+    //status = finished
+    //dont change the order***************
     //hooks=========
     const navigate = useNavigate()
-    const [addGroup, resultGroup] = useCreateNewGroupMutation()
-    const [addCase, resultCase] = usePost_new_caseMutation()
+    const [addGroup] = useCreateNewGroupMutation()
+    const [addCase] = usePost_new_caseMutation()
     //===========
 
     //values========
@@ -32,11 +34,12 @@ const CaseFormPage = () =>{
     const [formData , setFormData] = useState({})
      
     //===========
+    //****************
    
 
     //handles=======
     const handleChange = (event)=>{
-        const {name, value} = event.target
+        let {name, value} = event.target
         if(name === 'category'&& value === 'Select Areas of Mediation')
             value = null
 
