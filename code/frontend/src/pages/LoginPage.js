@@ -27,8 +27,9 @@ const LoginPage=()=>{
     //==========
 
     //state==========
+    const baseData = {username:'',email:'',password:''}
     const [isMediator,setIsMediator] = useState(false)
-    const [formData,setFormData] = useState({})
+    const [formData,setFormData] = useState(baseData)
     //===========
      
 
@@ -51,6 +52,9 @@ const LoginPage=()=>{
         if(WasMounts.current)return
         isLogin()
     },[]);
+    useEffect(()=>{
+        setFormData(baseData)
+    },[isMediator])
     //==========
 
     //middleware=====
@@ -69,16 +73,17 @@ const LoginPage=()=>{
     
     const submitHandlerMediator =async (event)=>{
     event.preventDefault()
-    submitLogin(formData)
+    submitLogin(formData,formData.email)
     };
 
     const submitHandlerUser =async (event)=>{
         event.preventDefault()
 
         const {password, username} = formData
+       
         const data = {password:`Negoflict${password}`, username:username}
 
-        submitLogin(data)
+        submitLogin(data,username)
     };   
     //=============
 
@@ -96,7 +101,7 @@ const LoginPage=()=>{
         }
        fetch_logout()
     };
-    const submitLogin =async (data)=>{
+    const submitLogin =async (data,checkprop)=>{
 
         const {data:access_data,error:errorToken} = await fetchToken(data)
         
@@ -106,6 +111,7 @@ const LoginPage=()=>{
         }
 
         let {data:user, error:errorUser} =await fetchUser({username:formData.username,access:access_data.access})
+        if(user.email !== checkprop)return //email or username not match
 
         if(errorUser){
             console.log('user error',errorUser)
@@ -154,6 +160,7 @@ const LoginPage=()=>{
                     placeHolder="Username"
                     onChange = {handleChange}
                     name = 'username'
+                    value={formData.username}
                 />):(<div></div>)}
                     
 
@@ -163,6 +170,7 @@ const LoginPage=()=>{
                                 placeHolder="Email"
                                 onChange = {handleChange}
                                 name={isMediator?'email':'username'}
+                                value={isMediator?formData.email:formData.username}
                             />
 
                     <TextInput 
@@ -170,6 +178,7 @@ const LoginPage=()=>{
                                 placeHolder="Password"
                                 onChange = {handleChange}
                                 name='password'
+                                value={formData.password}
                             />
                             <div className="flexbox">
                                 <input type="checkbox" id="lp--checkbox"/>

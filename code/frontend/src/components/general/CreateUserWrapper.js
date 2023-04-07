@@ -9,6 +9,7 @@ import {store} from '../../store/index'
 
 
 const CreateUserWraper = ()=>{
+  // status = not finished
   //hooks==========
   const location = useLocation()
   const navigate = useNavigate()
@@ -42,7 +43,6 @@ const CreateUserWraper = ()=>{
         setIdCase(urlId)
     },[]);
   
-
   useEffect(() => {
     const unsubscribe = store.subscribe(() => {
       const state = store.getState();
@@ -59,15 +59,16 @@ const CreateUserWraper = ()=>{
         const {error,data} = resultGroups
         if(error)
           alert(error)
-          console.log(data.AgoraResponse)
         setGorups(data.AgoraResponse)
       }
     });
     return () => {
-      unsubscribe();
+      unsubscribe()
     };
   }, [store]);
-    //=============
+    //================
+
+    //handlers============
 
     const handleChange = (event) => {
         const { name, value } = event.target
@@ -90,22 +91,18 @@ const CreateUserWraper = ()=>{
       }
     //handlers===========
     const handleSubmit =async(event)=>{
-      event.preventDefault()
-      const arrUser = userData
+        event.preventDefault()
+        const arrUser = userData
 
-      arrUser.forEach(user=>{
-        let pass = `Negoflict${user.phoneNumber}`
-        user.username = user.email
-        user.password = pass
-      })
+        arrUser.forEach(user=>{
+          let pass = `Negoflict${user.phoneNumber}`
+          user.username = user.email
+          user.password = pass
+        })
 
-      const {data:newToken} = fetchAccess()
-      console.log('FETCHHH==>>>',newToken)
-      
+        const {data:newToken} = fetchAccess()
       
 
-
-      
         const {data, status} =await registerManyUsers(arrUser,newToken,dataCase)
         if(status !== 200)
           rediract(status)
@@ -118,10 +115,10 @@ const CreateUserWraper = ()=>{
 
         const response_final_step = await createGroupMember(users,newToken,dataCase)
 
-        console.log(response_final_step)
         rediract(status)
      };
       //==============
+
       //functions========
       const rediract = (status)=>{
         navigate('/mediator/cases',{
@@ -144,8 +141,8 @@ const CreateUserWraper = ()=>{
         state: { dataCase,groupArr }
       }
         )
-
   }
+  //=================
   
 
     return(
