@@ -16,7 +16,7 @@ const CreateUserWraper = ()=>{
   const { createGroupMember } = useServer() //change
     const { access } = useSelector(state => state.user)
     const [registerUsers] = useRegisterUsersMutation()
-    const [registerToChatGroups] = useRegisterToChatGroupsMutation()
+    const [registerToChatGroups,resualt] = useRegisterToChatGroupsMutation()
     const [updateMembers] = usePutUserToMemberGroupMutation()
 
   
@@ -93,14 +93,20 @@ const CreateUserWraper = ()=>{
           user.username = user.email
           user.password = pass
         })
+
         registerUsers({users:arrUser,access:access,caseId:idCase})
-        registerToChatGroups({groups:groups,users:arrUser})
 
-        const sides = ['A','B']
+        console.log('data==>',groups,arrUser)
+        const res =await registerToChatGroups({groups:groups,users:arrUser})
+        console.log(res)
+        console.log(resualt.error)
 
-        for(let i=0; i<2; i++){
-             updateMembers({user:arrUser[i],access:access,idCase:idCase,side:sides[i]})
-        }
+
+        // const sides = ['A','B']
+
+        // for(let i=0; i<2; i++){
+        //      updateMembers({user:arrUser[i],access:access,idCase:idCase,side:sides[i]})
+        // }
         rediract()
      };
       //==============
