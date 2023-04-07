@@ -4,7 +4,7 @@ import AddUserPage from '../../pages/AddUserPage'
 import { useNavigate } from "react-router-dom"
 import useNodeS from "../../hooks/useNodeS"
 import useServer from "../../hooks/useServer"
-import {store} from '../../store/index'
+import {store, useRegisterUsersMutation, useRegisterToChatGroupsMutation, usePutUserToMemberGroupMutation} from '../../store/index'
 import {useSelector} from "react-redux";
 
 
@@ -13,9 +13,11 @@ const CreateUserWraper = ()=>{
   //hooks==========
   const location = useLocation()
   const navigate = useNavigate()
-  const { registerManyUsers, registerUsersTogroups } = useNodeS() ///change
   const { createGroupMember } = useServer() //change
     const { access } = useSelector(state => state.user)
+    const [registerUsers] = useRegisterUsersMutation()
+    const [registerToChatGroups] = useRegisterToChatGroupsMutation()
+    const [updateMembers] = usePutUserToMemberGroupMutation()
 
   
   //==============
@@ -91,31 +93,22 @@ const CreateUserWraper = ()=>{
           user.username = user.email
           user.password = pass
         })
+        registerUsers({users:arrUser,access:access,caseId:idCase})
+        registerToChatGroups({groups:groups,users:arrUser})
 
-        const {data, status} =await registerManyUsers(groups,access,idCase)
-        if(status !== 200)
-          rediract(status)
-          
+        const sides = ['A','B']
 
-        const res2 = await registerUsersTogroups(groups,arrUser)
-        
-
-        const users = [...data.dbResult]
-
-        const response_final_step = await createGroupMember(users,access,idCase)
-
-        rediract(status)
+        for(let i=0; i<2; i++){
+             updateMembers({user:arrUser[i],access:access,idCase:idCase,side:sides[i]})
+        }
+        rediract()
      };
       //==============
 
       //functions========
-      const rediract = (status)=>{
+      const rediract = ()=>{
         navigate('/mediator/cases',{
           replace:true,
-          state:{
-            status:status,
-            render:false
-          } 
       })
 
     }

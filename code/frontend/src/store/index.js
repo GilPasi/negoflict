@@ -68,3 +68,4 @@ export const { useCreateNewGroupMutation } = groupApi
 //adminApi=======
 export  const { useRegisterToChatGroupsMutation } = adminApi
 export const { useRegisterUsersMutation } = adminApi
+export const { usePutUserToMemberGroupMutation } = caseApi
