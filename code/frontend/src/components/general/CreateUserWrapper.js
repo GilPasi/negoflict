@@ -9,7 +9,7 @@ import {useSelector} from "react-redux";
 
 
 const CreateUserWraper = ()=>{
-  // status = not finished
+  // status = finished
   //hooks==========
   const location = useLocation()
   const navigate = useNavigate()
@@ -94,22 +94,20 @@ const CreateUserWraper = ()=>{
           user.password = pass
         })
 
-        const ress =await registerUsers({users:arrUser,access:access,caseId:idCase})//success
-        console.log(ress)
-
-        const usersArr = [...ress.data.dbResult]
-
-        
         registerToChatGroups({groups:groups,users:arrUser})//success
 
-        const sides = ['A','B']
+        registerUsers({users:arrUser,access:access,caseId:idCase})
+        .then(res=>{
+          const usersArr = [...res.data.dbResult]
+          const sides = ['A','B']
 
+          for(let i=0; i<2;i++){
+            updateMembers({user:usersArr[i],access:access,idCase:idCase,side:sides[i]})
+            .catch(err=>console.log(err))
+          }
+        })
+        .catch(err=>console.log(err))
 
-        for(let i=0; i<2; i++){
-          console.log('datttaaa==>>>',usersArr[i])
-            const res =await updateMembers({user:usersArr[i],access:access,idCase:idCase,side:sides[i]})
-            console.log(res)
-        }
         rediract()
      };
       //==============
