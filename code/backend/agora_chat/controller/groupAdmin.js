@@ -205,7 +205,7 @@ exports.addUsersToGroups = async(req,res)=>{
     users = req.body?.users ?? null
     const responses =[]
 
-    
+    console.log('adduserstogroup====>>>>>',users)
 
     const missingProps = {
         ...(users? {} : {'error': 'user missing'})
@@ -218,7 +218,7 @@ exports.addUsersToGroups = async(req,res)=>{
             const response = await addSingleUserToGroup(users[i])
             responses.push(response)
         } catch (err) {
-            console.log('failer',i)
+            console.log('failer',i,err)
             return res.status(500).json({ 'error': err.message })
         }
     }
@@ -229,8 +229,12 @@ const addSingleUserToGroup =async ({id,groups})=> {
     const appToken = tokenBuilder.appTokenBuild(3000)
     const responses = []
 
+
         for (let i = 0; i < groups.length; i++) {
             const groupId = groups[i]
+            console.log('addSingleUser===>>>groupID',i,groupId)
+            console.log('addSingleUser===>>>userId',i,id)
+
             const response = await axios.post(`${HOST_URL_APP_KEY}/chatgroups/${groupId}/users/${id}`, {}, {
                 headers: {
                     Authorization: `Bearer ${appToken}`,

@@ -14,3 +14,13 @@
   .btn:active {
     box-shadow: 0px 3px 4px 5px #46464640 inset;
   }
+  .btn-disable{
+    width:min-content;
+    height:3em;
+    background-color: lightgray;
+    color: rgba(0, 0, 0, 0.69);
+    border:none;
+    box-shadow: 0px 3px 4px 0px #46464640;
+    border-radius: 2.5em;
+    font-size: 1.5em;
+  }

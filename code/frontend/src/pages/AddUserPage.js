@@ -10,7 +10,7 @@ import { AREA_CODES , ISR_RESIDENCE } from '../utils/data'
 
 
 const AddUserPage =({side,idCase, goBack, next,
-     handleSubmit, handleChange, userData,isMediator})=>{
+     handleSubmit, handleChange, userData,isMediator, disabled})=>{
    
     
 
@@ -135,6 +135,7 @@ const AddUserPage =({side,idCase, goBack, next,
                                 onClick={handleSubmit}
                                 margin='0.2em'
                                 color='#09680b'
+                                disabled={disabled}
                             />
                         ):(
                         <Button 

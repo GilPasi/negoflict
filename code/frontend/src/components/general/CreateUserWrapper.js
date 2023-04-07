@@ -29,6 +29,7 @@ const CreateUserWraper = ()=>{
     const [idCase,setIdCase] = useState(null)
     const [sideVal,setSideVal] = useState(0)
     const [groups,setGorups] = useState([])
+    const [disableSubmit,setDisableSubmit] = useState(true)
   //===========
 
   //useEffects==========
@@ -60,6 +61,12 @@ const CreateUserWraper = ()=>{
       unsubscribe()
     };
   }, []);
+  useEffect(()=>{
+     if(groups.length>0&&idCase) {
+         setDisableSubmit(false)
+     }
+
+  },[groups,idCase])
     //================
 
     //handlers============
@@ -91,12 +98,12 @@ const CreateUserWraper = ()=>{
           user.password = pass
         })
 
-        registerToChatGroups({groups:groups,users:arrUser})
-
         registerUsers({users:arrUser,access:access,caseId:idCase})
         .then(res=>{
           const usersArr = [...res.data.dbResult]
           const sides = ['A','B']
+
+            registerToChatGroups({groups:groups,users:arrUser})
 
           for(let i=0; i<2;i++){
             updateMembers({user:usersArr[i],access:access,idCase:idCase,side:sides[i]})
@@ -128,8 +135,8 @@ const CreateUserWraper = ()=>{
       }
         )
   }
+
   //=================
-  
 
     return(
         side==='A'
@@ -149,6 +156,7 @@ const CreateUserWraper = ()=>{
         handleChange={handleChange}
         handleSubmit={handleSubmit}
         userData={userData[1]}
+        disabled={disableSubmit}
         />
 
     )

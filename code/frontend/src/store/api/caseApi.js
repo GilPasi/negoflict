@@ -9,6 +9,7 @@ const caseApi = createApi({
   endpoints(builder) {
     return {
       get_my_cases: builder.query({
+        providesTags:['Cases'],
         query: ({ id, access, isMediator }) => {
           const url = isMediator
             ? `${Server_url}/session/case/casess_by_mediator/`
@@ -27,7 +28,9 @@ const caseApi = createApi({
       }),
 
       post_new_case: builder.mutation({
+        invalidatesTags: ['Cases'],
         query: ({title,mediator,category,sub_category,problem_brief, access})=>{
+
 
           return {
             url:'/session/case/create_case_and_groups/',
