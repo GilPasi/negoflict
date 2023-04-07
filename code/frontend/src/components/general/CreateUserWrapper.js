@@ -2,8 +2,6 @@ import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
 import AddUserPage from '../../pages/AddUserPage'
 import { useNavigate } from "react-router-dom"
-import useNodeS from "../../hooks/useNodeS"
-import useServer from "../../hooks/useServer"
 import {store, useRegisterUsersMutation, useRegisterToChatGroupsMutation, usePutUserToMemberGroupMutation} from '../../store/index'
 import {useSelector} from "react-redux";
 
@@ -13,11 +11,10 @@ const CreateUserWraper = ()=>{
   //hooks==========
   const location = useLocation()
   const navigate = useNavigate()
-  const { createGroupMember } = useServer() //change
-    const { access } = useSelector(state => state.user)
-    const [registerUsers] = useRegisterUsersMutation()
-    const [registerToChatGroups] = useRegisterToChatGroupsMutation()
-    const [updateMembers,resualt] = usePutUserToMemberGroupMutation()
+  const { access } = useSelector(state => state.user)
+  const [registerUsers] = useRegisterUsersMutation()
+  const [registerToChatGroups] = useRegisterToChatGroupsMutation()
+  const [updateMembers] = usePutUserToMemberGroupMutation()
 
   
   //==============
@@ -94,7 +91,7 @@ const CreateUserWraper = ()=>{
           user.password = pass
         })
 
-        registerToChatGroups({groups:groups,users:arrUser})//success
+        registerToChatGroups({groups:groups,users:arrUser})
 
         registerUsers({users:arrUser,access:access,caseId:idCase})
         .then(res=>{
