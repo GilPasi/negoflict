@@ -16,8 +16,8 @@ const CreateUserWraper = ()=>{
   const { createGroupMember } = useServer() //change
     const { access } = useSelector(state => state.user)
     const [registerUsers] = useRegisterUsersMutation()
-    const [registerToChatGroups,resualt] = useRegisterToChatGroupsMutation()
-    const [updateMembers] = usePutUserToMemberGroupMutation()
+    const [registerToChatGroups] = useRegisterToChatGroupsMutation()
+    const [updateMembers,resualt] = usePutUserToMemberGroupMutation()
 
   
   //==============
@@ -49,7 +49,7 @@ const CreateUserWraper = ()=>{
         const {error,data} = resultCase
         if(error)
           alert('error')
-        setIdCase(data.case.id.slice(-7))
+        setIdCase(data.case.id)
       } 
       const resultGroups = Object.values(state.group_api.mutations)[0]
       if (resultGroups && resultGroups.status === 'fulfilled'){
@@ -94,19 +94,22 @@ const CreateUserWraper = ()=>{
           user.password = pass
         })
 
-        registerUsers({users:arrUser,access:access,caseId:idCase})
+        const ress =await registerUsers({users:arrUser,access:access,caseId:idCase})//success
+        console.log(ress)
 
-        console.log('data==>',groups,arrUser)
-        const res =await registerToChatGroups({groups:groups,users:arrUser})
-        console.log(res)
-        console.log(resualt.error)
+        const usersArr = [...ress.data.dbResult]
+
+        
+        registerToChatGroups({groups:groups,users:arrUser})//success
+
+        const sides = ['A','B']
 
 
-        // const sides = ['A','B']
-
-        // for(let i=0; i<2; i++){
-        //      updateMembers({user:arrUser[i],access:access,idCase:idCase,side:sides[i]})
-        // }
+        for(let i=0; i<2; i++){
+          console.log('datttaaa==>>>',usersArr[i])
+            const res =await updateMembers({user:usersArr[i],access:access,idCase:idCase,side:sides[i]})
+            console.log(res)
+        }
         rediract()
      };
       //==============

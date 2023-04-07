@@ -50,6 +50,9 @@ const caseApi = createApi({
 
       putUserToMemberGroup: builder.mutation({
         query: ({user,access,idCase,side})=>{
+          console.log(user.id)
+          console.log(access)
+          console.log(side)
           return{
             url: `/session/chat_members/get_group_member_by_user/?case=${idCase}&side=${side}`,
             body: {

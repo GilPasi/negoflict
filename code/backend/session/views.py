@@ -104,6 +104,9 @@ class GroupMemberView(ModelViewSet):
         case = request.GET.get('case', None)
         side = request.GET.get('side', None)
 
+        print(case)
+        print(side)
+
         if case and side:
             try:
                 member = self.queryset.select_related('group_chat').get(case=case, side=side)

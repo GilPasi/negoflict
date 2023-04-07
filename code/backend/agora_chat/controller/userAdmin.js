@@ -66,7 +66,6 @@ exports.registerUsers = async(req,res)=>{
                 Authorization: `JWT ${access}`
             }
         })
-        console.log('sucssesss===>>>>',createUsersRequest)
         return res.status(200).json({'users': registeredUsers, 'dbResult': createUsersRequest.data})
 
     }catch(err){

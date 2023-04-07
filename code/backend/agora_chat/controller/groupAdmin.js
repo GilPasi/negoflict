@@ -201,10 +201,11 @@ exports.addUserToGroup = async(req,res)=>{
 
 }
 exports.addUsersToGroups = async(req,res)=>{
-    const appToken = tokenBuilder.appTokenBuild(3000)
     let users = []
     users = req.body?.users ?? null
     const responses =[]
+
+    
 
     const missingProps = {
         ...(users? {} : {'error': 'user missing'})
@@ -217,6 +218,7 @@ exports.addUsersToGroups = async(req,res)=>{
             const response = await addSingleUserToGroup(users[i])
             responses.push(response)
         } catch (err) {
+            console.log('failer',i)
             return res.status(500).json({ 'error': err.message })
         }
     }
