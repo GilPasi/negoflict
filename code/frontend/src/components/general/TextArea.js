@@ -19,16 +19,12 @@ const TextArea = ({withButtons,onChange, name,title,parentRef})=>{
 
             />
         </div>
-        {withButtons?(
-        <div className="ta--bot">
-            <button id="ta--send">Send</button>
-            <button id="ta--update">Update</button>
-        
-        </div>):(<div></div>)
-}
+        {withButtons&&(
+            <div className="ta--bot">
+                <button id="ta--send">Send</button>
+                <button id="ta--update">Update</button>
+            </div>
+            )}
     </div>
-
-    )
-
-}
+    )}
 export default TextArea

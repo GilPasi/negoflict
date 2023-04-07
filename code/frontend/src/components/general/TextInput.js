@@ -4,7 +4,7 @@ const  TextField=({type,placeHolder,
                 onChange,name,length,
                 altitude,align,parentRef})=>{
     
-    let classPostfix = align === "left" ? "-la" : "" 
+    let classPostfix = align === "left" ? "-la" : "" //la for left alignment
     
     const widthStyle = {
         width: length? length : "12em",

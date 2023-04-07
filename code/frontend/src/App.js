@@ -11,12 +11,7 @@ import {UserLandingPage,MediatorLandingPage,SuperUserLandingPage} from './pages/
 import './App.css'
 import Chat from 'agora-chat-uikit/lib/EaseChat/chat/index.js';
 
-import AddMediatorPage from './pages/AddMediatorPage';
-import AddUserPage from './pages/AddUserPage';
-import CaseFormPage from './pages/CaseFormPage.js';
-import CasePage from './pages/CasePage.js';
-import SystemOptionsPage from './pages/SystemOptionsPage.js';
-import Loader from './components/general/Loader.js';
+
 
 
 
@@ -24,31 +19,31 @@ import Loader from './components/general/Loader.js';
  const App=()=> {
   const isActive = useInactivityRedirect();
   
-      // <Routes>
-      //     <Route path='/' element={<Layout/>}>
-      //       {/* public routes */}
-
-      //     <Route  path='/login' element={<LoginPage/>}/>
-          
-      //     {/* protected routes */}
-      //     {isActive?(
-
-      //     <Route  path='/' element={<RequireAuth/>}>
-      //       <Route path='user/*' element={<UserLandingPage/>}/>
-      //       <Route path='mediator/*' element={<MediatorLandingPage/>}/>
-      //       <Route path='admin/*' element={<SuperUserLandingPage/>}/>
-      //       {/* <Route path='chat' element={<ChatPage/>}/> */}
-      //     </Route>
-      //     ):(<div><h1>not active</h1></div>)}
-      //       {/* catch */}
-          
-      //     </Route>
-      //   </Routes>
-
+  
   return (
     <div className="app">  
-    <Loader/>
+    <Routes>
+        <Route path='/' element={<Layout/>}>
+          {/* public routes */}
 
+        <Route  path='/login' element={<LoginPage/>}/>
+        
+        {/* protected routes */}
+        {isActive?(
+
+        <Route  path='/' element={<RequireAuth/>}>
+          <Route path='user/*' element={<UserLandingPage/>}/>
+          <Route path='mediator/*' element={<MediatorLandingPage/>}/>
+          <Route path='admin/*' element={<SuperUserLandingPage/>}/>
+          {/* <Route path='chat' element={<ChatPage/>}/> */}
+        </Route>
+        ):(<div><h1>not active</h1></div>)}
+          {/* catch */}
+        
+        </Route>
+      </Routes>
+    const conflictStats={duration:"21" , stages:"17" , interactions:"50"}
+      
 
     </div>
   );

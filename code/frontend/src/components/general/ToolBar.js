@@ -1,8 +1,5 @@
-import {useState} from 'react'
 import "../../styles/components/toolbar.css"
-
 const ToolBar =({conflictName , id})=>{
-
 
     const handleSearch =()=>{
 

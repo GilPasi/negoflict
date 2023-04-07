@@ -41,5 +41,16 @@ export const ISR_RESIDENCE = [
     {id:22,value:'Bet Shemesh'},
     {id:23,value:'Nazareth'},
     {id:24,value:'Qiryat Yam'},
-    
+    {id:25,value:'Other'},
+
 ]
+
+
+export const SATISFATION_OP = [
+    'Very satisfied',
+    'Satisfied',
+    'OK',
+    'Disatisfied',
+    'Very disatisfied',
+    
+] 
