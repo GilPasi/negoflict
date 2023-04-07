@@ -5,8 +5,6 @@ import { useNavigate } from "react-router-dom"
 import useNodeS from "../../hooks/useNodeS"
 import useServer from "../../hooks/useServer"
 import { useLazyGetNewAccessQuery } from '../../store/index'
-import { useSelector } from "react-redux"
-import { caseApi } from "../../store/api/caseApi"
 import {store} from '../../store/index'
 
 
@@ -30,6 +28,7 @@ const CreateUserWraper = ()=>{
     const [userData,setUserData] = useState([])
     const [idCase,setIdCase] = useState(null)
     const [sideVal,setSideVal] = useState(0)
+    const [groups,setGorups] = useState([])
   //===========
 
   //useEffects==========
@@ -49,15 +48,21 @@ const CreateUserWraper = ()=>{
       const state = store.getState();
 
       const resultCase = Object.values(state.case_api.mutations)[0]
-      if (resultCase && resultCase.status === 'fulfilled') 
-        setIdCase(resultCase.case.id)
-      
+      if (resultCase && resultCase.status === 'fulfilled'){
+        const {error,data} = resultCase
+        if(error)
+          alert('eror')
+        setIdCase(data.case.id.slice(-7))
+      } 
       const resultGroups = Object.values(state.group_api.mutations)[0]
-      if (resultGroups && resultGroups.status === 'fulfilled') 
-        console.log('ResultGroups:', resultGroups.data);
+      if (resultGroups && resultGroups.status === 'fulfilled'){
+        const {error,data} = resultGroups
+        if(error)
+          alert(error)
+          console.log(data.AgoraResponse)
+        setGorups(data.AgoraResponse)
+      }
     });
-
-    // Cleanup function to unsubscribe from the store when the component is unmounted.
     return () => {
       unsubscribe();
     };

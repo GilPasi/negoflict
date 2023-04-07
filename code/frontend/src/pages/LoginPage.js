@@ -54,7 +54,7 @@ const LoginPage=()=>{
     //==========
 
     //middleware=====
-    if(loadingFetchUser || loadingFetchToken)return <Loader/>
+    if(loadingFetchUser || loadingFetchToken)return <Loader withLogo={true}/>
 
     //=========
 

@@ -1,5 +1,5 @@
-import {useState} from 'react'
 import "../../styles/components/toolbar.css"
+import Loader from './Loader'
 
 const ToolBar =({conflictName , id})=>{
 
@@ -23,7 +23,7 @@ const ToolBar =({conflictName , id})=>{
 
                 <div className="tb--title" >
                     <h3 className="tb--name">{conflictName}</h3>
-                    <h4 className="tb--id">I.D. {id}</h4>
+                    {id?<h4 className="tb--id">I.D. {id}</h4>:<Loader size='small' withLogo={false}/>}
                 </div>
                 
                 
