@@ -38,12 +38,8 @@ import LoadingBar from "./components/general/LoadingBar"
     //     ):(<div><h1>not active</h1></div>)}
     //       {/* catch */}
         
-    //     </Route>
-    //   </Routes>
-  return (
-    <div className="app">  
-      <ChatPage isMediator={false}/>
-      {/* <LoadingBar progress="50" task="Create user"/> */}
+        </Route>
+      </Routes>      
     </div>
   );
 }
