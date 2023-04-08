@@ -1,8 +1,6 @@
 
 /* __Chat page component__ */
-
-
-.cp--shuttle-block{
+.cp--shader{
   position: absolute;
   top:0;
   bottom: 0;
@@ -13,7 +11,7 @@
 
    /*Override so it would look farther*/
 }
-.cp--shuttle-block-msg{
+.cp--shader-msg{
   position: absolute;
   top:50%;
   left: 20%;
@@ -25,19 +23,7 @@
 
   background-color: white;
 
-
   text-align: center;
-  /* font-size: 10px; */
-}
-
-.cp--paper{
-    height: 25em;
-    width:90%;
-    background-color: black;
-    height: calc(100% - var(--cp-footer-height));
-    z-index: -1; /*Override so it would look farther*/
-
-
 }
 
 .cp--footer{

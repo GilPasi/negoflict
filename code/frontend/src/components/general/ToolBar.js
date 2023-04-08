@@ -1,17 +1,16 @@
 import "../../styles/components/toolbar.css"
-const ToolBar =({conflictName , id})=>{
+const ToolBar =({conflictName , id , handleAdd})=>{
 
     const handleSearch =()=>{
 
     }
 
-    const handleAdd = () =>{
-
-    }
     
     return(
         <div className="tb">
-            <div className="tb--btn" onClick={handleAdd}>
+            <div className="tb--btn" 
+            onClick={handleAdd}
+            >
                 <img 
                 src={`../../../assets/images/add_icon_dark.png`}
                 className="tb--btn-img"
