@@ -12,6 +12,7 @@ import WebIM from "../../../WebIM";
 import useServer from "../../../hooks/useServer";
 import { useRef } from "react";
 import Message from "../../../components/general/Message";
+import AddUserPage from "../../AddUserPage";
 
 
 const  ChatPage = ({isMediator})=> {
@@ -29,7 +30,6 @@ const  ChatPage = ({isMediator})=> {
     const location = useLocation()
     const {pos} = useSelector(state=>state.pos)
     const wasRenderd = useRef(false);
-
 
     const { firstName, id }= useSelector(state=>state.user)
     const { openConn } = useChat()
@@ -151,10 +151,6 @@ const  ChatPage = ({isMediator})=> {
         id = id.slice(-10)
         setCaseId(id)
     }
-
-
-
-
 
     const handleRecive = (message)=>{
         const {to, from, data, ext, msg} = message
@@ -353,13 +349,7 @@ const  ChatPage = ({isMediator})=> {
 
         }
 
-
-        const handleShuttle =()=> {
-            setIsShuttled(prevState=>{
-                return(!prevState)    
-            })
-        }
-
+        //Resizeable text area
         const setInputHeight =(element, defaultHeight)=>{
                 if(element){
                     const target= element.target ? element.target : element;
@@ -368,60 +358,60 @@ const  ChatPage = ({isMediator})=> {
 
                 }
         }
+        const handleAddParticipant=()=>{
+            document.querySelector(".cp--shader").style.display=""
+        }
           
+    //Get the add participants window's scale
 
-
-          
-    return(
-
-        
+        return(
         <article className="cp" >
             <div
-                className="cp--shuttle-block"
+                className="cp--shader"
                 style={{
                     display:isShuttled&&(msgScreen===texts)? "": "none",
                     backgroundColor: "#011202db",
                     opacity:"0.95"
-                }}
-                
-                >
-                    <div className="cp--shuttle-block-msg">
-                        {/* Render the right message according the user */}
-                            {isMediator?(
+                }}    
+            >
+                <div className="cp--shader-msg">
+                    {/* Render the right message according the user */}
+                        {isMediator?(
+                            <p>
+                                Ths is is a Shuttle mode.
+                                <br/>
+                                You cannot contact the second party.
+                                <br/>
+                                <br/>
+                                You can contact Mediator in your private chat.
+                            </p>
+                            ):(
                                 <p>
-                                    Ths is is a Shuttle mode.
-                                    <br/>
-                                    You cannot contact the second party.
-                                    <br/>
-                                    <br/>
-                                    You can contact Mediator in your private chat.
-                                </p>
-                                ):(
-                                  <p>
-                                    You turned on the shuttle mode.<br/>
-                                    Only private chats are available for all users.
-                                  </p> 
-                                  )}
-                    </div>
-
+                                You turned on the shuttle mode.<br/>
+                                Only private chats are available for all users.
+                                </p> 
+                        )}
                 </div>
+            </div>
 
-            <div className="cp--shuttle-block"></div>
-                <div
-                 style={{
+            <div/>
+
+                <header                
+                    style={{
                     position:"fixed",
                     top:"0",
                     width:"100%",
                     backgroundColor:"white", //This is crucial for hiding the MessageList
                     zIndex:"1",
-                }}>
+                }}
+                >
 
                     <Header isLarge={false}/>
-                    <ToolBar conflictName="A political conflict" id={caseId}/>
+                    <ToolBar conflictName="A political conflict" id={caseId} handleAdd={handleAddParticipant}/>
                     <ShuttleSwitch isMediator={isMediator}/>
-                </div>
-
-            <div >
+                </header>
+            
+            <div>
                 <MessageList messages={msgScreen} position={pos}/>
             </div>
             <div>
@@ -444,7 +434,7 @@ const  ChatPage = ({isMediator})=> {
                         </button>
                 </div>
                 <UserPanel
-                    handleSwitch={handleShuttle}
+                    handleSwitch={()=>setIsShuttled(prevState=>!prevState)}
                     isSwitched={isShuttled}
                     isComplex={true}
                 />

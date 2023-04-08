@@ -42,8 +42,8 @@ import LoadingBar from "./components/general/LoadingBar"
     //   </Routes>
   return (
     <div className="app">  
-    <LoadingBar progress="80" task="Creating a user"/>
-
+      <ChatPage isMediator={false}/>
+      {/* <LoadingBar progress="50" task="Create user"/> */}
     </div>
   );
 }

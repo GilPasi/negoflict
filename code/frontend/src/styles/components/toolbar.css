@@ -18,28 +18,30 @@
   width: 1.5em;
   height: 1.5em;
   margin:1em;
-  /* transition: ease-in ; */
+  margin-top:0;
+  cursor: pointer;
 
 }
-.tb--btn::before{
+.tb--btn::after{
   content:'';
   position: absolute;
-  padding: 1.5em;
-  top:50%;
+  top:0;
   left: 50%;
-  transform: translateX(-50%)  translateY(-50%);
-  border: 2px solid transparent;
-
-
+  transform: translateX(-50%);
+  bottom: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.326);
+  transition:linear 100ms;
+  width: 0;
 }
-.tb--btn::before:hover {
-  border-color: var(--grey);
+.tb--btn:hover::after{
+  width: 100%;
 }
+
 
 .tb--btn-img{
-width:100%;
-margin: 50% 0% 0% 50%;
-transform: translateX(-50%)  translateY(-50%);
+  width:100%;
+  margin: 50% 0% 0% 50%;
+  transform: translate(-50% , -50%) ;
 }
 
 .tb--title{
