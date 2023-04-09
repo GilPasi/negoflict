@@ -37,7 +37,7 @@ const CasePage =({isMediator})=>{
 
     //middleware========
     username = isMediator? username: username.replace(/[^\w\s]/gi, '')
-    const {data,isLoading,error,isSuccess} = useGetGroupsByUserQuery({username:username})
+    const {data,error,isSuccess} = useGetGroupsByUserQuery({username:username})
   
     //useEffects==========
     useEffect(()=>{
@@ -60,6 +60,7 @@ const CasePage =({isMediator})=>{
      useEffect(()=>{
         if(!isSuccess)return
             dispatch(addGroups(data.data))
+            console.log('grooopppp===>>>in case page ',data.data)
         if(error)
             alert('error please render the page')
         

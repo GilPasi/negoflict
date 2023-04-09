@@ -6,7 +6,7 @@ export const getPermName=({role})=>{
 
     if(role === 1)return 'admin'
     if(role === 2)return 'mediator'
-    return 3
+    return 'user'
    
 }
 

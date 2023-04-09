@@ -13,7 +13,16 @@ import useServer from "../../../hooks/useServer";
 import { useRef } from "react";
 
 
+
 const  ChatPage = ({isMediator})=> {
+    //hooks==========
+    const { firstName }= useSelector(state=>state.user)
+    const { openConn } = useChat()
+    const { saveMessage, getChatGroupsByCase, getGroupMemberByUser } = useServer()
+    const wasRenderd = useRef(false);
+    //==========
+
+    //state============
     const [texts , setTexts] = useState([])
     const [textsA , setTextsA] = useState([])
     const [textsB , setTextsB] = useState([])
@@ -24,28 +33,17 @@ const  ChatPage = ({isMediator})=> {
     const [isShuttled, setIsShuttled] = useState(false)
     const [chatGroups,setChatGroups] = useState([])
     const [member, setMember] = useState(null)
- 
     const location = useLocation()
     const {pos} = useSelector(state=>state.pos)
-    const wasRenderd = useRef(false);
+    //==========
 
-
-    const { firstName, id }= useSelector(state=>state.user)
-    const { openConn } = useChat()
-    const { saveMessage, getChatGroupsByCase, getGroupMemberByUser } = useServer()
-   
-  
-
-
+    //useEffect===========
     useEffect(()=>{
             if(wasRenderd.current) return
             wasRenderd.current = true
             handleConnection()
             setMsgScreen(texts)
-    },[])
-
-
-    
+    },[]);
 
     useEffect(()=>{
        
@@ -60,9 +58,8 @@ const  ChatPage = ({isMediator})=> {
                    messages.sort((a,b)=>a.time - b.time)
                    messages.forEach(msg=>handleRecive(msg))
                 })
-               
             });
-    },[groups])
+    },[]);
 
     useEffect(()=>{
         const position = pos
@@ -80,14 +77,13 @@ const  ChatPage = ({isMediator})=> {
                 setMsgScreen(textsB)
                 break
         }
-    },[pos,texts,textsA,textsB])
+    },[pos,texts,textsA,textsB]);
+    //================
 
-
+    //functions=========
     WebIM.conn.listen({
         onTextMessage: (message)=>handleRecive(message),
-    })
-
-
+    });
     const getChatGroups = ()=>{
         const caseId = location.state?.caseId ?? null
         let side = groups.findIndex(group=>group.groupname.endsWith('_B'))
@@ -109,11 +105,7 @@ const  ChatPage = ({isMediator})=> {
         times.forEach(side=>{
             getChatGroupsByCase({caseId:caseId,side:side})
             .then(res=>setChatGroups(prevState=> [...prevState, res]))
-        })
-    } 
-
-    
-
+        })};
 
     const handleConnection =async ()=>{
         const tokenUser = isMediator?.true ?? false  
@@ -122,8 +114,6 @@ const  ChatPage = ({isMediator})=> {
         await openConn(tokenUser)
         GroupsSubmit()
     }
-
-   
 
 
     const GroupsSubmit =async ()=>{
@@ -147,7 +137,7 @@ const  ChatPage = ({isMediator})=> {
     const getCaseId = ()=>{
         let id = location.state?.caseId ?? 'invalid case id'
 
-        id = id.slice(-10)
+        id = id.slice(-7)
         setCaseId(id)
     }
 

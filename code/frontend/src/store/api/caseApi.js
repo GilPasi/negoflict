@@ -64,6 +64,22 @@ const caseApi = createApi({
             method:'PUT'
           }
         }
+      }),
+      getCaseSide: builder.query({
+        query: ({caseId, user,access})=>{
+          return{
+            url:'/session/chat_members/get_side_by_id/',
+            params:{
+              user:user,
+              case:caseId
+            },
+            headers:{
+              Authorization: `JWT ${access}`
+            },
+            method:'GET'
+          }
+        }
+
       })
     }
   }

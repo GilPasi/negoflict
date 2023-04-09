@@ -1,12 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Server_url } from '../../utils/roots'
-
+import {ChatServerURL} from "../../utils/agoraCradential";
 
 
 const usersApi = createApi({
     reducerPath: 'users_api',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${Server_url}`,
+        baseUrl: `${Server_url}`,//8000
         
     }),
     endpoints(builder){
@@ -67,9 +67,18 @@ const usersApi = createApi({
                             'Content-Type':'application/json',
                             'Accept':'application/json',
                         },
-                        method: 'POST'
+                        method: 'POST',
+
                     }}
                 }),
+            getChatToken: builder.query({
+                query: ({username})=>{
+                    return{
+                        url: `${ChatServerURL}/get_token/${username}`,
+                        method: 'GET',
+                    }
+                }
+            }),
 
 
         }}})

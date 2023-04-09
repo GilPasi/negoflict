@@ -8,6 +8,8 @@ import { caseApi } from './api/caseApi'
 import { groupApi } from "./api/groupApi";
 import { chatGroupsReducer, addChatGroups, removeChatGroups } from "./slices/chatGroupsSlice";
 import  {adminApi} from "./api/adminApi";
+import { chatReducer, addGroupsProps, updateMsg, resetChatState, addHistoryMsg } from "./slices/chatSlice";
+import { msgReducer, postNewMessage } from "./slices/msgSlice";
 
 
 const store = configureStore({
@@ -16,6 +18,8 @@ const store = configureStore({
         pos: positionReducer,
         groups: groupsReducer,
         chat_groups: chatGroupsReducer,
+        chat:chatReducer,
+        message:msgReducer,
 
         [usersApi.reducerPath]: usersApi.reducer,
         [caseApi.reducerPath]: caseApi.reducer,
@@ -41,6 +45,11 @@ export{
     addGroups,
     addChatGroups,
     removeChatGroups,
+    addGroupsProps,
+    updateMsg,
+    resetChatState,
+    addHistoryMsg,
+    postNewMessage,
 
    
 }
@@ -54,11 +63,13 @@ export const { useIs_loginQuery, useLazyIs_loginQuery} = usersApi
 export const { useLog_outQuery, useLazyLog_outQuery} = usersApi
 export const { useGetNewAccessQuery, useLazyGetNewAccessQuery} = usersApi
 export const { useGetTokenQuery, useLazyGetTokenQuery} = usersApi
+export const {useGetChatTokenQuery, useLazyGetChatTokenQuery} = usersApi
 //===========
 
 //caseApi=====
 export const { useGet_my_casesQuery, useLazyGet_my_casesQuery } = caseApi
 export const { usePost_new_caseMutation } = caseApi
+export const {useGetCaseSideQuery, useLazyGetCaseSideQuery} = caseApi
 //============
 
 //groupApi=====

@@ -1,18 +1,37 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import Message from '../general/Message';
+import { useSelector } from 'react-redux';
 //Note that all styles of the list is done in the component
 
-const MessageList =( { messages, position } )=> {
+const MessageList =( { messages } )=> {
   const messagesEndRef = useRef(null);
+  const {id} = useSelector(state=>state.user)
 
   useEffect(() => {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const filteredMessages = messages.filter((message) => message.position === position);
 
-  console.log('in list')
-  console.log(messages.firstName)
+  const convertTime = (time)=>{
+    let date
+    if(!time)
+      date= new Date();
+    else
+      date = new Date(time * 1000);
+
+    const options ={
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      hour: 'numeric',
+      minute: 'numeric',
+    }
+    return date.toLocaleString(undefined, options)
+  }
+  const isSelf =(userId)=>{
+    return userId === id
+  }
+
+
+ 
 
   return (
     <div 
@@ -29,16 +48,15 @@ const MessageList =( { messages, position } )=> {
       }}
     
     >
-      {filteredMessages.map(message => (
+      {messages.map(message => (
          
             <Message 
-                key={message.id}
-                text={message.text}
-                sender={message.sender}
-                isSelf={message.isSelf}
-                time = {message.time}
-                name = {message.senderName}
-                
+                key={message.msg}
+                text={message.msg}
+                sender={message.ext?.name}
+                isSelf={isSelf(message.ext?.userId)}
+                time = {convertTime(message.time)}
+                name = {message.ext.name}
                 />
         
       ))}

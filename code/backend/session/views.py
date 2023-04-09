@@ -104,9 +104,6 @@ class GroupMemberView(ModelViewSet):
         case = request.GET.get('case', None)
         side = request.GET.get('side', None)
 
-        print(case)
-        print(side)
-
         if case and side:
             try:
                 member = self.queryset.select_related('group_chat').get(case=case, side=side)
@@ -129,6 +126,26 @@ class GroupMemberView(ModelViewSet):
                 return Response('not found', status=status.HTTP_404_NOT_FOUND)
 
         return Response('bad request', status=status.HTTP_400_BAD_REQUEST)
+    
+    @action(detail=False, methods=['GET'], permission_classes=[permissions.IsAdminOrUser])
+    def get_side_by_id(self, request):
+        case = request.GET.get('case')
+        id = request.GET.get('id')
+        
+        if case and id:
+            try:
+                member = self.queryset.select_related('group_chat').get(case=case, user=id)
+                serializer = GroupMemberSerializer(member)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except GroupMember.DoesNotExist:
+                  return Response('not found', status=status.HTTP_404_NOT_FOUND)
+        return Response('bad request', status=status.HTTP_400_BAD_REQUEST)
+                
+                
+        
+        
+        
+    
     
     @action(detail=False, methods=['GET'], permission_classes=[permissions.IsAdminOrUser])
     def get_case_by_user(self,request):

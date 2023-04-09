@@ -9,6 +9,7 @@ const groupApi = createApi({
     endpoints(builder){
         return {
             getGroupsByUser: builder.query({
+                providesTags: ['chatGroup'],
                 query: ({username})=>{
                     return {
                         url: `/get_group_by_user/${username}`,
@@ -16,6 +17,7 @@ const groupApi = createApi({
                     }}
                 }),
             createNewGroup: builder.mutation({
+                invalidatesTags: ['chatGroup'],
                 query: ({title,desc,maxusers,owner})=>{
                     const description = desc || 'No description'
                     const maxUsers = maxusers || 50

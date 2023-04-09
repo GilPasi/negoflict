@@ -1,5 +1,6 @@
 import { Routes,Route } from "react-router-dom";
 import React, {Suspense, lazy} from "react"
+import ChatPageA from "./ChatpageHen.js";
 
 const AdminMenu = lazy(()=>import("./roleMenu/admin_menu.js"))
 const CreateUserWraper = lazy(()=>import("../components/general/CreateUserWrapper.js"))
@@ -8,6 +9,7 @@ const MediatorMenu = lazy(()=>import("./rolePages/mediator/MediatorMenu.js"))
 const AddMediator = lazy(()=>import('./rolePages/admin/AddMediator'))
 const ChatPage = lazy(()=>import('./rolePages/mediator/ChatPage_.js'))
 const CasePage = lazy(()=> import("./CasePage.js")) ;
+
 
 
 
@@ -28,7 +30,8 @@ const MediatorLandingPage = ()=>{
         <Suspense fallback={<div>loading</div>}>
         <Routes>
             <Route path="/" element={<MediatorMenu/>}/>
-            <Route path="/chat/*" element={<ChatPage isMediator={true}/>}/>
+            {/* <Route path="/chat/*" element={<ChatPage isMediator={true}/>}/> */}
+            <Route path="/chat/*" element={<ChatPageA/>}/>
             <Route path="/cases" element={<CasePage isMediator={true}/>}/>
             <Route path="cases/new_case" element={<CaseFormPage/>}/>
             <Route path="create_users" element={<CreateUserWraper/>}/>

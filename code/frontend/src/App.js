@@ -9,9 +9,14 @@ import './App.css'
 
 
 
+
+
+
+
  const App=()=> {
   const isActive = useInactivityRedirect();
    return (
+       <div>
       <Routes>
           <Route path='/' element={<Layout/>}>
             {/* public routes */}
@@ -32,6 +37,9 @@ import './App.css'
           
           </Route>
         </Routes>
+  
+           </div>
+
   );
 }
 export default App;

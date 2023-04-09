@@ -1,32 +1,28 @@
 import WebIM from "../WebIM";
 import { useSelector } from "react-redux";
-import getToken from "./useToken";
 import axios from 'axios'
 import { ChatServerURL } from "../utils/agoraCradential";
+import { useLazyGetChatTokenQuery} from "../store";
 
 
 const useChat = (props)=>{
     let { username } = useSelector(state=>state.user)
-    const {getUserToken} = getToken()  
+    const [getChatToken] = useLazyGetChatTokenQuery()
 
 
     const openConn = async (isUser)=>{ 
-        if(!isUser){
-            console.log('username1',username)
-
-        
+        if(!isUser)
             username = username.replace(/[^\w\s]/gi, '')
 
-            console.log('username2',username)
-        }
-        
-        const token = await getUserToken(username)
-       const res =await WebIM.conn.open({
-            user:username,
-            agoraToken:token
+         const {data}= await getChatToken({username:username})
+
+         await WebIM.conn.open({
+            user: username,
+            agoraToken: data.userToken
         })
 
-        console.log('oooopppppeeennnnnn',res)
+
+
     }
 
     const messagelistener = ()=>{
