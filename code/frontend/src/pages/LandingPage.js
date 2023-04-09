@@ -1,6 +1,6 @@
 import { Routes,Route } from "react-router-dom";
 import React, {Suspense, lazy} from "react"
-import ChatPageA from "./ChatpageHen.js";
+
 
 const AdminMenu = lazy(()=>import("./roleMenu/admin_menu.js"))
 const CreateUserWraper = lazy(()=>import("../components/general/CreateUserWrapper.js"))
@@ -9,6 +9,7 @@ const MediatorMenu = lazy(()=>import("./rolePages/mediator/MediatorMenu.js"))
 const AddMediator = lazy(()=>import('./rolePages/admin/AddMediator'))
 const ChatPage = lazy(()=>import('./rolePages/mediator/ChatPage_.js'))
 const CasePage = lazy(()=> import("./CasePage.js")) ;
+const ChatPageA = lazy(()=>import('./ChatpageHen.js'))
 
 
 
