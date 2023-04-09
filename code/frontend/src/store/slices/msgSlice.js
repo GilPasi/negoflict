@@ -9,6 +9,7 @@ const msgSlice = createSlice({
             color:0,
             name:'',
             userId:'',
+            sender:''
         },
         msg:'',
         to:'',
@@ -19,13 +20,14 @@ const msgSlice = createSlice({
         postNewMessage:(state,action)=>{
             console.log('in slice')
            const {msg,to,ext} = action.payload
-           const {side,color,name, userId} = ext
+           const {side,color,name, userId, sender} = ext
            state.ext.color = color? color : 0//change this
            state.msg = msg
            state.ext.side = side
            state.to = to
            state.ext.name = name
            state.ext.userId = userId
+           state.ext.sender = sender
         }
     }
 })

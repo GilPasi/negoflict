@@ -39,6 +39,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,inputText})=>{
 
 
     const connect =async ()=>{
+        console.log('in connect',username)
         await WebIM.conn.open({
             user:username,
             agoraToken: tokenRes.data.userToken
@@ -50,7 +51,6 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,inputText})=>{
         console.log('in post message')
         const {ext,msg,to} = messageDetail
 
-        console.log('in meeesssaagee===>>',messageDetail.ext)
         
         const option = {
             chatType:'groupChat',
@@ -61,7 +61,8 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,inputText})=>{
                     name:ext?.name,
                     color:ext?.color,
                     side:ext?.side,
-                    userId:ext?.userId
+                    userId:ext?.userId,
+                    sender:ext.sender,
                 }
         }
         const message = WebIM.message.create(option)

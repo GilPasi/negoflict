@@ -19,7 +19,7 @@ const UserLandingPage = () => {
         <Suspense fallback={<div>loading</div>}>
         <Routes>
             <Route path="/" element = {<CasePage isMediator={false}/>}/>
-            <Route path="/chat/*" element={<ChatPage isMediator={false}/>}/>
+            <Route path="/chat/*" element={<ChatPageA isMediator={false}/>}/>
             {/* <Route path="/" element={}/> */}
         </Routes>
         </Suspense>

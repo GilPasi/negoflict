@@ -3,9 +3,10 @@ import {useLocation} from "react-router-dom";
 import Chat from "../components/chat/Chat";
 import { useSelector, useDispatch } from "react-redux";
 import {getPermName} from '../utils/permissions'
-import { addGroupsProps, addHistoryMsg, postNewMessage, resetChatState, updateMsg } from "../store";
+import { addGroupsProps, addHistoryMsg, postNewMessage, resetChatState, setPrivateGroup, updateMsg } from "../store";
 import ChatView from "../components/chat/ChatView";
 import { useLazyGetCaseSideQuery, store } from "../store";
+import ShuttleSwitch from "../components/general/ShuttleSwitch";
 
 
 
@@ -13,7 +14,7 @@ import { useLazyGetCaseSideQuery, store } from "../store";
 const ChatPageA = ()=>{
     // //hooks==========
 
-    //fix key in map function , check if render messages ok with no mixing of messages 
+    //  check if render messages ok with no mixing of messages 
     const location = useLocation()
     const dispatch = useDispatch()
     const [getGroupMember] =useLazyGetCaseSideQuery()
@@ -22,11 +23,13 @@ const ChatPageA = ()=>{
 
     const {username, role:userRole, first_name, id, access} = useSelector(state=>state.user)
     const groups = location.state?.groups ?? []
-    const {caseId, caseTitle} = location.state ?? ''
+    const {caseId} = location.state ?? ''
     const connect = useRef(false)
     const {pos} = useSelector(state=>state.pos)
     const chat = useSelector(state=>state.chat[activeGroup])
     const mess2 = useSelector(state=>state.chat[activeGroup].messages)
+   
+   
     
    
 
@@ -43,102 +46,117 @@ const ChatPageA = ()=>{
     const [inputText,setInputText] = useState('')
 
 
-    const getSide =async ()=>{
-        const {data} =await getGroupMember({caseId:caseId, user:id,access:access})
+
+    const getSide =async (role)=>{ //get user side of conflict
+        if(role==='mediator'){
+            setUserDetail(prevState=>({...prevState,['side']:'M'}))
+            return
+        }
+        const {data,error} = await getGroupMember({caseId:caseId, user:id,access:access})
+        if(error){
+            console.log(error)
+            return
+        }
+        dispatch(setPrivateGroup(data.side))
         setUserDetail(prevState=>({...prevState,['side']:data.side}))
         }
 
     useEffect(()=>{
-        setMessages([])
         setMessages(mess2)
-
     },[mess2])
 
     
 
-   
-    useMemo(()=>{
-        let role,userName
+    useMemo(()=>{  //set user detail role and username
+        let role,userName = username
         role = getPermName({role:userRole})
-        if(userRole === 'user'){
+        if(role === 'user')
              userName = username.replace(/[^\w\s]/gi, '')
-             getSide()
-        }
-        setUserDetail({username:userName, role:role})
+ 
+        getSide(role)
+        setUserDetail(prevState=>({...prevState,username:userName, role:role}))
 
     },[username,userRole]);
 
-    useEffect(()=>{
+    useEffect(()=>{  //save the groups properties (agora) 
         if(!groups)return
         dispatch(addGroupsProps({groups:groups}))
     },[])
 
-    useEffect(()=>{
+    useEffect(()=>{ //set what group is active now to view ther messages for mediator
         if(userDetail?.role !== 'mediator')return
         const values = ['groupA','groupG','groupB']
+        setMessages(()=>[])
         setActiveGroup(values[pos-1])
     },[pos])
 
-    useEffect(()=>{
-        
+    useEffect(()=>{ // set the message view based of active group
         const {messages} = chat
         setMessages(messages)
     },[activeGroup])
 
-    useEffect(()=>{
+    useEffect(()=>{ //set what group is active now to view ther messages for user
         if(userDetail?.role !== 'user')return
         const ChatSide = userDetail?.side ?? null
         if(!ChatSide)return
-        if(isShuttled)
+        if(pos !== 2){
             setActiveGroup(`group${ChatSide}`)
+        }
         else
             setActiveGroup('groupG')
-    },[isShuttled])
+    },[pos])
 
 
-   
-    
-
-
-
-    const handleRecivedMsg = (msg)=>{
+    const handleRecivedMsg = (msg)=>{ //handle recived messages only in real time
         const {to, type} = msg
 
         if(type !== 'groupChat')return
-      
-        dispatch(updateMsg({id:to, message:msg}))
-       
+
+        const modifiedObject = {
+            ...msg,
+            msg: msg.data,
+            time: parseInt(msg.time),
+          };
+          
+          delete modifiedObject.data;
+
+         
+          
+
+        dispatch(updateMsg({id:to, message:modifiedObject}))
+
     };
 
 
-   const handleConnect = (value)=>{
+   const handleConnect = (value)=>{ //handle the connection property
     connect.current = value
     if(value===false)
         dispatch(resetChatState())
    };
    
 
-   const handleHistoryMsg =async (history,groupid)=>{
+   const handleHistoryMsg =async (history,groupid)=>{ //gets history messages work's only ones
     let messages = []
     messages = [...history.messages]
     messages.sort((a,b)=>a.time - b.time)
     dispatch(addHistoryMsg({id:groupid,messages:messages}))
    }
+
   
 
-   const handleShuttle =()=> {
+   const handleShuttle =()=> {// set shuttle mode
     setIsShuttled(prevState=>{
         return(!prevState)    
     })
-
-   
 }
+
 const handleSend = (text)=>{
-    const inputDetail = {msg:text,to:chat.id,ext:{side:activeGroup.slice(-1),name:first_name,userId:id}}
+    const inputDetail = {msg:text,to:chat.id,ext:{side:activeGroup.slice(-1),name:first_name,userId:id,sender:userDetail.side}}
     dispatch(postNewMessage(inputDetail))
     dispatch(updateMsg({message:inputDetail,id:chat.id}))
   
 }
+
 
 
     
@@ -153,12 +171,12 @@ const handleSend = (text)=>{
             caseId={caseId.slice(-7)}
             handleShuttle={handleShuttle}
             isShuttled={isShuttled}
-            messages={messages}
+            activeGroup={activeGroup}
             handleSend={handleSend}
             
             />
             <Chat
-            username={username}
+            username={userDetail.username}
             onConnect={handleConnect}
             onTextMsg={handleRecivedMsg}
             onHistory={handleHistoryMsg}

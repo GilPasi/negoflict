@@ -13,7 +13,7 @@ const chatGroupsSlice = createSlice({
             state.chatGroups = [...action.payload]
         },
         removeChatGroups: (state,action)=>{
-            state.chatGroups = []
+            return []
         },
     }
 })

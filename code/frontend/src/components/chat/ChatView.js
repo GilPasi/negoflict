@@ -6,7 +6,7 @@ import UserPanel from '../general/UserPanel'
 import ToolBar from '../general/ToolBar'
 
 
-const ChatView = ({isMediator, caseId,messages,handleSend, handleShuttle, isShuttled})=>{
+const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isShuttled})=>{
     //state========
 
 
@@ -80,7 +80,7 @@ const setInputValue = ()=>{
                 </div>
 
             <div >
-                <MessageList messages={messages}/>
+                <MessageList activeGroup={activeGroup}/>
             </div>
             <div>
             <footer className="cp--footer">

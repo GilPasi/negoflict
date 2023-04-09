@@ -2,6 +2,7 @@ import "../../styles/components/user_panel.css"
 const UserPanel=({
     handleSwitch , isSwitched , isComplex
 })=>{
+    
 
     return(
         <section className="user-panel">

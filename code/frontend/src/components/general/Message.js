@@ -1,21 +1,20 @@
 import "../../styles/components/message.css"
+import { useSelector } from "react-redux"
 const Message=({text,sender,isSelf, time, name})=>{
-    let messageColor = ""
+    const {role} = useSelector(state=>state.user)
 
-    switch(sender){
-        case 1:
-            messageColor = "#BFE8FB"
-            break;
-        case 2:
-            messageColor = "#89E0A2"
-            break;
-        case 3:
-            messageColor = "#F4D1BD"
-            break;
-        }
+    const getColor = ()=>{
+        if(isSelf)return "#BFE8FB" //my message always blue
+        if(sender==='M')return "#89E0A2" // mediator message not my always green
+        if(sender!=='M' && role==='user')return "#F4D1BD" //other side when Im user always red
+        if(role==='mediator' && sender==='A')return "#89E0A2"
+        return "#F4D1BD"
+        
+
+    }
 
         const messageStyle ={
-            backgroundColor : messageColor,
+            backgroundColor : getColor(),
         }
 
     return(

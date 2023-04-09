@@ -130,11 +130,11 @@ class GroupMemberView(ModelViewSet):
     @action(detail=False, methods=['GET'], permission_classes=[permissions.IsAdminOrUser])
     def get_side_by_id(self, request):
         case = request.GET.get('case')
-        id = request.GET.get('id')
+        user_id = request.GET.get('user')
         
         if case and id:
             try:
-                member = self.queryset.select_related('group_chat').get(case=case, user=id)
+                member = self.queryset.select_related('group_chat').get(case=case, user=user_id)
                 serializer = GroupMemberSerializer(member)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             except GroupMember.DoesNotExist:
