@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { ChatServerURL } from '../../utils/agoraCradential'
+import { Server_url } from '../../utils/roots'
 
 const groupApi = createApi({
     reducerPath: 'group_api',
@@ -34,6 +35,16 @@ const groupApi = createApi({
                 }
 
             }),
+            getChatGroups: builder.query({
+                query: ({CaseId})=>{
+                    return {
+                        url:`${Server_url}/session/chat_group/get_chat_groups_by_case/?case=${CaseId}`,
+                        method:'GET',
+
+                    }
+                }
+            })
+
             
             }}
 })

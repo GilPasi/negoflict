@@ -7,7 +7,6 @@ const CreateUserWraper = lazy(()=>import("../components/general/CreateUserWrappe
 const CaseFormPage = lazy(()=>import("./CaseFormPage.js"))
 const MediatorMenu = lazy(()=>import("./rolePages/mediator/MediatorMenu.js"))
 const AddMediator = lazy(()=>import('./rolePages/admin/AddMediator'))
-const ChatPage = lazy(()=>import('./rolePages/mediator/ChatPage_.js'))
 const CasePage = lazy(()=> import("./CasePage.js")) ;
 const ChatPageA = lazy(()=>import('./ChatpageHen.js'))
 

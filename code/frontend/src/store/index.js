@@ -10,6 +10,7 @@ import { chatGroupsReducer, addChatGroups, removeChatGroups } from "./slices/cha
 import  {adminApi} from "./api/adminApi";
 import { chatReducer, addGroupsProps, updateMsg, resetChatState, addHistoryMsg } from "./slices/chatSlice";
 import { msgReducer, postNewMessage } from "./slices/msgSlice";
+import { msgApi } from "./api/msgApi"; 
 
 
 const store = configureStore({
@@ -25,13 +26,16 @@ const store = configureStore({
         [caseApi.reducerPath]: caseApi.reducer,
         [groupApi.reducerPath]: groupApi.reducer,
         [adminApi.reducerPath]: adminApi.reducer,
+        [msgApi.reducerPath]: msgApi.reducer,
         
     },
     middleware: getDefaultMiddleware =>{
         return getDefaultMiddleware().concat(usersApi.middleware)
         .concat(caseApi.middleware)
         .concat(groupApi.middleware)
-            .concat(adminApi.middleware)
+        .concat(adminApi.middleware)
+        .concat(msgApi.middleware)
+        
     }
     
 })
@@ -76,8 +80,12 @@ export const {useGetCaseSideQuery, useLazyGetCaseSideQuery} = caseApi
 //groupApi=====
 export const { useGetGroupsByUserQuery, useLazyGetGroupsByUserQuery} = groupApi
 export const { useCreateNewGroupMutation } = groupApi
+export const {useGetChatGroupsQuery,useLazyGetChatGroupsQuery} = groupApi
 
 //adminApi=======
-export  const { useRegisterToChatGroupsMutation } = adminApi
+export const { useRegisterToChatGroupsMutation } = adminApi
 export const { useRegisterUsersMutation } = adminApi
 export const { usePutUserToMemberGroupMutation } = caseApi
+
+//msgApi=======
+export const {usePostNewMessageMutation} = msgApi
