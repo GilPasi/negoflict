@@ -9,7 +9,7 @@ const LoadinBar = ({progress,task }) => {
         <div className="box">
       
         <label className="loading-bar--task">
-        <div class="loading-dots">
+        <div className="loading-dots">
             <span className="task">{task}</span>
             <span class="dot"></span>
             <span class="dot"></span>

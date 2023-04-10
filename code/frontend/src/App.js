@@ -40,7 +40,7 @@ import LoadinBar from './components/general/LoadingBar.js';
           
           </Route>
         </Routes>
-        <LoadinBar progress={100} task='hello'/>
+   
 
 
            </div>
