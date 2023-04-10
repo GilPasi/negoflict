@@ -13,8 +13,8 @@
     border: 5px solid #89E0A2;
     border-radius: 50%;
     border-top: 8px solid var(--green-dark);
-    width: 150px;
-    height: 150px;
+    /* width: 150px;
+    height: 150px; */
     -webkit-animation: spin 2.5s linear infinite; /* Safari */
     animation: spin 2.5s linear infinite;
   }

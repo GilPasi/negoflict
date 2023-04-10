@@ -1,11 +1,23 @@
 import "../../styles/components/loader.css"
 
-const Loader=()=>{
+const Loader=({withLogo,size})=>{
+    let circleSize = {width:'150px',height:'150px'}
+    switch (size) {
+        case 'small':
+            circleSize = {width:'40px',height:'40px'}
+            break;
+        case 'medium':
+             circleSize = {width:'100px',height:'100px'}
+             break;
+            }
+
+    
+    
     return(
-        <seection className="loader">
-            <h1>NEGOFLICT</h1>
-            <div className="circle" />
-        </seection>
+        <div className="loader">
+            {withLogo&&<h1>NEGOFLICT</h1>}
+            <div className="circle" style={circleSize} />
+        </div>
 
     )
 }

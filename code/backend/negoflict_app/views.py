@@ -64,6 +64,7 @@ class UserView(ModelViewSet):
     @action(detail=False,methods=['GET'],permission_classes=[permissions.IsAdminOrUser])
     def get_user(self,request):
         username = request.GET.get('username',None)
+        print(username)
         if username:
             userId = self.queryset.get(username=username)
             serializer = UserCreateSerializer(userId)

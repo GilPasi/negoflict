@@ -48,16 +48,18 @@ exports.createGroup = async(req,res)=>{
 exports.createGroups = async(req,res)=>{
     const appToken = tokenBuilder.appTokenBuild(50000)
     const name = req.body.groupname 
-    const description = req.body.desc ?? 'No description'
-    const max_users = req.body.maxusers ?? 50
-    const owner = req.body.owner 
+    const description = req.body.desc || 'No description'
+    const max_users = req.body.maxusers || 50
+    const owner = req.body.owner
+
+    console.log(name,description,max_users,owner)
 
     const missingProps = {
         ...(name? {}: {'error':'groupname missing'}),
         ...(owner? {}:{'error':'owner missing'}),
     }
     if(Object.keys(missingProps).length >0)
-        return res.status(400).json(missingProps)
+        return res.status(400).json({'data':missingProps})
     
     
     
@@ -119,6 +121,8 @@ exports.getGroups = async(req,res)=>{
 exports.getGroupByUser = async(req,res)=>{
     const appToken = tokenBuilder.appTokenBuild(3000)
     const user = req.params.username ?? null
+
+    console.log('in getGroups', user, appToken)
 
     const misingProps = {
         ...(user ? {} : {'error':'username missing'})
@@ -197,43 +201,50 @@ exports.addUserToGroup = async(req,res)=>{
 
 }
 exports.addUsersToGroups = async(req,res)=>{
-    const appToken = tokenBuilder.appTokenBuild(3000)
-    let groupsId = []
-    groupsId = req.body.groupsId ?? null
-    user = req.body.user ?? null
+    let users = []
+    users = req.body?.users ?? null
+    const responses =[]
+
+    console.log('adduserstogroup====>>>>>',users)
 
     const missingProps = {
-        ...(groupsId? {} : {'error': 'groupsId missing'}),
-        ...(user? {} : {'error': 'user missing'})
+        ...(users? {} : {'error': 'user missing'})
     }
     if(Object.keys(missingProps).length>0)
-        return res.status(400).json(missingProps)
+        return res.status(400).json({'missing properties':missingProps})
 
+    for (let i = 0; i < users.length; i++) {
+        try {
+            const response = await addSingleUserToGroup(users[i])
+            responses.push(response)
+        } catch (err) {
+            console.log('failer',i,err)
+            return res.status(500).json({ 'error': err.message })
+        }
+    }
+    return res.json({'message':'ok', 'responses':responses})
+}
 
-
+const addSingleUserToGroup =async ({id,groups})=> {
+    const appToken = tokenBuilder.appTokenBuild(3000)
     const responses = []
 
-    try{
 
-        for(let i=0; i<groupsId.length; i++){
-            const groupId = groupsId[i]
-            const response = await axios.post(`${HOST_URL_APP_KEY}/chatgroups/${groupId}/users/${user}`,{}, {
-                headers:{
+        for (let i = 0; i < groups.length; i++) {
+            const groupId = groups[i]
+            console.log('addSingleUser===>>>groupID',i,groupId)
+            console.log('addSingleUser===>>>userId',i,id)
+
+            const response = await axios.post(`${HOST_URL_APP_KEY}/chatgroups/${groupId}/users/${id}`, {}, {
+                headers: {
                     Authorization: `Bearer ${appToken}`,
                     'Content-Type': 'application/json',
-                    'Accept' : 'application/json'
+                    'Accept': 'application/json'
                 }
-        
             })
             responses.push(response.data)
         }
-            return res.json({'responses':responses})
-
-    }catch(err){
-        return res.status(err?.status ?? 500).json({'errors':err})
-    }
-
-
+        return responses
 }
 
 exports.removeUserFromGroup = async(req,res)=>{

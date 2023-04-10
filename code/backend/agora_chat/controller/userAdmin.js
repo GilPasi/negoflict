@@ -66,11 +66,10 @@ exports.registerUsers = async(req,res)=>{
                 Authorization: `JWT ${access}`
             }
         })
-        
-        return res.json({'users': registeredUsers, 'dbResult': createUsersRequest.data})
+        return res.status(200).json({'users': registeredUsers, 'dbResult': createUsersRequest.data})
 
     }catch(err){
-        console.log('server eror')
+        console.log('my server eror')
         deleteUserHelper(registeredUsers)
      
         deleteCase_local(caseId)

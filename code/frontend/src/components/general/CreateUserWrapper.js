@@ -2,58 +2,76 @@ import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
 import AddUserPage from '../../pages/AddUserPage'
 import { useNavigate } from "react-router-dom"
-import useNodeS from "../../hooks/useNodeS"
-import useSubmit from '../../hooks/useSubmit'
-import useServer from "../../hooks/useServer"
-import { render } from "react-dom"
+import {store, useRegisterUsersMutation, useRegisterToChatGroupsMutation, usePutUserToMemberGroupMutation} from '../../store/index'
+import {useSelector} from "react-redux";
 
 
 const CreateUserWraper = ()=>{
+  // status = finished
+  //hooks==========
+  const location = useLocation()
+  const navigate = useNavigate()
+  const { access } = useSelector(state => state.user)
+  const [registerUsers] = useRegisterUsersMutation()
+  const [registerToChatGroups] = useRegisterToChatGroupsMutation()
+  const [updateMembers] = usePutUserToMemberGroupMutation()
+  //==============
+
+  //values=========
+  const quaryParams = new URLSearchParams(location.search)
+  const side = quaryParams.get('side')
+  //=============
+  
+  //state========
     const [userData,setUserData] = useState([])
     const [idCase,setIdCase] = useState(null)
     const [sideVal,setSideVal] = useState(0)
+    const [groups,setGorups] = useState([])
+    const [disableSubmit,setDisableSubmit] = useState(true)
+  //===========
 
-
-    const location = useLocation()
-    const navigate = useNavigate()
-    const { registerManyUsers, registerUsersTogroups } = useNodeS()
-    const { createGroupMember } = useServer()
-    const { GetNewAccessToken } = useSubmit()
-
-    const { dataCase, groupArr } = location.state || {};
-
-    
-    // const memberGroups = res?[...res.data.members_groups]:{}
-
-
-
-
-    const quaryParams = new URLSearchParams(location.search)
+  //useEffects==========
+    useEffect(()=>{
+      const val =side==='A'?0:1
+      setSideVal(val)
+    },[side]);
   
-    const side = quaryParams.get('side')
-    console.log(side)
-    console.log(dataCase)
+  useEffect(() => {
+    const unsubscribe = store.subscribe(() => {
+      const state = store.getState();
 
+      const resultCase = Object.values(state.case_api.mutations)[0]
+      if (resultCase && resultCase.status === 'fulfilled'){
+        const {error,data} = resultCase
+        if(error)
+          alert('error')
+        setIdCase(data.case.id)
+      } 
+      const resultGroups = Object.values(state.group_api.mutations)[0]
+      if (resultGroups && resultGroups.status === 'fulfilled'){
+        const {error,data} = resultGroups
+        if(error)
+          alert(error)
+        setGorups(data.AgoraResponse)
+      }
+    });
+    return () => {
+      unsubscribe()
+    };
+  }, []);
+  useEffect(()=>{
+     if(groups.length>0&&idCase) {
+         setDisableSubmit(false)
+     }
 
-    useEffect(()=>{
-        const val =side=='A'?0:1
-        setSideVal(val)
+  },[groups,idCase])
+    //================
 
-
-    },[side])
-   
-
-
-    useEffect(()=>{
-        const urlId = quaryParams.get('id')
-        setIdCase(urlId)
-    },[])
+    //handlers============
 
     const handleChange = (event) => {
         const { name, value } = event.target
-        
         const index = sideVal
-        console.log('index',index)
       
         setUserData(prevState => {
           const prevData = [...prevState]
@@ -64,12 +82,10 @@ const CreateUserWraper = ()=>{
           } else {
             prevData[index] = { [name]: value }
           }
-      
           return prevData
         })
       }
-      
-
+    //handlers===========
     const handleSubmit =async(event)=>{
         event.preventDefault()
         const arrUser = userData
@@ -80,64 +96,52 @@ const CreateUserWraper = ()=>{
           user.password = pass
         })
 
-        const newToken = await GetNewAccessToken()
-        
+        registerUsers({users:arrUser,access:access,caseId:idCase})
+        .then(res=>{
+          const usersArr = [...res.data.dbResult]
+          const sides = ['A','B']
 
+            registerToChatGroups({groups:groups,users:arrUser})
 
-        
-          const {data, status} =await registerManyUsers(arrUser,newToken,dataCase)
-          if(status !== 200)
-            rediract(status)
-            
+          for(let i=0; i<2;i++){
+            updateMembers({user:usersArr[i],access:access,idCase:idCase,side:sides[i]})
+            .catch(err=>console.log(err))
+          }
+        })
+        .catch(err=>console.log(err))
 
-          const res2 = await registerUsersTogroups(groupArr,arrUser)
-          
+        rediract()
+     };
+      //==============
 
-          const users = [...data.dbResult]
-
-          const response_final_step = await createGroupMember(users,newToken,dataCase)
-
-          console.log(response_final_step)
-          rediract(status)
-       
-    }
-
-    const rediract = (status)=>{
-      navigate('/mediator/cases',{
-        replace:true,
-        state:{
-          status:status,
-          render:false
-        }
-        
+      //functions========
+      const rediract = ()=>{
+        navigate('/mediator/cases',{
+          replace:true,
       })
 
     }
-
-    
-
     const next = ()=>{
-        navigate(`?side=B&id=${idCase}`,{
-          state: { dataCase, groupArr}
-        })
+      navigate(`?side=B&id=${idCase}`,{
+        state: { idCase, groups}
+      })
 
-    }
-    const goBack = ()=>{
-        navigate(-1,{
-          state: { dataCase,groupArr }
-        }
-          )
+  }
+  const goBack = ()=>{
+      navigate(-1,{
+        state: { idCase,groups }
+      }
+        )
+  }
 
-    }
-    
-
+  //=================
 
     return(
         side==='A'
         ?
         <AddUserPage 
         side='A'
-        idCase={idCase}
+        idCase={idCase?.slice(-7) ?? idCase}
         next={next}
         handleChange={handleChange}
         userData={userData[0]}
@@ -145,11 +149,12 @@ const CreateUserWraper = ()=>{
         :
         <AddUserPage
         side='B'
-        idCase={idCase}
+        idCase={idCase?.slice(-7) ?? idCase}
         goBack={goBack}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
         userData={userData[1]}
+        disabled={disableSubmit}
         />
 
     )

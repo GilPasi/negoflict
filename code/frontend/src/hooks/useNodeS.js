@@ -39,8 +39,6 @@ const useNodeS = ()=>{
     }
     const registerUsersTogroups =async (groups,users)=>{
 
-        console.log(groups)
-        console.log(users)
 
         const groupA = groups[0].A.data.groupid
         const groupB = groups[1].B.data.groupid

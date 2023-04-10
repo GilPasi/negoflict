@@ -1,10 +1,7 @@
 import "../../styles/components/button.css"
 
-const  Button=(props)=>{
-    const {text,size, margin,type,onClick,color,length,altitude} = props
-    let _width , _height = 0 
+const  Button=({text , size, margin,type,onClick,color,length, disabled,altitude})=>{
 
-    //Pre-made sizes
     switch(size){
         case "small":
             _width = "6em"
@@ -20,20 +17,29 @@ const  Button=(props)=>{
             break;
     }
 
-    const style = {
+    const style =disabled?{
+        width:length,
+        minWidth: size === "small" ? "8em" : "10em" ,
+        height: size==="small" ? "2em" : "3em",
+        margin: margin ? margin : "1.5em",
+        type: type ? type : "",
+    }:{
         width:size?_width : length,
         height:size? _height :altitude,
         margin: margin ? margin : "1.5em",
         type: type ? type : "",
         backgroundColor: color? color:''
-
     }
+
+
+
 
     return(
         <button 
-            className="btn"
+            className={disabled?'btn-disable':"btn"}
             style={style}
             onClick={onClick}
+            disabled={disabled}
             >
             {text ? text : "Next"} 
             {/* Next button is the most common button on the app */}

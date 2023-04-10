@@ -79,7 +79,7 @@ class GroupChatView(ModelViewSet):
     
     
     @action(detail=False, methods=['GET'], permission_classes=[permissions.IsAdminOrUser])
-    def get_group_chat_by_case(self,request):
+    def get_group_chat_by_case_and_side_chat(self,request):
         case = request.GET.get('case')
         chat = request.GET.get('chat')
         
@@ -90,6 +90,19 @@ class GroupChatView(ModelViewSet):
                 return Response(serializer.data, status=status.HTTP_200_OK)
             return Response('not found', status=status.HTTP_404_NOT_FOUND)
         return Response('bad request',status=status.HTTP_400_BAD_REQUEST)
+    
+    @action(detail=False,methods=['GET'],permission_classes=[permissions.IsAdminOrUser])
+    def get_chat_groups_by_case(self,request):
+        case = request.GET.get('case')
+        
+        if case:
+            groupChat = self.queryset.filter(case=case)
+            if groupChat.exists():
+                serializer = GroupChatSerializer(groupChat, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response('not found', status=status.HTTP_404_NOT_FOUND)
+        return Response('bad request', status=status.HTTP_400_BAD_REQUEST)
+           
             
     
     
@@ -126,6 +139,26 @@ class GroupMemberView(ModelViewSet):
                 return Response('not found', status=status.HTTP_404_NOT_FOUND)
 
         return Response('bad request', status=status.HTTP_400_BAD_REQUEST)
+    
+    @action(detail=False, methods=['GET'], permission_classes=[permissions.IsAdminOrUser])
+    def get_side_by_id(self, request):
+        case = request.GET.get('case')
+        user_id = request.GET.get('user')
+        
+        if case and id:
+            try:
+                member = self.queryset.select_related('group_chat').get(case=case, user=user_id)
+                serializer = GroupMemberSerializer(member)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except GroupMember.DoesNotExist:
+                  return Response('not found', status=status.HTTP_404_NOT_FOUND)
+        return Response('bad request', status=status.HTTP_400_BAD_REQUEST)
+                
+                
+        
+        
+        
+    
     
     @action(detail=False, methods=['GET'], permission_classes=[permissions.IsAdminOrUser])
     def get_case_by_user(self,request):

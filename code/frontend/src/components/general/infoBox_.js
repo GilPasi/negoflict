@@ -18,8 +18,8 @@ const InfoBox = ({obj,size})=>{
     const handleClick = ()=>{
   
       const groups_title = obj.title
-      const filterGroups = groups.filter(group => group.groupname.startsWith(`${groups_title}_`))
-      return filterGroups
+      return groups.filter(group => group.groupname.startsWith(`${groups_title}_`))
+
 
     }
 
@@ -34,7 +34,7 @@ const InfoBox = ({obj,size})=>{
             ))}
           </ul>
           <div >
-            <Link to={chatPath} state={{ groups: handleClick() ,caseId:obj.id}}>
+            <Link to={chatPath} state={{ groups: handleClick() ,caseId:obj.id, caseTitle:obj.title}}>
                 <button className='ib--start'>start chat</button>
             </Link>
 

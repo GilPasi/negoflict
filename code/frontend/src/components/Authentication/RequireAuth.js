@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useLocation, Navigate, Outlet } from "react-router-dom";
-import {getPerm} from '../../utils/permissions'
+import {getPermName} from '../../utils/permissions'
 import { UserLandingPage,MediatorLandingPage,SuperUserLandingPage } from "../../pages/LandingPage";
 
 
@@ -8,7 +8,7 @@ const RequireAuth = ()=>{
     const user = useSelector(state=>state.user)
     const location = useLocation()
 
-    const role = getPerm(user)
+    const role = getPermName(user)
     const {id} = user
 
     const auth = location.pathname.split('/')[1]

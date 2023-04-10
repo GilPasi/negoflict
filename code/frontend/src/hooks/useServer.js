@@ -60,8 +60,6 @@ const useServer = ()=>{
 
 
     const getMyCases =async (id,access,isMediator)=>{
-        console.log(id)
-        console.log('is mediator',isMediator)
 
         const url = isMediator? `${sessionServerUrl}/case/casess_by_mediator/`:
          `${sessionServerUrl}/chat_members/get_case_by_user/?id=${id}`

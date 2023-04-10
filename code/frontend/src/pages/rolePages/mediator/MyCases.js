@@ -3,35 +3,29 @@ import { useSelector } from 'react-redux'
 import useServer from '../../../hooks/useServer'
 import TextHolder from '../../../components/general/TextHolder'
 import '../../../styles/pages/case_page.css'
+import { useGet_my_casesQuery } from '../../../store'
+import Loader from '../../../components/general/Loader'
 
 
 
 const MyCases = ({isMediator})=>{
-
-    const {accessToken,id} = useSelector(state=>state.user)
-    const {getMyCases} = useServer()
-    const [cases,setCases] = useState([])
-
-
-    useEffect(()=>{
-       getMyCases(id,accessToken,isMediator)
-       .then(data=>setCases(data))
-       .catch(err=>console.log(err))
-    },[])
-
+    const {access,id} = useSelector(state=>state.user)
+    const {data:cases,error,isLoading,isSuccess} = useGet_my_casesQuery({id:id,access:access,isMediator:isMediator})
     
+    if(isLoading)return <Loader/>
+    if(error)return alert('Eror refresh the page please')
     
-
-
     return(
         <div>
-         
             <h1 className='cap--title'> My cases </h1>
-            {cases.map(caseData=>(
+            {isSuccess &&
+          
+            cases.map(caseData=>(
                 <div key={caseData.id}>
                     <TextHolder caseData={caseData}/>
                 </div>
-            ))}
+            ))
+                }
 
 
 

@@ -3,34 +3,43 @@ import Header from "../components/general/Header"
 import TextInput from "../components/general/TextInput"
 import Button from "../components/general/Button"
 import DropdownSelector from "../components/general/DropdownSelector.js"
-import {useState} from "react"
+import { useState} from "react"
 import TextArea from "../components/general/TextArea"
 import {MEDIATION_CHOICES} from '../utils/data'
 import { useSelector } from "react-redux"
-import useServer from "../hooks/useServer"
 import { useNavigate } from "react-router-dom"
+import { useCreateNewGroupMutation, usePost_new_caseMutation } from '../store/index'
 
 
 const CaseFormPage = () =>{
+    //status = finished
+    //dont change the order***************
+    //hooks=========
     const navigate = useNavigate()
+    const [addGroup] = useCreateNewGroupMutation()
+    const [addCase] = usePost_new_caseMutation()
+    //===========
+
+    //values========
     const {
-        firstName,
-        lastName,
-        accessToken,
+        first_name,
+        last_name,
         id,
-        username
+        username,
+        access,
         }= useSelector(state=>state.user)
-  
 
-    const { postNewCase } = useServer()
+    const mediatorName = `${first_name} ${last_name}`
+    //state========
+    const [formData , setFormData] = useState({})
+     
+    //===========
+    //****************
+   
 
-    const mediatorName = `${firstName} ${lastName}`
-
-
-    const [formData , setFormData] = useState({}) 
-
+    //handles=======
     const handleChange = (event)=>{
-        const {name, value} = event.target
+        let {name, value} = event.target
         if(name === 'category'&& value === 'Select Areas of Mediation')
             value = null
 
@@ -43,41 +52,24 @@ const CaseFormPage = () =>{
 
     const handleSubmit =async (event) => {
         event.preventDefault()
-        const title = formData.title
-        const category = formData.category
-        const sub_category = formData.subcategory
-        const problem_brief = formData.problem_brief
-
-
+        const {title,category,sub_category,problem_brief} = formData
+      
         const data = {
             title: title,
             mediator:id,
             category:category,
             sub_category:sub_category,
             problem_brief:problem_brief,
-            access:accessToken,
+            access:access,
             owner:username
         }
+        addGroup(data)
+        addCase(data)
 
-        const {res, resAgora} = await postNewCase(data)
-        const groupArr = [...resAgora.AgoraResponse]
-        
-        // console.log(resAgora.AgraResponse[0].A.data.groupid)
-        if(res.status===201){
-            const  dataCase= res.data.case.id
-            const  caseId = dataCase.slice(-7)
-        navigate(`/mediator/create_users/?side=A&id=${caseId}`,{
+        navigate('/mediator/create_users/?side=A',{
             replace:true,
-            // state: { res },
-            state:{ dataCase, groupArr },
+          
         })
-
-            }
-            
-        
-
-        
-     
     }
 
 
@@ -110,7 +102,7 @@ const CaseFormPage = () =>{
                         <h2 className="cfp--h2">Subcategory</h2>
                         <TextInput 
                             placeHolder="Free Text"
-                            name="subcategory"
+                            name="sub_category"
                             onChange={handleChange}
                         />
 

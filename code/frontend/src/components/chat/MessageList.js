@@ -1,18 +1,51 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import Message from '../general/Message';
+import { useSelector } from 'react-redux';
 //Note that all styles of the list is done in the component
 
-const MessageList =( { messages, position } )=> {
+const MessageList =( { activeGroup } )=> {
   const messagesEndRef = useRef(null);
+  const {id} = useSelector(state=>state.user)
+  const {messages} = useSelector(state=>state.chat[activeGroup])
+
+
+  //change msg to data when i receive a messgae online
+  //convet time to int and parsee it
+
 
   useEffect(() => {
+    
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const filteredMessages = messages.filter((message) => message.position === position);
 
-  console.log('in list')
-  console.log(messages.firstName)
+  const convertTime = (time)=>{
+    let date
+    if(!time)
+      date= new Date();
+    else
+      date = new Date(time);
+
+    const options ={
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      hour: 'numeric',
+      minute: 'numeric',
+    }
+    return date.toLocaleString(undefined, options)
+  }
+  const isSelf =(userId)=>{
+    return userId === id
+  }
+
+  const getKey = (timeKey)=>{
+    if(timeKey)return timeKey
+    return Math.floor(Math.random() * 100000) + 1
+  }
+
+ 
+
+
+ 
 
   return (
     <div 
@@ -29,18 +62,18 @@ const MessageList =( { messages, position } )=> {
       }}
     
     >
-      {filteredMessages.map(message => (
+
+      {messages&& messages.map(message => (
          
             <Message 
-                key={message.id}
-                text={message.text}
-                sender={message.sender}
-                isSelf={message.isSelf}
-                time = {message.time}
-                name = {message.senderName}
-                
+                key={getKey(message.time)}
+                text={message.msg}
+                sender={message.ext?.sender}
+                isSelf={isSelf(message.ext?.userId)}
+                time = {convertTime(message.time)}
+                name = {message.ext.name}
                 />
-        
+
       ))}
       <div ref={messagesEndRef} />
     </div>
