@@ -11,12 +11,7 @@ import { AREA_CODES , ISR_RESIDENCE } from '../utils/data'
 
 const AddUserPage =({side,idCase, goBack, next,
      handleSubmit, handleChange, userData,isMediator, disabled})=>{
-   
-    
 
-
-
- 
         return(
 
         <article className="aup">

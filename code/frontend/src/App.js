@@ -1,4 +1,3 @@
-import React from 'react';
 import LoginPage from './pages/LoginPage.js';
 import useInactivityRedirect from './hooks/useInActiveRediract.js';
 import { Route, Routes } from 'react-router-dom'; 

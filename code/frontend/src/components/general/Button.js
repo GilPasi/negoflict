@@ -1,6 +1,7 @@
 import "../../styles/components/button.css"
 
 const  Button=({text , size, margin,type,onClick,color,length, disabled,altitude})=>{
+    let _width, _height
 
     switch(size){
         case "small":
