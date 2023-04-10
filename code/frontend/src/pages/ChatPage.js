@@ -11,7 +11,7 @@ import useMsg from "../hooks/useMsg";
 
 
 
-const ChatPageA = ()=>{
+const ChatPage = ()=>{
     // //hooks==========
     const location = useLocation()
     const dispatch = useDispatch()
@@ -170,4 +170,4 @@ const ChatPageA = ()=>{
         </div>
     )
 }
-export default ChatPageA
+export default ChatPage

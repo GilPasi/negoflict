@@ -37,7 +37,7 @@ const  Button=({text , size, margin,type,onClick,color,length, disabled,altitude
 
     return(
         <button 
-            className={disabled?'btn-disable':"btn"}
+            className={disabled?'btn-disable':"btn-a"}
             style={style}
             onClick={onClick}
             disabled={disabled}

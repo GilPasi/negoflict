@@ -1,5 +1,5 @@
 /*__ Button component __*/
-.btn{
+.btn-a{
     width:min-content;
     height:3em;
     background-color: var(--green-dark);

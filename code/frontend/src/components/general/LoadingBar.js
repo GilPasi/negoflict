@@ -2,17 +2,24 @@ import "../../styles/components/loading_bar.css"
 
 const LoadinBar = ({progress,task }) => {
 
-    //Avoid overflowed elements and content
-    let fillerLength = progress
-    fillerLength = fillerLength > 100 ? 100 : fillerLength
-    fillerLength = fillerLength < 0 ? 0 : fillerLength
 
     return (
-    <section>
-        <label className="loading-bar--task">{task}...</label>
-            <div className="loading-bar--bar"  value={fillerLength}>
-                <div className="loading-bar--filler" style={{width:`${fillerLength}%`}}/>
+        
+    <section className="section-loading-bar">
+        <div className="box">
+      
+        <label className="loading-bar--task">
+        <div class="loading-dots">
+            <span className="task">{task}</span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+        </label>
+            <div className="loading-bar--bar progress" role="progressbar"  value={progress} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style={{height:'30px',backgroundColor:"var(--green-light)", borderRadius:'2em'}}>
+                <div className="loading-bar--filler progress-bar progress-bar-striped bg-success progress-bar-animated" style={{width:`${progress}%`}}/>
             </div>
+        </div>
     </section>
     );
   };

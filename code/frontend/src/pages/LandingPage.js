@@ -8,7 +8,7 @@ const CaseFormPage = lazy(()=>import("./CaseFormPage.js"))
 const MediatorMenu = lazy(()=>import("./rolePages/mediator/MediatorMenu.js"))
 const AddMediator = lazy(()=>import('./rolePages/admin/AddMediator'))
 const CasePage = lazy(()=> import("./CasePage.js")) ;
-const ChatPageA = lazy(()=>import('./ChatpageHen.js'))
+const ChatPageA = lazy(()=>import('./ChatPage.js'))
 
 
 
