@@ -7,10 +7,6 @@ import ToolBar from '../general/ToolBar'
 
 
 const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isShuttled})=>{
-    //state========
-
-
-   
 
     const setInputHeight =(element, defaultHeight)=>{
         if(element){
@@ -18,21 +14,16 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
             target.style.height=defaultHeight
             target.style.height=`${target.scrollHeight}px`
 
-        }
-       
-}
-const setInputValue = ()=>{
-    const msg = document.querySelector("#cp--input-tb").value;
+        }  
+    }
+    const setInputValue = ()=>{
+        const msg = document.querySelector("#cp--input-tb").value;
     
 
-    if(!msg)return
-    handleSend(msg)
-}
-    
-
+        if(!msg)return
+            handleSend(msg)
+    }
     return(
-
-        
         <article className="cp" >
             <div
                 className="cp--shuttle-block"

@@ -20,12 +20,11 @@ const ChatPageA = ()=>{
     const {SaveMessage} = useMsg()
     //=========
      //state=========
-     const [activeGroup,setActiveGroup] = useState('groupG')
-     const [userDetail,setUserDetail] = useState({})
-     const [isShuttled, setIsShuttled] = useState(false)
-     const [inputText] = useState('')
-     const [chatGroupData,setChatGroupData] = useState([])
-     const [lastMgsTime,setLastMsgTime] = useState(0)
+     const [activeGroup,setActiveGroup] = useState('groupG') //holds the group view now
+     const [userDetail,setUserDetail] = useState({}) //user importent data
+     const [isShuttled, setIsShuttled] = useState(false) //shutll mode still not in use
+     const [inputText] = useState('') //set the corrent text msg
+     const [chatGroupData,setChatGroupData] = useState([]) //holds the 3 sides of the chat groups
      //=================
  
     //values========
@@ -137,7 +136,7 @@ const ChatPageA = ()=>{
     })
     };
 
-    const handleSend = (text)=>{
+    const handleSend = (text)=>{ //handling the msg send and handle save the msg to data base using the useMsg hook
         const side = activeGroup.slice(-1)
         const inputDetail = {msg:text,to:chat.id,ext:{side:side,name:first_name,userId:id,sender:userDetail.side}}
         dispatch(postNewMessage(inputDetail))
@@ -147,8 +146,6 @@ const ChatPageA = ()=>{
         const member = userDetail?.memberId ?? ''
         SaveMessage({message:inputDetail,groupChatId:groupChat.id,memberId:member})
     };
-   
- 
     //============
     return(
         <div>
