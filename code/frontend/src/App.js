@@ -6,10 +6,6 @@ import RequireAuth from './components/Authentication/RequireAuth'
 import Layout from './components/general/Layout';
 import {UserLandingPage,MediatorLandingPage,SuperUserLandingPage} from './pages/LandingPage';
 import './App.css'
-import Chat from 'agora-chat-uikit/lib/EaseChat/chat/index.js';
-
-import LoadingBar from "./components/general/LoadingBar"
-
 
 
 
