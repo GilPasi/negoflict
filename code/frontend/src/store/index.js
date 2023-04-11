@@ -69,6 +69,7 @@ export const { useLog_outQuery, useLazyLog_outQuery} = usersApi
 export const { useGetNewAccessQuery, useLazyGetNewAccessQuery} = usersApi
 export const { useGetTokenQuery, useLazyGetTokenQuery} = usersApi
 export const {useGetChatTokenQuery, useLazyGetChatTokenQuery} = usersApi
+export const {useChangePasswordMutation} = usersApi
 //===========
 
 //caseApi=====

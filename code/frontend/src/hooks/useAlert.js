@@ -22,7 +22,7 @@ const useAlert = ()=>{
             title: title,
           })
     }
-    const bigSuccessAlert = (message)=>[
+    const bigSuccessAlert = (message)=>{
       Swal.fire({
         position: 'center',
         icon: 'success',
@@ -30,12 +30,35 @@ const useAlert = ()=>{
         showConfirmButton: false,
         timer: 1100
       })
-    ]
+    }
+
+    const password_pop =async ()=>{
+      const { value: formValues } = await Swal.fire({
+        title: 'Change your default password',
+        html:
+          '<lable for="password">Enter new password</lable>'+
+          '<input id="password" class="swal2-input">' +
+          '<lable for="confirm-password">confirm new password</lable>'+
+          '<input id="confirm-password" class="swal2-input">',
+        focusConfirm: false,
+        preConfirm: () => {
+          return [
+            document.getElementById('password').value,
+            document.getElementById('confirm-password').value
+          ]
+        }
+      })
+      
+      if (formValues) {
+        Swal.fire(JSON.stringify(formValues))
+      }
+    }
 
 
     return{
         trigerNotification,
-        bigSuccessAlert
+        bigSuccessAlert,
+        password_pop,
     }
 
 
