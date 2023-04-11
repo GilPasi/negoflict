@@ -19,8 +19,8 @@ const AddUserPage =(props)=>{
                 fontSize:'0.85em' ,                 
             }
 
-        const validateForm =()=>{
-            let valid = false
+        const validateForm =()=>{ // validate user properties
+            let valid = true
             //Validate the form (Hen)
             if(valid)
                 next()

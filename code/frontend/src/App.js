@@ -26,7 +26,6 @@ import './App.css'
           <Route path='user/*' element={<UserLandingPage/>}/>
           <Route path='mediator/*' element={<MediatorLandingPage/>}/>
           <Route path='admin/*' element={<SuperUserLandingPage/>}/>
-          <Route path='chat' element={<ChatPage/>}/>
         </Route>
         ):(<div><h1>not active</h1></div>)}
           {/* catch */}
