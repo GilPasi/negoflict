@@ -1,0 +1,252 @@
+.add-win--title{
+    font-size: 2em;
+    margin-bottom: 0;
+}
+.add-win--title ~ hr{
+  width:40%;
+}
+.add-win--users-list{
+  position: relative;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+
+  border: 1px solid #eee;
+  padding:1em;
+}
+
+@media (max-height:1000px){
+  .add-win--users-list{
+    height: 30em;
+  }
+}
+@media (max-height:860px){
+  .add-win--users-list{
+    height: 25em;
+  }
+}
+@media (max-height:800px){
+  .add-win--users-list{
+    height: 20em;
+  }
+}
+@media (max-height:700px){
+  .add-win--users-list{
+    height: 15em;
+  }
+}
+@media (max-height:600px){
+  .add-win--users-list{
+    height: 5em;
+  }
+}
+
+.add-win--u-container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* User container */
+.add-win--u-container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  padding:10px 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  box-sizing: border-box;
+  border-radius: 1em;
+  font-size: 0.5em;
+  font-weight: var(--weight-bold);
+}
+
+/* Hide the browser's default checkbox */
+.add-win--u-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+  
+
+}
+
+/* Create a custom checkbox */
+.add-win--checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom:0;
+  z-index: 0;
+  border-radius:inherit ;
+
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.add-win--u-container:hover input ~ .add-win--checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.add-win--u-container input:checked ~ .add-win--checkmark {
+  background-color: var(--green-light);
+}
+
+.add-win--option{
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  z-index: 5;
+}
+
+/* Create the add-win--checkmark/indicator (hidden when not checked) */
+.add-win--checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the add-win--checkmark when checked */
+.add-win--u-container input:checked ~ .add-win--checkmark:after {
+  display: block;
+}
+
+/* Style the add-win--checkmark/indicator */
+.add-win--u-container .add-win--checkmark:after {
+  left: 15px;
+  top: 7.5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.add-win footer{
+  display: flex;
+  justify-content: center;
+}
+
+.add-win--success-title{
+  font-size: 3em;
+  font-weight: var(--weight-bold);
+  color:var(--green-dark);
+  font-family:"Bowlby One SC" , sans-serif;
+  text-align: center;
+  transform: translateY(2em);
+}
+
+.add-win--success-animation { margin:150px auto;}
+
+.add-win--animation-checkmark {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 2;
+    stroke: #4bb71b;
+    stroke-miterlimit: 10;
+    box-shadow: inset 0px 0px 0px #4bb71b;
+    animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+    position:relative;
+    top: 5px;
+    right: 5px;
+   margin: 0 auto;
+}
+.add-win--checkmark__circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    stroke: #4bb71b;
+    fill: #fff;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+ 
+}
+
+.add-win--checkmark__check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes scale {
+    0%, 100% {
+        transform: none;
+    }
+
+    50% {
+        transform: scale3d(1.1, 1.1, 1);
+    }
+}
+
+@keyframes fill {
+    100% {
+        box-shadow: inset 0px 0px 0px 30px #4bb71b;
+    }
+}
+.add-win-circle{
+    height: 5em;
+    width: 5em;
+    border-radius: 50%;
+    position: relative;
+    border:5px solid var(--green-dark);
+    z-index: 2;
+    transition: 300ms ease-in-out;
+
+}
+
+.add-win-circle::after{
+  content: attr(value);
+  font-size: 2em;
+  font-weight: bold;
+  position:absolute;
+  inset: 50% 0 0 50%;
+  transform:translate(-50% ,-60%);
+  z-index: 1;
+  transition: 300ms ease-in-out;
+
+
+}
+
+.add-win-circle::before{
+  content: '';
+  position: absolute;
+  border-radius: inherit;
+  inset:49%;
+  opacity: 0.5 ;
+  background-color: #ccc;
+  z-index: 0;
+  transition: 300ms ease-in-out;
+
+  
+}
+
+.add-win-circle:active.add-win-circle::before{
+  transform: scale(75);
+
+}
+

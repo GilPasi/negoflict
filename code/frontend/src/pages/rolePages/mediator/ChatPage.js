@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2'
 import "../../../styles/pages/chat_page.css"
 import ShuttleSwitch from "../../../components/general/ShuttleSwitch";
 import ToolBar from "../../../components/general/ToolBar.js";
@@ -11,8 +12,10 @@ import { useLocation } from "react-router-dom";
 import WebIM from "../../../WebIM";
 import useServer from "../../../hooks/useServer";
 import { useRef } from "react";
-import Message from "../../../components/general/Message";
 import AddUserPage from "../../AddUserPage";
+import AddWindow from "../../../components/general/AddWindow";
+
+
 
 
 const  ChatPage = ({isMediator})=> {
@@ -355,14 +358,10 @@ const  ChatPage = ({isMediator})=> {
                     const target= element.target ? element.target : element;
                     target.style.height=defaultHeight
                     target.style.height=`${target.scrollHeight}px`
-
                 }
-        }
-        const handleAddParticipant=()=>{
-            document.querySelector(".cp--shader").style.display=""
-        }
-          
-    //Get the add participants window's scale
+        }    
+
+
 
         return(
         <article className="cp" >
@@ -407,7 +406,7 @@ const  ChatPage = ({isMediator})=> {
                 >
 
                     <Header isLarge={false}/>
-                    <ToolBar conflictName="A political conflict" id={caseId} handleAdd={handleAddParticipant}/>
+                    <ToolBar conflictName="A political conflict" id={caseId} />
                     <ShuttleSwitch isMediator={isMediator}/>
                 </header>
             

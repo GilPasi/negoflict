@@ -8,24 +8,37 @@ import { AREA_CODES , ISR_RESIDENCE } from '../utils/data'
 
 
 
-
-const AddUserPage =({side,idCase, goBack, next,
-     handleSubmit, handleChange, userData,isMediator})=>{
-   
-    
+const AddUserPage =(props)=>{
 
 
+        const {side,idCase,goBack,
+             next,handleSubmit,handleChange,
+            userData,isMediator,isWindow} = props
 
- 
+        const windowStyle={
+                fontSize:'0.85em' ,                 
+            }
+
+        const validateForm =()=>{
+            let valid = false
+            //Validate the form (Hen)
+            if(valid)
+                next()
+            else
+                document.querySelector('#aup--w').style.visibility = 'visible'
+        }
+
         return(
 
-        <article className="aup">
+        <article className="aup" style={isWindow&&windowStyle}>
+            {!isWindow&&<header>
                     <Header/>
                     {!isMediator&&<ToolBar conflictName="A political conflict" id={idCase}/>}
+            </header>}
                 <form className="aup--grid">
                 {isMediator ?
                     (
-                        <h2 className="aup--grid-row" id="aup--m-title">
+                        <h2 className="aup--grid-row" id="aup--m-title" >
                             <span style={{
                                 color:"var(--green-dark)",
                                 fontWeight:"var(--weight-bold)"
@@ -33,7 +46,7 @@ const AddUserPage =({side,idCase, goBack, next,
                                 Mediator personal details
                         </h2>
                     ):(
-                    <h2 className="aup--title aup--grid-row">
+                    <h2 className="aup--title aup--grid-row" >
                         Party {side}
                     </h2>)
                 }
@@ -116,8 +129,8 @@ const AddUserPage =({side,idCase, goBack, next,
                     </div>
                     }
 
-
                 </form>
+                    <p className='warning' id='aup--w'>Some of the details are not valid</p>
 
                 <nav>
                     <Button 
@@ -142,7 +155,7 @@ const AddUserPage =({side,idCase, goBack, next,
                             text="Next"
                             margin="0.2em"
                             type="submit"
-                            onClick={next}
+                            onClick={validateForm}
                         />
                         )
                     }

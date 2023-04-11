@@ -18,6 +18,8 @@ const  Button=(props)=>{
             _width = "12em"
             _height = "3em"
             break;
+        default:
+            break;
     }
 
     const style = {
