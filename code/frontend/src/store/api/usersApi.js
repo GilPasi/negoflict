@@ -94,6 +94,21 @@ const usersApi = createApi({
                     }
                 } 
             }),
+            modifyUser:builder.mutation({
+                query:(data)=>{
+                    //data can be 
+                    //email
+                    //first_name
+                    //last_name
+                    //first_logged
+                    return{
+                        url:`/users/user_view/${data.id}/`,
+                        method:'PUT',
+                        body:data
+                    }
+                }
+            })
+
 
 
         }}})

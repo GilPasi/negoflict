@@ -3,15 +3,15 @@ import Header from "../components/general/Header"
 import TextInput from "../components/general/TextInput"
 import Button from '../components/general/Button'
 import { useEffect, useRef, useState } from "react"
-
 import { useDispatch,  } from 'react-redux'
 import { login } from '../store/index'
 import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import useAlert from "../hooks/useAlert"
-import { getPermSign } from "../utils/permissions"
+import { getPermSign, getPermName } from "../utils/permissions"
 import { useLazyLoginQuery, useLazyIs_loginQuery,useLazyLog_outQuery, useLazyGetTokenQuery } from "../store/index"
 import Loader from "../components/general/Loader"
+import { useChangePasswordMutation, useModifyUserMutation } from "../store/index"
 
 
 
@@ -23,7 +23,9 @@ const LoginPage=()=>{
     //hooks=====
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const { bigSuccessAlert } = useAlert()
+    const { bigSuccessAlert, changePasswordPop } = useAlert()
+    const [changePassword] = useChangePasswordMutation()
+    const [modifyUserDetail] = useModifyUserMutation()
     //==========
 
     //state==========
@@ -121,7 +123,28 @@ const LoginPage=()=>{
         const role = getPermSign(user)
         user = {...user, 'role':role, 'access':access_data.access}
         dispatch(login(user))
-       
+
+
+        if(getPermName(user)==='user' && user.first_logged){  //if it is a user and it is his first login he must to change default password unless he dosent the mediator or other users can know his password because he will login with his email and phone number
+            const newPassword =await changePasswordPop()
+            if(!newPassword)return
+            const {error:changePasswordError} = changePassword({
+                current_password:data.password,
+                new_password:newPassword,
+                access:access_data.access,
+            })
+            if(changePasswordError){
+                console.log('couldn`t change password',changePasswordError)
+                return
+            }
+            const {error:modifyUserError} = modifyUserDetail({
+                first_logged:false,
+            })
+            if(modifyUserError){
+                console.log('couldn`t modify user first logged')
+                return
+            }
+        }
         setNullFields()
         directTo(role)
         };
@@ -181,7 +204,7 @@ const LoginPage=()=>{
                                 value={formData.password}
                             />
                             <div className="flexbox">
-                                <input type="checkbox" id="lp--checkbox"/>
+                                <input  type="checkbox" id="lp--checkbox"/>
                                 <label htmlFor="lp--checkbox">Disclaimer Lorem ispum dolor T&C <a href="#"> Link</a></label>
                             </div>
                             

@@ -31,34 +31,49 @@ const useAlert = ()=>{
         timer: 1100
       })
     }
+    const changePasswordPop =async ()=>{
 
-    const password_pop =async ()=>{
-      const { value: formValues } = await Swal.fire({
+      const  formValues  = await Swal.fire({
         title: 'Change your default password',
         html:
-          '<lable for="password">Enter new password</lable>'+
-          '<input id="password" class="swal2-input">' +
-          '<lable for="confirm-password">confirm new password</lable>'+
-          '<input id="confirm-password" class="swal2-input">',
+          '<lable for="password"><h4 style="margin:0; color: #828282">Enter new password</h4></lable>'+
+          '<input style="margin:2px; height:30px; color:black"  id="password" class="swal2-input">' +
+          '<lable for="confirm-password"><h4 style="margin:10px 0 0 0;color: #828282">confirm new password</h4></lable>'+
+          '<input style="margin:2px; height:30px; color: black;" id="confirm-password" class="swal2-input">'+
+          ' <span id="password-error" style="color: red; display: none;">Passwords do not match</span>'
+          ,
+          confirmButtonColor:'#4AAC65',
+          color:'#4AAC65',
+          
+          
         focusConfirm: false,
-        preConfirm: () => {
-          return [
-            document.getElementById('password').value,
-            document.getElementById('confirm-password').value
-          ]
-        }
-      })
-      
-      if (formValues) {
-        Swal.fire(JSON.stringify(formValues))
-      }
-    }
 
+        
+        preConfirm: () => {
+          const password =  document.getElementById('password').value
+          const confirm = document.getElementById('confirm-password').value
+          const passwordError = document.getElementById('password-error');
+
+          if(password !== confirm || password==='' ){
+            passwordError.style.display = 'block'
+            return false
+          }
+          else
+            return password
+        }
+        
+      })
+      return formValues ?? false
+    }
+    
+
+    
 
     return{
         trigerNotification,
         bigSuccessAlert,
-        password_pop,
+        changePasswordPop,
+
     }
 
 
