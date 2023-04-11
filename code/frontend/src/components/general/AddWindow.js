@@ -4,16 +4,12 @@ import Button from "../../components/general/Button"
 import {useState} from 'react'
 
 const AddWindow =()=>{
-    const [selectedPhones , setSelectedPhones] = useState([])
-
+    
     const [stage , setStage] = useState('pick side');
-
-    const handleMark=(event)=>{
-        setSelectedPhones(()=>{
-            return(
-            [...selectedPhones , event.target.id]
-        )})}
-
+    
+    const [selectedPhones , setSelectedPhones] = useState([])
+    
+    const [selectedParty , setSelectedParty] = useState ('')
     
     const buttonsWidth = '6em'
 
@@ -21,9 +17,18 @@ const AddWindow =()=>{
         {fullName:'Avi Ron' , email:'aviron@elal.com' , phone:'0541111111'},
         {fullName:'Eli Copter' , email:'Helicopter@elal.com' , phone:'054222222'},
         {fullName:'Tiki Poor' , email:'TIkIpoor@bags.com' , phone:'05433333333'},
-    ]
+        ]
 
-    const users = MockUsers.map((user)=>(
+    function handleMark(phone) {
+        console.log(selectedPhones)
+        if (selectedPhones.includes(phone)) {
+          setSelectedPhones(selectedPhones.filter(p => p !== phone));
+        } else {
+          setSelectedPhones([...selectedPhones, phone]);
+        }
+      }
+
+    const users = MockUsers.map((user,index)=>(
         <label className="add-win--u-container">
             <div className="add-win--option" >
                 <span> {user.fullName}</span>
@@ -31,15 +36,18 @@ const AddWindow =()=>{
                 <span> {user.email}</span>
             </div>
             {/* Phone is a unique ID for each user */}
-            <input type="checkbox" id={user.phone} onClick={handleMark}/>
+            <input
+                checked={selectedPhones.includes(user.phone)?'checked':''}
+                type="checkbox"
+                onClick={()=>handleMark(user.phone)} 
+                name={index}
+            />
             <div className="add-win--checkmark"/>
         </label>
     ))
 
-
-        
-
     const handleAdd = ()=>{
+        alert(selectedPhones)
         if(selectedPhones.length===0){
             document.querySelector('#add-win-w').style.visibility='visible';
             return
@@ -60,8 +68,20 @@ const AddWindow =()=>{
              <center>
                 <h1 className="add-win--title">Choose a party to add a person</h1>
                 <hr/>
-                <div className='add-win-circle' value='A'/>
-                <div className='add-win-circle' value='B'/>
+
+                <div className='add-win--side'>
+                    <input 
+                        type='radio'
+                        className='add-win--circle' 
+                        value='A'
+                        name='side select'/>
+                    <input 
+                        type='radio'
+                        className='add-win--circle' 
+                        value='B'
+                        name='side select'/>
+                </div>
+                <Button text="Next" margin='4em 0 0 0' size='small' onClick={()=>setStage('choose')}/>
 
 
 
@@ -78,7 +98,11 @@ const AddWindow =()=>{
             }
 
 
-            {stage==='create'&&<AddUserPage isWindow={true} goBack={()=>setStage('choose')} next={()=>setStage('success')}/>}
+            {stage==='create'&&<AddUserPage
+                isWindow={true}
+                goBack={()=>setStage('choose')}
+                next={()=>setStage('success')}
+            />}
 
             {stage==='exist'&&
                 <center>
@@ -86,12 +110,7 @@ const AddWindow =()=>{
                     <hr />
                     <div className="add-win--users-list">
                         {users}
-                        {users}
-                        {users}
-                        {users}
-                        {users}
-                        {users}
-                        {users}
+           
 
                     </div>
                     <p className='warning' id='add-win-w'>You must select at least one user</p>
