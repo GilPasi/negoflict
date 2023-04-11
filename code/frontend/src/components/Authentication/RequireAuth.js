@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import {getPermName} from '../../utils/permissions'
-import { UserLandingPage,MediatorLandingPage,SuperUserLandingPage } from "../../pages/LandingPage";
+
 
 
 const RequireAuth = ()=>{
