@@ -16,6 +16,8 @@ const  Button=({text , size, margin,type,onClick,color,length, disabled,altitude
             _width = "12em"
             _height = "3em"
             break;
+        default:
+            break;
     }
 
     const style =disabled?{
