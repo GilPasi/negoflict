@@ -13,7 +13,7 @@ const AddUserPage =(props)=>{
 
         const {side,idCase,goBack,
              next,handleSubmit,handleChange,
-            userData,isMediator,isWindow} = props
+            userData,isMediator,isWindow , disabled} = props
 
         const windowStyle={
                 fontSize:'0.85em' ,                 
