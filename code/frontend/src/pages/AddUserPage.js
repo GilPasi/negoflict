@@ -7,7 +7,6 @@ import Button from '../components/general/Button.js'
 import { AREA_CODES , ISR_RESIDENCE } from '../utils/data'
 
 
-const AddUserPage =(props)=>{
 
 const AddUserPage =(props)=>{
 
