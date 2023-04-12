@@ -10,7 +10,7 @@ import { AREA_CODES , ISR_RESIDENCE } from '../utils/data'
 
 const AddUserPage =({side,idCase,goBack,
     next,handleSubmit,handleChange,
-   userData,isMediator,isWindow,disabled})=>{
+   userData,isMediator,isWindow,disabled,options})=>{
 
 
       
@@ -49,6 +49,19 @@ const AddUserPage =({side,idCase,goBack,
                     <h2 className="aup--title aup--grid-row" >
                         Party {side}
                     </h2>)
+                }
+                {isMediator&&
+                 <div className="aup--grid-row">
+                 <TextInput
+                     placeHolder="Username"
+                     name="username"
+                     value={userData?.username || ''}
+                     onChange={handleChange}
+                     length="100%"
+                     align="left"
+
+                 />
+             </div>
                 }
                   
                     <div className="aup--grid-row">
@@ -118,13 +131,14 @@ const AddUserPage =({side,idCase,goBack,
                         <DropdownSelector 
                             placHolder="Residence"
                             isDefault={true}
-                            options={ISR_RESIDENCE}
+                            options={options} //CHANGE HERE TO FETCH
                             name="city"
                             value={userData?.phonePrefix || ''}
                             onChange={handleChange}
                             align="left"
                             width="100%"
                             height="2em"
+                            valType='city'
                             />
                     </div>
                     }

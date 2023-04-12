@@ -2,7 +2,7 @@ import AddMediatorPage from "../../pages/AddMediatorPage"
 import AddUserPage from "../../pages/AddUserPage"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { useAddResidentMutation, useUpdateMediatorResidentMutation,useAddMediatorMutation } from "../../store"
+import { useAddResidentMutation, useUpdateMediatorResidentMutation,useAddMediatorMutation, useGetAddressesQuery } from "../../store"
 import { useSelector } from "react-redux"
 
 
@@ -10,6 +10,7 @@ const CreateMediatorWrapper = ()=>{
     const {access} = useSelector(state=>state.user)
 
     const rediract = useNavigate()
+    const {data:addressData, error:addressError} = useGetAddressesQuery({access:access})
     const [addResident,{data:residetData, error:residentError}] = useAddResidentMutation()
     const [addMediator,{data:mediatorData, error:mediatorError}] = useAddMediatorMutation()
     const [updateMediatorAddress] = useUpdateMediatorResidentMutation()
@@ -67,12 +68,15 @@ const CreateMediatorWrapper = ()=>{
 
 
 
-        // addMediator(mediatorData)
-        console.log(residentData)
-       const res =await addResident(residentData)
-       console.log(res)
+        addMediator(mediatorData)
+       
+        addResident(residentData)
+       
     }
-
+    if(mediatorData)
+        console.log('mediatordata',mediatorData)
+    if(mediatorError)
+        console.log('mediatorError',mediatorError)
 
 
     return(
@@ -80,10 +84,11 @@ const CreateMediatorWrapper = ()=>{
         {firstPage?(
         <AddUserPage 
         handleChange={handleChange}
-        isMediator={true}
+    isMediator={true}
         userData={formData}
         next={next}
         goBack={back}
+        options={addressData || []}
         />
         ):(
             <AddMediatorPage 

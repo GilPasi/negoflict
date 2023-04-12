@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import  {ChatServerURL} from "../../utils/agoraCradential";
+import { Server_url } from "../../utils/roots";
 
 
 const adminApi = createApi({
@@ -48,7 +49,7 @@ const adminApi = createApi({
                 query:({phone,education,relevant_experience,mediation_areas,
                     certification_course,user,access})=>{
                     return{
-                        url:'users/mediator_view/',
+                        url:`${Server_url}/users/mediator_view/`,
                         method:'POST',
                         body:{
                             phone:phone,
@@ -56,13 +57,12 @@ const adminApi = createApi({
                             relevant_experience:relevant_experience,
                             mediation_areas:mediation_areas,
                             certification_course:certification_course,
-                            user:{
-                                username:user.username,
-                                password:user.password,
-                                email:user.email,
-                                first_name:user.first_name,
-                                last_name:user.last_name,
-                            },
+                            ['user.username']:user.username,
+                            ['user.password']:user.password,
+                            ['user.email']:user.email,
+                            ['user.first_name']:user.first_name,
+                            ['user.last_name']:user.last_name,
+                         
                         },
                         headers:{
                                 Authorization: `JWT ${access}`
@@ -71,9 +71,10 @@ const adminApi = createApi({
                 }
             }),
             addResident: builder.mutation({
+                invalidatesTags:['city'],
                 query: ({city,access})=>{
                     return{
-                        url:'/users/address_views/',
+                        url:`${Server_url}/users/address_views/`,
                         method:'POST',
                         body:{
                             city:city,
@@ -87,7 +88,7 @@ const adminApi = createApi({
             updateMediatorResident: builder.mutation({
                 query: ({mediator_id,address_id,access})=>{
                     return{
-                        url:'/users/address_mediator/',
+                        url:`${Server_url}/users/address_mediator/`,
                         method:'POST',
                         body: {
                             mediator:mediator_id,
@@ -100,9 +101,10 @@ const adminApi = createApi({
                 }
             }),
             getAddresses: builder.query({
+                providesTags:['city'],
                 query:({access})=>{
                     return{
-                        url:'users/address_views/',
+                        url:`${Server_url}/users/address_views/`,
                         method:'GET',
                         headers:{
                             Authorization: `JWT ${access}`

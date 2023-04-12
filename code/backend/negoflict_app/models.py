@@ -40,8 +40,10 @@ class Mediator(models.Model):
    
 class Address(models.Model):
     city = models.CharField(max_length=150)
-    street = models.CharField(max_length=150)
-    zip = models.CharField(max_length=20, null=True)
+    street = models.CharField(max_length=150, null=True, blank=True)
+    zip = models.CharField(max_length=20, null=True, blank=True)
+    
+    
 
     def __str1__(self) -> str:
         return f'{self.city} / { self.street} / {self.zip}'
@@ -49,8 +51,8 @@ class Address(models.Model):
     def __str__(self) -> str:
         return self.city
     
-    class Meta:
-        unique_together = ('city', 'street')
+    # class Meta:
+    #     unique_together = ('city', 'street')
 
  
 
