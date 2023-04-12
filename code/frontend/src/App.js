@@ -2,11 +2,10 @@ import LoginPage from './pages/LoginPage.js';
 import useInactivityRedirect from './hooks/useInActiveRediract.js';
 import { Route, Routes } from 'react-router-dom'; 
 import RequireAuth from './components/Authentication/RequireAuth'
-
 import Layout from './components/general/Layout';
 import {UserLandingPage,MediatorLandingPage,SuperUserLandingPage} from './pages/LandingPage';
 import './App.css'
-import ChatPage from './pages/ChatPage';
+
 
 
 
