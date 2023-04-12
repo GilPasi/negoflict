@@ -6,14 +6,17 @@ import RequireAuth from './components/Authentication/RequireAuth'
 import Layout from './components/general/Layout';
 import {UserLandingPage,MediatorLandingPage,SuperUserLandingPage} from './pages/LandingPage';
 import './App.css'
+import ChatPage from './pages/ChatPage';
 
 
 
  const App=()=> {
   const isActive = useInactivityRedirect();
   
+
   return(
-    <Routes>
+    <div className="app">
+      <Routes>
         <Route path='/' element={<Layout/>}>
           {/* public routes */}
 
@@ -31,7 +34,8 @@ import './App.css'
           {/* catch */}
         
         </Route>
-    </Routes>      
+      </Routes>
+    </div>
   )
 }
 export default App;

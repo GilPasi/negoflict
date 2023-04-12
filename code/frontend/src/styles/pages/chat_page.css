@@ -6,10 +6,6 @@
   bottom: 0;
   right: 0;
   left: 0;
-
-    /* z-index: 0; */                  
-
-   /*Override so it would look farther*/
 }
 .cp--shader-msg{
   position: absolute;
@@ -29,6 +25,7 @@
 .cp--footer{
   position: fixed;
   bottom: 0;
+  left: 0;
   width: 100%;
   background-color:white;
 }

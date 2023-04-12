@@ -131,6 +131,7 @@ const ChatPage = ()=>{
     };
 
    const handleShuttle =()=> {// set shuttle mode
+    console.log(isShuttled)
     setIsShuttled(prevState=>{
         return(!prevState)    
     })

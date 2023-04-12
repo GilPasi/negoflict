@@ -1,13 +1,13 @@
 import "../../styles/components/loader.css"
 
 const Loader=({withLogo,size})=>{
-    let circleSize = {width:'150px',height:'150px'}
+    let circleSize = {borderTop:'6px solid var(--green-dark)', width:'150px',height:'150px'}
     switch (size) {
         case 'small':
-            circleSize = {width:'40px',height:'40px'}
+            circleSize = {borderTop:'4px solid var(--green-dark)', width:'40px',height:'40px'}
             break;
         case 'medium':
-             circleSize = {width:'100px',height:'100px'}
+             circleSize = {borderTop:'4px solid var(--green-dark)', width:'100px',height:'100px'}
              break;
             }
 
@@ -16,7 +16,7 @@ const Loader=({withLogo,size})=>{
     return(
         <div className="loader">
             {withLogo&&<h1>NEGOFLICT</h1>}
-            <div className="circle" style={circleSize} />
+            <div className="loader--circle" style={circleSize} />
         </div>
 
     )

@@ -25,6 +25,8 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
     }
     return(
         <article className="cp" >
+
+            
             <div
                 className="cp--shuttle-block"
                 style={{
@@ -55,12 +57,13 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
 
                 </div>
 
-            <div className="cp--shuttle-block"></div>
+                <div className="cp--shuttle-block"></div>
                 <div
                  style={{
                     position:"fixed",
                     top:"0",
-                    width:"100%",
+                    left:'0',
+                    right:'0',
                     backgroundColor:"white", //This is crucial for hiding the MessageList
                     zIndex:"1",
                 }}>
@@ -69,10 +72,10 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
                     <ToolBar conflictName="A political conflict" id={caseId}/>
                     <ShuttleSwitch isMediator={isMediator}/>
                 </div>
-
-            <div >
+                {/* <div >
                 <MessageList activeGroup={activeGroup}/>
-            </div>
+            </div> */}
+
             <div>
             <footer className="cp--footer">
                 <div className="cp--input">
@@ -106,3 +109,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
 }
 
 export default ChatView
+
+
+
+
