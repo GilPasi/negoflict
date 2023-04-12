@@ -6,9 +6,10 @@ const AdminMenu = lazy(()=>import("./roleMenu/admin_menu.js"))
 const CreateUserWraper = lazy(()=>import("../components/general/CreateUserWrapper.js"))
 const CaseFormPage = lazy(()=>import("./CaseFormPage.js"))
 const MediatorMenu = lazy(()=>import("./rolePages/mediator/MediatorMenu.js"))
-const AddMediator = lazy(()=>import('./AddMediatorPage'))
 const CasePage = lazy(()=> import("./CasePage.js")) ;
 const ChatPageA = lazy(()=>import('./ChatPage.js'))
+const CreateMediatorWrapper = lazy(()=>import('../components/general/CreateMediatorWrapper'))
+
 
 
 
@@ -50,7 +51,7 @@ const SuperUserLandingPage = ()=>{
     return(
                 <Suspense fallback={<div>loading</div>}>
                 <Routes>
-                    <Route path="/addmediator" element={<AddMediator/>}/>
+                    <Route path="/addmediator" element={<CreateMediatorWrapper/>}/>
                     <Route path="/" element={<AdminMenu/>}/>
                 </Routes>
                 </Suspense>

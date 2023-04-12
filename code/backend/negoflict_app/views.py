@@ -150,6 +150,8 @@ class AddressView(ModelViewSet):
     queryset = Address.objects.all()
     serializer_class = AddressSerializer
     permission_classes=[permissions.IsAdminOrUser]
+    
+    
 
 class AddressUserView(ModelViewSet):
     queryset = AddressMediator.objects.all()

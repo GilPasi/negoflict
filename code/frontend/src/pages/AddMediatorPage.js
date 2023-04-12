@@ -8,7 +8,7 @@ import { useRef,useState } from 'react'
 import { MEDIATION_CHOICES } from '../utils/data'
 import "../styles/pages/add_mediator_page.css"
 
-const AddMediatorPage =()=>{
+const AddMediatorPage =({handleMediatorData, disable, goBack})=>{
     const experienceRef=useRef('')
     const domainRef=useRef('')
     const educationRef=useRef('')
@@ -17,12 +17,12 @@ const AddMediatorPage =()=>{
 
     const handleSubmit=()=>{
         const formData={
-            experience: experienceRef.current?.value,
-            mediationDomain: domainRef.current?.value,
+            relevant_experience: experienceRef.current?.value,
+            mediation_areas: domainRef.current?.value,
             education: educationRef.current?.value,
-            isCertified: isCertified,
+            certification_course: isCertified,
         }
-        console.log(formData)
+        handleMediatorData(formData)
         //Backend- connect to api
     }
 
@@ -55,7 +55,7 @@ const AddMediatorPage =()=>{
                 onClick={()=>setIsCertified(prevState=>!prevState)}
                 style={{color:isCertified?"var(--green-light)":"var(--green-dark)"}}
             >
-                <span class="material-symbols-outlined amp--certified-logo">
+                <span className="material-symbols-outlined amp--certified-logo">
                     verified
                 </span>
                 <span className="amp--certified-text">
@@ -70,12 +70,14 @@ const AddMediatorPage =()=>{
                 text="Back"
                 size="small"
                 margin="0.25em"
+                onClick={goBack}
             />
             <Button 
                 text="Create"
                 size="small"
                 margin="0.25em"
                 onClick={handleSubmit}
+                disabled={disable}
             />
         </footer>
     </article>)

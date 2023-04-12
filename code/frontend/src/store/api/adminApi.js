@@ -44,6 +44,72 @@ const adminApi = createApi({
                     }
                 }
             }),
+            addMediator: builder.mutation({
+                query:({phone,education,relevant_experience,mediation_areas,
+                    certification_course,user,access})=>{
+                    return{
+                        url:'users/mediator_view/',
+                        method:'POST',
+                        body:{
+                            phone:phone,
+                            education:education,
+                            relevant_experience:relevant_experience,
+                            mediation_areas:mediation_areas,
+                            certification_course:certification_course,
+                            user:{
+                                username:user.username,
+                                password:user.password,
+                                email:user.email,
+                                first_name:user.first_name,
+                                last_name:user.last_name,
+                            },
+                        },
+                        headers:{
+                                Authorization: `JWT ${access}`
+                            },
+                    }
+                }
+            }),
+            addResident: builder.mutation({
+                query: ({city,access})=>{
+                    return{
+                        url:'/users/address_views/',
+                        method:'POST',
+                        body:{
+                            city:city,
+                        },
+                        headers:{
+                            Authorization: `JWT ${access}`,
+                        },
+                    }
+                }
+            }),
+            updateMediatorResident: builder.mutation({
+                query: ({mediator_id,address_id,access})=>{
+                    return{
+                        url:'/users/address_mediator/',
+                        method:'POST',
+                        body: {
+                            mediator:mediator_id,
+                            address:address_id,
+                        },
+                        headers:{
+                            Authorization: `JWT ${access}`
+                        },
+                    }
+                }
+            }),
+            getAddresses: builder.query({
+                query:({access})=>{
+                    return{
+                        url:'users/address_views/',
+                        method:'GET',
+                        headers:{
+                            Authorization: `JWT ${access}`
+                        },
+                    }
+                }
+            })
 
 
         }

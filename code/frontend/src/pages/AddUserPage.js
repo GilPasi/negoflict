@@ -8,12 +8,12 @@ import { AREA_CODES , ISR_RESIDENCE } from '../utils/data'
 
 
 
-const AddUserPage =(props)=>{
+const AddUserPage =({side,idCase,goBack,
+    next,handleSubmit,handleChange,
+   userData,isMediator,isWindow,disabled})=>{
 
 
-        const {side,idCase,goBack,
-             next,handleSubmit,handleChange,
-            userData,isMediator,isWindow , disabled} = props
+      
 
         const windowStyle={
                 fontSize:'0.85em' ,                 
@@ -119,7 +119,7 @@ const AddUserPage =(props)=>{
                             placHolder="Residence"
                             isDefault={true}
                             options={ISR_RESIDENCE}
-                            name="phonePrefix"
+                            name="city"
                             value={userData?.phonePrefix || ''}
                             onChange={handleChange}
                             align="left"

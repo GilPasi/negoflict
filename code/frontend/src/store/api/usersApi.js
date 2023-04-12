@@ -95,19 +95,17 @@ const usersApi = createApi({
                 } 
             }),
             modifyUser:builder.mutation({
-                query:({id,access,password})=>{
+                query:({id,access})=>{
                     //data can be 
                     //email
                     //first_name
                     //last_name
                     //first_logged
-                    console.log(id,password)
                     return{
                         url:`/users/user_view/${id}/`,
                         method:'PATCH',
                         body:{
                             first_logged:false,
-                            password:password
                         },
                          headers:{
                             Authorization: `JWT ${access}`,
