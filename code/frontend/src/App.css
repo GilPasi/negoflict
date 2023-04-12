@@ -30,6 +30,14 @@ html, body, .app {
   padding: 0;
   }
 
+  .app{
+    max-width: 40em;
+  }
+  body{
+    display: flex;
+    justify-content: center;
+  }
+
 .page{
   display: flex;
   justify-content: center;

@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 const MessageList =( { activeGroup } )=> {
   const messagesEndRef = useRef(null);
   const {id} = useSelector(state=>state.user)
+
+  //__________This line causes the component to disappear -  HEN
   const {messages} = useSelector(state=>state.chat[activeGroup])
 
 
@@ -41,11 +43,6 @@ const MessageList =( { activeGroup } )=> {
     if(timeKey)return timeKey
     return Math.floor(Math.random() * 100000) + 1
   }
-
- 
-
-
- 
 
   return (
     <div 
