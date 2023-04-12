@@ -29,8 +29,8 @@ class UserView(ModelViewSet):
         return super().get_permissions()
     
     def get_queryset(self):
-        if not self.request.user.is_superuser:
-            return User.objects.none()
+        if self.request.user or self.request.user.is_staff and not  self.request.user.is_superuser:
+            return User.objects.filter(pk=self.request.user.pk)
         return super().get_queryset()
     
     @action(detail=False,methods=['GET'],permission_classes=[permissions.IsAdminOrUser])
