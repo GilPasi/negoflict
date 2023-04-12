@@ -7,32 +7,33 @@ import Layout from './components/general/Layout';
 import {UserLandingPage,MediatorLandingPage,SuperUserLandingPage} from './pages/LandingPage';
 import './App.css'
 
-
+import ChatView from './components/chat/ChatView';
 
  const App=()=> {
   const isActive = useInactivityRedirect();
   
   return(
-    <Routes>
-        <Route path='/' element={<Layout/>}>
-          {/* public routes */}
+    <div>
+      <Routes>
+          <Route path='/' element={<Layout/>}>
+            {/* public routes */}
 
-          <Route  path='/login' element={<LoginPage/>}/>
+            <Route  path='/login' element={<LoginPage/>}/>
+            
+            {/* protected routes */}
+            {isActive?(
+
+          <Route  path='/' element={<RequireAuth/>}>
+            <Route path='user/*' element={<UserLandingPage/>}/>
+            <Route path='mediator/*' element={<MediatorLandingPage/>}/>
+            <Route path='admin/*' element={<SuperUserLandingPage/>}/>
+          </Route>
+          ):(<div><h1>not active</h1></div>)}
+            {/* catch */}
           
-          {/* protected routes */}
-          {isActive?(
-
-        <Route  path='/' element={<RequireAuth/>}>
-          <Route path='user/*' element={<UserLandingPage/>}/>
-          <Route path='mediator/*' element={<MediatorLandingPage/>}/>
-          <Route path='admin/*' element={<SuperUserLandingPage/>}/>
-          <Route path='chat' element={<ChatPage/>}/>
-        </Route>
-        ):(<div><h1>not active</h1></div>)}
-          {/* catch */}
-        
-        </Route>
-    </Routes>      
+          </Route>
+      </Routes>      
+    </div>
   )
 }
 export default App;

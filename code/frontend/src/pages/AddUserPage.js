@@ -20,7 +20,7 @@ const AddUserPage =(props)=>{
             }
 
         const validateForm =()=>{
-            let valid = false
+            let valid = true
             //Validate the form (Hen)
             if(valid)
                 next()
