@@ -85,7 +85,7 @@ const usersApi = createApi({
                         url:'/auth/users/set_password/',
                         body:{
                             current_password:current_password,
-                            new_password:new_password,
+                            new_password:`Negoflict${new_password}`,
                         },
                         headers:{
                             Authorization: `JWT ${access}`
@@ -95,16 +95,25 @@ const usersApi = createApi({
                 } 
             }),
             modifyUser:builder.mutation({
-                query:(data)=>{
+                query:({id,access,password})=>{
                     //data can be 
                     //email
                     //first_name
                     //last_name
                     //first_logged
+                    console.log(id,password)
                     return{
-                        url:`/users/user_view/${data.id}/`,
-                        method:'PUT',
-                        body:data
+                        url:`/users/user_view/${id}/`,
+                        method:'PATCH',
+                        body:{
+                            first_logged:false,
+                            password:password
+                        },
+                         headers:{
+                            Authorization: `JWT ${access}`,
+                            'Content-Type':'application/json',
+                            'Accept':'application/json',
+                        },
                     }
                 }
             })
