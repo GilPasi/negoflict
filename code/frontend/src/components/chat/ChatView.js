@@ -72,9 +72,9 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
                     <ToolBar conflictName="A political conflict" id={caseId}/>
                     <ShuttleSwitch isMediator={isMediator}/>
                 </div>
-                {/* <div >
+                <div >
                 <MessageList activeGroup={activeGroup}/>
-            </div> */}
+            </div>
 
             <div>
             <footer className="cp--footer">
