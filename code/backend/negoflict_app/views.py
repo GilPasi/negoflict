@@ -18,6 +18,11 @@ class UserView(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserCreateSerializer
     
+    def get_serializer_class(self):
+        if self.request.method == 'PATCH':
+            return UserSerializer
+        return UserCreateSerializer
+    
     def get_permissions(self):
         if not self.request.method == 'GET':
             self.permission_classes = [permissions.IsAdminOrUser]
