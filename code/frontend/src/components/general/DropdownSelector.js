@@ -4,10 +4,14 @@ import {useState} from "react"
 const DropdownSelector = ({options,placHolder,parentRef,
                             name,value,onChange,
                             className,height,
-                            width,margin}) =>{
+                            width,margin,valType}) =>{
+
+        const valueIndex = valType ?? 'value'
         
-        const optionElements = options.map(option=><option key={option.id}>{option.value}</option>)
+        const optionElements = options.map(option=><option key={option.id}>{option[valueIndex]}</option>)
         const [isActive , setIsActive] = useState(false) 
+
+        console.log(optionElements)
 
 
         //Listen to all the clicks on the screen to determine the arrow's side

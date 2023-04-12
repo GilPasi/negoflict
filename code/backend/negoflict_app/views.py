@@ -18,14 +18,19 @@ class UserView(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserCreateSerializer
     
+    def get_serializer_class(self):
+        if self.request.method == 'PATCH':
+            return UserSerializer
+        return UserCreateSerializer
+    
     def get_permissions(self):
         if not self.request.method == 'GET':
             self.permission_classes = [permissions.IsAdminOrUser]
         return super().get_permissions()
     
     def get_queryset(self):
-        if not self.request.user.is_superuser:
-            return User.objects.none()
+        if self.request.user or self.request.user.is_staff and not  self.request.user.is_superuser:
+            return User.objects.filter(pk=self.request.user.pk)
         return super().get_queryset()
     
     @action(detail=False,methods=['GET'],permission_classes=[permissions.IsAdminOrUser])
@@ -97,22 +102,23 @@ class UserView(ModelViewSet):
 class MediatorView(ModelViewSet):
     queryset = Mediator.objects.select_related('user').all()
     serializer_class = MediatorSerializer
-    permission_classes=[permissions.IsAdminOrUser]
+    permission_classes=[permissions.All]
     
-    def get_permissions(self):
-        if not self.request.method == 'GET':
-            self.permission_classes = [permissions.IsSuperUser]
-        return super().get_permissions()
+    # def get_permissions(self):
+    #     if not self.request.method == 'GET':
+    #         self.permission_classes = [permissions.IsSuperUser]
+    #     return super().get_permissions()
     
-    def get_queryset(self):
-        if not self.request.user.is_superuser:
-            return Mediator.objects.none()
-        return super().get_queryset()
+    # def get_queryset(self):
+    #     if not self.request.user.is_superuser:
+    #         return Mediator.objects.none()
+    #     return super().get_queryset()
     
     
     
     def create(self, request, *args, **kwargs):
-        user_data = {key[5:]: value for key, value in request.data.items() if key.startswith('user') }
+        print(request.data)
+        user_data = {key[5:]: value for key, value in request.data.items() if key.startswith('user')}
         serializer =UserCreateSerializer(data=user_data)
         serializer.is_valid(raise_exception=True)
         user_instanse =serializer.save()
@@ -145,6 +151,18 @@ class AddressView(ModelViewSet):
     queryset = Address.objects.all()
     serializer_class = AddressSerializer
     permission_classes=[permissions.IsAdminOrUser]
+    
+    def create(self, request, *args, **kwargs):
+        city = request.data.get('city')
+        
+        if city:
+            instence = self.queryset.filter(city=city).first()
+            if instence:
+                serializer = AddressSerializer(instence)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+        return super().create(request, *args, **kwargs)
+    
+    
 
 class AddressUserView(ModelViewSet):
     queryset = AddressMediator.objects.all()

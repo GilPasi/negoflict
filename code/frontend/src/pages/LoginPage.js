@@ -127,21 +127,25 @@ const LoginPage=()=>{
 
         if(getPermName(user)==='user' && user.first_logged){  //if it is a user and it is his first login he must to change default password unless he dosent the mediator or other users can know his password because he will login with his email and phone number
             const newPassword =await changePasswordPop()
-            if(!newPassword)return
-            const {error:changePasswordError} = changePassword({
+            
+            if(!newPassword.value)return
+            const {error:changePasswordError} =await changePassword({
                 current_password:data.password,
-                new_password:newPassword,
+                new_password:newPassword.value,
                 access:access_data.access,
             })
             if(changePasswordError){
                 console.log('couldn`t change password',changePasswordError)
                 return
             }
-            const {error:modifyUserError} = modifyUserDetail({
-                first_logged:false,
+            const {error:modifyUserError} =await modifyUserDetail({
+                id:user.id,
+                access:access_data.access,
+                password:newPassword.value
+                
             })
             if(modifyUserError){
-                console.log('couldn`t modify user first logged')
+                console.log('couldn`t modify user first logged',modifyUserError)
                 return
             }
         }

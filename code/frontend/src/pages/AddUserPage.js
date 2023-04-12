@@ -8,18 +8,18 @@ import { AREA_CODES , ISR_RESIDENCE } from '../utils/data'
 
 
 
-const AddUserPage =(props)=>{
+const AddUserPage =({side,idCase,goBack,
+    next,handleSubmit,handleChange,
+   userData,isMediator,isWindow,disabled,options})=>{
 
 
-        const {side,idCase,goBack,
-             next,handleSubmit,handleChange,
-            userData,isMediator,isWindow , disabled} = props
+      
 
         const windowStyle={
                 fontSize:'0.85em' ,                 
             }
 
-        const validateForm =()=>{
+        const validateForm =()=>{ // validate user properties
             let valid = true
             //Validate the form (Hen)
             if(valid)
@@ -49,6 +49,19 @@ const AddUserPage =(props)=>{
                     <h2 className="aup--title aup--grid-row" >
                         Party {side}
                     </h2>)
+                }
+                {isMediator&&
+                 <div className="aup--grid-row">
+                 <TextInput
+                     placeHolder="Username"
+                     name="username"
+                     value={userData?.username || ''}
+                     onChange={handleChange}
+                     length="100%"
+                     align="left"
+
+                 />
+             </div>
                 }
                   
                     <div className="aup--grid-row">
@@ -118,13 +131,14 @@ const AddUserPage =(props)=>{
                         <DropdownSelector 
                             placHolder="Residence"
                             isDefault={true}
-                            options={ISR_RESIDENCE}
-                            name="phonePrefix"
+                            options={options} //CHANGE HERE TO FETCH
+                            name="city"
                             value={userData?.phonePrefix || ''}
                             onChange={handleChange}
                             align="left"
                             width="100%"
                             height="2em"
+                            valType='city'
                             />
                     </div>
                     }

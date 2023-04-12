@@ -31,12 +31,6 @@ const UserPanel=({
                             style={{transform:`translateX(${isSwitched ? "-75%" : "55%"})`}}
                         />
                     </div>
-                    {/* <img
-                        className="user-panel--img"
-                        src="../../../assets/images/shuttle_icon.png" 
-                        alt="menu symbol"
-                        id="user-pannel--shuttle-img"
-                    /> */}
                     <h5 id="user-pannel--shuttle-title">Shuttle</h5>
                 </div>
             
