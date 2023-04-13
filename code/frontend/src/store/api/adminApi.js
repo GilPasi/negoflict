@@ -123,9 +123,20 @@ const adminApi = createApi({
                     }
                 }
 
-            })
-
-
+            }),
+            registerOneUser:builder.mutation({
+                query:({username,password,first_name})=>{
+                    return{
+                        url:'/register_user',
+                        method:'POST',
+                        body:{
+                            uid:username,
+                            password:password,
+                            username:first_name,
+                        }
+                    }
+                }
+            }),
         }
     }
 })

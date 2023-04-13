@@ -2,78 +2,76 @@ import AddMediatorPage from "../../pages/AddMediatorPage"
 import AddUserPage from "../../pages/AddUserPage"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { useAddResidentMutation, useUpdateMediatorResidentMutation,useAddMediatorMutation, useGetAddressesQuery, useLazyIsUsernameExistQuery } from "../../store"
+import { useUpdateMediatorResidentMutation,useAddMediatorMutation, useGetAddressesQuery, useLazyIsUsernameExistQuery, useRegisterOneUserMutation } from "../../store"
 import { useSelector } from "react-redux"
 
-
+const baseData = {
+    relevant_experience:'f',
+    mediation_areas:'d',
+    education:'s',
+}
 const CreateMediatorWrapper = ()=>{
+    //hooks==========
     const {access} = useSelector(state=>state.user)
-
     const rediract = useNavigate()
     const {data:addressData, error:addressError} = useGetAddressesQuery({access:access})
-    const [addResident,{data:residetData, error:residentError}] = useAddResidentMutation()
     const [addMediator,{data:mediatorData, error:mediatorError}] = useAddMediatorMutation()
-    const [isUsernameExist] = useLazyIsUsernameExistQuery()
-    const [updateMediatorAddress] = useUpdateMediatorResidentMutation()
+    const [registerUser, {error:registerUserError}] = useRegisterOneUserMutation()
+    const [isUsernameExist,{data:isUserName}] = useLazyIsUsernameExistQuery()
+    const [updateMediatorAddress,{data:updateAddressData,error:updateAddressError}] = useUpdateMediatorResidentMutation()
+    //==========
 
-    const [formData, setFormData] = useState({})
+    //state========
+    const [formData, setFormData] = useState(baseData)
     const [firstPage,setFirstPage] = useState(true)
-    const [disable,setDisable] = useState(false)
-   
+    //==============
 
+    //useEffect==========
     useEffect(()=>{
-        if(residentError || mediatorError )return
-        if(!residetData || !mediatorData)return
-        updateMediatorAddress({mediator_id:mediatorData.id,
-            address_id:residetData.id,
+        if(!mediatorData)return
+        const cityChoose = formData['city']
+
+        if(!cityChoose)return
+        const cityId = addressData.find(city=>city.city===cityChoose)
+        updateMediatorAddress({mediator_id:mediatorData.mediator.user.id,
+            address_id:cityId.id,
             access:access})
-        // setDisable(false)
-    },[residetData,mediatorData,residentError,mediatorError])
 
+    if(!mediatorError&&!updateAddressError&&!registerUserError)
+            rediract('/admin')
+    else{
+        console.log(mediatorError,updateAddressError,registerUserError)
+    }
 
+    },[mediatorData]);
+    //=============
+
+    //handles========
     const handleChange = (event)=>{
         const {name, value} = event.target
         setFormData(prevState=>({...prevState,[name]:value}))
-    }
-    const next = ()=>{
-        setFirstPage(false)
-    }
-    const back = ()=>{
-        if(firstPage)
-            rediract('/admin')   
-
-        setFirstPage(true)
-    }
-    const handleMediatorData = (data)=>{
-        setFormData(prevState=>({...prevState,...data}))
-        handleSubmit()
-    }
-    
+    };
+    const handleClick = ()=>{
+        setFormData(prevState=>({...prevState,certification_course: !prevState.certification_course}))
+    };
     const handleSubmit =async ()=>{
         if(firstPage)return
         const username = formData['username']
-
-
         const {data, error} =await isUsernameExist({username:username})
-
         const response = data ?? error
 
         if(response !== 'not found')return
-
         const phoneNumber = formData['phoneNumber']
         const residentData = {
         city:formData['city'],access:access
     }
-
         const userData = {
         first_name:formData['first_name'],
         last_name:formData['last_name'],
         email:formData['email'],
         access:access,
         username:username,
-      
     }
-
         const mediatorData ={
         phone:phoneNumber,
         education:formData['education'],
@@ -83,21 +81,25 @@ const CreateMediatorWrapper = ()=>{
         certification_course:formData['certification_course'],
         user:userData
     }
+        addMediator(mediatorData)
+        registerUser({username:userData.username,password:'Negoflict123',first_name:userData.username})
+    };
+    //==============
 
-    console.log('data',mediatorData)
-
-
-
-       const check = await addMediator(mediatorData)
-       
-        // addResident(residentData)
-       
-    }
-    if(mediatorData)
-        console.log('mediatordata',mediatorData)
-    if(mediatorError)
-        console.log('mediatorError',mediatorError)
-
+    //functions========
+    const next = ()=>{
+        setFirstPage(false)
+    };
+    const back = ()=>{
+        if(firstPage)
+            rediract('/admin')   
+        setFirstPage(true)
+    };
+    const handleMediatorData = (data)=>{
+        setFormData(prevState=>({...prevState,...data}))
+        handleSubmit()
+    };
+    //============
 
     return(
         <div>
@@ -112,9 +114,11 @@ const CreateMediatorWrapper = ()=>{
         />
         ):(
             <AddMediatorPage 
-            disable={disable}
             goBack ={back}
             handleMediatorData={handleMediatorData}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            handleClick={handleClick}
             
             />
 

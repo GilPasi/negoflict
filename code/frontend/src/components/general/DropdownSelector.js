@@ -53,6 +53,7 @@ const DropdownSelector = ({options,placHolder,parentRef,
                     value={options.value}
                     onClick={handleClick}
                     ref={parentRef}
+                    onChange={onChange}
                 >
                     <option>{placHolder}</option>
                     {optionElements}

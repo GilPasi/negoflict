@@ -8,24 +8,26 @@ import { useRef,useState } from 'react'
 import { MEDIATION_CHOICES } from '../utils/data'
 import "../styles/pages/add_mediator_page.css"
 
-const AddMediatorPage =({handleMediatorData, disable, goBack})=>{
-    const experienceRef=useRef('')
-    const domainRef=useRef('')
-    const educationRef=useRef('')
-    const [isCertified, setIsCertified]=useState(false)
+const AddMediatorPage =({disable, goBack, handleChange,formData, handleSubmit, handleClick})=>{
+    // const experienceRef=useRef('')
+    // const domainRef=useRef('')
+    // const educationRef=useRef('')
+    // const isCertifiedRef = useRef(false)
 
 
-    const handleSubmit=()=>{
-        const formData={
-            relevant_experience: experienceRef.current?.value,
-            mediation_areas: domainRef.current?.value,
-            education: educationRef.current?.value,
-            certification_course: isCertified,
-        }
-        handleMediatorData(formData)
-        //Backend- connect to api
-    }
+    // const handleSubmit=()=>{
 
+    //     console.log('releventExp',experienceRef.current)
+    //     const formData={
+    //         relevant_experience: experienceRef.current,
+    //         mediation_areas: domainRef.current,
+    //         education: educationRef.current,
+    //         certification_course: isCertifiedRef.current,
+    //     }
+    //     console.log('datttttaaaa>>>',formData)
+    //     handleMediatorData(formData)
+    //     //Backend- connect to api
+    // }
 
     return(
     <article className="amp">
@@ -34,26 +36,34 @@ const AddMediatorPage =({handleMediatorData, disable, goBack})=>{
             <h3>Add Mediator</h3>
             <h4>Relevant Experience</h4>
             <TextArea
-                parentRef={experienceRef}
+               onChange={handleChange}
+               value={formData?.relevant_experience }
+               name='relevant_experience'
+               
+                
             />
             <DropdownSelector
                 options={MEDIATION_CHOICES}
                 placHolder="Select Areas of Mediation         "
                 margin="1em 0 1em 0"
-                parentRef={domainRef}
+                onChange={handleChange}
+                value={formData?.mediation_areas }
+                name='mediation_areas'
             />
 
             <TextInput
                 placeHolder="Education"
                 align="left"
                 altitude="2.5em"
-                parentRef={educationRef}
+                name='education'
+                value={formData?.education }
+                onChange={handleChange}
                 
             />
             <div 
                 className="amp--certified"
-                onClick={()=>setIsCertified(prevState=>!prevState)}
-                style={{color:isCertified?"var(--green-light)":"var(--green-dark)"}}
+                onClick={handleClick}
+                style={{ color: formData?.certification_course === true? "var(--green-light)" : "var(--green-dark)" }}
             >
                 <span className="material-symbols-outlined amp--certified-logo">
                     verified

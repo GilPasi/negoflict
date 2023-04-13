@@ -2,7 +2,7 @@ import '../../styles/components/text_area.css'
 
 
 
-const TextArea = ({withButtons,onChange, name,title,parentRef})=>{
+const TextArea = ({withButtons,onChange, name,title,parentRef,value})=>{
 
 
     return(
@@ -16,6 +16,7 @@ const TextArea = ({withButtons,onChange, name,title,parentRef})=>{
                 maxLength="200"
                 placeholder={"200 characters"}
                 type="textarea"
+                value={value}
 
             />
         </div>
