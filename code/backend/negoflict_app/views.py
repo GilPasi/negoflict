@@ -9,6 +9,7 @@ from . import permissions
 from rest_framework import permissions as perm
 from rest_framework import status
 from django.forms.models import model_to_dict
+from .models import category
 
 
 
@@ -69,7 +70,7 @@ class UserView(ModelViewSet):
     @action(detail=False,methods=['GET'],permission_classes=[permissions.IsAdminOrUser])
     def get_user(self,request):
         username = request.GET.get('username',None)
-        print(username)
+      
         if username:
             userId = self.queryset.get(username=username)
             serializer = UserCreateSerializer(userId)
@@ -78,6 +79,23 @@ class UserView(ModelViewSet):
             return Response('Not found',status=status.HTTP_404_NOT_FOUND)
             
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    @action(detail=False, methods=['GET'], permission_classes=[permissions.IsAdminOrUser])
+    def is_username_exist(self,request):
+        username = request.GET.get('username',None)
+        
+        print(username)
+        
+        
+        
+        if username:
+            user = self.queryset.filter(username=username).exists()
+            if user:
+               return  Response('alredy exist', status=status.HTTP_200_OK)
+            else:
+                return Response('not found', status=status.HTTP_200_OK)
+        return Response('bad request', status=status.HTTP_400_BAD_REQUEST)
+        
     
     
     
@@ -102,17 +120,17 @@ class UserView(ModelViewSet):
 class MediatorView(ModelViewSet):
     queryset = Mediator.objects.select_related('user').all()
     serializer_class = MediatorSerializer
-    permission_classes=[permissions.All]
+    permission_classes=[permissions.IsAdminOrUser]
     
-    # def get_permissions(self):
-    #     if not self.request.method == 'GET':
-    #         self.permission_classes = [permissions.IsSuperUser]
-    #     return super().get_permissions()
+    def get_permissions(self):
+        if not self.request.method == 'GET':
+            self.permission_classes = [permissions.IsSuperUser]
+        return super().get_permissions()
     
-    # def get_queryset(self):
-    #     if not self.request.user.is_superuser:
-    #         return Mediator.objects.none()
-    #     return super().get_queryset()
+    def get_queryset(self):
+        if not self.request.user.is_superuser:
+            return Mediator.objects.none()
+        return super().get_queryset()
     
     
     
@@ -125,12 +143,22 @@ class MediatorView(ModelViewSet):
         user_instanse.is_staff =True
         user_instanse.save()
         
+        meditaton_area =  request.data.get('mediation_areas')
+        
+        for key, value in category.MEDIATION_CHOICES:
+            if value == meditaton_area:
+                choice_area = key
+                
+        if not choice_area:
+            return Response('bad choice area',status=status.HTTP_400_BAD_REQUEST)
+                
+        
         
         new_object = Mediator.objects.create(
             phone = request.data.get('phone'),
             education = request.data.get('education'),
             relevant_experience = request.data.get('relevant_experience'),
-            mediation_areas = request.data.get('mediation_areas'),
+            mediation_areas = choice_area,
             certification_course = bool(request.data.get('certification_course')),
             user = user_instanse
         )

@@ -53,12 +53,12 @@ const adminApi = createApi({
                         method:'POST',
                         body:{
                             phone:phone,
-                            education:education,
-                            relevant_experience:relevant_experience,
+                            education:education ?? ' ',
+                            relevant_experience:relevant_experience ?? ' ',
                             mediation_areas:mediation_areas,
-                            certification_course:certification_course,
+                            certification_course:certification_course ?? false,
                             ['user.username']:user.username,
-                            ['user.password']:user.password,
+                            ['user.password']:'Negoflict123',
                             ['user.email']:user.email,
                             ['user.first_name']:user.first_name,
                             ['user.last_name']:user.last_name,
@@ -111,6 +111,18 @@ const adminApi = createApi({
                         },
                     }
                 }
+            }),
+            isUsernameExist: builder.query({
+                query: ({username})=>{
+                    return{
+                        url:`${Server_url}/users/user_view/is_username_exist/`,
+                        method:'GET',
+                        params:{
+                            username:username
+                        },
+                    }
+                }
+
             })
 
 

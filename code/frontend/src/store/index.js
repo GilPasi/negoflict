@@ -92,6 +92,7 @@ export const { useAddMediatorMutation } = adminApi
 export const {useGetAddressesQuery,useLazyGetAddressesQuery} = adminApi
 export const {useAddResidentMutation} = adminApi
 export const {useUpdateMediatorResidentMutation} = adminApi
+export const {useIsUsernameExistQuery, useLazyIsUsernameExistQuery} = adminApi
 
 //msgApi=======
 export const {usePostNewMessageMutation} = msgApi
