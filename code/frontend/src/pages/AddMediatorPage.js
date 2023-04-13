@@ -47,7 +47,7 @@ const AddMediatorPage =({disable, goBack, handleChange,formData, handleSubmit, h
                 placHolder="Select Areas of Mediation         "
                 margin="1em 0 1em 0"
                 onChange={handleChange}
-                value={formData?.mediation_areas }
+                value={formData?.mediation_areas}
                 name='mediation_areas'
             />
 

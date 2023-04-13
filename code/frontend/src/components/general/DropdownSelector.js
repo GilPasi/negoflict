@@ -11,7 +11,7 @@ const DropdownSelector = ({options,placHolder,parentRef,
         const optionElements = options.map(option=><option key={option.id}>{option[valueIndex]}</option>)
         const [isActive , setIsActive] = useState(false) 
 
-        console.log(optionElements)
+
 
 
         //Listen to all the clicks on the screen to determine the arrow's side
