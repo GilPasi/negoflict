@@ -125,7 +125,7 @@ const LoginPage=()=>{
         dispatch(login(user))
 
 
-        if(getPermName(user)==='user' && user.first_logged){  //if it is a user and it is his first login he must to change default password unless he dosent the mediator or other users can know his password because he will login with his email and phone number
+        if(user.first_logged){  //if it is a user and it is his first login he must to change default password unless he dosent the mediator or other users can know his password because he will login with his email and phone number
             const newPassword =await changePasswordPop()
             
             if(!newPassword.value)return
