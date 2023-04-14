@@ -3,7 +3,6 @@
 .text-field-input{ 
   position: relative;
   padding: 1em;
-
   font-size: var(--font-medium);
   border-radius: 5px;
   border:none;

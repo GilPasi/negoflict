@@ -1,5 +1,28 @@
 
 /* __Chat page component__ */
+
+/*Desktop view*/
+@media (max-width:10000px) {
+  .cp{
+    width: 40em;
+    border:1px solid #80808052
+  
+  } }
+/*Mobile view*/
+@media (max-width:700px) {
+  .cp{
+    width: 100%;
+    padding: 0; 
+    margin: 0;
+    border:none;
+  } }
+
+
+.cp{
+  display: grid;
+  grid-template-rows:240px 1fr 192px ;
+}
+
 .cp--shader{
   position: absolute;
   top:0;
@@ -23,7 +46,7 @@
 }
 
 .cp--footer{
-  position: fixed;
+  /* position: fixed; */
   bottom: 0;
   left: 0;
   width: 100%;
