@@ -65,6 +65,26 @@ const useAlert = ()=>{
       })
       return formValues ?? false
     }
+    const deletAlert =async ({title, text, confirmText, background})=>{
+
+    const response =await Swal.fire({
+      title: title,
+      text: text ?? '',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#4AAC65',
+      cancelButtonColor: 'gray',
+      confirmButtonText: confirmText,
+      heightAuto:true,
+      background:background ?? '',
+      iconColor:'#4AAC65',
+      
+      
+    })
+   
+    return response.isDismissed
+ 
+  }
     
 
     
@@ -73,6 +93,8 @@ const useAlert = ()=>{
         trigerNotification,
         bigSuccessAlert,
         changePasswordPop,
+        deletAlert,
+       
 
     }
 

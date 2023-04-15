@@ -1,7 +1,26 @@
 import "../../styles/components/user_panel.css"
+import useAlert from "../../hooks/useAlert"
+import { useNavigate } from "react-router-dom"
+import WebIM from "../../WebIM"
 const UserPanel=({
     handleSwitch , isSwitched , isComplex
 })=>{
+    const {deletAlert} = useAlert()
+    const navigate = useNavigate()
+
+    const handleEnd =async ()=>{
+       const isDismissed =await deletAlert({
+        title:'Are you sure you want to disconnect?',
+        confirmText:'Yes, I`m sure',
+        background:'#fffcfcb4',
+       })
+       if(isDismissed)return
+       WebIM.conn.close()
+        navigate('/user/survey_page',{
+            replace:true
+        })
+    
+    }
     
 
     return(
@@ -39,12 +58,14 @@ const UserPanel=({
             <div 
                 className="user-panel--btn"
                 id="user-panel--end"
+                onClick={handleEnd}
                 >
-                <img
-                    className="user-panel--img"
-                    src="../../../assets/images/end_icon.png" 
-                    alt="menu symbol"/>
-                <h5>End</h5>
+                   
+                    <img
+                        className="user-panel--img"
+                        src="../../../assets/images/end_icon.png" 
+                        alt="menu symbol"/>
+                    <h5>End</h5>
             </div>
         </section>
     )
