@@ -10,7 +10,7 @@ const mediatorApi = createApi({
     }),
     endpoints(builder){
         return{
-            get_clients: builder.query({
+            get_clients: builder.query({ //not in use- 
                 providesTags:['oneUser'],
                 query:({mediator_id})=>{
                     return{
@@ -22,6 +22,31 @@ const mediatorApi = createApi({
                     }
                 }
             }),
+            getContacts: builder.query({
+                providesTags:['contact'],
+                query:({mediator_id})=>{
+                    return{
+                        url:'/session/contact/get_contact_by_mediator/',
+                        method:'GET',
+                        params:{
+                            mediator:mediator_id
+                        },
+                    }
+                }
+            }),
+            createContact: builder.mutation({
+                query:({mediator_id,user_id})=>{
+                    return{
+                        url:'/session/contact/',
+                        method:'POST',
+                        body:{
+                            user:user_id,
+                            mediator:mediator_id
+                        },
+                    }
+                }
+            }),
+            
 
         }
     }

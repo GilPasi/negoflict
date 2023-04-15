@@ -2,7 +2,7 @@ import Header from "../../../components/general/Header"
 import ScrollableBox from "../../../components/general/ScrollableBox"
 import '../../../styles/pages/clients.css'
 import '../../../styles/pages/case_page.css'
-import { useGet_clientsQuery } from "../../../store" 
+import { useGetContactsQuery } from "../../../store" 
 import { useSelector } from 'react-redux'
 import { Link } from "react-router-dom"
 
@@ -10,7 +10,7 @@ import { Link } from "react-router-dom"
 const Clients = ()=>{
     const {id} = useSelector(state=>state.user)
 
-    const {data:list, error,isFetching} = useGet_clientsQuery({mediator_id:id})
+    const {data:list, error,isFetching} = useGetContactsQuery({mediator_id:id})
 
     if(list)
         console.log(list)

@@ -26,7 +26,7 @@ const  TextHolder=({caseData, withInfo})=>{
     return(
         <section className="th">
 
-                <div className="th--box">
+                <div className="th--box" style={{marginTop:'0'}}>
                     <p>{title}</p>
                     {withInfo&&
 

@@ -92,3 +92,9 @@ class Survey(models.Model):
     
     
 
+class Contact(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    mediator = models.ForeignKey(Mediator,on_delete=models.CASCADE)
+    
+    
+

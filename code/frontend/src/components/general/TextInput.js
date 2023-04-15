@@ -15,9 +15,7 @@ const  TextField=({type,placeHolder,
     where we might want the field to 
     take over a cell and need 100% width to
     In this case margin may cause overflow*/
-    const handleWheel = (event) => {
-        event.preventDefault();
-      };
+   
 
     return(
             <input 
@@ -31,9 +29,7 @@ const  TextField=({type,placeHolder,
                 style={widthStyle}
                 value={value}
                 required={required}
-                onWheel={type==='number'? handleWheel: null}
-                
-            
+        
             />
 
     )}

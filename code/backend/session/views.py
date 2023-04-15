@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
-from .models import Case,GroupChat, GroupMember, Message
+from .models import Case,GroupChat, GroupMember, Message, Contact
 from negoflict_app import permissions
-from .serializers import CaseSerializer, GroupChatSerializer,GroupMemberSerializer, MessageSerial, GroupMemberWithUserSerializer
+from .serializers import CaseSerializer, GroupChatSerializer,GroupMemberSerializer, MessageSerial, GroupMemberWithUserSerializer, ContactCreateSerializer, ContactSerializer
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from core.models import User
@@ -68,10 +68,6 @@ class CaseView(ModelViewSet):
     
     
             
-            
-  
-    
-    
 class GroupChatView(ModelViewSet):
     queryset = GroupChat.objects.all()
     serializer_class = GroupChatSerializer
@@ -183,7 +179,34 @@ class GroupMemberView(ModelViewSet):
 class MessageView(ModelViewSet):
     queryset = Message.objects.all()
     serializer_class = MessageSerial
-    # permission_classes = [permissions.IsAdminOrUser]
+    permission_classes = [permissions.IsAdminOrUser]
+    
+    
+class ContactView(ModelViewSet):
+    queryset = Contact.objects.select_related('user').all()
+    serializer_class = ContactCreateSerializer
+    permission_classes = [permissions.IsAdminOrUser]
+    
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return ContactSerializer
+        return super().get_serializer_class()
+    
+    @action(detail=False, methods=['GET'], permission_classes=[permissions.IsAdminOrUser])
+    def get_contact_by_mediator(self, request):
+        mediator_id = request.GET.get('mediator',None)
+        
+        if mediator_id:
+            contacts = self.queryset.filter(mediator=mediator_id)
+            if contacts:
+                serializer = ContactSerializer(contacts,many=True)
+                return Response(serializer.data,status=status.HTTP_200_OK)
+            return Response('no contacts', status=status.HTTP_404_NOT_FOUND)
+        return Response('Bad request',status=status.HTTP_400_BAD_REQUEST)
+    
+    
+    
+    
     
     
     

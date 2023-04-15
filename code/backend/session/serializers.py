@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Case,GroupChat,GroupMember,Message, Survey,category
+from .models import Case,GroupChat,GroupMember,Message, Survey,category,Contact
 from core.serializers import UserSerializer
 
 
@@ -52,4 +52,16 @@ class GroupMemberWithUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = GroupMember
         fields = ['id','side','group_chat','user','case','mediator']
+    
+        
+class ContactSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    class Meta:
+        model = Contact
+        fields = ['user','mediator']
+        
+class ContactCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = ['user','mediator']
         

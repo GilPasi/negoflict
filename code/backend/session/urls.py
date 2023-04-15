@@ -9,5 +9,6 @@ router.register('case',views.CaseView)
 router.register('chat_group',views.GroupChatView)
 router.register('chat_members',views.GroupMemberView)
 router.register('message',views.MessageView)
+router.register('contact',views.ContactView)
 
 urlpatterns = router.urls

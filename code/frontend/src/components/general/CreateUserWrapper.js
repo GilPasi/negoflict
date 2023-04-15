@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
 import AddUserPage from '../../pages/AddUserPage'
 import { useNavigate } from "react-router-dom"
-import {store, useRegisterUsersMutation, useRegisterToChatGroupsMutation, usePutUserToMemberGroupMutation} from '../../store/index'
+import {store, useRegisterUsersMutation, useRegisterToChatGroupsMutation, usePutUserToMemberGroupMutation, useCreateContactMutation} from '../../store/index'
 import {useSelector} from "react-redux";
 
 
@@ -11,10 +11,11 @@ const CreateUserWraper = ()=>{
   //hooks==========
   const location = useLocation()
   const navigate = useNavigate()
-  const { access } = useSelector(state => state.user)
+  const { access,id } = useSelector(state => state.user)
   const [registerUsers] = useRegisterUsersMutation()
   const [registerToChatGroups] = useRegisterToChatGroupsMutation()
   const [updateMembers] = usePutUserToMemberGroupMutation()
+  const [createContact] = useCreateContactMutation()
   //==============
 
   //values=========
@@ -102,12 +103,16 @@ const CreateUserWraper = ()=>{
           const sides = ['A','B']
           console.log(usersArr)
 
+
           registerToChatGroups({groups:groups,users:arrUser})
 
           for(let i=0; i<2;i++){
             updateMembers({user:usersArr[i],access:access,idCase:idCase,side:sides[i]})
             .catch(err=>console.log(err))
+
+            createContact({mediator_id:id,user_id:usersArr[i].id})
           }
+
         })
         .catch(err=>console.log(err))
 

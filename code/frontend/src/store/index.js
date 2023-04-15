@@ -104,3 +104,5 @@ export const {usePostNewMessageMutation} = msgApi
 
 //mediatorApi========
 export const {useGet_clientsQuery,useLazyGet_clientsQuery} = mediatorApi
+export const {useGetContactsQuery,useLazyGetContactsQuery} = mediatorApi
+export const {useCreateContactMutation} = mediatorApi
