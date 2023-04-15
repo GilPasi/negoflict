@@ -3,6 +3,7 @@ import TextHolder from '../../../components/general/TextHolder'
 import '../../../styles/pages/case_page.css'
 import { useGet_my_casesQuery } from '../../../store'
 import Loader from '../../../components/general/Loader'
+import '../../../styles/components/scrollable_box.css'
 
 
 
@@ -16,7 +17,9 @@ const MyCases = ({isMediator})=>{
     return(
         <div>
             <h1 className='cap--title'> My cases </h1>
+            <div className='scrollable-box-big' >
             {isSuccess &&
+           
           
             cases.map(caseData=>(
                 <div key={caseData.id}>
@@ -24,6 +27,7 @@ const MyCases = ({isMediator})=>{
                 </div>
             ))
                 }
+                 </div>
 
 
 

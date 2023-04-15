@@ -3,7 +3,7 @@ import TextHolder from './TextHolder'
 
 
 
-const ScrollableBox = ({list})=>{
+const ScrollableBox = ({list,withInfo})=>{
 
    
 
@@ -15,6 +15,7 @@ const ScrollableBox = ({list})=>{
         <div className="scrollable-box">
 
             {list&&list.map(data=>{
+                
                 const title = `${data?.user?.first_name ?? ''}   ${data?.user?.last_name ?? ''}`
                
                 return(
