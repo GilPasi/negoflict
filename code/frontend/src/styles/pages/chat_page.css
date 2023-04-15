@@ -157,3 +157,53 @@
   cursor: pointer;
 
 }
+.cp--input-btn-shuttel{
+  margin-top:1em;
+  width: 3px;
+  height:3px;
+  margin-left: 1em;
+  border-radius:50%;
+  transform: scale(0.8)translateY(-50%);
+  border: none;
+  margin-right: 1em;
+  /* cursor: pointer; */
+  display: inline-block;
+  position: relative;
+ 
+  
+  animation: dis 0.7s ease-in;
+}
+
+
+@keyframes dis {
+  0%{
+    margin-top:1em;
+    width: 7.5em;
+    height: 5em;
+    margin-left: 1em;
+    border-radius:50%;
+    transform: scale(0.8)translateY(-50%);
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+    background: var(--green-dark);
+    color: #fff;
+    font-size: 0.6em;
+
+  }
+  50%{
+    opacity: 0;
+    width: 5px;
+    height: 5px;
+  }
+  100%{
+    width: 3px;
+    height:3px;
+  }
+
+
+}

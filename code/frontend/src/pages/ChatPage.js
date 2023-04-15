@@ -23,9 +23,10 @@ const ChatPage = ()=>{
      const [activeGroup,setActiveGroup] = useState('groupG') //holds the group view now
      const [userDetail,setUserDetail] = useState({}) //user importent data
      const [isShuttled, setIsShuttled] = useState(false) //shutll mode still not in use
-     const [inputText] = useState('') //set the corrent text msg
      const [chatGroupData,setChatGroupData] = useState([]) //holds the 3 sides of the chat groups
      const [fetch,setFetch] = useState(false)
+     const [role,setRole] = useState('')
+     const [mute, setMute] = useState(false)
      //=================
  
     //values========
@@ -34,6 +35,7 @@ const ChatPage = ()=>{
     const {caseId} = location.state ?? ''
     const {pos} = useSelector(state=>state.pos)
     const chat = useSelector(state=>state.chat[activeGroup])
+    const centerGroup = groups.find(group => group.groupname.endsWith('G'));
     //=============
     //apiFetch==========
     const {data,error, isSuccess} =useGetChatGroupsQuery({CaseId:caseId}) 
@@ -60,6 +62,7 @@ const ChatPage = ()=>{
     useMemo(()=>{  //set user detail role and username
         let role,userName = username
         role = getPermName({role:userRole})
+        setRole(role)
         if(role === 'user')
              userName = username.replace(/[^\w\s]/gi, '')
  
@@ -107,8 +110,13 @@ const ChatPage = ()=>{
 
     //handles=============
     const handleRecivedMsg = (msg)=>{ //handle recived messages only in real time
+        console.log('inmessag1',msg)
         const {to, type} = msg
         if(type !== 'groupChat')return
+
+        console.log('in msg2',msg)
+
+        
 
         const modifiedObject = {
             ...msg,
@@ -133,11 +141,13 @@ const ChatPage = ()=>{
     };
 
    const handleShuttle =()=> {// set shuttle mode
-    console.log(isShuttled)
     setIsShuttled(prevState=>{
-        return(!prevState)    
+        return(!prevState)
     })
     };
+    const handleMute = (state)=>{
+        setMute(state)
+    }
 
     const handleSend = (text)=>{ //handling the msg send and handle save the msg to data base using the useMsg hook
         const side = activeGroup.slice(-1)
@@ -160,16 +170,21 @@ const ChatPage = ()=>{
             activeGroup={activeGroup}
             handleSend={handleSend}
             fetch={fetch}
-            
+            role={role}
+            muted={mute}
+
             />
             <Chat
             username={userDetail.username}
             onConnect={handleConnect}
             onTextMsg={handleRecivedMsg}
             onHistory={handleHistoryMsg}
+            onMute={handleMute}
             groups={groups}
-            inputText={inputText}
             firstName={first_name}
+            isShuttled={role==='user'?null : isShuttled}
+            centerGroup={centerGroup}
+
             />
         </div>
     )

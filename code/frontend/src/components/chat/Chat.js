@@ -1,18 +1,17 @@
 import WebIM from "../../WebIM";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useMemo, useRef} from "react";
 import {useGetChatTokenQuery} from "../../store";
 import { useSelector } from "react-redux";
 
 
-const Chat = ({username, onConnect, onTextMsg, onHistory, groups,inputText})=>{
+const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onMute, centerGroup})=>{
     //hooks=======
     const wasRenderd = useRef(false)
     const tokenRes = useGetChatTokenQuery({username:username})
     //===========
-
     //state==========
-    const [msgSend,setMsgSend] = useState(inputText)
     const messageDetail = useSelector(state=>state.message)
+   
 
     //useEffect=========
     useEffect(()=>{
@@ -26,7 +25,18 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,inputText})=>{
       if(!messageDetail || messageDetail.msg==='')return
         postNewMessage()
     },[messageDetail]);
-    //===========
+
+    useEffect(()=>{
+        if(isShuttled===null)return
+        if(!WebIM.conn.isOpened())return
+        if(isShuttled)
+            WebIM.conn.disableSendGroupMsg({groupId:centerGroup.groupid})
+            .then(res=>console.log('disable>>>>',res))
+        else
+            WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
+            .then(res=>console.log('enable>>>>>',res))
+    },[isShuttled])
+    //=========== 
 
     //listeners==========
     WebIM.conn.listen({
@@ -36,12 +46,17 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,inputText})=>{
             getHistoryMsg()
             },
         onTextMessage: msg=>onTextMsg(msg),
+       
     });
+
+    WebIM.conn.addEventHandler('hen',{
+        onGroupEvent: msg=>handleGroupEvent(msg),
+        onOnline: (res)=>console.log('llalala',res)
+    })
     //====================
 
     //function========
     const connect =async ()=>{
-        console.log('in connect',username)
         await WebIM.conn.open({
             user:username,
             agoraToken: tokenRes.data.userToken
@@ -77,6 +92,21 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,inputText})=>{
                 if(res.cursor==='undefined')return
                 onHistory(res,group.groupid)})
         });
+    }
+    const handleGroupEvent = (msg)=>{
+        const {operation} = msg
+        switch(operation){
+            case 'muteAllMembers':
+                onMute(true)
+                break
+            case 'unmuteAllMembers': 
+                onMute(false)
+                break
+
+            default:
+                break
+        }
+
     }
 
 }

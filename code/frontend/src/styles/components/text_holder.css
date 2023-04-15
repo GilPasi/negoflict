@@ -5,9 +5,10 @@
 .th--box{
 display: grid;
 grid-template-columns: 1fr 10px;
+position: relative;
 background-color: rgba(241, 242, 240, 0.199);
 width: 300px;
-height: 80px;
+height: 60px;
 border: none;
 border-radius: 7px;
 font-size: x-large;
@@ -25,21 +26,27 @@ margin-left: 5px;
 display: flex;
 justify-content: end;
 height: inherit;
+position: absolute;
+right: 0;
 }
 .th--switch-arrow{
-height: 100%;
+    position: absolute;
+
+height: 60px;
 border-style:none;
 border-top-right-radius: 7px;
 border-bottom-right-radius: 7px;
 font-size: xx-large;
 font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 font-weight: 600;
-transition: all 0.2s;
+transition: all 0.2s rotate 0.7s;
 color: var(--green-light);
+
 }
 .th--switch-arrow:active{
 box-shadow: 2px 1px 0px 4px rgba(0, 0, 0, 0.04) inset;
 font-weight: 300;
+rotate: 180deg;
 }
  
 .th--info{
