@@ -2,9 +2,14 @@ import "../../styles/components/user_panel.css"
 import useAlert from "../../hooks/useAlert"
 import { useNavigate } from "react-router-dom"
 import WebIM from "../../WebIM"
+import { useSelector } from "react-redux"
+import { getPermName } from "../../utils/permissions"
 const UserPanel=({
     handleSwitch , isSwitched , isComplex
 })=>{
+    const {role} = useSelector(state=>state.user)
+    
+
     const {deletAlert} = useAlert()
     const navigate = useNavigate()
 
@@ -16,10 +21,18 @@ const UserPanel=({
        })
        if(isDismissed)return
        WebIM.conn.close()
-        navigate('/user/survey_page',{
-            replace:true
-        })
-    
+       const roleName = getPermName({role:role})
+
+       if(roleName==='user')
+            navigate('/user/survey_page',{
+                replace:true
+            })
+        else{
+            navigate(`/${roleName}`,{
+                replace:true
+            })
+        }
+        
     }
     
 
