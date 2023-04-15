@@ -25,6 +25,7 @@ const ChatPage = ()=>{
      const [isShuttled, setIsShuttled] = useState(false) //shutll mode still not in use
      const [inputText] = useState('') //set the corrent text msg
      const [chatGroupData,setChatGroupData] = useState([]) //holds the 3 sides of the chat groups
+     const [fetch,setFetch] = useState(false)
      //=================
  
     //values========
@@ -128,6 +129,7 @@ const ChatPage = ()=>{
         messages = [...history.messages]
         messages.sort((a,b)=>a.time - b.time)
         dispatch(addHistoryMsg({id:groupid,messages:messages}))
+        setFetch(true)
     };
 
    const handleShuttle =()=> {// set shuttle mode
@@ -142,7 +144,7 @@ const ChatPage = ()=>{
         const inputDetail = {msg:text,to:chat.id,ext:{side:side,name:first_name,userId:id,sender:userDetail.side}}
         dispatch(postNewMessage(inputDetail))
         dispatch(updateMsg({message:inputDetail,id:chat.id}))
-
+        
         const groupChat = chatGroupData.find(group=>group.chat === side)
         const member = userDetail?.memberId ?? ''
         SaveMessage({message:inputDetail,groupChatId:groupChat.id,memberId:member})
@@ -157,6 +159,7 @@ const ChatPage = ()=>{
             isShuttled={isShuttled}
             activeGroup={activeGroup}
             handleSend={handleSend}
+            fetch={fetch}
             
             />
             <Chat

@@ -22,13 +22,13 @@ const Message=({text,sender,isSelf, time, name})=>{
         <div className={`message ${isSelf ? "" : "message-right"}`} >
 
             <div className="message-content" style={messageStyle}>
-            <div className="message-header">
-                <h6 className="message--text" id="message--title">{name}</h6>
-                <h6 className="message--time">{time}</h6>
-               
+                <div className="message-header">
+                    <h6 className="message--text" id="message--title">{name}</h6>
+                    <h6 className="message--time">{time}</h6>   
                 </div>
-                <div className="message-continer">
-                <p className="message--text" dir="auto" >{text}</p>
+
+                <div className="message-container" >
+                    <p className="message--text" dir="auto">{text}</p>
                 </div>
             </div>
 

@@ -3,7 +3,8 @@ import Message from '../general/Message';
 import { useSelector } from 'react-redux';
 //Note that all styles of the list is done in the component
 
-const MessageList =( { activeGroup } )=> {
+const MessageList =( { activeGroup ,maxHeight} )=> {
+  console.log(maxHeight)
   const messagesEndRef = useRef(null);
   const {id} = useSelector(state=>state.user)
 
@@ -20,7 +21,7 @@ const MessageList =( { activeGroup } )=> {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-
+  console.log(maxHeight)
   const convertTime = (time)=>{
     let date
     if(!time)
@@ -48,14 +49,9 @@ const MessageList =( { activeGroup } )=> {
     <div 
     style={{
         width:'100%',
-        // height: "350px",
-        // overflowY: 'scroll', 
+        height: `${maxHeight}`,
+        overflowY: 'scroll', 
         //Alternatively you can use the scrollable message list
-        //Nonetheless it will cause no responsability throughout 
-        //different d
-        paddingBottom: '10em',
-        paddingTop: '12em',
-        
       }}
     
     >
