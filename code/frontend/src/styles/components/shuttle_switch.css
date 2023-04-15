@@ -3,10 +3,8 @@
     display:flex;
     justify-content: space-between;
     background:var(--green-light-shaded);
-    /* padding: 0em 0em 0em 0em; */
     border-radius: 5px;
     position: relative;
-    /* min-width: var(--width-minimum); */
     width:12.5em;
     margin:0.5em 0 0.5em 50%;
 

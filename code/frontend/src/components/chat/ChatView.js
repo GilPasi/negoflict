@@ -51,7 +51,17 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
         document.querySelector("#cp--input-tb").value='';//Eventually clean the text box
 
     }
+    //___Hen: update showShuttleMsg___
+    const showShuttleMsg = false
+
     
+    const shuttleMsgStyle={
+        zIndex:showShuttleMsg ? '1' : '-1',
+        top:`${showShuttleMsg? HEADER_SIZE: 0}px`,
+        opacity: showShuttleMsg ? '0.5' : '0',
+    }
+
+
     return(
         <article 
             className="cp" 
@@ -65,10 +75,11 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
             }}
             
         >
-            <div className='cp--shuttled-msg'>
-                dsada
-            </div>
-                <header>
+            <p className='cp--shuttled-msg' style={shuttleMsgStyle}>
+               {isMediator?'Shuttle mode activated, main chat is temporary unavailable.' : 
+               'Shuttle mode is active, users can only send you private messages'}
+            </p>
+                <header className='cp--header'>
                     <Header isLarge={false}/>
                     <ToolBar conflictName="A political conflict" id={caseId}/>
                     <ShuttleSwitch isMediator={isMediator}/>

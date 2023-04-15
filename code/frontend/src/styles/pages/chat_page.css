@@ -20,7 +20,14 @@
 
   .cp--shuttled-msg{
     position: fixed;
-    background-color:red;
+    left : 1em;
+    right:1em;
+    background-color:black;
+    color:whitesmoke;
+    padding:5px;
+    border-radius: 5px;
+    transition: ease-out 700ms;
+  
   }
 
 .cp--shader{
@@ -43,6 +50,10 @@
   background-color: white;
 
   text-align: center;
+}
+
+.cp--header{
+  z-index: 2;
 }
 
 .cp--footer{
