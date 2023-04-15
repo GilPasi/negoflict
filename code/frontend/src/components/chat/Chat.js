@@ -50,7 +50,8 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     });
 
     WebIM.conn.addEventHandler('hen',{
-        onGroupEvent: msg=>handleGroupEvent(msg)
+        onGroupEvent: msg=>handleGroupEvent(msg),
+        onOnline: (res)=>console.log('llalala',res)
     })
     //====================
 

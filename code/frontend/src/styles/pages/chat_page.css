@@ -154,7 +154,7 @@
   position: relative;
  
   
-  animation: dis 1s;
+  animation: dis 0.7s ease-in;
 }
 
 
