@@ -8,16 +8,13 @@ import { useState, useEffect , useRef} from 'react';
 
 
 
-const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isShuttled, fetch})=>{
+const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isShuttled})=>{
 
 
     const [size, setSize] = useState(window.innerHeight);
 
-
-
     useEffect(() => {
  
-
       function handleResize() {
         setSize(window.innerHeight);
       }
@@ -28,6 +25,12 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
         window.removeEventListener('resize', handleResize);
       };
     }, []);
+
+    window.scrollTo(0, 500);
+
+
+    const FOOTER_SIZE = '192px' , HEADER_SIZE = '240px'
+    
 
     
 
@@ -58,10 +61,12 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
         <article 
             className="cp" 
             style={{ 
+                position:'relative',
                 height: `${size}px`,
                 display: 'grid',
-                gridTemplateRows:'240px 1fr 192px ',
-                
+                //The header and the footer has fixed sizes , the message-list 
+                //will take the rest of the available space = 1fr
+                gridTemplateRows:`${HEADER_SIZE} 1fr ${FOOTER_SIZE}`,
             }}
             
         >
@@ -72,7 +77,11 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
                 </header>
 
                 <div>
-                    <MessageList activeGroup={activeGroup} maxHeight={`${size-432}px`}/>
+                    {/* FOOTER_SIZE + HEADER_SIZE = 432px, for some reason the following code doesn't work:
+                    maxHeight={`${size - FOOTER_SIZE - HEADER_SIZE}px`} */}
+                    <MessageList activeGroup={activeGroup} maxHeight={`${size-432}px`}/> 
+                    
+                    {/* TODO: replace with const vals */}
                 </div>
 
                 <footer className="cp--footer">

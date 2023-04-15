@@ -12,16 +12,11 @@
 @media (max-width:700px) {
   .cp{
     width: 100%;
+    min-width: 20em;
     padding: 0; 
     margin: 0;
     border:none;
   } }
-
-
-.cp{
-  display: grid;
-  grid-template-rows:240px 1fr 192px ;
-}
 
 .cp--shader{
   position: absolute;
