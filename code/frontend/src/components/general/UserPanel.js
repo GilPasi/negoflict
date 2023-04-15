@@ -60,7 +60,7 @@ const UserPanel=({
                     >
                         <div 
                             className="user-panel-shuttle-circle"
-                            style={{transform:`translateX(${isSwitched ? "-75%" : "55%"})`}}
+                            style={{transform:`translateX(${isSwitched ? "-100%" : "55%"})`}}
                         />
                     </div>
                     <h5 id="user-pannel--shuttle-title">Shuttle</h5>

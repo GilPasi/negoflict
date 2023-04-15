@@ -3,10 +3,10 @@
 
 .tb{
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   width: 100%;
-  height:6.5em;
+  height:4em;
   padding-top: 1.5em;
   background-color: #89E0A240;
 
@@ -20,6 +20,7 @@
   margin:1em;
   margin-top:0;
   cursor: pointer;
+  box-sizing: content-box;/*override for chrome*/
 
 }
 .tb--btn::after{
@@ -48,6 +49,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  margin:0 2em;
 }
 
 .tb--name{
@@ -56,9 +58,9 @@
 }
 
 .tb--id{
+  margin: 10px;
   font-size: var(--font-small);
   color:var(--green-dark);
   transform:translateY(-100%);
   font-weight:100;
-  font:serif;
 }

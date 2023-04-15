@@ -4,7 +4,7 @@ import ShuttleSwitch from '../general/ShuttleSwitch'
 import MessageList from './MessageList'
 import UserPanel from '../general/UserPanel'
 import ToolBar from '../general/ToolBar'
-import { useState, useEffect , useRef} from 'react';
+import { useState, useEffect} from 'react';
 
 
 
@@ -33,12 +33,10 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
     }, []);
 
 
-
-
-    const FOOTER_SIZE = '192px' , HEADER_SIZE = '240px'
-    
-
-    
+    //Important! when resizing the sizes the grid division
+    //will not automatically  fix itself. You need to manually
+    //magic number FOOTER_SIZE and HEADER_SIZE
+    const FOOTER_SIZE = 125 , HEADER_SIZE = 175    
 
 
     const setInputHeight =(element, defaultHeight)=>{
@@ -59,7 +57,17 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
         document.querySelector("#cp--input-tb").value='';//Eventually clean the text box
 
     }
+    //___Hen: update showShuttleMsg___
+    const showShuttleMsg = false
+
     
+    const shuttleMsgStyle={
+        zIndex:showShuttleMsg ? '1' : '-1',
+        top:`${showShuttleMsg? HEADER_SIZE: 0}px`,
+        opacity: showShuttleMsg ? '0.5' : '0',
+    }
+
+
     return(
         <article 
             className="cp" 
@@ -69,22 +77,25 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
                 display: 'grid',
                 //The header and the footer has fixed sizes , the message-list 
                 //will take the rest of the available space = 1fr
-                gridTemplateRows:`${HEADER_SIZE} 1fr ${FOOTER_SIZE}`,
+                gridTemplateRows:`${HEADER_SIZE}px 1fr ${FOOTER_SIZE}px`,
             }}
             
         >
-                <header>
+            <p className='cp--shuttled-msg' style={shuttleMsgStyle}>
+               {isMediator?'Shuttle mode activated, main chat is temporary unavailable.' : 
+               'Shuttle mode is active, users can only send you private messages'}
+            </p>
+                <header className='cp--header'>
                     <Header isLarge={false}/>
                     <ToolBar conflictName="A political conflict" id={caseId}/>
                     <ShuttleSwitch isMediator={isMediator}/>
                 </header>
 
                 <div>
-                    {/* FOOTER_SIZE + HEADER_SIZE = 432px, for some reason the following code doesn't work:
-                    maxHeight={`${size - FOOTER_SIZE - HEADER_SIZE}px`} */}
-                    <MessageList activeGroup={activeGroup} maxHeight={`${size-432}px`}/> 
+                    <MessageList activeGroup={activeGroup} 
+                    maxHeight={`${size-FOOTER_SIZE-HEADER_SIZE}px`}
+                    /> 
                     
-                    {/* TODO: replace with const vals */}
                 </div>
 
                 <footer className="cp--footer">
@@ -94,7 +105,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
                         </span>
                         <textarea
                             dir="auto"
-                            onChange={event=>setInputHeight(event, '10px')}
+                            onChange={event=>setInputHeight(event, '5px')}
                             className="cp--input-box"
                             id="cp--input-tb"
                         />
@@ -108,7 +119,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
                     <UserPanel
                         handleSwitch={handleShuttle}
                         isSwitched={isShuttled}
-                        isComplex={true}
+                        isComplex={isMediator}
                     />
                 </footer>
         </article>
