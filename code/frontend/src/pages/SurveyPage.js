@@ -35,13 +35,13 @@ const SurveyPage=(duration,stages,interactions , isMediator)=>{
       Better to create as a dynamic list
       (easier to add or delete options).*/
     const satisfactionOptions=SATISFATION_OP.map((op,index)=>(
-        <label class="sp--option" >{`${index + 1}.${op}`}
+        <label className="sp--option" >{`${index + 1}.${op}`}
             <input type="radio"
              value={index}
               name="satisfaction"
                onClick={e=>setSatLevel(e.target.value)}
             />
-            <span class="checkmark"></span>
+            <span className="checkmark"></span>
         </label>
     ))
 

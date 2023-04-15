@@ -4,24 +4,43 @@ import { useSelector } from 'react-redux';
 //Note that all styles of the list is done in the component
 
 const MessageList =( { activeGroup ,maxHeight} )=> {
-  console.log(maxHeight)
+ 
   const messagesEndRef = useRef(null);
   const {id} = useSelector(state=>state.user)
 
   //__________This line causes the component to disappear -  HEN
   const {messages} = useSelector(state=>state.chat[activeGroup])
+  const [prevActiveGroup, setPrevActiveGroup] = useState(null);
 
 
   //change msg to data when i receive a messgae online
   //convet time to int and parsee it
-
-
   useEffect(() => {
-    
-    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    if (messagesEndRef.current) {
+      if (prevActiveGroup !== activeGroup) {
+        messagesEndRef.current.scrollIntoView({ behavior: 'instant' });
+        setPrevActiveGroup(activeGroup);
+      } else {
+        messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [messages, activeGroup, prevActiveGroup]);
+  
+    useEffect(() => {
+    const handleResize = () => {
+      if (messagesEndRef.current) {
+        messagesEndRef.current.scrollIntoView({ behavior: "instant" });
+      }
+    };
 
-  console.log(maxHeight)
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+
   const convertTime = (time)=>{
     let date
     if(!time)
@@ -51,6 +70,7 @@ const MessageList =( { activeGroup ,maxHeight} )=> {
         width:'100%',
         height: `${maxHeight}`,
         overflowY: 'scroll', 
+
         //Alternatively you can use the scrollable message list
       }}
     

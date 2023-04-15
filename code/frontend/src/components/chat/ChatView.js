@@ -12,6 +12,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
 
 
     const [size, setSize] = useState(window.innerHeight);
+    
 
     useEffect(() => {
  
@@ -26,7 +27,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
       };
     }, []);
 
-    window.scrollTo(0, 500);
+
 
 
     const FOOTER_SIZE = '192px' , HEADER_SIZE = '240px'
