@@ -59,7 +59,6 @@ const CasePage =({isMediator})=>{
      useEffect(()=>{
         if(!isSuccess)return
             dispatch(addGroups(data.data))
-            console.log('grooopppp===>>>in case page ',data.data)
         if(error)
             alert('error please render the page')
         
