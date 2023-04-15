@@ -80,12 +80,13 @@ const usersApi = createApi({
                 }
             }),
             changePassword:builder.mutation({
-                query: ({current_password, new_password, access})=>{
+                query: ({current_password, new_password, access, role})=>{
+                    const modifyPassword = role==='user'?`Negoflict${new_password}`:new_password
                     return{
                         url:'/auth/users/set_password/',
                         body:{
                             current_password:current_password,
-                            new_password:`Negoflict${new_password}`,
+                            new_password: modifyPassword,
                         },
                         headers:{
                             Authorization: `JWT ${access}`
