@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 //Note that all styles of the list is done in the component
 
 const MessageList =( { activeGroup ,maxHeight} )=> {
-  console.log(maxHeight)
+
   const messagesEndRef = useRef(null);
   const {id} = useSelector(state=>state.user)
 
@@ -17,11 +17,9 @@ const MessageList =( { activeGroup ,maxHeight} )=> {
 
 
   useEffect(() => {
-    
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  console.log(maxHeight)
   const convertTime = (time)=>{
     let date
     if(!time)

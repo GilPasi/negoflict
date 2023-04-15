@@ -18,6 +18,11 @@
     border:none;
   } }
 
+  .cp--shuttled-msg{
+    position: fixed;
+    background-color:red;
+  }
+
 .cp--shader{
   position: absolute;
   top:0;
@@ -41,17 +46,16 @@
 }
 
 .cp--footer{
-  /* position: fixed; */
-  bottom: 0;
-  left: 0;
   width: 100%;
   background-color:white;
 }
 
 .cp--send{
+  position: absolute;
   top:50%;
   left: 50%;
-  position: absolute;
+
+
   transform:rotate(0.6125turn) translateX(80%) translateY(10%) ;
   font-size:var(--font-large);
   user-select: none;
@@ -59,17 +63,20 @@
 }
 
 .cp--input{
+    /* border:1px solid red; */
+
   display: flex;
   justify-content: center;
   background-color: #F5F5F5;
-  padding-left:0.5em;
-  padding-right: 0.5em;
-  padding-bottom: 1em;
-  padding-top: 2em;
-  height: min-content;
+  padding:5px;
+  padding-top:10px ;
+
+  /* height: min-content; */
 }
 
 .cp--input-btn {
+  border:1px solid red;
+
   margin-top:1em;
   width: 7.5em;
   height: 5em;
@@ -111,20 +118,19 @@
 }
 
 .cp--input-box{
+  --line-size:1.2em;
+  font-size: var(--line-size);
+  height: var(--line-size);
   width:100%;
-  padding: 0.0em 1em 0.0em 1em;
-  height: 1.2em;
-  min-height: 1em;
+  padding: 0em 1em;
   max-height: 5em;
+  display: inline;
+
   border-radius: 1.5em;
   border:2px solid #828282;
   scroll-behavior: auto;
   resize: none;
   overflow: hidden;
-  font-size: 1.2em;
-  display: inline;
-
-
 }
 
 .cp--help{
