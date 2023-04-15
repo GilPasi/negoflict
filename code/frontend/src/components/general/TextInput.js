@@ -18,6 +18,7 @@ const  TextField=({type,placeHolder,
    
 
     return(
+        <div className="input-box">
             <input 
                 ref={parentRef}
                 name={name}
@@ -29,8 +30,10 @@ const  TextField=({type,placeHolder,
                 style={widthStyle}
                 value={value}
                 required={required}
+                id={name}
         
             />
+        </div>
 
     )}
 export default TextField

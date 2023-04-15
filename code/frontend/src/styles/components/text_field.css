@@ -27,11 +27,12 @@
   box-sizing: border-box;
   position: relative;
   padding: 1em;
-
   font-size: var(--font-medium);
   border-radius: 5px;
   border:none;
+  border-bottom: 5px solid var(--green-light);
   background-color:var(--green-light);
+  transition: all 0.2s, border-bottom 0.2s ease-in;
     
 }
 
@@ -45,8 +46,17 @@
 .text-field-input:focus{
   background-color: whitesmoke;
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.4);
-  border-bottom: 10px solid var(--green-dark);
+  border-bottom: 5px solid var(--green-dark);
   outline: none;
 }
+.text-field-input-la:focus{
+  border-bottom: 10px solid whitesmoke;
+  outline: none;
+}
+.input-box{
+  display: grid;
+  grid-template-rows: 1fr 5px;
+}
+
 
 
