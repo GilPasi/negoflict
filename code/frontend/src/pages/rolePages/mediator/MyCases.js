@@ -20,7 +20,7 @@ const MyCases = ({isMediator})=>{
           
             cases.map(caseData=>(
                 <div key={caseData.id}>
-                    <TextHolder caseData={caseData}/>
+                    <TextHolder caseData={caseData} withInfo={true}/>
                 </div>
             ))
                 }

@@ -44,7 +44,7 @@ const CreateUserWraper = ()=>{
       if (resultCase && resultCase.status === 'fulfilled'){
         const {error,data} = resultCase
         if(error)
-          alert('error')
+          console.log(error)
         setIdCase(data.case.id)
       } 
       const resultGroups = Object.values(state.group_api.mutations)[0]
@@ -110,6 +110,7 @@ const CreateUserWraper = ()=>{
         })
         .catch(err=>console.log(err))
 
+        clearState()
         rediract()
      };
       //==============
@@ -132,6 +133,13 @@ const CreateUserWraper = ()=>{
         state: { idCase,groups }
       }
         )
+  }
+  const clearState = ()=>{
+    setUserData(()=>[])
+    setIdCase(null)
+    setSideVal(0)
+    setGorups([])
+    setDisableSubmit(true)
   }
 
   //=================

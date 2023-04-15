@@ -2,7 +2,7 @@ import "../../styles/components/text_field.css"
 import {React} from 'react'
 const  TextField=({type,placeHolder,
                 onChange,name,length,
-                altitude,align,parentRef,value})=>{
+                altitude,align,parentRef,value, required})=>{
     
     let classPostfix = align === "left" ? "-la" : "" //la for left alignment
     
@@ -28,6 +28,7 @@ const  TextField=({type,placeHolder,
                 align="left"
                 style={widthStyle}
                 value={value}
+                required={required}
             
             />
 

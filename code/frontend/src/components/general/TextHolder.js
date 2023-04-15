@@ -2,7 +2,7 @@ import '../../styles/components/text_holder.css'
 import {React, useState} from 'react'
 import InfoBox from "./infoBox_"
 
-const  TextHolder=({caseData})=>{
+const  TextHolder=({caseData, withInfo})=>{
     const title = caseData.title
     const [info,setInfo] = useState(false)
 
@@ -28,6 +28,7 @@ const  TextHolder=({caseData})=>{
 
                 <div className="th--box">
                     <p>{title}</p>
+                    {withInfo&&
 
                     <div className="th--switch">
                         <button
@@ -35,13 +36,14 @@ const  TextHolder=({caseData})=>{
                           className="th--switch-arrow"> 
                           {info?'<':'>'}
                          </button>
-                    </div>
+                    </div>}
                 </div>
 
-
+            {withInfo&&     
             <div className="th--info">
                 <InfoBox obj={caseData} size={infoSize}/>
             </div>
+            }
 
         </section>
     )}
