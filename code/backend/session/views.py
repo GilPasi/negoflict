@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from .models import Case,GroupChat, GroupMember, Message
 from negoflict_app import permissions
-from .serializers import CaseSerializer, GroupChatSerializer,GroupMemberSerializer, MessageSerial
+from .serializers import CaseSerializer, GroupChatSerializer,GroupMemberSerializer, MessageSerial, GroupMemberWithUserSerializer
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from core.models import User
@@ -153,11 +153,18 @@ class GroupMemberView(ModelViewSet):
             except GroupMember.DoesNotExist:
                   return Response('not found', status=status.HTTP_404_NOT_FOUND)
         return Response('bad request', status=status.HTTP_400_BAD_REQUEST)
-                
-                
+    
+    @action(detail=False, methods=['GET'], permission_classes=[permissions.IsAdminOrUser])
+    def get_mediator_client(self,request):
+        mediator_id = request.GET.get('mediator')
         
-        
-        
+        if mediator_id:
+            users = self.queryset.select_related('user').filter(mediator=mediator_id)
+            if users:
+                serializer = GroupMemberWithUserSerializer(users, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response('no users for this mediator', status=status.HTTP_404_NOT_FOUND)
+        return Response('Bad request', status=status.HTTP_400_BAD_REQUEST)
     
     
     @action(detail=False, methods=['GET'], permission_classes=[permissions.IsAdminOrUser])

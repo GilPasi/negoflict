@@ -21,7 +21,6 @@
 
 .aup--grid{
     display:grid;
-
     grid-template-columns: 3;
     grid-template-rows:5 ;
     width: 75%;
@@ -29,9 +28,6 @@
     column-gap:1em ;
     min-width: auto;
     min-height: auto;
-
-
-
 }
 
 .aup--grid-row{
@@ -55,4 +51,10 @@
     display:flex;
     justify-content:space-between;
     margin-top:4em;
+}
+.aup-user-form{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }

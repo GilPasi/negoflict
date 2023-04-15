@@ -125,6 +125,7 @@ const adminApi = createApi({
 
             }),
             registerOneUser:builder.mutation({
+                invalidatesTags:['oneUser'],
                 query:({username,password,first_name})=>{
                     return{
                         url:'/register_user',

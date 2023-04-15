@@ -11,6 +11,7 @@ import  {adminApi} from "./api/adminApi";
 import { chatReducer, addGroupsProps, updateMsg, resetChatState, addHistoryMsg } from "./slices/chatSlice";
 import { msgReducer, postNewMessage } from "./slices/msgSlice";
 import { msgApi } from "./api/msgApi"; 
+import { mediatorApi } from "./api/mediatorApi";
 
 
 const store = configureStore({
@@ -27,6 +28,7 @@ const store = configureStore({
         [groupApi.reducerPath]: groupApi.reducer,
         [adminApi.reducerPath]: adminApi.reducer,
         [msgApi.reducerPath]: msgApi.reducer,
+        [mediatorApi.reducerPath]: mediatorApi.reducer
         
     },
     middleware: getDefaultMiddleware =>{
@@ -35,6 +37,7 @@ const store = configureStore({
         .concat(groupApi.middleware)
         .concat(adminApi.middleware)
         .concat(msgApi.middleware)
+        .concat(mediatorApi.middleware)
         
     }
     
@@ -97,3 +100,7 @@ export const {useRegisterOneUserMutation} = adminApi
 
 //msgApi=======
 export const {usePostNewMessageMutation} = msgApi
+//=============
+
+//mediatorApi========
+export const {useGet_clientsQuery,useLazyGet_clientsQuery} = mediatorApi

@@ -135,7 +135,6 @@ class MediatorView(ModelViewSet):
     
     
     def create(self, request, *args, **kwargs):
-        print(request.data)
         user_data = {key[5:]: value for key, value in request.data.items() if key.startswith('user')}
         serializer =UserCreateSerializer(data=user_data)
         serializer.is_valid(raise_exception=True)
