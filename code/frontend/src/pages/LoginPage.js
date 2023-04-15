@@ -80,6 +80,7 @@ const LoginPage=()=>{
 
     const submitHandlerUser =async (event)=>{
         event.preventDefault()
+        
 
         const {password, username} = formData
        
@@ -121,6 +122,7 @@ const LoginPage=()=>{
         }
         
         const role = getPermSign(user)
+        const roleName = getPermName({role:role})
         user = {...user, 'role':role, 'access':access_data.access}
         dispatch(login(user))
 
@@ -133,6 +135,7 @@ const LoginPage=()=>{
                 current_password:data.password,
                 new_password:newPassword.value,
                 access:access_data.access,
+                role:roleName
             })
             if(changePasswordError){
                 console.log('couldn`t change password',changePasswordError)
