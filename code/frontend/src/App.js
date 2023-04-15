@@ -6,7 +6,6 @@ import Layout from './components/general/Layout';
 import {UserLandingPage,MediatorLandingPage,SuperUserLandingPage} from './pages/LandingPage';
 import './App.css'
 
-import ChatView from './components/chat/ChatView';
 
 
  const App=()=> {

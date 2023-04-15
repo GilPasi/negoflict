@@ -54,7 +54,6 @@ const UserPanel=({
                 </div>
             
             }
-
             <div 
                 className="user-panel--btn"
                 id="user-panel--end"
