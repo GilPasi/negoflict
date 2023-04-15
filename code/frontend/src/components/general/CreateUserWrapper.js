@@ -86,7 +86,7 @@ const CreateUserWraper = ()=>{
         })
       }
     //handlers===========
-    const handleSubmit =async(event)=>{
+    const handleSubmit =(event)=>{
         event.preventDefault()
         const arrUser = userData
 
@@ -100,8 +100,9 @@ const CreateUserWraper = ()=>{
         .then(res=>{
           const usersArr = [...res.data.dbResult]
           const sides = ['A','B']
+          console.log(usersArr)
 
-            registerToChatGroups({groups:groups,users:arrUser})
+          registerToChatGroups({groups:groups,users:arrUser})
 
           for(let i=0; i<2;i++){
             updateMembers({user:usersArr[i],access:access,idCase:idCase,side:sides[i]})

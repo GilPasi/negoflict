@@ -31,11 +31,13 @@ exports.registerUsers = async(req,res)=>{
                 return res.status(500).json({'erorrs':'mising username'})
 
             }
+            
               
 
             const tempUid = users[i].username.toString().replace(/[^\w\s]/gi, '');
             const password = users[i].password
             const username = users[i].first_name
+           
 
             // const uid = tempUid.replace(/-/g, "")
             try{

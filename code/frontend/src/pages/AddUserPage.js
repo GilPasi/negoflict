@@ -113,6 +113,7 @@ const AddUserPage =({side,idCase,goBack,
                             altitude="2em"
                             type="number"
                             align="left"
+                            onmousewheel="return false;"
                         />
                     </div> 
 
