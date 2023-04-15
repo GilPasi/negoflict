@@ -8,10 +8,15 @@ import { useState, useEffect , useRef} from 'react';
 
 
 
-const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isShuttled})=>{
-
+const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isShuttled, role, muted})=>{
 
     const [size, setSize] = useState(window.innerHeight);
+    const shuttelView =muted
+    &&
+    role==='user'
+    &&
+    activeGroup.slice(-1)==='G'
+    ?'-shuttel':'' 
     
 
     useEffect(() => {
@@ -55,9 +60,6 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
 
     }
     
-
-
-
     return(
         <article 
             className="cp" 
@@ -97,7 +99,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
                             id="cp--input-tb"
                         />
 
-                            <button className="cp--input-btn" onClick={setInputValue}>
+                            <button className={`cp--input-btn${shuttelView}`} onClick={setInputValue} disabled={shuttelView==='-shuttel'}>
                                 <span className="material-symbols-outlined cp--send" >
                                     send
                                 </span>
