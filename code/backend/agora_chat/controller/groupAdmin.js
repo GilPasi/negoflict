@@ -170,6 +170,41 @@ exports.deleteGroup = async(req,res)=>{
         return res.status(err?.status ?? 500).json({'errors':err})
     }
 }
+exports.deleteGroupS = async(req,res)=>{
+    const appToken = tokenBuilder.appTokenBuild(3000)
+    const groupId = req.params.chatgroupid ?? null
+
+    console.log(groupId)
+
+    const misingProps = {
+        ...(groupId? {}: {'error':'chatgroupid is missing'})
+    }
+
+    if(Object.keys(misingProps).length>0)
+        return res.status(400).json(misingProps)
+
+    const responses = []
+    try{
+        const last_chat = ['A','B','G']
+        last_chat.forEach(async key=>{
+            const modGroupName = `${groupId}${key}`
+
+            const response = await axios.delete(`${HOST_URL_APP_KEY}/chatgroups/${modGroupName}`,{
+                headers:{
+                    Authorization: `Bearer ${appToken}`,
+                    'Accept' : 'application/json'
+                }
+            })
+            responses.push(response.data)
+        })
+
+        console.log(responses)
+        return res.json({'responses':responses})
+
+    }catch(err){
+        return res.status(err?.status ?? 500).json({'errors':err})
+    }
+}
 
 exports.addUserToGroup = async(req,res)=>{
     const appToken = tokenBuilder.appTokenBuild(3000)
