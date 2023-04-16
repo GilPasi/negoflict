@@ -56,20 +56,6 @@ const groupApi = createApi({
                     } 
                 }
             }),
-            closeCase: builder.mutation({
-                query:({caseId, summary})=>{
-                    const currentDateTime = new Date().toISOString()
-                    return{
-                        url:`${Server_url}/session/case/${caseId}/`,
-                        method:'PATCH',
-                        body:{
-                            close_at:currentDateTime,
-                            is_active:false,
-                            summary:summary,
-                        }
-                    }
-                }
-            })
             }}
 })
 

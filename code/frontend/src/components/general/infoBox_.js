@@ -67,9 +67,11 @@ let data
         >
           <button className="ib--start">start chat</button>
         </Link>
+        {gotRole==='mediator'&&
         <button className="ib--start" onClick={handleClose}>
           close case
         </button>
+}
       </div>
     </div>
   );

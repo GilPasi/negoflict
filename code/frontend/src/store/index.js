@@ -77,10 +77,11 @@ export const {useModifyUserMutation} = usersApi
 //===========
 
 //caseApi=====
-export const { useGet_my_casesQuery, useLazyGet_my_casesQuery } = caseApi
+export const {useGetMyCasesQuery, useLazyGetMyCasesQuery} = caseApi
 export const { usePost_new_caseMutation } = caseApi
 export const {useGetCaseSideQuery, useLazyGetCaseSideQuery} = caseApi
 export const { usePutUserToMemberGroupMutation } = caseApi
+export const {useCloseCaseMutation} = caseApi
 //============
 
 //groupApi=====
@@ -88,7 +89,6 @@ export const { useGetGroupsByUserQuery, useLazyGetGroupsByUserQuery} = groupApi
 export const { useCreateNewGroupMutation } = groupApi
 export const {useGetChatGroupsQuery,useLazyGetChatGroupsQuery} = groupApi
 export const {useDeleteGroupMutation} = groupApi
-export const {useCloseCaseMutation} = groupApi
 
 //adminApi=======
 export const { useRegisterToChatGroupsMutation } = adminApi

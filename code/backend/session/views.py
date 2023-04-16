@@ -59,15 +59,31 @@ class CaseView(ModelViewSet):
     @action(detail=False,methods=['GET'],permission_classes=[permissions.IsAdminOrUser])
     def casess_by_mediator(self,request):
         mediator_id = request.GET.get('id',None)
-        print (mediator_id)
+        
         if mediator_id:
             queryset = self.queryset.filter(mediator=mediator_id)
             serializer = CaseSerializer(queryset, many=True)
             return Response(serializer.data, status=200)
         return Response('Not found', status=404)
     
-    
-            
+    @action(detail=False, methods=['GET'], permission_classes=[permissions.IsAdminOrUser])
+    def get_open_close_cases(self,request):
+        mediator_id = request.GET.get('id',None)
+        open_close = request.GET.get('open_close',None)
+        
+        missing_parameter =[]
+        if not mediator_id:
+            missing_parameter.append(('missing parameter id', status.HTTP_400_BAD_REQUEST))
+        if not open_close:
+            missing_parameter.append(('missing parameter open or close', status.HTTP_400_BAD_REQUEST))
+        if len(missing_parameter) > 0:
+            return Response(missing_parameter, status=status.HTTP_400_BAD_REQUEST)
+        
+        queryset = self.queryset.filter(mediator=mediator_id).filter(is_active=open_close)
+        serializer = CaseSerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+           
+        
 class GroupChatView(ModelViewSet):
     queryset = GroupChat.objects.all()
     serializer_class = GroupChatSerializer
@@ -174,6 +190,32 @@ class GroupMemberView(ModelViewSet):
             serializer = CaseSerializer(queryset, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response('Not found',status=status.HTTP_404_NOT_FOUND)
+    
+    @action(detail=False, methods=['GET'], permission_classes=[permissions.IsAdminOrUser])
+    def get_open_close_case_by_user(self, request):
+        id = request.GET.get('id',None)
+        open_close = request.GET.get('open_close',None)
+        
+        missing_parameter = []
+        
+        if not id:
+             missing_parameter.append(('missing parameter id', status.HTTP_400_BAD_REQUEST))
+        if not open_close:
+             missing_parameter.append(('missing parameter open or close', status.HTTP_400_BAD_REQUEST))
+        
+        if len(missing_parameter) > 0:
+            return Response(missing_parameter, status=status.HTTP_400_BAD_REQUEST)
+        
+        member = self.queryset.get(user=id)
+        caseId = member.case_id
+        queryset = Case.objects.filter(pk=caseId).filter(is_active=open_close)
+        serializer = CaseSerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        
+            
+        
+        
     
     
 class MessageView(ModelViewSet):
