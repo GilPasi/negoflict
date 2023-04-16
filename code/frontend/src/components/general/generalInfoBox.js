@@ -28,10 +28,10 @@ const GeneralInfoBox = ({obj, size})=>{
             <ul>
             {objKeys.map((key, index) => {
               return(
-              <tr className='tr' key={index}>
-                <td className='tr-key'>{key}</td>
-                <th className='tr-value'>{modObj[key]}</th>
-              </tr>
+                <li className='tr' key={index}>
+                <span className='tr-key'>{key}</span>
+                <span className='tr-value'>{modObj[key]}</span>
+              </li>
             )})}
           </ul>
         </div>
