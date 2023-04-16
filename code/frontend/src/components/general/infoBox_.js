@@ -55,6 +55,7 @@ let data
   return (
     <div className="ib" style={size}>
       <GeneralInfoBox obj={obj} size={size} />
+      {obj.is_active&&
 
       <div className="btns-box">
         <Link
@@ -72,7 +73,7 @@ let data
           close case
         </button>
 }
-      </div>
+      </div>}
     </div>
   );
 };

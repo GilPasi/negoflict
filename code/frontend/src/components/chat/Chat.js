@@ -11,6 +11,12 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     //===========
     //state==========
     const messageDetail = useSelector(state=>state.message)
+
+    const handleDisconnect = ()=>{
+        if(!WebIM.conn.isOpened())return
+        WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
+        WebIM.conn.close()
+    }
    
 
     //useEffect=========
@@ -52,10 +58,12 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         onGroupEvent: msg=>handleGroupEvent(msg),
         onOnline: (res)=>console.log('llalala',res)
     })
+    window.addEventListener('popstate',handleDisconnect)
     
     //====================
 
     //function========
+  
     const connect =async ()=>{
         await WebIM.conn.open({
             user:username,
