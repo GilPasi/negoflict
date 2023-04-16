@@ -58,7 +58,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
 
     }
     //___Hen: update showShuttleMsg___
-    const showShuttleMsg = false
+    const showShuttleMsg = shuttelView==='-shuttel'
 
     
     const shuttleMsgStyle={

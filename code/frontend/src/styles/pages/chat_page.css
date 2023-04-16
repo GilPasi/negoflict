@@ -11,7 +11,7 @@
 /*Mobile view*/
 @media (max-width:700px) {
   .cp{
-    width: 100%;
+    width: 80vh;
     min-width: 20em;
     padding: 0; 
     margin: 0;
@@ -19,12 +19,14 @@
   } }
 
   .cp--shuttled-msg{
-    position: fixed;
-    left : 1em;
+    position: absolute;
+    width: 300px;
+    left : 10em;
     right:1em;
     background-color:black;
     color:whitesmoke;
-    padding:5px;
+    padding:5px 0 5px 0;
+    margin: 0;
     border-radius: 5px;
     transition: opacity ease-out 250ms , top 750ms;
   
