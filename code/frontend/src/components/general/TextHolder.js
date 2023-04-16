@@ -41,7 +41,10 @@ const  TextHolder=({caseData, withInfo})=>{
 
             {withInfo&&     
             <div className="th--info">
-                <InfoBox obj={caseData} size={infoSize}/>
+                <InfoBox 
+                obj={caseData} 
+                size={infoSize}
+                />
             </div>
             }
 

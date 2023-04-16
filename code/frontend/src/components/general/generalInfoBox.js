@@ -21,7 +21,7 @@ const GeneralInfoBox = ({obj, size})=>{
       if(!obj['is_active']){
         modObj = {...modObj,['Close_at']:obj['close_at'],['Summary']:obj['summary']}
       }
-    const objKeys = Object.keys(modObj)
+    let objKeys = Object.keys(modObj)
     
     return(
         <div className='list-box'>
