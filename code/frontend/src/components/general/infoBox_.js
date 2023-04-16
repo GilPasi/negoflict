@@ -14,6 +14,8 @@ const InfoBox = ({ obj, size }) => {
   const path = obj.id.replaceAll('-', '');
   const { groups } = useSelector((state) => state.groups);
 
+  console.log(groups)
+
   const chatPath = `/${gotRole}/chat/${path}`;
 
 
@@ -22,6 +24,7 @@ const InfoBox = ({ obj, size }) => {
       group.groupname.startsWith(`${obj.title}_`)
     );
   };
+
   const handleClose = async () => {
     const isDismissed = await deletAlert({
       title: 'Are you sure?',
@@ -29,12 +32,12 @@ const InfoBox = ({ obj, size }) => {
       confirmText: 'Yes, I`m sure!',
     }); // if the user dismissed and not press delete
     if (isDismissed) return;
-    const filteredGroups = handleStart();
-    console.log(filteredGroups)
+    let filteredGroups = handleStart();
+    
     // finish closing groups
     // {groupid} delete from agora
     // and close case at server
-    deleteGroupsAgora({groupName: filteredGroups[0].groupname });
+    deleteGroupsAgora({groupS: filteredGroups});
   };
 
   if (error) {

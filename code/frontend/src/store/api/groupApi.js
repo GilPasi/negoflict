@@ -45,11 +45,14 @@ const groupApi = createApi({
                 }
             }),
             deleteGroup: builder.mutation({
-                query:({groupName})=>{
-                    console.log(groupName)
+                query:({groupS})=>{
+                   
                     return{
-                        url:`/delete_groups/${groupName.toString().slice(0, -1)}`,
+                        url:`/delete_groups/`,
                         method:'DELETE',
+                        body:{
+                            groups:groupS
+                        }
                     } 
                 }
             }),
