@@ -58,7 +58,7 @@ const ChatPage = ()=>{
     };
     //==============
     const store = useSelector(state=>state)
-    console.log(store)
+    
 
     //useMemo=============
     useMemo(()=>{  //set user detail role and username

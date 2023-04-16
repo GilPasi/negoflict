@@ -51,7 +51,6 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
         const msg = document.querySelector("#cp--input-tb").value;
 
         if(!msg)return
-        console.log(msg)
         handleSend(msg)
 
         document.querySelector("#cp--input-tb").value='';//Eventually clean the text box

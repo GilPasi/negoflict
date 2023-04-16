@@ -31,7 +31,6 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         if(!WebIM.conn.isOpened())return
         if(isShuttled)
             WebIM.conn.disableSendGroupMsg({groupId:centerGroup.groupid})
-            .then(res=>console.log('disable>>>>',res))
         else
             WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
             .then(res=>console.log('enable>>>>>',res))
@@ -53,6 +52,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         onGroupEvent: msg=>handleGroupEvent(msg),
         onOnline: (res)=>console.log('llalala',res)
     })
+    
     //====================
 
     //function========
@@ -65,7 +65,6 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     };
 
     const postNewMessage = ()=>{
-        console.log('in post message')
         const {ext,msg,to} = messageDetail
 
         const option = {
