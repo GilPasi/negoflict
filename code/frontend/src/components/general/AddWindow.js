@@ -35,7 +35,7 @@ const AddWindow =()=>{
                 <span> {user.phone}</span>
                 <span> {user.email}</span>
             </div>
-            {/* Phone is a unique ID for each user */}
+            {/* Phone is a unique ID for each user*/}
             <input
                 checked={selectedPhones.includes(user.phone)?'checked':''}
                 type="checkbox"

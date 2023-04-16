@@ -87,6 +87,7 @@ export const { usePutUserToMemberGroupMutation } = caseApi
 export const { useGetGroupsByUserQuery, useLazyGetGroupsByUserQuery} = groupApi
 export const { useCreateNewGroupMutation } = groupApi
 export const {useGetChatGroupsQuery,useLazyGetChatGroupsQuery} = groupApi
+export const {useDeleteGroupMutation} = groupApi
 
 //adminApi=======
 export const { useRegisterToChatGroupsMutation } = adminApi

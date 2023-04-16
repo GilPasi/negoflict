@@ -57,6 +57,8 @@ const ChatPage = ()=>{
         setUserDetail(prevState=>({...prevState,['side']:data.side,['memberId']:data.id}))
     };
     //==============
+    const store = useSelector(state=>state)
+    console.log(store)
 
     //useMemo=============
     useMemo(()=>{  //set user detail role and username

@@ -3,6 +3,7 @@ import UserForm from "../components/general/userForm"
 import Header from "../components/general/Header"
 import { useEffect, useState } from "react"
 import Button from "../components/general/Button"
+import { useRegisterOneUserMutation, } from "../store"
 
 const CreateSelfUser = ()=>{
     const [formData,setFormData] = useState({})
@@ -19,8 +20,10 @@ const CreateSelfUser = ()=>{
         setFormData(prevState=>({...prevState,[name]:value}))
     }
 
-
-    
+    const handleSubmit = (event)=>{
+        event.preventDefault()
+        console.log(formData)
+    }
 
 
     return(
