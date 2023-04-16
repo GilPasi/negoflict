@@ -9,7 +9,7 @@ const GeneralInfoBox = ({obj, size})=>{
   const id = obj['id'].slice(-7)
 
 
-  const modObj = {
+  let modObj = {
       Id:id,
       create_at:create_at,
       Title:obj['title'],
