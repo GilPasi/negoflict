@@ -5,12 +5,16 @@ import Button from "../components/general/Button"
 import TextArea from "../components/general/TextArea"
 import { SATISFATION_OP } from '../utils/data'
 import {useState , useRef} from 'react'
+import { useLocation } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 
 const SurveyPage=(duration,stages,interactions , isMediator)=>{
     const [stage, setStage] = useState(1)
     const textFeedbackRef = useRef('')
     const [satLevel , setSatLevel] = useState('0') // 0 for unknown
+    const location = useLocation()
+    const navigate = useNavigate()
 
         //Mock values for testing
         // duration="21" 
@@ -20,12 +24,19 @@ const SurveyPage=(duration,stages,interactions , isMediator)=>{
 
     //Save the user's input in a variable
 
+    const caseId = location.state?.caseId ?? ''
+
+
+
 
     const handleSignOut=()=>{
         document.querySelector(".sp--gratitude-bg").style.display="block"
         const data ={rate:satLevel , comment:textFeedbackRef.current.value}
-        console.log(data)
         //Backend: save data to DB
+        console.log('survey data',data)
+        navigate('/user',{
+            replace:true,
+        })
         
     }
 
@@ -111,7 +122,7 @@ const SurveyPage=(duration,stages,interactions , isMediator)=>{
     return(
     <article className="sp">
         <Header isLarge={false}/>
-        <ToolBar conflictName="A political conflict"/>
+        <ToolBar conflictName="A political conflict" id={caseId}/>
         {content}
         <div className="sp--gratitude-bg">
             <p className="sp--gratitude-msg">Thank you for your feedback!</p>

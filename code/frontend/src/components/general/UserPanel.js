@@ -5,7 +5,7 @@ import WebIM from "../../WebIM"
 import { useSelector } from "react-redux"
 import { getPermName } from "../../utils/permissions"
 const UserPanel=({
-    handleSwitch , isSwitched , isComplex
+    handleSwitch , isSwitched , isComplex, caseId
 })=>{
     const {role} = useSelector(state=>state.user)
     
@@ -25,7 +25,10 @@ const UserPanel=({
 
        if(roleName==='user')
             navigate('/user/survey_page',{
-                replace:true
+                replace:true,
+                state:{
+                    caseId:caseId
+                }
             })
         else{
             navigate(`/${roleName}`,{

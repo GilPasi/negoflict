@@ -119,6 +119,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
                         handleSwitch={handleShuttle}
                         isSwitched={isShuttled}
                         isComplex={isMediator}
+                        caseId= {caseId}
                     />
                 </footer>
         </article>
