@@ -88,6 +88,7 @@ export const { useGetGroupsByUserQuery, useLazyGetGroupsByUserQuery} = groupApi
 export const { useCreateNewGroupMutation } = groupApi
 export const {useGetChatGroupsQuery,useLazyGetChatGroupsQuery} = groupApi
 export const {useDeleteGroupMutation} = groupApi
+export const {useCloseCaseMutation} = groupApi
 
 //adminApi=======
 export const { useRegisterToChatGroupsMutation } = adminApi

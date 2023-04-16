@@ -78,12 +78,21 @@ const useAlert = ()=>{
       heightAuto:true,
       background:background ?? '',
       iconColor:'#4AAC65',
-      
-      
     })
    
     return response.isDismissed
  
+  }
+
+  const textAlert =async ({title})=>{
+    const response= await Swal.fire({
+      title: title,
+      input: 'textarea',
+      confirmButtonColor: '#4AAC65',
+      confirmButtonText:'Submit',
+      allowEnterKey:true,
+    })
+    return response.value
   }
     
 
@@ -94,6 +103,7 @@ const useAlert = ()=>{
         bigSuccessAlert,
         changePasswordPop,
         deletAlert,
+        textAlert,
        
 
     }

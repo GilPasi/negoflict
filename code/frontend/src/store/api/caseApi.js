@@ -80,6 +80,22 @@ const caseApi = createApi({
           }
         }
 
+      }),
+      getMyCloseCases: builder.query({
+        providesTags:['closeCase'],
+        query: ({id, access, isMediator})=>{
+          return{
+
+          }
+        }
+      }),
+      getMyOpenCase: builder.query({
+        providesTags:['openCase'],
+        query: ({id, access, isMediator})=>{
+          return{
+
+          }
+        }
       })
     }
   }

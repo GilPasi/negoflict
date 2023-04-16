@@ -4,19 +4,21 @@ import { useSelector } from 'react-redux';
 import GeneralInfoBox from './generalInfoBox';
 import useAlert from '../../hooks/useAlert';
 import { useDeleteGroupMutation } from '../../store';
+import { useCloseCaseMutation } from '../../store';
 
 const InfoBox = ({ obj, size }) => {
-  const { deletAlert } = useAlert();
+  const { deletAlert, textAlert } = useAlert();
   const { role } = useSelector((state) => state.user);
   const gotRole = role <= 2 ? 'mediator' : 'user';
-  const [deleteGroupsAgora, { data, error }] = useDeleteGroupMutation();
+  const [deleteGroupsAgora, { data:deleteGroups, error:errorDeleteGroups }] = useDeleteGroupMutation();
+  const [closeCase,{data:closeData,error:errorClose}] = useCloseCaseMutation()
 
   const path = obj.id.replaceAll('-', '');
   const { groups } = useSelector((state) => state.groups);
 
-  console.log(groups)
-
   const chatPath = `/${gotRole}/chat/${path}`;
+
+
 
 
   const handleStart = () => {
@@ -33,17 +35,20 @@ const InfoBox = ({ obj, size }) => {
     }); // if the user dismissed and not press delete
     if (isDismissed) return;
     let filteredGroups = handleStart();
+    const summary =await textAlert({title:'write a summary'})
     
     // finish closing groups
     // {groupid} delete from agora
     // and close case at server
     deleteGroupsAgora({groupS: filteredGroups});
+    closeCase({summary:summary,caseId:obj.id })
   };
-
-  if (error) {
+let error
+let data
+  if (error = errorDeleteGroups || errorClose) {
     console.log('errorr', error);
   }
-  if (data) {
+  if (data = closeData || deleteGroups) {
     console.log('success', data);
   }
 
