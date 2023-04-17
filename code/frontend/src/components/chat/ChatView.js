@@ -8,7 +8,7 @@ import { useState, useEffect} from 'react';
 
 
 
-const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isShuttled, role, muted})=>{
+const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isShuttled, role, muted,centerGroup,connectionUsers})=>{
 
     const [size, setSize] = useState(window.innerHeight);
     const shuttelView =muted
@@ -51,7 +51,6 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
         const msg = document.querySelector("#cp--input-tb").value;
 
         if(!msg)return
-        console.log(msg)
         handleSend(msg)
 
         document.querySelector("#cp--input-tb").value='';//Eventually clean the text box
@@ -87,7 +86,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
             </p>
                 <header className='cp--header'>
                     <Header isLarge={false}/>
-                    <ToolBar conflictName="A political conflict" id={caseId}/>
+                    <ToolBar conflictName="A political conflict" id={caseId} connectionUsers={connectionUsers} isChat={true}/>
                     <ShuttleSwitch isMediator={isMediator}/>
                 </header>
 
@@ -121,6 +120,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
                         isSwitched={isShuttled}
                         isComplex={isMediator}
                         caseId= {caseId}
+                        centerGroup={centerGroup}
                     />
                 </footer>
         </article>

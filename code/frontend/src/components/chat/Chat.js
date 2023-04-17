@@ -2,15 +2,27 @@ import WebIM from "../../WebIM";
 import {useEffect, useMemo, useRef} from "react";
 import {useGetChatTokenQuery} from "../../store";
 import { useSelector } from "react-redux";
+import { getPermName } from "../../utils/permissions";
 
 
 const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onMute, centerGroup})=>{
     //hooks=======
     const wasRenderd = useRef(false)
     const tokenRes = useGetChatTokenQuery({username:username})
+    const {role} = useSelector(state=>state.user)
+    const roleName  = getPermName({role:role})
     //===========
     //state==========
+    const {first_name, last_name} = useSelector(state=>state.user)
     const messageDetail = useSelector(state=>state.message)
+
+    const handleDisconnect = (event)=>{
+        event.preventDefault()
+        if(!WebIM.conn.isOpened())return
+        if(roleName ==='mediator')
+            WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
+        WebIM.conn.close()
+    }
    
 
     //useEffect=========
@@ -31,7 +43,6 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         if(!WebIM.conn.isOpened())return
         if(isShuttled)
             WebIM.conn.disableSendGroupMsg({groupId:centerGroup.groupid})
-            .then(res=>console.log('disable>>>>',res))
         else
             WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
             .then(res=>console.log('enable>>>>>',res))
@@ -51,8 +62,13 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
 
     WebIM.conn.addEventHandler('hen',{
         onGroupEvent: msg=>handleGroupEvent(msg),
-        onOnline: (res)=>console.log('llalala',res)
+        onOnline: (res)=>console.log('connected',res),
+        // onConnected: ()=>handleConnectionMsg('connect'),
+        // onDisconnected:()=>handleConnectionMsg('disconnect')
     })
+    window.addEventListener('popstate',handleDisconnect)
+    window.addEventListener('beforeunload',handleDisconnect)
+    
     //====================
 
     //function========
@@ -65,7 +81,6 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     };
 
     const postNewMessage = ()=>{
-        console.log('in post message')
         const {ext,msg,to} = messageDetail
 
         const option = {
@@ -108,7 +123,20 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         }
 
     }
-
+    // const handleConnectionMsg = (connectionType)=>{
+    //     const option = {
+    //         chatType:'groupChat',
+    //             type:'txt',
+    //             to:centerGroup.groupid,
+    //             msg:'connectionChatAgora',
+    //             ext:{
+    //                 name:`${first_name} ${last_name}`,
+    //                 action:connectionType
+    //             }
+    //     }
+    //     const message = WebIM.message.create(option)
+    //     WebIM.conn.send(message)
+    // }
 }
 
 export default Chat

@@ -36,6 +36,7 @@ const groupApi = createApi({
 
             }),
             getChatGroups: builder.query({
+                
                 query: ({CaseId})=>{
                     return {
                         url:`${Server_url}/session/chat_group/get_chat_groups_by_case/?case=${CaseId}`,
@@ -56,20 +57,6 @@ const groupApi = createApi({
                     } 
                 }
             }),
-            closeCase: builder.mutation({
-                query:({caseId, summary})=>{
-                    const currentDateTime = new Date().toISOString()
-                    return{
-                        url:`${Server_url}/session/case/${caseId}/`,
-                        method:'PATCH',
-                        body:{
-                            close_at:currentDateTime,
-                            is_active:false,
-                            summary:summary,
-                        }
-                    }
-                }
-            })
             }}
 })
 

@@ -14,7 +14,6 @@ import { useGetGroupsByUserQuery } from "../store"
 
 
 
-
 const CasePage =({isMediator})=>{
     //dont change the order***********
     //status= finished
@@ -24,6 +23,8 @@ const CasePage =({isMediator})=>{
     const dispatch = useDispatch()
  
     const location = useLocation()
+    const quaryParams = new URLSearchParams(location.search)
+    const open_close = quaryParams.get('open_close')
     const {trigerNotification} = useAlert()
     //============
 
@@ -54,7 +55,7 @@ const CasePage =({isMediator})=>{
             icon = 'error'
         }
         trigerNotification(title,icon)
-    },[]);
+    },[])
 
      useEffect(()=>{
         if(!isSuccess)return
@@ -70,7 +71,7 @@ const CasePage =({isMediator})=>{
     return(
         <article className="cap">
             <Header isLarge={true}/>
-                <MyCases isMediator={isMediator}/>
+                <MyCases isMediator={isMediator} open_close={open_close}/>
                 {isMediator?(
                     <><h1 className="cap--title">Create a new<br />Case</h1><Link to="new_case">
                         <div className="cap--plus-wrapper">

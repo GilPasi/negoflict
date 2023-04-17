@@ -14,7 +14,6 @@ const caseApi = createApi({
           const url = isMediator
             ? `${Server_url}/session/case/casess_by_mediator/`
             : `${Server_url}/session/chat_members/get_case_by_user/`;
-
           return {
             url: url,
             params: {
@@ -31,7 +30,6 @@ const caseApi = createApi({
         invalidatesTags: ['Cases'],
         query: ({title,mediator,category,sub_category,problem_brief, access})=>{
 
-
           return {
             url:'/session/case/create_case_and_groups/',
             body:{
@@ -41,7 +39,7 @@ const caseApi = createApi({
               sub_category:sub_category,
               problem_brief:problem_brief,
               summary:null,
-              is_cative:true,
+              is_active:true,
             },
             headers:{
               Authorization: `JWT ${access}`
@@ -81,22 +79,40 @@ const caseApi = createApi({
         }
 
       }),
-      getMyCloseCases: builder.query({
-        providesTags:['closeCase'],
-        query: ({id, access, isMediator})=>{
+      getMyCases: builder.query({ //this is the updated method to get cases
+        providesTags:['Cases'],
+        query: ({id, access, isMediator,open_close})=>{
+          const url = isMediator?'/session/case/get_open_close_cases/':'/session/chat_members/get_open_close_case_by_user/'
+          console.log('in getGroup',open_close)
           return{
+            url:url,
+            method:'GET',
+            params:{
+              id:id,
+              open_close:open_close,
+            },
+            headers: {
+              Authorization: `JWT ${access}`,
+            },
 
           }
         }
       }),
-      getMyOpenCase: builder.query({
-        providesTags:['openCase'],
-        query: ({id, access, isMediator})=>{
-          return{
-
-          }
+      closeCase: builder.mutation({
+        invalidatesTags:['Cases'],
+        query:({caseId, summary})=>{
+            const currentDateTime = new Date().toISOString()
+            return{
+                url:`${Server_url}/session/case/${caseId}/`,
+                method:'PATCH',
+                body:{
+                    close_at:currentDateTime,
+                    is_active:false,
+                    summary:summary,
+                }
+            }
         }
-      })
+    }),
     }
   }
 });

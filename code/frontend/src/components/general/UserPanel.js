@@ -1,13 +1,15 @@
 import "../../styles/components/user_panel.css"
 import useAlert from "../../hooks/useAlert"
 import { useNavigate } from "react-router-dom"
-import WebIM from "../../WebIM"
 import { useSelector } from "react-redux"
 import { getPermName } from "../../utils/permissions"
+import WebIM from "../../WebIM"
 const UserPanel=({
-    handleSwitch , isSwitched , isComplex, caseId
+    handleSwitch , isSwitched , isComplex, caseId,centerGroup
 })=>{
     const {role} = useSelector(state=>state.user)
+    const roleName = getPermName({role:role})
+    const {first_name, last_name} = useSelector(state=>state.user)
     
 
     const {deletAlert} = useAlert()
@@ -20,6 +22,9 @@ const UserPanel=({
         background:'#fffcfcb4',
        })
        if(isDismissed)return
+       if(roleName==='mediator')
+            WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
+
        WebIM.conn.close()
        const roleName = getPermName({role:role})
 
@@ -37,8 +42,8 @@ const UserPanel=({
         }
         
     }
+   
     
-
     return(
         <section className="user-panel">
             {isComplex&&

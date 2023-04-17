@@ -16,7 +16,7 @@ const InfoBox = ({ obj, size }) => {
   const path = obj.id.replaceAll('-', '');
   const { groups } = useSelector((state) => state.groups);
 
-  const chatPath = `/${gotRole}/chat/${path}`;
+  const chatPath = `/${gotRole}/chat/${path}/`;
 
 
 
@@ -55,6 +55,7 @@ let data
   return (
     <div className="ib" style={size}>
       <GeneralInfoBox obj={obj} size={size} />
+      {obj.is_active&&
 
       <div className="btns-box">
         <Link
@@ -67,10 +68,13 @@ let data
         >
           <button className="ib--start">start chat</button>
         </Link>
+        
+        {gotRole==='mediator'&&
         <button className="ib--start" onClick={handleClose}>
           close case
         </button>
-      </div>
+}
+      </div>}
     </div>
   );
 };
