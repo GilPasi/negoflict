@@ -9,7 +9,7 @@ import { groupApi } from "./api/groupApi";
 import { chatGroupsReducer, addChatGroups, removeChatGroups } from "./slices/chatGroupsSlice";
 import  {adminApi} from "./api/adminApi";
 import { chatReducer, addGroupsProps, updateMsg, resetChatState, addHistoryMsg } from "./slices/chatSlice";
-import { msgReducer, postNewMessage } from "./slices/msgSlice";
+import { msgReducer, postNewMessage, clearMsg } from "./slices/msgSlice";
 import { msgApi } from "./api/msgApi"; 
 import { mediatorApi } from "./api/mediatorApi";
 
@@ -57,7 +57,8 @@ export{
     resetChatState,
     addHistoryMsg,
     postNewMessage,
-    setPrivateGroup
+    setPrivateGroup,
+    clearMsg
 
    
 }

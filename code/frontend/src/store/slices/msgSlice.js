@@ -28,10 +28,25 @@ const msgSlice = createSlice({
            state.ext.name = name
            state.ext.userId = userId
            state.ext.sender = sender
+        },
+        clearMsg: (state)=>{
+            state = {
+                ext:{
+                    side:'',
+                    color:0,
+                    name:'',
+                    userId:'',
+                    sender:''
+                },
+                msg:'',
+                to:'',
+            }
+
         }
-    }
+    },
+    
 })
 
 
 export const msgReducer = msgSlice.reducer
-export const {postNewMessage} = msgSlice.actions
+export const {postNewMessage, clearMsg} = msgSlice.actions

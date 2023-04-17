@@ -27,7 +27,6 @@ const ChatPage = ()=>{
      const [fetch,setFetch] = useState(false)
      const [role,setRole] = useState('')
      const [mute, setMute] = useState(false)
-     const [connectionUsers, setConnectionUsers] = useState([])
      //=================
  
     //values========
@@ -74,7 +73,6 @@ const ChatPage = ()=>{
     useMemo(() => {
         if(isFetching)return
         if(error){
-            console.log('mmammamama')
             console.log(error)
             return
         }
@@ -110,7 +108,7 @@ const ChatPage = ()=>{
             setActiveGroup('groupG')
     },[pos]);
     //===========================
-    console.log(connectionUsers)
+   
 
     //handles=============
     const handleRecivedMsg = (msg)=>{ //handle recived messages only in real time
@@ -125,10 +123,6 @@ const ChatPage = ()=>{
               
             delete modifiedObject.data;
             dispatch(updateMsg({id:to, message:modifiedObject}))
-
-          
-          
-       
     };
     const handleConnect = (value)=>{ //handle the connection property
         connect.current = value
@@ -176,7 +170,7 @@ const ChatPage = ()=>{
             role={role}
             muted={mute}
             centerGroup={centerGroup}
-            connectionUsers={connectionUsers}
+
 
 
             />

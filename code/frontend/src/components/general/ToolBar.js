@@ -26,19 +26,6 @@ const ToolBar =({conflictName , id , handleAdd,isMediator,connectionUsers, isCha
                 className="tb--btn-img"
                 />
             </div>
-            {isChat&&
-            <ul className="connection-box">
-                {connectionUsers.map(user=>{
-                 
-                    const dotColor = user.status==="connect"? 'rgb(31, 241, 31)':'rgba(244, 40, 40, 0.89)'
-
-                    return(
-                        <li style={{color:dotColor}} key={user['name']} className="connection-li">
-                            <span>{user['name']}</span>
-                        </li>
-                    )
-                })}
-            </ul>}
         </div>
         
         )

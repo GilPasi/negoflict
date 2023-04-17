@@ -1,8 +1,9 @@
 import WebIM from "../../WebIM";
 import {useEffect, useMemo, useRef} from "react";
-import {useGetChatTokenQuery} from "../../store";
-import { useSelector } from "react-redux";
+import {clearMsg, resetChatState, useGetChatTokenQuery} from "../../store";
+import { useSelector, useDispatch } from "react-redux";
 import { getPermName } from "../../utils/permissions";
+
 
 
 const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onMute, centerGroup})=>{
@@ -11,17 +12,22 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     const tokenRes = useGetChatTokenQuery({username:username})
     const {role} = useSelector(state=>state.user)
     const roleName  = getPermName({role:role})
+    const dispatch = useDispatch()
     //===========
     //state==========
     const {first_name, last_name} = useSelector(state=>state.user)
     const messageDetail = useSelector(state=>state.message)
 
-    const handleDisconnect = (event)=>{
+    const handleDisconnect =async (event)=>{
         event.preventDefault()
+        event.returnValue = ''
+
         if(!WebIM.conn.isOpened())return
         if(roleName ==='mediator')
             WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
-        WebIM.conn.close()
+        dispatch(clearMsg())
+        dispatch(resetChatState())
+        await WebIM.conn.close()
     }
    
 
@@ -63,7 +69,10 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     WebIM.conn.addEventHandler('hen',{
         onGroupEvent: msg=>handleGroupEvent(msg),
         onOnline: (res)=>console.log('connected',res),
-        // onConnected: ()=>handleConnectionMsg('connect'),
+        // onConnected: ()=>{
+        //     onConnect(true)
+        //     getHistoryMsg()
+        //     },
         // onDisconnected:()=>handleConnectionMsg('disconnect')
     })
     window.addEventListener('popstate',handleDisconnect)
@@ -80,7 +89,9 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         getHistoryMsg()   
     };
 
-    const postNewMessage = ()=>{
+    const postNewMessage =async ()=>{
+        if(!await WebIM.conn.isOpened())return
+        
         const {ext,msg,to} = messageDetail
 
         const option = {
@@ -100,7 +111,6 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         WebIM.conn.send(message)
     };
     const getHistoryMsg = ()=>{
-        console.log('in fetch history')
         groups.forEach(group=>{
              WebIM.conn.getHistoryMessages({targetId:group.groupid ,chatType:'groupChat', pageSize: 50})
              .then(res=>{
