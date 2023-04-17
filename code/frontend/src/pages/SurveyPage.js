@@ -34,7 +34,7 @@ const SurveyPage=(duration,stages,interactions , isMediator)=>{
         const data ={rate:satLevel , comment:textFeedbackRef.current.value}
         //Backend: save data to DB
         console.log('survey data',data)
-        navigate('/user',{
+        navigate('/user/cases/?open_close=True',{
             replace:true,
         })
         
@@ -46,7 +46,7 @@ const SurveyPage=(duration,stages,interactions , isMediator)=>{
       Better to create as a dynamic list
       (easier to add or delete options).*/
     const satisfactionOptions=SATISFATION_OP.map((op,index)=>(
-        <label className="sp--option" >{`${index + 1}.${op}`}
+        <label key={index} className="sp--option" >{`${index + 1}.${op}`}
             <input type="radio"
              value={index}
               name="satisfaction"
