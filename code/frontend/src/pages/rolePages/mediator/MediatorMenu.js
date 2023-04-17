@@ -23,13 +23,13 @@ const MediatorMenu = ()=>{
             </div>
             <div className='am--menu'>
                 <Link to='cases/?open_close=True'>
-                    <Button text='My Cases' size='small'/>
+                    <Button margin='1em' text='Open Cases' length='8em' altitude='2em'/>
                 </Link>
                 <Link to='cases/?open_close=False'>
-                    <Button text='Close Cases' size='small'/>
+                    <Button margin='1em' text='Closed Cases' length='8em' altitude='2em'/>
                 </Link>
                 <Link to='clients'>
-                    <Button text={'Clients'} size='small'/>
+                    <Button margin='1em' text={'active users'} length='8em' altitude='2em'/>
                 </Link>
             
             
