@@ -1,7 +1,7 @@
 import Header from '../../../components/general/Header'
 import Button from '../../../components/general/Button'
 import {Link} from 'react-router-dom'
-import WebIM from '../../../WebIM' //dont remove this line
+// import WebIM from '../../../WebIM' //dont remove this line
 
 
 

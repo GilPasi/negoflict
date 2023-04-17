@@ -3,6 +3,7 @@ import useAlert from "../../hooks/useAlert"
 import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { getPermName } from "../../utils/permissions"
+import WebIM from '../../WebIM'
 
 const UserPanel=({
     handleSwitch , isSwitched , isComplex, caseId,centerGroup
@@ -22,10 +23,10 @@ const UserPanel=({
         background:'#fffcfcb4',
        })
        if(isDismissed)return
-    //    if(roleName==='mediator')
-    //         WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
+       if(roleName==='mediator')
+            WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
 
-    //    WebIM.conn.close()
+       WebIM.conn.close()
        
 
        if(roleName==='user')

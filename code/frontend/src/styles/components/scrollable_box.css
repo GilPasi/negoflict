@@ -1,8 +1,8 @@
 .scrollable-box{
-    height: 50vh;
+    height: 40vh;
     overflow-y: scroll;
 }
 .scrollable-box-big{
-    height: 70vh;
+    height: 40vh;
     overflow-y: scroll;
 }
