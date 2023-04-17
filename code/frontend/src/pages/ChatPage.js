@@ -27,6 +27,7 @@ const ChatPage = ()=>{
      const [fetch,setFetch] = useState(false)
      const [role,setRole] = useState('')
      const [mute, setMute] = useState(false)
+     const [connectionUsers, setConnectionUsers] = useState([])
      //=================
  
     //values========
@@ -38,7 +39,7 @@ const ChatPage = ()=>{
     const centerGroup = groups.find(group => group.groupname.endsWith('G'));
     //=============
     //apiFetch==========
-    const {data,error, isSuccess} =useGetChatGroupsQuery({CaseId:caseId}) 
+    const {data,error, isSuccess, isFetching} =useGetChatGroupsQuery({CaseId:caseId}) 
     //==========
 
     //functions============
@@ -52,7 +53,6 @@ const ChatPage = ()=>{
             console.log(error)
             return
         }
-        console.log(data)
         dispatch(setPrivateGroup(data.side))
         setUserDetail(prevState=>({...prevState,['side']:data.side,['memberId']:data.id}))
     };
@@ -74,6 +74,7 @@ const ChatPage = ()=>{
     },[username,userRole]);
 
     useMemo(() => {
+        if(isFetching)return
         if(error){
             console.log(error)
             return
@@ -109,17 +110,17 @@ const ChatPage = ()=>{
             setActiveGroup('groupG')
     },[pos]);
     //===========================
+    console.log(connectionUsers)
 
     //handles=============
     const handleRecivedMsg = (msg)=>{ //handle recived messages only in real time
-        console.log('inmessag1',msg)
         const {to, type} = msg
         if(type !== 'groupChat')return
 
-        console.log('in msg2',msg)
-
-        
-
+        if(msg?.msg==='connectionUserChatAgora'){
+            setConnectionUsers(prevState=>[...prevState,msg?.ext?.name])
+            return
+        }
         const modifiedObject = {
             ...msg,
             msg: msg.data,
@@ -174,6 +175,7 @@ const ChatPage = ()=>{
             fetch={fetch}
             role={role}
             muted={mute}
+
 
             />
             <Chat

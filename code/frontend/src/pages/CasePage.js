@@ -14,7 +14,6 @@ import { useGetGroupsByUserQuery } from "../store"
 
 
 
-
 const CasePage =({isMediator})=>{
     //dont change the order***********
     //status= finished
@@ -56,7 +55,7 @@ const CasePage =({isMediator})=>{
             icon = 'error'
         }
         trigerNotification(title,icon)
-    },[]);
+    },[])
 
      useEffect(()=>{
         if(!isSuccess)return

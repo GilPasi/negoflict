@@ -3,6 +3,7 @@
 
 .tb{
   display: flex;
+  position: relative;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -63,4 +64,19 @@
   color:var(--green-dark);
   transform:translateY(-100%);
   font-weight:100;
+}
+.connection-box{
+  position: absolute;
+  overflow-y: scroll;
+  right: 0;
+  height: 80%;
+  padding-left: -10px;
+  top: 0;
+  overflow-x: hidden;
+  list-style-type: none;
+}
+.connection-li::before {
+  content: "•";
+  color: rgb(31, 241, 31);
+  margin-right: 4px;
 }

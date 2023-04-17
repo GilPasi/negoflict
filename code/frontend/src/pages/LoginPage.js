@@ -166,7 +166,7 @@ const LoginPage=()=>{
                 navigate('/mediator')
                 break
             case 3:
-                navigate('/user/?open_close=True')
+                navigate('/user/cases/?open_close=True')
                 break
             default:
                 navigate('/login')

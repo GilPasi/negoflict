@@ -36,6 +36,7 @@ const groupApi = createApi({
 
             }),
             getChatGroups: builder.query({
+                
                 query: ({CaseId})=>{
                     return {
                         url:`${Server_url}/session/chat_group/get_chat_groups_by_case/?case=${CaseId}`,

@@ -26,6 +26,29 @@ const ToolBar =({conflictName , id , handleAdd,isMediator})=>{
                 className="tb--btn-img"
                 />
             </div>
+            <ul className="connection-box">
+                <li className="connection-li">
+                    hen berti
+                </li>
+                <li>
+                    hen bertisdfasf
+                </li>
+                <li>
+                    hen berti
+                </li>
+                <li>
+                    hen berti
+                </li>
+                <li>
+                    hen berti
+                </li>
+                <li>
+                    hen berti
+                </li>
+                <li>
+                    hen berti
+                </li>
+            </ul>
         </div>
         
         )

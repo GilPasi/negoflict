@@ -83,7 +83,7 @@ const caseApi = createApi({
         providesTags:['Cases'],
         query: ({id, access, isMediator,open_close})=>{
           const url = isMediator?'/session/case/get_open_close_cases/':'/session/chat_members/get_open_close_case_by_user/'
-
+          console.log('in getGroup',open_close)
           return{
             url:url,
             method:'GET',
