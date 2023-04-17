@@ -175,6 +175,7 @@ const ChatPage = ()=>{
             fetch={fetch}
             role={role}
             muted={mute}
+            centerGroup={centerGroup}
 
 
             />

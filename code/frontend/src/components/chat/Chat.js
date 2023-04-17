@@ -17,9 +17,10 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
 
     const handleDisconnect = ()=>{
         if(!WebIM.conn.isOpened())return
+        console.log(roleName)
         if(roleName ==='mediator')
             WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
-            
+
         WebIM.conn.close()
     }
    

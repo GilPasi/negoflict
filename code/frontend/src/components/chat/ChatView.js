@@ -8,7 +8,7 @@ import { useState, useEffect} from 'react';
 
 
 
-const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isShuttled, role, muted})=>{
+const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isShuttled, role, muted,centerGroup})=>{
 
     const [size, setSize] = useState(window.innerHeight);
     const shuttelView =muted
@@ -120,6 +120,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
                         isSwitched={isShuttled}
                         isComplex={isMediator}
                         caseId= {caseId}
+                        centerGroup={centerGroup}
                     />
                 </footer>
         </article>

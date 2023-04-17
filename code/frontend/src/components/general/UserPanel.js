@@ -5,9 +5,10 @@ import WebIM from "../../WebIM"
 import { useSelector } from "react-redux"
 import { getPermName } from "../../utils/permissions"
 const UserPanel=({
-    handleSwitch , isSwitched , isComplex, caseId
+    handleSwitch , isSwitched , isComplex, caseId,centerGroup
 })=>{
     const {role} = useSelector(state=>state.user)
+    const roleName = getPermName({role:role})
     
 
     const {deletAlert} = useAlert()
@@ -20,6 +21,9 @@ const UserPanel=({
         background:'#fffcfcb4',
        })
        if(isDismissed)return
+       if(roleName==='mediator')
+            WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
+
        WebIM.conn.close()
        const roleName = getPermName({role:role})
 
