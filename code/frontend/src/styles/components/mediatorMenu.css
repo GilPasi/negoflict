@@ -1,0 +1,10 @@
+
+
+.am{
+    position: absolute;
+    transform: translateX(-50%) ;
+}
+
+.box{
+    position: relative;
+}

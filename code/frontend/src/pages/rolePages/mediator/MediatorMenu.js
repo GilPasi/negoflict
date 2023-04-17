@@ -2,7 +2,7 @@ import Header from '../../../components/general/Header'
 import Button from '../../../components/general/Button'
 import {Link} from 'react-router-dom'
 // import WebIM from '../../../WebIM' //dont remove this line
-
+import '../../../styles/components/mediatorMenu.css'
 
 
 
@@ -11,6 +11,7 @@ const MediatorMenu = ()=>{
     //dont remore importing WebIm
 
     return(
+        <div className='box'>
         <div className='am'>
             <Header className='' isLarge={true}/>
             <div className='text_header'>
@@ -33,6 +34,7 @@ const MediatorMenu = ()=>{
                 </Link>
             
             
+            </div>
             </div>
             
             
