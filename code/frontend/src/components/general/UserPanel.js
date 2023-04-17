@@ -9,6 +9,7 @@ const UserPanel=({
 })=>{
     const {role} = useSelector(state=>state.user)
     const roleName = getPermName({role:role})
+    const {first_name, last_name} = useSelector(state=>state.user)
     
 
     const {deletAlert} = useAlert()
@@ -24,6 +25,7 @@ const UserPanel=({
        if(roleName==='mediator')
             WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
 
+       handleConnectionMsg('disconnect')
        WebIM.conn.close()
        const roleName = getPermName({role:role})
 
@@ -41,8 +43,21 @@ const UserPanel=({
         }
         
     }
+    const handleConnectionMsg = (connectionType)=>{
+        const option = {
+            chatType:'groupChat',
+                type:'txt',
+                to:centerGroup.groupid,
+                msg:'connectionChatAgora',
+                ext:{
+                    name:`${first_name} ${last_name}`,
+                    action:connectionType
+                }
+        }
+        const message = WebIM.message.create(option)
+        WebIM.conn.send(message)
+    }
     
-
     return(
         <section className="user-panel">
             {isComplex&&

@@ -8,7 +8,7 @@ import { useState, useEffect} from 'react';
 
 
 
-const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isShuttled, role, muted,centerGroup})=>{
+const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isShuttled, role, muted,centerGroup,connectionUsers})=>{
 
     const [size, setSize] = useState(window.innerHeight);
     const shuttelView =muted
@@ -86,7 +86,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
             </p>
                 <header className='cp--header'>
                     <Header isLarge={false}/>
-                    <ToolBar conflictName="A political conflict" id={caseId}/>
+                    <ToolBar conflictName="A political conflict" id={caseId} connectionUsers={connectionUsers}/>
                     <ShuttleSwitch isMediator={isMediator}/>
                 </header>
 

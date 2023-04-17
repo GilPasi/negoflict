@@ -75,8 +75,4 @@
   overflow-x: hidden;
   list-style-type: none;
 }
-.connection-li::before {
-  content: "•";
-  color: rgb(31, 241, 31);
-  margin-right: 4px;
-}
+/*  */

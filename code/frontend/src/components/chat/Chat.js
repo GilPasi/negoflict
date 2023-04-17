@@ -16,12 +16,13 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     const {first_name, last_name} = useSelector(state=>state.user)
     const messageDetail = useSelector(state=>state.message)
 
-    const handleDisconnect = ()=>{
+    const handleDisconnect = (event)=>{
+        event.preventDefault()
         if(!WebIM.conn.isOpened())return
         console.log(roleName)
         if(roleName ==='mediator')
             WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
-
+        handleConnectionMsg('disconnect')
         WebIM.conn.close()
     }
    
@@ -65,9 +66,10 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         onGroupEvent: msg=>handleGroupEvent(msg),
         onOnline: (res)=>console.log('connected',res),
         onConnected: ()=>handleConnectionMsg('connect'),
-        onDisconnected:()=>handleConnectionMsg('disconnect')
+        // onDisconnected:()=>handleConnectionMsg('disconnect')
     })
     window.addEventListener('popstate',handleDisconnect)
+    window.addEventListener('beforeunload',handleDisconnect)
     
     //====================
 
@@ -127,7 +129,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         const option = {
             chatType:'groupChat',
                 type:'txt',
-                to:centerGroup,
+                to:centerGroup.groupid,
                 msg:'connectionChatAgora',
                 ext:{
                     name:`${first_name} ${last_name}`,
@@ -137,6 +139,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         const message = WebIM.message.create(option)
         WebIM.conn.send(message)
     }
+}
 
 export default Chat
 

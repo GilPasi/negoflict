@@ -3,7 +3,7 @@ import Loader from './Loader'
 import PopupContainer from './Modal.js'
 import AddWindow from "../../components/general/AddWindow"
 
-const ToolBar =({conflictName , id , handleAdd,isMediator})=>{
+const ToolBar =({conflictName , id , handleAdd,isMediator,connectionUsers})=>{
     
     return(
         <div className="tb">
@@ -27,27 +27,16 @@ const ToolBar =({conflictName , id , handleAdd,isMediator})=>{
                 />
             </div>
             <ul className="connection-box">
-                <li className="connection-li">
-                    hen berti
-                </li>
-                <li>
-                    hen bertisdfasf
-                </li>
-                <li>
-                    hen berti
-                </li>
-                <li>
-                    hen berti
-                </li>
-                <li>
-                    hen berti
-                </li>
-                <li>
-                    hen berti
-                </li>
-                <li>
-                    hen berti
-                </li>
+                {connectionUsers.map(user=>{
+                 
+                    const dotColor = user.status==="connect"? 'rgb(31, 241, 31)':'rgba(244, 40, 40, 0.89)'
+
+                    return(
+                        <li style={{color:dotColor}} key={user['name']} className="connection-li">
+                            <span>{user['name']}</span>
+                        </li>
+                    )
+                })}
             </ul>
         </div>
         
