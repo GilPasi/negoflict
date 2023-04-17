@@ -57,8 +57,6 @@ const ChatPage = ()=>{
         setUserDetail(prevState=>({...prevState,['side']:data.side,['memberId']:data.id}))
     };
     //==============
-    const store = useSelector(state=>state)
-    
 
     //useMemo=============
     useMemo(()=>{  //set user detail role and username
@@ -76,10 +74,12 @@ const ChatPage = ()=>{
     useMemo(() => {
         if(isFetching)return
         if(error){
+            console.log('mmammamama')
             console.log(error)
             return
         }
         if (!isSuccess)return
+        console.log(data)
         
           setChatGroupData(()=>data)
        

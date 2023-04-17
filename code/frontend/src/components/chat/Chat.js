@@ -2,19 +2,24 @@ import WebIM from "../../WebIM";
 import {useEffect, useMemo, useRef} from "react";
 import {useGetChatTokenQuery} from "../../store";
 import { useSelector } from "react-redux";
+import { getPermName } from "../../utils/permissions";
 
 
 const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onMute, centerGroup})=>{
     //hooks=======
     const wasRenderd = useRef(false)
     const tokenRes = useGetChatTokenQuery({username:username})
+    const {role} = useSelector(state=>state.user)
+    const roleName  = getPermName({role:role})
     //===========
     //state==========
     const messageDetail = useSelector(state=>state.message)
 
     const handleDisconnect = ()=>{
         if(!WebIM.conn.isOpened())return
-        WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
+        if(roleName ==='mediator')
+            WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
+            
         WebIM.conn.close()
     }
    
