@@ -13,6 +13,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     const roleName  = getPermName({role:role})
     //===========
     //state==========
+    const {first_name, last_name} = useSelector(state=>state.user)
     const messageDetail = useSelector(state=>state.message)
 
     const handleDisconnect = ()=>{
@@ -62,14 +63,15 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
 
     WebIM.conn.addEventHandler('hen',{
         onGroupEvent: msg=>handleGroupEvent(msg),
-        onOnline: (res)=>console.log('llalala',res)
+        onOnline: (res)=>console.log('connected',res),
+        onConnected: ()=>handleConnectionMsg('connect'),
+        onDisconnected:()=>handleConnectionMsg('disconnect')
     })
     window.addEventListener('popstate',handleDisconnect)
     
     //====================
 
     //function========
-  
     const connect =async ()=>{
         await WebIM.conn.open({
             user:username,
@@ -121,8 +123,20 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         }
 
     }
-
-}
+    const handleConnectionMsg = (connectionType)=>{
+        const option = {
+            chatType:'groupChat',
+                type:'txt',
+                to:centerGroup,
+                msg:'connectionChatAgora',
+                ext:{
+                    name:`${first_name} ${last_name}`,
+                    action:connectionType
+                }
+        }
+        const message = WebIM.message.create(option)
+        WebIM.conn.send(message)
+    }
 
 export default Chat
 
