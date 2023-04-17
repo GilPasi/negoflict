@@ -117,39 +117,16 @@ const ChatPage = ()=>{
         const {to, type} = msg
         if(type !== 'groupChat')return
 
-        if (msg?.data === 'connectionChatAgora') {
-            const userIndex = connectionUsers.findIndex(
-              (user) => user['name'] === msg?.ext?.name
-            );
-          
-            setConnectionUsers((prevState) => {
-              if (userIndex === -1) {
-                // User not found, add a new user
-                return [
-                  ...prevState,
-                  { ['name']: msg?.ext?.name, ['status']: msg?.ext?.action },
-                ];
-              } else {
-                // User found, update the status
-                return prevState.map((user, index) =>
-                  index === userIndex ? { ...user, status: msg?.ext?.action } : user
-                );
-              }
-            });
-          
-            return;
-          }
-          else{
             const modifiedObject = {
                 ...msg,
                 msg: msg.data,
                 time: parseInt(msg.time),
               };
               
-              delete modifiedObject.data;
+            delete modifiedObject.data;
             dispatch(updateMsg({id:to, message:modifiedObject}))
 
-          }
+          
           
        
     };

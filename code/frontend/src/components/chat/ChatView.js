@@ -86,7 +86,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
             </p>
                 <header className='cp--header'>
                     <Header isLarge={false}/>
-                    <ToolBar conflictName="A political conflict" id={caseId} connectionUsers={connectionUsers}/>
+                    <ToolBar conflictName="A political conflict" id={caseId} connectionUsers={connectionUsers} isChat={true}/>
                     <ShuttleSwitch isMediator={isMediator}/>
                 </header>
 

@@ -1,9 +1,9 @@
 import "../../styles/components/user_panel.css"
 import useAlert from "../../hooks/useAlert"
 import { useNavigate } from "react-router-dom"
-import WebIM from "../../WebIM"
 import { useSelector } from "react-redux"
 import { getPermName } from "../../utils/permissions"
+import WebIM from "../../WebIM"
 const UserPanel=({
     handleSwitch , isSwitched , isComplex, caseId,centerGroup
 })=>{
@@ -25,7 +25,6 @@ const UserPanel=({
        if(roleName==='mediator')
             WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
 
-       handleConnectionMsg('disconnect')
        WebIM.conn.close()
        const roleName = getPermName({role:role})
 
@@ -43,20 +42,7 @@ const UserPanel=({
         }
         
     }
-    const handleConnectionMsg = (connectionType)=>{
-        const option = {
-            chatType:'groupChat',
-                type:'txt',
-                to:centerGroup.groupid,
-                msg:'connectionChatAgora',
-                ext:{
-                    name:`${first_name} ${last_name}`,
-                    action:connectionType
-                }
-        }
-        const message = WebIM.message.create(option)
-        WebIM.conn.send(message)
-    }
+   
     
     return(
         <section className="user-panel">

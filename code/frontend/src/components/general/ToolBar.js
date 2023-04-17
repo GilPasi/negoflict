@@ -3,7 +3,7 @@ import Loader from './Loader'
 import PopupContainer from './Modal.js'
 import AddWindow from "../../components/general/AddWindow"
 
-const ToolBar =({conflictName , id , handleAdd,isMediator,connectionUsers})=>{
+const ToolBar =({conflictName , id , handleAdd,isMediator,connectionUsers, isChat})=>{
     
     return(
         <div className="tb">
@@ -26,6 +26,7 @@ const ToolBar =({conflictName , id , handleAdd,isMediator,connectionUsers})=>{
                 className="tb--btn-img"
                 />
             </div>
+            {isChat&&
             <ul className="connection-box">
                 {connectionUsers.map(user=>{
                  
@@ -37,7 +38,7 @@ const ToolBar =({conflictName , id , handleAdd,isMediator,connectionUsers})=>{
                         </li>
                     )
                 })}
-            </ul>
+            </ul>}
         </div>
         
         )

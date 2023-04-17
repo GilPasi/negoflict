@@ -19,10 +19,8 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     const handleDisconnect = (event)=>{
         event.preventDefault()
         if(!WebIM.conn.isOpened())return
-        console.log(roleName)
         if(roleName ==='mediator')
             WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
-        handleConnectionMsg('disconnect')
         WebIM.conn.close()
     }
    
@@ -65,7 +63,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     WebIM.conn.addEventHandler('hen',{
         onGroupEvent: msg=>handleGroupEvent(msg),
         onOnline: (res)=>console.log('connected',res),
-        onConnected: ()=>handleConnectionMsg('connect'),
+        // onConnected: ()=>handleConnectionMsg('connect'),
         // onDisconnected:()=>handleConnectionMsg('disconnect')
     })
     window.addEventListener('popstate',handleDisconnect)
@@ -125,20 +123,20 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         }
 
     }
-    const handleConnectionMsg = (connectionType)=>{
-        const option = {
-            chatType:'groupChat',
-                type:'txt',
-                to:centerGroup.groupid,
-                msg:'connectionChatAgora',
-                ext:{
-                    name:`${first_name} ${last_name}`,
-                    action:connectionType
-                }
-        }
-        const message = WebIM.message.create(option)
-        WebIM.conn.send(message)
-    }
+    // const handleConnectionMsg = (connectionType)=>{
+    //     const option = {
+    //         chatType:'groupChat',
+    //             type:'txt',
+    //             to:centerGroup.groupid,
+    //             msg:'connectionChatAgora',
+    //             ext:{
+    //                 name:`${first_name} ${last_name}`,
+    //                 action:connectionType
+    //             }
+    //     }
+    //     const message = WebIM.message.create(option)
+    //     WebIM.conn.send(message)
+    // }
 }
 
 export default Chat
