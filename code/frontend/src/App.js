@@ -13,8 +13,7 @@ import './App.css'
   
 
   return(
-    <div className="app">
-      <div className="centerizer">
+    <div className="app middle">
         <Routes>
           <Route path='/' element={<Layout/>}>
             {/* public routes */}
@@ -37,7 +36,6 @@ import './App.css'
     </div>  
 
 
-      </div>
 
 )}
 export default App;

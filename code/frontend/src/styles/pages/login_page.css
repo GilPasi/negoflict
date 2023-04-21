@@ -1,6 +1,4 @@
 /*__ Login page component __*/
-.lp{background-color: #fff;}
-
 .lp--title{
   text-align: left;
   font-weight: 700;
@@ -8,6 +6,7 @@
   margin-left: 1em;
   margin-top:4em;
 }
+/* @media(min-width:750px){.lp--title{transform: translate(5em);}} */
 
 .lp--form{
   display: flex;

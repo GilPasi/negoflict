@@ -25,29 +25,25 @@ const  TextHolder=({caseData, withInfo})=>{
 
     return(
         <section className="th">
+            <div className="th--box" >
+                <p className='th--title'>{title}</p>
+                {withInfo&&
 
-                <div className="th--box" style={{marginTop:'0'}}>
-                    <p>{title}</p>
-                    {withInfo&&
-
-                    <div className="th--switch">
-                        <button
-                         onClick={handleClick}
-                          className="th--switch-arrow"> 
-                          {info?'<':'>'}
-                         </button>
-                    </div>}
-                </div>
-
-            {withInfo&&     
-            <div className="th--info">
-                <InfoBox 
-                obj={caseData} 
-                size={infoSize}
-                />
+                <div className="th--switch">
+                    <button
+                        onClick={handleClick}
+                        className="th--switch-arrow"> 
+                        {info?'<':'>'}
+                        </button>
+                </div>}
             </div>
-            }
 
-        </section>
+        {withInfo&&<div className="th--info">
+            <InfoBox 
+            obj={caseData} 
+            size={infoSize}
+            />
+        </div>}
+    </section>
     )}
 export default TextHolder

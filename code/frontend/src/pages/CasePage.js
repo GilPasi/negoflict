@@ -69,11 +69,11 @@ const CasePage =({isMediator})=>{
     
 
     return(
-        <article className="cap">
+        <article className="cap page">
             <Header isLarge={true}/>
                 <MyCases isMediator={isMediator} open_close={open_close}/>
                 {isMediator?(
-                    <><h1 className="cap--title">Create a new<br />Case</h1><Link to="new_case">
+                    <><h1 className="title">Create a new<br />Case</h1><Link to="new_case">
                         <div className="cap--plus-wrapper">
                             <div className="cap--plus">
                                 <div className="cap--line" id="cap--line-ver"></div>
