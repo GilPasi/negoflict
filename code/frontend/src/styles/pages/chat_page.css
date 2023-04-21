@@ -5,17 +5,18 @@
 @media (max-width:10000px) {
   .cp{
     width: 40em;
-    border:1px solid #80808052
+    border:1px solid #80808052;
   
   } }
 /*Mobile view*/
 @media (max-width:700px) {
   .cp{
-    width: 80vh;
-    min-width: 20em;
+    width: 100%;
+    min-width: 600px;
     padding: 0; 
     margin: 0;
     border:none;
+    /* background-color: red; */
   } }
 
   .cp--shuttled-msg{
@@ -59,15 +60,15 @@
 }
 
 .cp--footer{
-  width: 100%;
+  /* width: 100%; */
   background-color:white;
+  padding:0;
 }
 
 .cp--send{
   position: absolute;
-  top:50%;
-  left: 50%;
-
+  /* top:50%; */
+  /* left: 50%; */
 
   transform:rotate(0.6125turn) translateX(80%) translateY(10%) ;
   font-size:var(--font-large);
@@ -88,24 +89,28 @@
 }
 
 .cp--input-btn {
-  border:1px solid red;
-
+  /*Space properties*/
+  --circle-size: 5em;
+  min-width: var(--circle-size);
+  height: var(--circle-size);
   margin-top:1em;
-  width: 7.5em;
-  height: 5em;
   margin-left: 1em;
   border-radius:50%;
   transform: scale(0.8)translateY(-50%);
-  border: none;
-  cursor: pointer;
   display: inline-block;
   position: relative;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  transition: all 0.3s;
+
+  /*Design properties*/
+  border: none;
   background: var(--green-dark);
   color: #fff;
   font-size: 0.6em;
+  cursor: pointer;
+
+  /*Animation properties*/
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
 }
 .cp--input-btn:after {
   content: '';

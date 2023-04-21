@@ -1,8 +1,6 @@
 /*__ Login page component __*/
-.lp{
-  height: 45em;
-}
-  
+.lp{background-color: #fff;}
+
 .lp--title{
   text-align: left;
   font-weight: 700;

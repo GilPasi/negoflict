@@ -23,31 +23,24 @@
 
   --cp-footer-height:9em;
 }
-html, body, .app { 
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  }
 
-  .app{
-    max-width: 40em;
-  }
-  body{
-    display: flex;
-    justify-content: center;
-  }
+
+.app{
+  height: 100vh;
+  min-width: 375px;
+  background-color: rgba(128, 128, 128, 0.17);;
+}
+/*Fit for a PC*/
+@media(max-width:550px){
+  .app{background-color:transparent}
+}
 
 .page{
-  display: flex;
-  justify-content: center;
-  margin-left: 50%;
-  transform: translateX(-50%);
-  width: 20em;
-  color: black;
-
-
+  margin:1px 0 ;
+  padding: 3px 0;
+  height: 100%;
 }
+
 
 h1,h2,h3,h4,h5,h6,img{
   user-select: none;
@@ -67,14 +60,11 @@ a:hover{
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  height: 100%;
+  width: 100%;
 
 }
-.aligner{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+
 .warning{
     color:rgb(201, 17, 17);
     visibility: hidden;

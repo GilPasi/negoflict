@@ -122,7 +122,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
                         caseId= {caseId}
                         centerGroup={centerGroup}
                     />
-                </footer>
+                </footer> 
         </article>
      
     )

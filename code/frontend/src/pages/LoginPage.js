@@ -178,7 +178,7 @@ const LoginPage=()=>{
 
 
     return(
-        <article className="lp" >
+        <article className="lp page" >
             <div className="limiter">
                 <Header isLarge={true} />
                 <h1 className="lp--title">Log-in<br/>{isMediator?<span>Mediator</span>:<div></div>}</h1>
@@ -230,10 +230,6 @@ const LoginPage=()=>{
                         </a>
                     </label>
                 </center>
-
-
-               
-
             </div>
         </article>
 )}
