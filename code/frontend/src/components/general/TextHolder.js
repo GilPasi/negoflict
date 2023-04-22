@@ -15,12 +15,7 @@ const  TextHolder=({caseData, withInfo})=>{
     }
     let renderInfo = info&&caseData.title 
 
-    const infoSize = {
-        transform : `scale(${renderInfo? '1' : '0'})`,
-        position: renderInfo ? "static" : "absolute",
-        margin: renderInfo ? "2.5em" : "0em",
 
-    }
     
 
     return(
@@ -41,7 +36,7 @@ const  TextHolder=({caseData, withInfo})=>{
         {withInfo&&<div className="th--info">
             <InfoBox 
             obj={caseData} 
-            size={infoSize}
+            isOpen={renderInfo}
             />
         </div>}
     </section>

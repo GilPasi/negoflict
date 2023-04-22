@@ -6,7 +6,7 @@ import useAlert from '../../hooks/useAlert';
 import { useDeleteGroupMutation } from '../../store';
 import { useCloseCaseMutation } from '../../store';
 
-const InfoBox = ({ obj, size }) => {
+const InfoBox = ({ obj, isOpen }) => {
   const { deletAlert, textAlert } = useAlert();
   const { role } = useSelector((state) => state.user);
   const gotRole = role <= 2 ? 'mediator' : 'user';
@@ -52,9 +52,18 @@ let data
     console.log('success', data);
   }
 
+  const infoSize = {
+    transform : `scaleY(${isOpen? '1' : '0'})`,
+    // height:isOpen? 'fit-content':'0',
+    // display:isOpen? 'block':'none',
+    position: isOpen ? "static" : "absolute",
+    margin: isOpen ? "2.5em" : "0em",
+
+}
+
   return (
-    <div className="ib" style={size}>
-      <GeneralInfoBox obj={obj} size={size} />
+    <div className="ib" style={infoSize}>
+      <GeneralInfoBox obj={obj} size={infoSize} />
       {obj.is_active&&
 
       <div className="btns-box">
