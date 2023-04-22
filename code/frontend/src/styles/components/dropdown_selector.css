@@ -1,7 +1,6 @@
 .dd{
     --arrow-width: 10px;
     --grey-transparent:rgba(128, 128, 128, 0.647);
-
     box-shadow: 0px 2px 6px 0px #87878772;
     display: inline-block;
     color:var(--grey);
@@ -9,6 +8,7 @@
     text-align: left;
     border-radius: 4px;
     position: relative;
+    z-index: 0;
     
 }
 
@@ -16,23 +16,24 @@
     content: '';
     border-top-right-radius: inherit;
     border-bottom-right-radius: inherit;
-
+    
     background-color: transparent;
     position: absolute;
     top:0;
     bottom: 0;
     right: 0;
     width:calc(var(--arrow-width)*3.25 );/*3.25 found by trial and error*/
-    z-index: -2;
-
+    z-index: -1;
+    
 }
 
 .dd--arrow{
-    width:10px;
-    height:10px;
-    margin:0.3em;
-    margin-top:0.4em ;
-    margin: 0.4em 0.2em 0.3em 0.3em;
+    --arrow-size : 10px;
+    width:var(--arrow-size);
+    height:var(--arrow-size);
+
+
+    /* margin: 100% calc(var(--arrow-width)*0.5) 0 0; */
 
     border:3px solid var(--grey);
     display: inline;
@@ -42,11 +43,10 @@
     transition: 250ms;
     
     position: absolute;
-    top:1px;
-    right:5px;
+    top:35%;
+    right:calc(var(--arrow-width)*1.2 );
+    transform:rotate(45deg) translateY(-50%) ;
     z-index: -1;
-    font-size: xx-large;
-    font-weight: 800;
 }
 .dd:hover .dd--arrow{
     border-color:white;
@@ -76,12 +76,17 @@
     color:var(--grey-transparent);
     border: none;
     outline: none;
-    padding: 0em 2em 1em 1em;
+    min-width: 40px;
+    padding-bottom: 1em 1em;
+    padding-right: calc(var(--arrow-width)*3.5 );
+    padding-left: 15px;
+
+    /* padding: 0em 2em 1em 1em; */
     background-color: transparent;
     font-weight: 900;
     color: var(--green-dark);
     font-size:x-large;
-    width: 100%;
+
 }
 
 .dd select{

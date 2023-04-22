@@ -1,7 +1,9 @@
 import '../../styles/components/info_box.css';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import {useState} from 'react'
 import GeneralInfoBox from './generalInfoBox';
+import AddUserPage from '../../pages/AddUserPage';
 import useAlert from '../../hooks/useAlert';
 import { useDeleteGroupMutation } from '../../store';
 import { useCloseCaseMutation } from '../../store';
@@ -12,6 +14,7 @@ const InfoBox = ({ obj, isOpen }) => {
   const gotRole = role <= 2 ? 'mediator' : 'user';
   const [deleteGroupsAgora, { data:deleteGroups, error:errorDeleteGroups }] = useDeleteGroupMutation();
   const [closeCase,{data:closeData,error:errorClose}] = useCloseCaseMutation()
+  const [step, setStep] = useState('nav')
 
   const path = obj.id.replaceAll('-', '');
   const { groups } = useSelector((state) => state.groups);
@@ -59,33 +62,44 @@ let data
 
 }
 
-  return (
-    <div className="ib" style={infoSize}>
-      <GeneralInfoBox obj={obj} size={infoSize} />
-      {obj.is_active&&
+const aup = <AddUserPage window='small' isMediator={false} side='A' goBack={()=>setStep('nav')}/>
 
-      <div>
-        <Link
-          to={chatPath}
-          state={{
-            groups: handleStart(),
-            caseId: obj.id,
-            caseTitle: obj.title,
-          }}
-        >
-          <button className="ib--btn">enter</button>
-        </Link>
-        
-        {gotRole==='mediator'&&
-        <button className="ib--btn" onClick={handleClose}>
-          finish
-        </button>}
-        {gotRole==='mediator'&& 
-        <button className="ib--btn">
-          add
-        </button>}
-      </div>}
-    </div>
-  );
-};
+  return (
+      <div className="ib" style={infoSize}>
+        {step ==='nav' ? 
+          <div>
+            <GeneralInfoBox obj={obj} size={infoSize} />
+              {obj.is_active&&
+                <div>
+                  <Link
+                    to={chatPath}
+                    state={{
+                      groups: handleStart(),
+                      caseId: obj.id,
+                      caseTitle: obj.title,
+                    }}
+                  >
+                    <button className="ib--btn">enter</button>
+                  </Link>
+
+                  {gotRole==='mediator'&&
+                  <button className="ib--btn" onClick={handleClose}>
+                    finish
+                  </button>}
+
+                  {gotRole==='mediator'&& 
+                  <button 
+                    className="ib--btn"
+                    onClick={()=>setStep('aup')}
+                  >
+                    add
+                  </button>}
+
+                </div>}
+              </div>
+            :aup}
+          </div>
+      );
+    };
 export default InfoBox;
+
