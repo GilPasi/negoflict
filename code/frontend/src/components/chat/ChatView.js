@@ -69,7 +69,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
 
     return(
         <article 
-            className="cp" 
+            className="page cp" 
             style={{ 
                 position:'relative',
                 height: `${size}px`,

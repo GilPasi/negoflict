@@ -1,37 +1,21 @@
 
 /* __Chat page component__ */
 
-/*Desktop view*/
-@media (max-width:10000px) {
-  .cp{
-    width: 40em;
-    border:1px solid #80808052;
-  
-  } }
-/*Mobile view*/
-@media (max-width:700px) {
-  .cp{
-    width: 100%;
-    min-width: 600px;
-    padding: 0; 
-    margin: 0;
-    border:none;
-    /* background-color: red; */
-  } }
 
-  .cp--shuttled-msg{
-    position: absolute;
-    width: 300px;
-    left : 10em;
-    right:1em;
-    background-color:black;
-    color:whitesmoke;
-    padding:5px 0 5px 0;
-    margin: 0;
-    border-radius: 5px;
-    transition: opacity ease-out 250ms , top 750ms;
-  
-  }
+
+.cp--shuttled-msg{
+  position: absolute;
+  inset:0 15%;
+  height: 3em;
+
+  background-color:black;
+  color:whitesmoke;
+  padding:5px 0;
+  margin: 0;
+  border-radius: 5px;
+  transition: opacity ease-out 250ms , top 750ms;
+
+}
 
 .cp--shader{
   position: absolute;

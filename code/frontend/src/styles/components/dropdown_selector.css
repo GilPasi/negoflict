@@ -1,6 +1,8 @@
 .dd{
     --arrow-width: 10px;
-    box-shadow: 0px 2px 6px 0px #8787874d;
+    --grey-transparent:rgba(128, 128, 128, 0.647);
+
+    box-shadow: 0px 2px 6px 0px #87878772;
     display: inline-block;
     color:var(--grey);
     padding-top:0.75em ;
@@ -22,7 +24,6 @@
     right: 0;
     width:calc(var(--arrow-width)*3.25 );/*3.25 found by trial and error*/
     z-index: -2;
-    opacity: 0.5;
 
 }
 
@@ -52,7 +53,7 @@
 }
 
 .dd:hover::before{
-    background-color:var(--grey);
+    background-color:var(--grey-transparent);
 }
 
 .dd--btn{
@@ -72,7 +73,7 @@
 
 .dd select{
     transition:  300ms ease-in-out;
-    color:var(--grey);
+    color:var(--grey-transparent);
     border: none;
     outline: none;
     padding: 0em 2em 1em 1em;
