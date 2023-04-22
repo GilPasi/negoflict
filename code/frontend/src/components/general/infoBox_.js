@@ -54,10 +54,8 @@ let data
 
   const infoSize = {
     transform : `scaleY(${isOpen? '1' : '0'})`,
-    // height:isOpen? 'fit-content':'0',
-    // display:isOpen? 'block':'none',
     position: isOpen ? "static" : "absolute",
-    margin: isOpen ? "2.5em" : "0em",
+    margin: isOpen ? "2.5em 0em" : "0em",
 
 }
 
@@ -66,7 +64,7 @@ let data
       <GeneralInfoBox obj={obj} size={infoSize} />
       {obj.is_active&&
 
-      <div className="btns-box">
+      <div>
         <Link
           to={chatPath}
           state={{
@@ -75,14 +73,17 @@ let data
             caseTitle: obj.title,
           }}
         >
-          <button className="ib--start">start chat</button>
+          <button className="ib--btn">enter</button>
         </Link>
         
         {gotRole==='mediator'&&
-        <button className="ib--start" onClick={handleClose}>
-          close case
-        </button>
-}
+        <button className="ib--btn" onClick={handleClose}>
+          finish
+        </button>}
+        {gotRole==='mediator'&& 
+        <button className="ib--btn">
+          add
+        </button>}
       </div>}
     </div>
   );

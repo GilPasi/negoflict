@@ -1,10 +1,8 @@
 .ib{
     position: relative;
     text-align: left;
-    padding-right: 1em;
-    /* width: fit-content; */
-    width: 10em;
     height: fit-content;
+    width: 12.5em;;
     background: linear-gradient( whitesmoke, rgba(233, 227, 227, 0.866));
     font-size: var(--font-medium);
     border-radius: 10px;
@@ -18,13 +16,17 @@
 
     transition: margin 0.5s , scale 0.5s ;
 }
-.ib--start{
 
+
+.ib--btn{
+    min-width: 4.5em;
     background-color: var(--green-dark) ;
-    margin-bottom: 5px;
-    margin-right: 10px;
+
+    margin:0 4px 10px 4px;
+    
+
     border: none;
-    border-radius: 20px;
+    border-radius: 40px;
     width: fit-content;
     height:50px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.472);
@@ -35,7 +37,7 @@
     padding: 7px;
     font-family: 'Roboto', sans-serif;
 }
-.ib--start:active{
+.ib--btn:active{
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.811);
     background-color:  var(--green-dark);
 }
@@ -48,12 +50,14 @@
 }
 .tr-key{
     font-size: large;
-    font-weight: 500;
-    padding-left: -100%;
+    /* font-weight: 500; */
 }
 .tr-value{
     font-size: small;
-    margin-left: 15px;
-    padding-right: -100%;
+    /* margin-left: 15px; */
     
+}
+
+.list-box{
+    padding-right:40px;
 }
