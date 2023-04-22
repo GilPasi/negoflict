@@ -15,39 +15,30 @@ const  TextHolder=({caseData, withInfo})=>{
     }
     let renderInfo = info&&caseData.title 
 
-    const infoSize = {
-        transform : `scale(${renderInfo? '1' : '0'})`,
-        position: renderInfo ? "static" : "absolute",
-        margin: renderInfo ? "2.5em" : "0em",
 
-    }
     
 
     return(
         <section className="th">
+            <div className="th--box" >
+                <p className='th--title'>{title}</p>
+                {withInfo&&
 
-                <div className="th--box" style={{marginTop:'0'}}>
-                    <p>{title}</p>
-                    {withInfo&&
-
-                    <div className="th--switch">
-                        <button
-                         onClick={handleClick}
-                          className="th--switch-arrow"> 
-                          {info?'<':'>'}
-                         </button>
-                    </div>}
-                </div>
-
-            {withInfo&&     
-            <div className="th--info">
-                <InfoBox 
-                obj={caseData} 
-                size={infoSize}
-                />
+                <div className="th--switch">
+                    <button
+                        onClick={handleClick}
+                        className="th--switch-arrow"> 
+                        {info?'<':'>'}
+                        </button>
+                </div>}
             </div>
-            }
 
-        </section>
+        {withInfo&&<div className="th--info">
+            <InfoBox 
+            obj={caseData} 
+            isOpen={renderInfo}
+            />
+        </div>}
+    </section>
     )}
 export default TextHolder

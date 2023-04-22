@@ -99,7 +99,7 @@ const AddUserPage =({side,idCase,goBack,
                             onChange={handleChange}
                             align="left"
                             width="100%"
-                            height="2em"
+                            height="2.5em"
                             />
                     </div>
 

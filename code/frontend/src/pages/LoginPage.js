@@ -178,63 +178,57 @@ const LoginPage=()=>{
 
 
     return(
-        <article className="lp" >
-            <div className="limiter">
-                <Header isLarge={true} />
-                <h1 className="lp--title">Log-in<br/>{isMediator?<span>Mediator</span>:<div></div>}</h1>
+        <article className="page" >
+            <Header isLarge={true} />
 
-                <form onSubmit={isMediator?submitHandlerMediator:submitHandlerUser} className="lp--form">
-                    {isMediator?
-                   ( <TextInput 
-                    type="text"
-                    placeHolder="Username"
-                    onChange = {handleChange}
-                    name = 'username'
-                    value={formData.username}
-                />):(<div></div>)}
-                    
-
-
-                    <TextInput 
-                                type="email"
-                                placeHolder="Email"
-                                onChange = {handleChange}
-                                name={isMediator?'email':'username'}
-                                value={isMediator?formData.email:formData.username}
-                            />
-
-                    <TextInput 
-                                type="password"
-                                placeHolder="Password"
-                                onChange = {handleChange}
-                                name='password'
-                                value={formData.password}
-                            />
-                            <div className="flexbox">
-                                <input  type="checkbox" id="lp--checkbox"/>
-                                <label htmlFor="lp--checkbox">Disclaimer Lorem ispum dolor T&C <a href="#"> Link</a></label>
-                            </div>
-                            
-                    <Button  text="Submit" size="small"/>
-                </form> 
+            <h1 className="lp--title">Log-in<br/>{isMediator?<span>Mediator</span>:<div></div>}</h1>
+            <form onSubmit={isMediator?submitHandlerMediator:submitHandlerUser} className="lp--form">
+                {isMediator?
+                ( <TextInput 
+                type="text"
+                placeHolder="Username"
+                onChange = {handleChange}
+                name = 'username'
+                value={formData.username}
+            />):(<div></div>)}
                 
-                <center>
-                    <label 
-                        style={{padding:'10px'}}>
-                        <a href=""
-                        onClick={event=>{
-                            event.preventDefault()
-                            isMediator?setIsMediator(false):setIsMediator(true)
-                        }}>
-                            {loginHref}
-                        </a>
-                    </label>
-                </center>
 
 
-               
+                <TextInput 
+                            type="email"
+                            placeHolder="Email"
+                            onChange = {handleChange}
+                            name={isMediator?'email':'username'}
+                            value={isMediator?formData.email:formData.username}
+                        />
 
-            </div>
+                <TextInput 
+                            type="password"
+                            placeHolder="Password"
+                            onChange = {handleChange}
+                            name='password'
+                            value={formData.password}
+                        />
+                        <div className="flexbox">
+                            <input  type="checkbox" id="lp--checkbox"/>
+                            <label htmlFor="lp--checkbox">Disclaimer Lorem ispum dolor T&C <a href="#"> Link</a></label>
+                        </div>
+                        
+                <Button  text="Submit" size="small"/>
+            </form> 
+            
+            <center>
+                <label 
+                    style={{padding:'10px'}}>
+                    <a href=""
+                    onClick={event=>{
+                        event.preventDefault()
+                        isMediator?setIsMediator(false):setIsMediator(true)
+                    }}>
+                        {loginHref}
+                    </a>
+                </label>
+            </center>
         </article>
 )}
 export default LoginPage

@@ -13,27 +13,29 @@ import './App.css'
   
 
   return(
-    <div className="app">
-      <Routes>
-        <Route path='/' element={<Layout/>}>
-          {/* public routes */}
+    <div className="app middle">
+        <Routes>
+          <Route path='/' element={<Layout/>}>
+            {/* public routes */}
 
-            <Route  path='/login' element={<LoginPage/>}/>
+              <Route  path='/login' element={<LoginPage/>}/>
+              
+              {/* protected routes */}
+              {isActive?(
+
+            <Route  path='/' element={<RequireAuth/>}>
+              <Route path='user/*' element={<UserLandingPage/>}/>
+              <Route path='mediator/*' element={<MediatorLandingPage/>}/>
+              <Route path='admin/*' element={<SuperUserLandingPage/>}/>
+            </Route>
+            ):(<div><h1>not active</h1></div>)}
+              {/* catch */}
             
-            {/* protected routes */}
-            {isActive?(
-
-          <Route  path='/' element={<RequireAuth/>}>
-            <Route path='user/*' element={<UserLandingPage/>}/>
-            <Route path='mediator/*' element={<MediatorLandingPage/>}/>
-            <Route path='admin/*' element={<SuperUserLandingPage/>}/>
-          </Route>
-          ):(<div><h1>not active</h1></div>)}
-            {/* catch */}
-          
-          </Route>
-      </Routes>    
+            </Route>
+        </Routes>  
     </div>  
+
+
 
 )}
 export default App;

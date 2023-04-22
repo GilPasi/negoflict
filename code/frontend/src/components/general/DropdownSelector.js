@@ -9,25 +9,30 @@ const DropdownSelector = ({options,placHolder,parentRef,
         const valueIndex = valType ?? 'value'
         
         const optionElements = options.map(option=><option key={option.id}>{option[valueIndex]}</option>)
-        const [isActive , setIsActive] = useState(false) 
-
-
+    
+    //======================== Rotating arrow (currently disabled) ===========================
+        const [isActive , setIsActive] = useState(false) //Determine if the arrow is up or down
 
 
         //Listen to all the clicks on the screen to determine the arrow's side
-    document.querySelector("#root").addEventListener("click",
+    document.querySelector(".app").addEventListener("click",
         function(event){
-            if(event.target.id!=="dd--select")
-                setIsActive(false); 
+            if(event.target.id!=="dd--select") /*A click anywhere on the screen except the dropdown menu
+                                                 will cause the arrow to flip downwards*/
+                setIsActive(false); //Avoid double renedering bug
+                
+            
     });
+
         
-    const buttonRot ={
-        transform:isActive ? "rotate(225deg)" : "rotate(45deg)"
+    const buttonRot ={transform:isActive ? "rotate(225deg)" : "rotate(45deg)"}
+
+    const handleClick = (event)=>{
+        setIsActive(true)//Avoid double renedering bug
     }
 
-    const handleClick = ()=>{
-        setIsActive(prevState=>!prevState)
-    }
+    //====================================================================
+
 
     const style={
         width : width,
@@ -51,11 +56,12 @@ const DropdownSelector = ({options,placHolder,parentRef,
                     name={name}
                     defaultValue={value}
                     value={options.value}
-                    onClick={handleClick}
+                    //Rotating arrow in temporarily disabled due to a bug
+                    // onClick={handleClick}
                     ref={parentRef}
                     onChange={onChange}
                 >
-                    <option>{placHolder}</option>
+                    <option id='dd--option'>{placHolder}</option>
                     {optionElements}
                 </select>
             </section>

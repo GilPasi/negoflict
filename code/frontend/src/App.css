@@ -18,35 +18,26 @@
 
   --blue-anchor:#1D62F0;
 
-  --width-minimum:10em;
-  --width-maximum:45em;
+  --screen-min:375px; /*Iphone SE resolution*/
 
-  --cp-footer-height:9em;
 }
-html, body, .app { 
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  }
+.app  {
+  min-width: var(--screen-min);
 
-  .app{
-    max-width: 40em;
-  }
-  body{
-    display: flex;
-    justify-content: center;
-  }
+}
 
 .page{
-  display: flex;
-  justify-content: center;
-  margin-left: 50%;
-  transform: translateX(-50%);
-  width: 20em;
-  color: black;
+  min-width: var(--screen-min);
+  padding-bottom: 10px;
+  margin-top: 10px;
 
+}
 
+/*Fit for a PC*/
+@media(min-width:500px){
+  .page{
+    border: rgba(128, 128, 128, 0.401) 2px solid;
+  }
 }
 
 h1,h2,h3,h4,h5,h6,img{
@@ -68,13 +59,16 @@ a:hover{
   align-items: center;
   flex-direction: column;
 
+
 }
-.aligner{
+/* @media (max-width :200px) {.centerizer{display: block;}} */
+
+.middle{
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
+
 .warning{
     color:rgb(201, 17, 17);
     visibility: hidden;
@@ -89,4 +83,9 @@ hr{
   height: 5px;
   border-radius: 5px;
   margin-bottom:1em;
+}
+
+.title{
+  font-size: var(--font-large);
+  text-align: center;
 }

@@ -1,10 +1,7 @@
-.cfp{
-    height: 100em;
-}
-
 .cfp--title{
     font-size:var(--font-large);
-    margin:1.5em;
+    /* margin:1.5em; 
+    This is the figma desgin but it doesnt look good in practice*/
 }
 
  .cfp--h2{

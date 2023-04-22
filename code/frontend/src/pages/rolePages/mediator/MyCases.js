@@ -1,9 +1,7 @@
 import { useSelector } from 'react-redux'
 import TextHolder from '../../../components/general/TextHolder'
-import '../../../styles/pages/case_page.css'
 import { useGetMyCasesQuery } from '../../../store'
 import Loader from '../../../components/general/Loader'
-import '../../../styles/components/scrollable_box.css'
 
 
 
@@ -13,31 +11,23 @@ const MyCases = ({isMediator, open_close})=>{
     
     if(isLoading)return <Loader/>
     if(error)return alert('Eror refresh the page please')
-    
     return(
-        <div>
-            <h1 className='cap--title'> My cases </h1>
-            <div className='scrollable-box-big' >
+        <article>
+            <h1 className='title'> My cases </h1>
+            <div style={{height: '45vh',overflowY: 'scroll',}} >
+                
             {isSuccess &&
-           
-          
-            cases.map(caseData=>(
-                <div key={caseData.id}>
-                    <TextHolder 
-                    caseData={caseData} 
-                    withInfo={true}/>
-                </div>
-            ))
-                }
-                 </div>
-
-
-
-        </div>
-    )
-
-
-}
+                cases.map(caseData=>(
+                    <div key={caseData.id}>
+                        <TextHolder 
+                        caseData={caseData} 
+                        withInfo={true}
+                        />
+                    </div>
+            ))}
+            </div>
+        </article>
+)}
 
 export default MyCases
 

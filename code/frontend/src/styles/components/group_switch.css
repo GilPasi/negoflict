@@ -1,5 +1,5 @@
 /* __Shuttle switch component__ */
-.ss{
+.gs{
     display:flex;
     justify-content: space-between;
     background:var(--green-light-shaded);
@@ -12,7 +12,7 @@
 
   }
   
-  .ss--btn{
+  .gs--btn{
     font-weight:var(--weight-semi);
     border:none;
     font-size:10px;
@@ -30,21 +30,21 @@
     
   }
 
-  .ss--btn-content{
+  .gs--btn-content{
     transform: translateY(-100%) ;
     white-space: nowrap;
     transition:300ms
     /* border-top: 1px solid */
   }
-  #ss--pa{
+  #gs--pa{
     /* margin-left: 2.5em; */
   }
   
-  #ss--pb{
+  #gs--pb{
     /* margin-right: 2.5em; */
   }
   
-  .ss-selector{
+  .gs-selector{
     padding: 0.7em 3em 0.7em 3em;
     background: var(--green-dark-shaded);
     position: absolute;
