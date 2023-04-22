@@ -89,12 +89,13 @@ const CaseFormPage = () =>{
                         />   
 
                         <h2 className="cfp--h2">Choose a Category</h2>
+
                         <DropdownSelector 
                             placHolder="Select Areas of Mediation"
                             options={MEDIATION_CHOICES}
                             name="category"
                             onChange={handleChange}
-                            height={{height:"2em"}}
+                            height='2em'
                             margin="25px"
                         />
 

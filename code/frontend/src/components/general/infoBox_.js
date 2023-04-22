@@ -5,6 +5,7 @@ import GeneralInfoBox from './generalInfoBox';
 import useAlert from '../../hooks/useAlert';
 import { useDeleteGroupMutation } from '../../store';
 import { useCloseCaseMutation } from '../../store';
+import AddUserPage from '../../pages/AddUserPage';
 
 const InfoBox = ({ obj, isOpen }) => {
   const { deletAlert, textAlert } = useAlert();
@@ -61,7 +62,8 @@ let data
 
   return (
     <div className="ib" style={infoSize}>
-      <GeneralInfoBox obj={obj} size={infoSize} />
+      <AddUserPage  window='small' isMediator={false} side='A'/>
+      {/* <GeneralInfoBox obj={obj} size={infoSize} />
       {obj.is_active&&
 
       <div>
@@ -84,7 +86,7 @@ let data
         <button className="ib--btn">
           add
         </button>}
-      </div>}
+      </div>} */}
     </div>
   );
 };

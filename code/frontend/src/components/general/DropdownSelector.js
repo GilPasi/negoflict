@@ -3,8 +3,8 @@ import {useState} from "react"
 
 const DropdownSelector = ({options,placHolder,parentRef,
                             name,value,onChange,
-                            className,height,
-                            width,margin,valType}) =>{
+                            height,width,size,
+                            margin,valType}) =>{
 
         const valueIndex = valType ?? 'value'
         
@@ -25,7 +25,11 @@ const DropdownSelector = ({options,placHolder,parentRef,
     });
 
         
-    const buttonRot ={transform:isActive ? "rotate(225deg)" : "rotate(45deg)"}
+    const arrowStyle ={
+        transform:`rotate(${isActive? '225' : '45'}deg) translateT(-50%)`,
+        width:size==='small' ? '5px' : '10px', 
+        height:size==='small' ? '5px' : '10px', 
+    }
 
     const handleClick = (event)=>{
         setIsActive(true)//Avoid double renedering bug
@@ -34,7 +38,7 @@ const DropdownSelector = ({options,placHolder,parentRef,
     //====================================================================
 
 
-    const style={
+    const dropdownStyle={
         width : width,
         margin:margin? margin : "0",
         height : height,
@@ -44,13 +48,15 @@ const DropdownSelector = ({options,placHolder,parentRef,
         return(
     
             <section
-             className={`dd ${className}`}
+             className='dd'
               onChange={onChange}
-              style={style}
+              style={dropdownStyle}
               onClick={()=>document.querySelector("#dd--select").click()}
 
               >
-                <div className="dd--arrow" style={buttonRot}></div>
+                <div className="dd--arrow" 
+                style={arrowStyle}
+                />
                 <select
                     id="dd--select"
                     name={name}

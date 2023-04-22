@@ -10,14 +10,22 @@ import { AREA_CODES , ISR_RESIDENCE } from '../utils/data'
 
 const AddUserPage =({side,idCase,goBack,
     next,handleSubmit,handleChange,
-   userData,isMediator,isWindow,disabled,options})=>{
+   userData,isMediator,window,disabled,options})=>{
 
 
-      
+    let _fontSize = ''
 
-        const windowStyle={
-                fontSize:'0.85em' ,                 
-            }
+      switch(window){
+        case 'large':
+            _fontSize = '0.85em'
+            break
+        case 'small':
+            _fontSize = '0.5em'
+
+      }
+
+        const windowStyle={fontSize:_fontSize,}
+        const dropdownSize = window
 
         const validateForm =()=>{ // validate user properties
             let valid = true
@@ -30,11 +38,14 @@ const AddUserPage =({side,idCase,goBack,
 
         return(
 
-        <article className="aup" style={isWindow&&windowStyle}>
-            {!isWindow&&<header>
+        <article className="aup" style={window&&windowStyle}>
+
+            {!window&&<header>
                     <Header/>
                     {!isMediator&&<ToolBar conflictName="A political conflict" id={idCase}/>}
             </header>}
+
+
                 <form className="aup--grid">
                 {isMediator ?
                     (
@@ -91,6 +102,7 @@ const AddUserPage =({side,idCase,goBack,
 
                     <div className="aup--grid-phone-prefix">
                         <DropdownSelector 
+                            size={dropdownSize}
                             placHolder="--"
                             isDefault={true}
                             options={AREA_CODES}

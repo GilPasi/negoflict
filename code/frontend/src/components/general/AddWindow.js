@@ -99,7 +99,7 @@ const AddWindow =()=>{
 
 
             {stage==='create'&&<AddUserPage
-                isWindow={true}
+                window='large'
                 goBack={()=>setStage('choose')}
                 next={()=>setStage('success')}
             />}
