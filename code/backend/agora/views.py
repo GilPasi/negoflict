@@ -92,10 +92,6 @@ class Groups(ModelViewSet):
         return Response(responses,status=status.HTTP_200_OK)
 
 
-
-
-
-
     @action(detail=False, methods=['DELETE'], permission_classes=[permissions.IsAdminOrUser])
     def delete_groups(self,request):
         token = getAppToken(5000)
@@ -225,6 +221,40 @@ class Users(ModelViewSet):
                 return Response(f"agora error: {e}")
 
         return Response({'users':responses})
+
+
+    @action(detail=False, methods=['POST'],permission_classes=[permissions.IsAdminOrUser] )
+    def register_user(self,request):
+        token = getAppToken(5000)
+        uid = request.data.get('uid',None)
+        password = request.data.get('password',None)
+        username = request.data.get('username',None)
+
+        missing_props = {
+            **({'error':'missing uid'}if not uid else {}),
+            **({'error': 'missing password'} if not password else {}),
+            **({'error': 'missing username'} if not username else {}),
+        }
+
+        if len(missing_props) > 0:
+            return Response({'missing parameters':missing_props},status=status.HTTP_400_BAD_REQUEST)
+
+        headers = get_auth_headers(token)
+        payload = {
+            'username': uid,
+            'password': password,
+            'nickname': username
+        }
+
+        try:
+            res = requests.post(f"{HOST_URL_APP_KEY}/users",json=payload,headers=headers)
+            res.raise_for_status()
+            return Response(res.json(),status=status.HTTP_200_OK)
+        except RequestException as e:
+            return Response(f"agora error: {e}")
+
+
+
 
 
 

@@ -138,11 +138,12 @@ const adminApi = createApi({
             registerOneUser:builder.mutation({
                 invalidatesTags:['oneUser'],
                 query:({username,password,first_name})=>{
+                    const uid = username.replace(/-/g, "")
                     return{
-                        url:'/register_user',
+                        url:`${Server_url}/agora/users/register_user/`,
                         method:'POST',
                         body:{
-                            uid:username,
+                            uid:uid,
                             password:password,
                             username:first_name,
                         }
