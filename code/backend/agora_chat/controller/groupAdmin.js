@@ -61,8 +61,7 @@ exports.createGroups = async(req,res)=>{
     if(Object.keys(missingProps).length >0)
         return res.status(400).json({'data':missingProps})
     
-    
-    
+
     const sides = ['A','B','G']
     const responses = []
 

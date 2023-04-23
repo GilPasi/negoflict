@@ -23,7 +23,7 @@ const groupApi = createApi({
                     const description = desc || 'No description'
                     const maxUsers = maxusers || 50
                     return {
-                        url:'/create_groups',
+                        url:`${Server_url}/agora/groups/create_groups/`,
                         body:{
                             groupname: title,
                             desc: description,
