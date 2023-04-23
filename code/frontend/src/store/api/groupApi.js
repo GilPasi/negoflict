@@ -7,17 +7,20 @@ const groupApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: `${ChatServerURL}`, //8050
     }),
-    endpoints(builder){
+    endpoints(builder){ 
         return {
-            getGroupsByUser: builder.query({
+            getGroupsByUser: builder.query({ //finish
                 providesTags: ['chatGroup'],
                 query: ({username})=>{
                     return {
-                        url: `/get_group_by_user/${username}`,
-                        method: 'GET'
+                        url: `${Server_url}/agora/groups/get_groups_by_user/`,
+                        method: 'GET',
+                        params:{
+                            username:username
+                        }
                     }}
                 }),
-            createNewGroup: builder.mutation({
+            createNewGroup: builder.mutation({ //finish
                 invalidatesTags: ['chatGroup'],
                 query: ({title,desc,maxusers,owner})=>{
                     const description = desc || 'No description'
@@ -35,8 +38,7 @@ const groupApi = createApi({
                 }
 
             }),
-            getChatGroups: builder.query({
-                
+            getChatGroups: builder.query({ //+
                 query: ({CaseId})=>{
                     return {
                         url:`${Server_url}/session/chat_group/get_chat_groups_by_case/?case=${CaseId}`,
@@ -45,11 +47,10 @@ const groupApi = createApi({
                     }
                 }
             }),
-            deleteGroup: builder.mutation({
+            deleteGroup: builder.mutation({//finish
                 query:({groupS})=>{
-                   
                     return{
-                        url:`/delete_groups/`,
+                        url:`${Server_url}/agora/groups/delete_groups/`,
                         method:'DELETE',
                         body:{
                             groups:groupS
