@@ -10,11 +10,10 @@ const adminApi = createApi({
     }),
     endpoints(builder) {
         return {
-            registerUsers: builder.mutation({
+            registerUsers: builder.mutation({ // finish
                 query: ({users,access,caseId}) =>{
-
                     return{
-                        url: '/register_many_users',
+                        url: `${Server_url}/agora/users/register_users/`,
                         method: 'POST',
                         body: {
                             users:users,
@@ -24,7 +23,19 @@ const adminApi = createApi({
                     }
                 }
             }),
-            registerToChatGroups: builder.mutation({
+            createUsers: builder.mutation({ //finish
+                query: ({users, access})=>{
+                    return{
+                        url:`${Server_url}/users/user_view/create_users/`,
+                        method:'POST',
+                        body: users,
+                        headers:{
+                            Authorization: `JWT ${access}`
+                        }
+                    }
+                }
+            }),
+            registerToChatGroups: builder.mutation({//FINISH
                 query: ({groups,users})=>{
                     const groupA = groups[0].A.data.groupid
                     const groupB = groups[1].B.data.groupid
@@ -37,7 +48,7 @@ const adminApi = createApi({
                         {id:userB, groups:[groupB, groupG]},
                     ]
                     return{
-                        url: '/add_users_to_groups',
+                        url: `${Server_url}/agora/groups/add_users_to_groups/`,
                         body:{
                             users:USERS
                         },

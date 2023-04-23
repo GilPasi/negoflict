@@ -11,6 +11,7 @@ from rest_framework.decorators import action
 from .models import EmptyClass
 from .serializers import EmptySerializer
 from requests.exceptions import RequestException
+import re
 
 
 
@@ -47,8 +48,8 @@ class Get_Token(APIView):
         return  Response({'appToken':token})
 
 
-    def getUserToken(self,requerst):
-        uid = requerst.GET.get('uid',None)
+    def getUserToken(self,request):
+        uid = request.GET.get('uid',None)
         if uid:
             token = getUserToken(expireTime=5000,uid=uid)
             return Response({'userToken':token})
@@ -60,6 +61,40 @@ class Get_Token(APIView):
 class Groups(ModelViewSet):
     queryset = EmptyClass.objects.none()
     serializer_class = EmptySerializer
+
+
+    @action(detail=False, methods=['POST'],permission_classes=[permissions.IsAdminOrUser])
+    def add_users_to_groups(self,request):
+        token = getAppToken(5000)
+        users = request.data.get('users',None)
+        print(users)
+
+        responses =[]
+        headers = get_auth_headers(token)
+
+        if not users:
+            return Response('missing users',status=status.HTTP_400_BAD_REQUEST)
+
+        for i in range(len(users)):
+            id, groups = users[i]['id'], users[i]['groups']
+            responses_user = []
+            if not id or not groups:
+                return Response('missing id or groups',status=status.HTTP_400_BAD_REQUEST)
+            for j in range(len(groups)):
+                group_id = groups[j]
+                try:
+                    res = requests.post(f"{HOST_URL_APP_KEY}/chatgroups/{group_id}/users/{id}",headers=headers)
+                    res.raise_for_status()
+                    responses_user.append(res.json()['data'])
+                except RequestException as e:
+                    return Response(f"agora error:{e}")
+            responses.append(responses_user)
+        return Response(responses,status=status.HTTP_200_OK)
+
+
+
+
+
 
     @action(detail=False, methods=['DELETE'], permission_classes=[permissions.IsAdminOrUser])
     def delete_groups(self,request):
@@ -147,8 +182,54 @@ class Groups(ModelViewSet):
                 return Response(f"somthing went wrong in agora when creating group side {sides[i]}", status=status.HTTP_200_OK)
         return Response({'AgoraResponse':responses}, status=status.HTTP_200_OK)
 
-                
-                
+
+class Users(ModelViewSet):
+    queryset = EmptyClass.objects.none()
+    serializer_class = EmptySerializer
+
+    @action(detail=False, methods=['POST'], permission_classes=[permissions.IsAdminOrUser])
+    def register_users(self,request):
+        token = getAppToken(5000)
+        users = request.data.get('users',None)
+        case_id = request.data.get('caseId',None)
+
+        missing_props={
+            **({'error':'users missing'} if not users else {}),
+            **({'error':'case id missing'} if not case_id else {})
+        }
+
+        if len(missing_props) > 0:
+            return Response({'missing parameters':missing_props}, status=status.HTTP_400_BAD_REQUEST)
+
+        responses=[]
+        headers = get_auth_headers(token)
+
+        for i in range(len(users)):
+            username, password, first_name = users[i]['username'], users[i]['password'], users[i]['first_name']
+            if not username or not password or not first_name:
+                return Response(f"missing values of user in index {i}", status=status.HTTP_400_BAD_REQUEST)
+
+            uid = re.sub(r'[^\w\s]', '', username)
+            payload={
+                'username':uid,
+                'password':password,
+                'nickname':first_name,
+            }
+
+
+            try:
+                res = requests.post(f"{HOST_URL_APP_KEY}/users",headers=headers,json=payload)
+                res.raise_for_status()
+                responses.append(res.json())
+            except RequestException as e:
+                return Response(f"agora error: {e}")
+
+        return Response({'users':responses})
+
+
+
+
+
                 
                 
         
