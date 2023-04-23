@@ -135,7 +135,7 @@ const adminApi = createApi({
                 }
 
             }),
-            registerOneUser:builder.mutation({
+            registerOneUser:builder.mutation({//finish
                 invalidatesTags:['oneUser'],
                 query:({username,password,first_name})=>{
                     const uid = username.replace(/-/g, "")
