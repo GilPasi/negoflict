@@ -74,8 +74,11 @@ const usersApi = createApi({
             getChatToken: builder.query({
                 query: ({username})=>{
                     return{
-                        url: `${ChatServerURL}/get_token/${username}`,
+                        url: `agora/get_token/user/`,
                         method: 'GET',
+                        params:{
+                            uid:username
+                        }
                     }
                 }
             }),
