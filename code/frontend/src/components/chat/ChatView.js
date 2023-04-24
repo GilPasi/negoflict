@@ -36,7 +36,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
     //Important! when resizing the sizes the grid division
     //will not automatically  fix itself. You need to manually
     //magic number FOOTER_SIZE and HEADER_SIZE
-    const FOOTER_SIZE = 125 , HEADER_SIZE = 175    
+    const FOOTER_SIZE = 125 , HEADER_SIZE = 220   
 
 
     const setInputHeight =(element, defaultHeight)=>{
