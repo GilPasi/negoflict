@@ -16,7 +16,7 @@ const CaseFormPage = () =>{
     //dont change the order***************
     //hooks=========
     const navigate = useNavigate()
-    const [addGroup] = useCreateNewGroupMutation()
+    const [addGroup,{error:createGroupsError}] = useCreateNewGroupMutation()
     const [addCase] = usePost_new_caseMutation()
     //===========
 

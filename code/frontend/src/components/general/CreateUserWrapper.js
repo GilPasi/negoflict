@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
 import AddUserPage from '../../pages/AddUserPage'
 import { useNavigate } from "react-router-dom"
-import {store, useRegisterUsersMutation, useRegisterToChatGroupsMutation, usePutUserToMemberGroupMutation, useCreateContactMutation} from '../../store/index'
+import {store, useRegisterUsersMutation, useRegisterToChatGroupsMutation, usePutUserToMemberGroupMutation, useCreateContactMutation, useCreateUsersMutation} from '../../store/index'
 import {useSelector} from "react-redux";
 
 
@@ -13,6 +13,7 @@ const CreateUserWraper = ()=>{
   const navigate = useNavigate()
   const { access,id } = useSelector(state => state.user)
   const [registerUsers] = useRegisterUsersMutation()
+  const [createUsers] = useCreateUsersMutation()
   const [registerToChatGroups] = useRegisterToChatGroupsMutation()
   const [updateMembers] = usePutUserToMemberGroupMutation()
   const [createContact] = useCreateContactMutation()
@@ -98,11 +99,11 @@ const CreateUserWraper = ()=>{
         })
 
         registerUsers({users:arrUser,access:access,caseId:idCase})
-        .then(res=>{
-          const usersArr = [...res.data.dbResult]
-          const sides = ['A','B']
-          console.log(usersArr)
 
+        createUsers({users:arrUser,access:access}) //need to add more api to register in server
+        .then(res=>{
+          const usersArr = [...res.data]
+          const sides = ['A','B']
 
           registerToChatGroups({groups:groups,users:arrUser})
 

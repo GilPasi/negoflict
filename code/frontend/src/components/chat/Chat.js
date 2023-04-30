@@ -82,6 +82,8 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
 
     //function========
     const connect =async ()=>{
+        console.log(username)
+        console.log(tokenRes.data.userToken)
         await WebIM.conn.open({
             user:username,
             agoraToken: tokenRes.data.userToken

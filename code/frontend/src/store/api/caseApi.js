@@ -4,8 +4,14 @@ import { Server_url } from "../../utils/roots";
 const caseApi = createApi({
   reducerPath: "case_api",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${Server_url}`, //8000
-  }),
+    baseUrl: `${Server_url}`,
+    prepareHeaders: (headers,{getState})=>{
+        const access = getState().user.access
+        if(access)
+            headers.set("Authorization", `JWT ${access}`)
+        return headers
+    }
+}),
   endpoints(builder) {
     return {
       get_my_cases: builder.query({
@@ -19,9 +25,9 @@ const caseApi = createApi({
             params: {
               id: id,
             },
-            headers: {
-              Authorization: `JWT ${access}`,
-            },
+            // headers: {
+            //   Authorization: `JWT ${access}`,
+            // },
           }
         }
       }),
@@ -41,9 +47,9 @@ const caseApi = createApi({
               summary:null,
               is_active:true,
             },
-            headers:{
-              Authorization: `JWT ${access}`
-          },
+          //   headers:{
+          //     Authorization: `JWT ${access}`
+          // },
           method: 'POST'
           }
         }
@@ -71,9 +77,9 @@ const caseApi = createApi({
               user:user,
               case:caseId
             },
-            headers:{
-              Authorization: `JWT ${access}`
-            },
+            // headers:{
+            //   Authorization: `JWT ${access}`
+            // },
             method:'GET'
           }
         }
@@ -83,7 +89,6 @@ const caseApi = createApi({
         providesTags:['Cases'],
         query: ({id, access, isMediator,open_close})=>{
           const url = isMediator?'/session/case/get_open_close_cases/':'/session/chat_members/get_open_close_case_by_user/'
-          console.log('in getGroup',open_close)
           return{
             url:url,
             method:'GET',
@@ -91,9 +96,9 @@ const caseApi = createApi({
               id:id,
               open_close:open_close,
             },
-            headers: {
-              Authorization: `JWT ${access}`,
-            },
+            // headers: {
+            //   Authorization: `JWT ${access}`,
+            // },
 
           }
         }
