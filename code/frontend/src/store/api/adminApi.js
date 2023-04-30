@@ -7,6 +7,12 @@ const adminApi = createApi({
     reducerPath: 'adminApi',
     baseQuery: fetchBaseQuery({
         baseUrl: `${ChatServerURL}`,
+        prepareHeaders: (headers,{getState})=>{
+            const access = getState().user.access
+            if(access)
+                headers.set("Authorization", `JWT ${access}`) 
+            return headers
+        }
     }),
     endpoints(builder) {
         return {

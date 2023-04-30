@@ -6,7 +6,13 @@ import { Server_url } from "../../utils/roots";
 const msgApi = createApi({
     reducerPath: 'msg',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${Server_url}`
+        baseUrl: `${Server_url}`,
+        prepareHeaders: (headers,{getState})=>{
+            const access = getState().user.access
+            if(access)
+                headers.set("Authorization", `JWT ${access}`)
+            return headers
+        }
     }),
     endpoints(builder){
         return {
