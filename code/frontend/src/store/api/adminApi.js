@@ -1,16 +1,15 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import  {ChatServerURL} from "../../utils/agoraCradential";
 import { Server_url } from "../../utils/roots";
 
 
 const adminApi = createApi({
     reducerPath: 'adminApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${ChatServerURL}`,
+        baseUrl: `${Server_url}`,
         prepareHeaders: (headers,{getState})=>{
             const access = getState().user.access
             if(access)
-                headers.set("Authorization", `JWT ${access}`) 
+                headers.set("Authorization", `JWT ${access}`)
             return headers
         }
     }),
@@ -19,7 +18,7 @@ const adminApi = createApi({
             registerUsers: builder.mutation({ // finish
                 query: ({users,access,caseId}) =>{
                     return{
-                        url: `${Server_url}/agora/users/register_users/`,
+                        url: `/agora/users/register_users/`,
                         method: 'POST',
                         body: {
                             users:users,
@@ -32,12 +31,12 @@ const adminApi = createApi({
             createUsers: builder.mutation({ //finish
                 query: ({users, access})=>{
                     return{
-                        url:`${Server_url}/users/user_view/create_users/`,
+                        url:`/users/user_view/create_users/`,
                         method:'POST',
                         body: users,
-                        headers:{
-                            Authorization: `JWT ${access}`
-                        }
+                        // headers:{
+                        //     Authorization: `JWT ${access}`
+                        // }
                     }
                 }
             }),
@@ -54,7 +53,7 @@ const adminApi = createApi({
                         {id:userB, groups:[groupB, groupG]},
                     ]
                     return{
-                        url: `${Server_url}/agora/groups/add_users_to_groups/`,
+                        url: `/agora/groups/add_users_to_groups/`,
                         body:{
                             users:USERS
                         },
@@ -66,7 +65,7 @@ const adminApi = createApi({
                 query:({phone,education,relevant_experience,mediation_areas,
                     certification_course,user,access})=>{
                     return{
-                        url:`${Server_url}/users/mediator_view/`,
+                        url:`/users/mediator_view/`,
                         method:'POST',
                         body:{
                             phone:phone,
@@ -81,9 +80,9 @@ const adminApi = createApi({
                             ['user.last_name']:user.last_name,
                          
                         },
-                        headers:{
-                                Authorization: `JWT ${access}`
-                            },
+                        // headers:{
+                        //         Authorization: `JWT ${access}`
+                        //     },
                     }
                 }
             }),
@@ -91,29 +90,29 @@ const adminApi = createApi({
                 invalidatesTags:['city'],
                 query: ({city,access})=>{
                     return{
-                        url:`${Server_url}/users/address_views/`,
+                        url:`/users/address_views/`,
                         method:'POST',
                         body:{
                             city:city,
                         },
-                        headers:{
-                            Authorization: `JWT ${access}`,
-                        },
+                        // headers:{
+                        //     Authorization: `JWT ${access}`,
+                        // },
                     }
                 }
             }),
             updateMediatorResident: builder.mutation({
                 query: ({mediator_id,address_id,access})=>{
                     return{
-                        url:`${Server_url}/users/address_mediator/`,
+                        url:`/users/address_mediator/`,
                         method:'POST',
                         body: {
                             mediator:mediator_id,
                             address:address_id,
                         },
-                        headers:{
-                            Authorization: `JWT ${access}`
-                        },
+                        // headers:{
+                        //     Authorization: `JWT ${access}`
+                        // },
                     }
                 }
             }),
@@ -121,18 +120,18 @@ const adminApi = createApi({
                 providesTags:['city'],
                 query:({access})=>{
                     return{
-                        url:`${Server_url}/users/address_views/`,
+                        url:`/users/address_views/`,
                         method:'GET',
-                        headers:{
-                            Authorization: `JWT ${access}`
-                        },
+                        // headers:{
+                        //     Authorization: `JWT ${access}`
+                        // },
                     }
                 }
             }),
             isUsernameExist: builder.query({
                 query: ({username})=>{
                     return{
-                        url:`${Server_url}/users/user_view/is_username_exist/`,
+                        url:`/users/user_view/is_username_exist/`,
                         method:'GET',
                         params:{
                             username:username
@@ -146,7 +145,7 @@ const adminApi = createApi({
                 query:({username,password,first_name})=>{
                     const uid = username.replace(/-/g, "")
                     return{
-                        url:`${Server_url}/agora/users/register_user/`,
+                        url:`/agora/users/register_user/`,
                         method:'POST',
                         body:{
                             uid:uid,

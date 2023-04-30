@@ -9,7 +9,6 @@ const groupApi = createApi({
             const access = getState().user.access
             if(access)
                 headers.set("Authorization", `JWT ${access}`)
-
             return headers
         }
     }),

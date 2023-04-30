@@ -6,14 +6,13 @@ import {ChatServerURL} from "../../utils/agoraCradential";
 const usersApi = createApi({
     reducerPath: 'users_api',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${Server_url}`,//8000
+        baseUrl: `${Server_url}`,
         prepareHeaders: (headers,{getState})=>{
             const access = getState().user.access
             if(access)
                 headers.set("Authorization", `JWT ${access}`)
-            return access
+            return headers
         }
-        
     }),
     endpoints(builder){
         return {
@@ -69,10 +68,10 @@ const usersApi = createApi({
                             password:password,
                         },
                         credentials: 'include',
-                        headers:{
-                            'Content-Type':'application/json',
-                            'Accept':'application/json',
-                        },
+                        // headers:{
+                        //     'Content-Type':'application/json',
+                        //     'Accept':'application/json',
+                        // },
                         method: 'POST',
 
                     }}
@@ -97,9 +96,9 @@ const usersApi = createApi({
                             current_password:current_password,
                             new_password: modifyPassword,
                         },
-                        headers:{
-                            Authorization: `JWT ${access}`
-                        },
+                        // headers:{
+                        //     Authorization: `JWT ${access}`
+                        // },
                         method: 'POST'
                     }
                 } 
@@ -117,11 +116,11 @@ const usersApi = createApi({
                         body:{
                             first_logged:false,
                         },
-                         headers:{
-                            Authorization: `JWT ${access}`,
-                            'Content-Type':'application/json',
-                            'Accept':'application/json',
-                        },
+                        //  headers:{
+                        //     Authorization: `JWT ${access}`,
+                        //     'Content-Type':'application/json',
+                        //     'Accept':'application/json',
+                        // },
                     }
                 }
             })
