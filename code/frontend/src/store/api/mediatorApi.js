@@ -7,6 +7,12 @@ const mediatorApi = createApi({
     reducerPath: 'mediator_api',
     baseQuery: fetchBaseQuery({
         baseUrl: `${Server_url}`,
+        prepareHeaders: (headers,{getState})=>{
+            const access = getState().user.access
+            if(access)
+                headers.set("Authorization", `JWT ${access}`)
+            return headers
+        }
     }),
     endpoints(builder){
         return{

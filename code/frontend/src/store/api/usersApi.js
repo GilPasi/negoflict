@@ -7,6 +7,12 @@ const usersApi = createApi({
     reducerPath: 'users_api',
     baseQuery: fetchBaseQuery({
         baseUrl: `${Server_url}`,//8000
+        prepareHeaders: (headers,{getState})=>{
+            const access = getState().user.access
+            if(access)
+                headers.set("Authorization", `JWT ${access}`)
+            return access
+        }
         
     }),
     endpoints(builder){

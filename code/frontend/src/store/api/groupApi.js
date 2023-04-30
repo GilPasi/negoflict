@@ -1,11 +1,17 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { ChatServerURL } from '../../utils/agoraCradential'
 import { Server_url } from '../../utils/roots'
 
 const groupApi = createApi({
     reducerPath: 'group_api',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${ChatServerURL}`, //8050
+        baseUrl: `${Server_url}`,
+        prepareHeaders: (headers,{getState})=>{
+            const access = getState().user.access
+            if(access)
+                headers.set("Authorization", `JWT ${access}`)
+
+            return headers
+        }
     }),
     endpoints(builder){ 
         return {
@@ -13,7 +19,7 @@ const groupApi = createApi({
                 providesTags: ['chatGroup'],
                 query: ({username})=>{
                     return {
-                        url: `${Server_url}/agora/groups/get_groups_by_user/`,
+                        url: `/agora/groups/get_groups_by_user/`,
                         method: 'GET',
                         params:{
                             username:username
@@ -26,7 +32,7 @@ const groupApi = createApi({
                     const description = desc || 'No description'
                     const maxUsers = maxusers || 50
                     return {
-                        url:`${Server_url}/agora/groups/create_groups/`,
+                        url:`/agora/groups/create_groups/`,
                         body:{
                             groupname: title,
                             desc: description,
@@ -41,7 +47,7 @@ const groupApi = createApi({
             getChatGroups: builder.query({ //+
                 query: ({CaseId})=>{
                     return {
-                        url:`${Server_url}/session/chat_group/get_chat_groups_by_case/?case=${CaseId}`,
+                        url:`/session/chat_group/get_chat_groups_by_case/?case=${CaseId}`,
                         method:'GET',
 
                     }
@@ -50,7 +56,7 @@ const groupApi = createApi({
             deleteGroup: builder.mutation({//finish
                 query:({groupS})=>{
                     return{
-                        url:`${Server_url}/agora/groups/delete_groups/`,
+                        url:`/agora/groups/delete_groups/`,
                         method:'DELETE',
                         body:{
                             groups:groupS
