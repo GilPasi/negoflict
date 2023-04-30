@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Server_url } from '../../utils/roots'
-import {ChatServerURL} from "../../utils/agoraCradential";
 
 
 const usersApi = createApi({
