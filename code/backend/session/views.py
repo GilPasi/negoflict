@@ -9,6 +9,8 @@ from rest_framework import status
 
 
 
+
+
 class CaseView(ModelViewSet):
     queryset = Case.objects.all()
     serializer_class = CaseSerializer
