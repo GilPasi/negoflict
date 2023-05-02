@@ -9,10 +9,16 @@ HTTPS://DOCS.DJANGOPROJECT.COM/EN/4.1/TOPICS/SETTINGS/
 FOR THE FULL LIST OF SETTINGS AND THEIR VALUES, SEE
 HTTPS://DOCS.DJANGOPROJECT.COM/EN/4.1/REF/SETTINGS/
 """
-
+import os
+from os.path import dirname, abspath
 from datetime import timedelta
 from pathlib import Path
 from decouple import config
+
+from dotenv import load_dotenv
+
+ENV_FILE_DIR = dirname(dirname(abspath(__file__)))
+load_dotenv(os.path.join(ENV_FILE_DIR, '.env'))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,11 +33,7 @@ SECRET_KEY = 'django-insecure-z#4d$s#$#v7$)m2bsi!3(e%=&tsmff_4h+(bf$97tuok5n16k$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-
-
-
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -50,7 +52,6 @@ INSTALLED_APPS = [
     'core',
     'session',
     'agora',
-   
 ]
 
 MIDDLEWARE = [
@@ -70,9 +71,7 @@ ROOT_URLCONF = 'negoflictserver.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            
-        ],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -137,6 +136,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -160,14 +160,6 @@ AUTH_USER_MODEL = 'core.User'
 
 CORS_ALLOW_CREDENTIALS = True
 
-# CORS_ALLOW_HEADERS = [
-#      "authorization",
-#         "content-type",
-    
-# ]
-
-
-
 CORS_ORIGIN_ALLOW_ALL = True
 
 INTERNAL_IPS = [
@@ -183,10 +175,8 @@ DJOSER = {
     }
 }
 STATICFILES_DIRS = [
-    
+
 ]
 APPEND_SLASH = False
 
-# ALLOWED_HOSTS = ['127.0.0.1:3000']
-
-
+API_PREFIX = os.environ.get('API_PREFIX', default='')
