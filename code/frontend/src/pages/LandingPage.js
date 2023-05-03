@@ -3,7 +3,7 @@ import React, {Suspense, lazy} from "react"
 import Loader from "../components/general/Loader.js";
 
 
-const AdminMenu = lazy(()=>import("./roleMenu/admin_menu.js"))
+const AdminMenu = lazy(()=>import("./roleMenu/AdminMenu.js"))
 const CreateUserWraper = lazy(()=>import("../components/general/CreateUserWrapper.js"))
 const CaseFormPage = lazy(()=>import("./CaseFormPage.js"))
 const MediatorMenu = lazy(()=>import("./rolePages/mediator/MediatorMenu.js"))

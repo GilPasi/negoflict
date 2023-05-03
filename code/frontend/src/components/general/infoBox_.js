@@ -67,7 +67,7 @@ const aup = <AddUserPage window='small' isMediator={false} side='A' goBack={()=>
   return (
       <div className="ib" style={infoSize}>
         {step ==='nav' ? 
-          <div>
+          <div className='centerizer'>
             <GeneralInfoBox obj={obj} size={infoSize} />
               {obj.is_active&&
                 <div>
