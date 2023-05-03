@@ -31,19 +31,10 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
         window.removeEventListener('resize', handleResize);
       };
     }, []);
-<<<<<<< HEAD
 
-
-    //Important! when resizing the sizes the grid division
-    //will not automatically  fix itself. You need to manually
-    //magic number FOOTER_SIZE and HEADER_SIZE
-    const FOOTER_SIZE = 125 , HEADER_SIZE = 220   
-=======
     
     const FOOTER_SIZE = 125 , HEADER_SIZE = 297.281-0.11298*window.innerHeight//Found by linear approximation
     
->>>>>>> d177d4f693a42b12e243257408dc29d2bd586b40
-
 
     const setInputHeight =(element, defaultHeight)=>{
         if(element){
