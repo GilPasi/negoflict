@@ -1,3 +1,5 @@
+
+
 """
 DJANGO SETTINGS FOR NEGOFLICTSERVER PROJECT.
 
@@ -9,7 +11,6 @@ HTTPS://DOCS.DJANGOPROJECT.COM/EN/4.1/TOPICS/SETTINGS/
 FOR THE FULL LIST OF SETTINGS AND THEIR VALUES, SEE
 HTTPS://DOCS.DJANGOPROJECT.COM/EN/4.1/REF/SETTINGS/
 """
-
 from datetime import timedelta
 from pathlib import Path
 from decouple import config
@@ -28,8 +29,6 @@ SECRET_KEY = 'django-insecure-z#4d$s#$#v7$)m2bsi!3(e%=&tsmff_4h+(bf$97tuok5n16k$
 DEBUG = True
 
 
-
-
 ALLOWED_HOSTS = []
 
 
@@ -45,16 +44,16 @@ INSTALLED_APPS = [
     "debug_toolbar",
     'rest_framework',
     'djoser',
-    "corsheaders",
+    # "corsheaders",
     "negoflict_app",
     'core',
     'session',
     'agora',
-   
+
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -71,7 +70,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            
+
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -145,13 +144,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
 
-       'DEFAULT_AUTHENTICATION_CLASSES': (
+    'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',),
 }
 
 SIMPLE_JWT = {
-   'AUTH_HEADER_TYPES': ('JWT',),
-   'ACCESS_TOKEN_LIFETIME': timedelta(hours=2),
+    'AUTH_HEADER_TYPES': ('JWT',),
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=2),
 }
 JWT_AUTH_COOKIE = "refresh_token"
 
@@ -163,12 +162,11 @@ CORS_ALLOW_CREDENTIALS = True
 # CORS_ALLOW_HEADERS = [
 #      "authorization",
 #         "content-type",
-    
+
 # ]
 
 
-
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_ALLOW_ALL = True
 
 INTERNAL_IPS = [
     # ...
@@ -183,10 +181,8 @@ DJOSER = {
     }
 }
 STATICFILES_DIRS = [
-    
+
 ]
 APPEND_SLASH = False
 
 # ALLOWED_HOSTS = ['127.0.0.1:3000']
-
-

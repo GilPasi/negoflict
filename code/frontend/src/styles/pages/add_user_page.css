@@ -5,6 +5,10 @@
     align-items: center;
     margin-bottom: 1em;
 }
+
+.aup--header{
+    width: 100%;
+}
 #aup--m-title{
     text-align:center;
     font-size:2em;

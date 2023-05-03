@@ -16,15 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+prefix_url = 'api/'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls')),
+    path(f"{prefix_url}api-auth/", include('rest_framework.urls')),
     path('__debug__/', include('debug_toolbar.urls')),
-    path('auth/', include('djoser.urls')),
-    path('auth/', include('djoser.urls.jwt')),
-    path('users/',include('negoflict_app.urls')),
-    path('session/',include('session.urls')),
-    path('core/',include('core.urls')),
-    path('agora/',include('agora.urls')),
+    path(f"{prefix_url}auth/", include('djoser.urls')),
+    path(f"{prefix_url}auth/", include('djoser.urls.jwt')),
+    path(f"{prefix_url}users/",include('negoflict_app.urls')),
+    path(f"{prefix_url}session/",include('session.urls')),
+    path(f"{prefix_url}core/",include('core.urls')),
+    path(f"{prefix_url}agora/",include('agora.urls')),
     
 ]
