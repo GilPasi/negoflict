@@ -40,7 +40,7 @@ const AddUserPage =({side,idCase,goBack,
 
         <article className="aup" style={window&&windowStyle}>
 
-            {!window&&<header>
+            {!window&&<header className='aup--header'>
                     <Header/>
                     {!isMediator&&<ToolBar conflictName="A political conflict" id={idCase}/>}
             </header>}

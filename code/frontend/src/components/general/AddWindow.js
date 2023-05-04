@@ -82,9 +82,6 @@ const AddWindow =()=>{
                         name='side select'/>
                 </div>
                 <Button text="Next" margin='4em 0 0 0' size='small' onClick={()=>setStage('choose')}/>
-
-
-
             </center>
             }
 

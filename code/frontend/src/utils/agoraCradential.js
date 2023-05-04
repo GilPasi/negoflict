@@ -1,2 +1,2 @@
-export const AppKey = process.env.REACT_APP_AGORA_KEY
-export const ChatServerURL = process.env.REACT_APP_AGORA_SERVER_URL
+export const AppKey = "71864841#1052059"
+

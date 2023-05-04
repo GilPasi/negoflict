@@ -44,7 +44,7 @@
     
     position: absolute;
     top:35%;
-    right:calc(var(--arrow-width)*1.2 );
+    right:calc(var(--arrow-width)*1.5 );
     transform:rotate(45deg) translateY(-50%) ;
     z-index: -1;
 }
