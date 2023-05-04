@@ -1,5 +1,3 @@
-
-
 """
 DJANGO SETTINGS FOR NEGOFLICTSERVER PROJECT.
 
@@ -15,7 +13,6 @@ import os
 from os.path import dirname, abspath
 from datetime import timedelta
 from pathlib import Path
-from decouple import config
 
 from dotenv import load_dotenv
 
@@ -24,7 +21,6 @@ load_dotenv(os.path.join(ENV_FILE_DIR, '.env'))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -49,7 +45,6 @@ INSTALLED_APPS = [
     "debug_toolbar",
     'rest_framework',
     'djoser',
-    # "corsheaders",
     "negoflict_app",
     'core',
     'session',
@@ -58,7 +53,6 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -89,20 +83,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'negoflictserver.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': config('DB_NAME'),
-        'HOST': config('DB_HOST'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
+        'NAME': os.environ.get('DB_NAME'),
+        'HOST': os.environ.get('DB_HOST'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -122,7 +114,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -133,7 +124,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -158,19 +148,9 @@ SIMPLE_JWT = {
 }
 JWT_AUTH_COOKIE = "refresh_token"
 
-
 AUTH_USER_MODEL = 'core.User'
 
 CORS_ALLOW_CREDENTIALS = True
-
-# CORS_ALLOW_HEADERS = [
-#      "authorization",
-#         "content-type",
-
-# ]
-
-
-# CORS_ORIGIN_ALLOW_ALL = True
 
 INTERNAL_IPS = [
     # ...
@@ -184,11 +164,7 @@ DJOSER = {
         'current_user': 'core.serializers.UserSerializer',
     }
 }
-STATICFILES_DIRS = [
-
-]
+STATICFILES_DIRS = []
 APPEND_SLASH = False
-
-# ALLOWED_HOSTS = ['127.0.0.1:3000']
 
 API_PREFIX = os.environ.get('API_PREFIX', default='')
