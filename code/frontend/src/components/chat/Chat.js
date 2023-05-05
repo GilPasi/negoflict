@@ -65,6 +65,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         onTextMessage: msg=>onTextMsg(msg),
        
     });
+    
 
     WebIM.conn.addEventHandler('hen',{
         onGroupEvent: msg=>handleGroupEvent(msg),
