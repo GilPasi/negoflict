@@ -1,0 +1,1 @@
+[{"model": "negoflict_app.mediator", "pk": 2, "fields": {"phone": "0509191227", "education": "sapir msb", "relevant_experience": "eating cookies", "mediation_areas": "FA", "certification_course": true}}, {"model": "negoflict_app.address", "pk": 6, "fields": {"city": "Haifa", "street": null, "zip": null}}]
