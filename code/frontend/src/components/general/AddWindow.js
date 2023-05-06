@@ -1,46 +1,58 @@
 import '../../styles/components/add_window.css'
 import AddUserPage from "../../pages/AddUserPage"
 import Button from "../../components/general/Button"
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
+import { useGetContactsQuery } from '../../store' 
+import { useSelector } from 'react-redux'
 
 const AddWindow =()=>{
     
     const [stage , setStage] = useState('pick side');
-    
     const [selectedPhones , setSelectedPhones] = useState([])
-    
-    const [selectedParty , setSelectedParty] = useState ('')
+    const [Users, setUsers] = useState([])
+    const {id} = useSelector(state=>state.user)
+    const {data:contantData, error:contactError} = useGetContactsQuery({mediator_id:id});
+
     
     const buttonsWidth = '6em'
 
-    const MockUsers=[
-        {fullName:'Avi Ron' , email:'aviron@elal.com' , phone:'0541111111'},
-        {fullName:'Eli Copter' , email:'Helicopter@elal.com' , phone:'054222222'},
-        {fullName:'Tiki Poor' , email:'TIkIpoor@bags.com' , phone:'05433333333'},
-        ]
 
-    function handleMark(phone) {
+    useEffect(()=>{
+        if(contactError){
+            console.log('error',contactError)
+            return
+        }
+        if(!contantData)return
+
+        contantData.forEach(user=>{
+            const tempUser = user['user']
+            const fullName = `${tempUser.first_name} ${tempUser.last_name}`
+            setUsers(prev=>[...prev,{fullName:fullName,email:tempUser.email,id:tempUser.id}])
+        })
+    },[contantData])
+
+    function handleMark(user) {
         console.log(selectedPhones)
-        if (selectedPhones.includes(phone)) {
-          setSelectedPhones(selectedPhones.filter(p => p !== phone));
+        if (selectedPhones.includes(user)) {
+          setSelectedPhones(selectedPhones.filter(p => p !== user));
         } else {
-          setSelectedPhones([...selectedPhones, phone]);
+          setSelectedPhones([...selectedPhones, user]);
         }
       }
 
-    const users = MockUsers.map((user,index)=>(
-        <label className="add-win--u-container">
+    const users = Users.map(user=>(
+        <label key={user.id} className="add-win--u-container">
             <div className="add-win--option" >
                 <span> {user.fullName}</span>
-                <span> {user.phone}</span>
+                <span> {'    '}</span>
                 <span> {user.email}</span>
             </div>
-            {/* Phone is a unique ID for each user*/}
+           
             <input
-                checked={selectedPhones.includes(user.phone)?'checked':''}
+                // checked={selectedPhones.includes(user.id)?'checked':''}
                 type="checkbox"
-                onClick={()=>handleMark(user.phone)} 
-                name={index}
+                onClick={()=>handleMark(user)} 
+                // name={index}
             />
             <div className="add-win--checkmark"/>
         </label>
