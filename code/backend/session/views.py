@@ -208,10 +208,15 @@ class GroupMemberView(ModelViewSet):
         if len(missing_parameter) > 0:
             return Response(missing_parameter, status=status.HTTP_400_BAD_REQUEST)
         
-        member = self.queryset.get(user=id)
-        caseId = member.case_id
-        queryset = Case.objects.filter(pk=caseId).filter(is_active=open_close)
-        serializer = CaseSerializer(queryset, many=True)
+        members = self.queryset.filter(user=id)
+        cases = []
+        
+        for member in members:
+            caseId = member.case_id
+            queryset = Case.objects.filter(pk=caseId).filter(is_active=open_close)
+            cases.extend(queryset)
+            
+        serializer = CaseSerializer(cases, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     @action(detail=False, methods=['POST'],permission_classes=[permissions.IsAdminOrUser])
