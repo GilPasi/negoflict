@@ -127,37 +127,3 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
 }
 
 export default ChatView
-
-
-
-// <div
-//                 className="cp--shuttle-block"
-//                 style={{
-//                     display:isShuttled? "": "none", //deleted &&(msgScreen===texts)
-//                     backgroundColor: "#011202db",
-//                     opacity:"0.95"
-//                 }}
-                
-//                 >
-//                     <div className="cp--shuttle-block-msg">
-//                         {/* Render the right message according the user */}
-//                             {isMediator?(
-//                                 <p>
-//                                     Ths is is a Shuttle mode.
-//                                     <br/>
-//                                     You cannot contact the second party.
-//                                     <br/>
-//                                     <br/>
-//                                     You can contact Mediator in your private chat.
-//                                 </p>
-//                                 ):(
-//                                 <p>
-//                                     You turned on the shuttle mode.<br/>
-//                                     Only private chats are available for all users.
-//                                 </p> 
-//                                 )}
-//                     </div>
-
-//                 </div>
-
-//                 <div className="cp--shuttle-block"></div>
