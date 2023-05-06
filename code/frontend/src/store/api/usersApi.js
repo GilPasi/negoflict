@@ -60,6 +60,7 @@ const usersApi = createApi({
             }),
             getToken: builder.query({
                 query: ({username,password})=>{
+                    console.log(username , password)
                     return {
                         url: '/core/auth/token/',
                         body:{
