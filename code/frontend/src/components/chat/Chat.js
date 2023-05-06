@@ -15,7 +15,6 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     const dispatch = useDispatch()
     //===========
     //state==========
-    const {first_name, last_name} = useSelector(state=>state.user)
     const messageDetail = useSelector(state=>state.message)
 
     const handleDisconnect =async (event)=>{
@@ -23,6 +22,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         event.returnValue = ''
 
         if(!WebIM.conn.isOpened())return
+        wasRenderd.current = false
         if(roleName ==='mediator')
             WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
         dispatch(clearMsg())

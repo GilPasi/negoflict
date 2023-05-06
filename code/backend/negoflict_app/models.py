@@ -17,7 +17,7 @@ class category():
         (NEIGHBORS, 'Neighbors'),
         (EDUCATION, 'Education'),
         (ORGANIZATIONS, 'Organizations'),
-        (BUISINESS, 'Buisiness'),
+        (BUISINESS, 'Business'),
         (POLITICS, 'Politics'),
         (OTHER, 'Other')
     ]
