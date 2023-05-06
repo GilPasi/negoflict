@@ -8,7 +8,7 @@ import { useState, useEffect} from 'react';
 
 
 
-const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isShuttled, role, muted,centerGroup})=>{
+const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isShuttled, role, muted,centerGroup,loadingData})=>{
 
     const [size, setSize] = useState(window.innerHeight);
     const shuttelView =muted
@@ -90,6 +90,10 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
                 <div>
                     <MessageList activeGroup={activeGroup} 
                     maxHeight={`${size-FOOTER_SIZE-HEADER_SIZE}px`}
+                    isLoading = {loadingData.progress < 100}
+                    progress = {loadingData.progress}
+                    task = {loadingData.task}
+
                     /> 
                     
                 </div>
