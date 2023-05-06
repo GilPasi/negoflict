@@ -213,6 +213,18 @@ class GroupMemberView(ModelViewSet):
         queryset = Case.objects.filter(pk=caseId).filter(is_active=open_close)
         serializer = CaseSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    @action(detail=False, methods=['POST'],permission_classes=[permissions.IsAdminOrUser])
+    def register_many_users(self, request):
+        data = request.data
+        
+        if isinstance(data, list):
+            serializer = self.get_serializer(data=data, many=True)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        return Response('Bad request',status=status.HTTP_400_BAD_REQUEST)
         
         
             
