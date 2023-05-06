@@ -159,8 +159,6 @@ const ChatPage = ()=>{
             return update
         })
     }
-    console.log(taskProgress)
-
     const handleSend = (text)=>{ //handling the msg send and handle save the msg to data base using the useMsg hook
         const side = activeGroup.slice(-1)
         const inputDetail = {msg:text,to:chat.id,ext:{side:side,name:first_name,userId:id,sender:userDetail.side}}

@@ -51,7 +51,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
             WebIM.conn.disableSendGroupMsg({groupId:centerGroup.groupid})
         else
             WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
-            .then(res=>console.log('enable>>>>>',res))
+            
     },[isShuttled])
     //=========== 
 
