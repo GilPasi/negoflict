@@ -10,7 +10,7 @@
 .loading-bar--bar{
     position: relative;
     display: flex;
-    width: 250%;
+    width: 30vh;
     height: 2em;
     background-color: var(--green-light);
     border-radius:5em;
@@ -99,8 +99,8 @@
     z-index: 2;
   }
   .box{
-    width: 80%;
-    z-index: 1;
+    width: 100%;
+    z-index: 10;
     
   }
 

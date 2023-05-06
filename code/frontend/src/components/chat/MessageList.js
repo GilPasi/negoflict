@@ -73,17 +73,22 @@ const MessageList =( { activeGroup ,maxHeight, isLoading,progress, task} )=> {
         height: `${maxHeight}`,
         overflowY: 'scroll',
         position:'relative',
-        opacity:isLoading ? "0.5" : "1",
+
+        // opacity:isLoading ? "0.5" : "1",
 
         //Alternatively you can use the scrollable message list
       }}
     
     >
+      
       {isLoading&&
-      <div style={{position:"fixed" , top: "50%" , left: "50%" }}>
+      <div>
+      <div style={{position:'fixed',width:'100%', height:'60%',backgroundColor:'rgba(0,0,0,0.2)',zIndex:'12'}}></div>
+      <div style={{position:'fixed' , top: "50%" , left: "50%" }}>
         <LoadinBar progress={progress}
         task={task}
         />
+      </div>
       </div>
         }
       

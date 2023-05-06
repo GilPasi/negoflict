@@ -11,7 +11,7 @@ import { useState, useEffect} from 'react';
 const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isShuttled, role, muted,centerGroup,loadingData})=>{
 
     const [size, setSize] = useState(window.innerHeight);
-    const shuttelView =muted
+    const shuttelView = muted
     &&
     role==='user'
     &&
@@ -89,7 +89,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
 
                 <div>
                     <MessageList activeGroup={activeGroup} 
-                    maxHeight={`${size-FOOTER_SIZE-HEADER_SIZE}px`}
+                    // maxHeight={`${size-FOOTER_SIZE-HEADER_SIZE}px`}
                     isLoading = {loadingData.progress < 100}
                     progress = {loadingData.progress}
                     task = {loadingData.task}
@@ -110,7 +110,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
                             id="cp--input-tb"
                         />
 
-                            <button className={`cp--input-btn${shuttelView}`} onClick={setInputValue} disabled={shuttelView==='-shuttel'}>
+                            <button className={`cp--input-btn${shuttelView}`} onClick={setInputValue} disabled={shuttelView==='-shuttel' || loadingData.progress < 100}>
                                 <span className="material-symbols-outlined cp--send" >
                                     send
                                 </span>
