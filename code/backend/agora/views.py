@@ -67,7 +67,7 @@ class Groups(ModelViewSet):
     def add_users_to_groups(self,request):
         token = getAppToken(5000)
         users = request.data.get('users',None)
-        print(users)
+        
 
         responses =[]
         headers = get_auth_headers(token)
@@ -90,6 +90,27 @@ class Groups(ModelViewSet):
                     return Response(f"agora error:{e}")
             responses.append(responses_user)
         return Response(responses,status=status.HTTP_200_OK)
+    
+    @action(detail=False, methods=['POST'], permission_classes=[permissions.IsAdminOrUser])
+    def adding_many_users_to_group(self,request):
+        token = getAppToken(5000)
+        Users = request.data.get('users', None)
+        group_id = request.data.get('group',None)
+        
+        missing_props = {
+            **({'error':'group missing'} if not group_id else {}),
+             **({'error': 'users missing'} if not Users else {}),
+        }
+        
+        headers = get_auth_headers(token)
+        
+        if len(missing_props) > 0:
+            return Response({'missing properties':missing_props}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            res = requests.post(f"{HOST_URL_APP_KEY}/chatgroups/{group_id}/users",headers=headers,data={'usernames':Users})
+        except RequestException as e:
+            return Response(f"agora error: {e}")
 
 
     @action(detail=False, methods=['DELETE'], permission_classes=[permissions.IsAdminOrUser])
@@ -122,6 +143,7 @@ class Groups(ModelViewSet):
     def get_groups_by_user(self,request):
         token = getAppToken(5000)
         user = request.GET.get('username',None)
+        
 
         headers = get_auth_headers(token)
         if user:
