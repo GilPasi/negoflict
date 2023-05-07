@@ -1,8 +1,7 @@
-import "../styles/pages/case_page.css"
 import Header from "../components/general/Header"
+import PlusButton from "../components/general/PlusButton"
 import React, { useEffect } from "react"
 import MyCases from "./rolePages/mediator/MyCases"
-import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
 import { addGroups } from "../store"
@@ -69,23 +68,13 @@ const CasePage =({isMediator})=>{
     
 
     return(
-        <article className="cap page">
+        <article>
             <Header isLarge={true}/>
                 <MyCases isMediator={isMediator} open_close={open_close}/>
-                {isMediator?(
-                    <><h1 className="title">Create a new<br />Case</h1><Link to="new_case">
-                        <div className="cap--plus-wrapper">
-                            <div className="cap--plus">
-                                <div className="cap--line" id="cap--line-ver"></div>
-                                <div className="cap--line" id="cap--line-hor"></div>
-                            </div>
-                        </div>
-                    </Link></>
-
-                ):(<div></div>)}
-                
-             
-           
+                {isMediator&&<div className="centerizer">
+                    <h1 className="title">Create a new<br />Case</h1>
+                    <PlusButton to="new_case"/>
+                </div>}
         </article>
     )
 }
