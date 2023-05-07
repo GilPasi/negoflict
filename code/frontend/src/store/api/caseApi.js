@@ -118,6 +118,17 @@ const caseApi = createApi({
             }
         }
     }),
+    getUsersByCase: builder.query({
+      query: ({caseChat})=>{
+        return {
+          url:'/session/chat_members/get_users_by_case/',
+          method:'GET',
+          params:{
+            case:caseChat
+          }
+        }
+      }
+    }),
     }
   }
 });

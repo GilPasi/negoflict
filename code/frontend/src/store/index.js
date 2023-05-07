@@ -84,6 +84,7 @@ export const { usePost_new_caseMutation } = caseApi
 export const {useGetCaseSideQuery, useLazyGetCaseSideQuery} = caseApi
 export const { usePutUserToMemberGroupMutation } = caseApi
 export const {useCloseCaseMutation} = caseApi
+export const {useGetUsersByCaseQuery} = caseApi
 //============
 
 //groupApi=====

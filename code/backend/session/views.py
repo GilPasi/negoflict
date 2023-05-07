@@ -230,6 +230,18 @@ class GroupMemberView(ModelViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
         
         return Response('Bad request',status=status.HTTP_400_BAD_REQUEST)
+    
+    @action(detail=False, methods=['GET'], permission_classes=[permissions.IsAdminOrUser])
+    def get_users_by_case(self, request):
+        case = request.GET.get('case',None)
+        
+        if case:
+            queryset = self.queryset.filter(case=case)
+            if queryset:
+                serializer = GroupMemberSerializer(queryset, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response('cant find case', status=status.HTTP_404_NOT_FOUND)
+        return Response('missing parameter case', status=status.HTTP_400_BAD_REQUEST)
         
         
             
