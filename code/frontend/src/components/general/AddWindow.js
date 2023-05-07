@@ -19,15 +19,6 @@ const AddWindow =({groups})=>{
     const [addingUsersToChat] = useAddingManyUsersToOneChatGroupMutation()
     const [registerServerChatGroup] = useRegisterManyUsersToGroupMemberMutation()
 
-    if(participentsData){
-        console.log(participentsData)
-    }
-    if(contantData){
-        console.log(contantData)
-    }
-    
-
-
     
     const buttonsWidth = '6em'
 
