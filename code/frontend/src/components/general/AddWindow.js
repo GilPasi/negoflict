@@ -102,7 +102,7 @@ const AddWindow =({groups})=>{
         }
         usersDataArr = [...usersDataArr,userData]
        })
-       registerServerChatGroup()
+       registerServerChatGroup({users:usersDataArr})
 
        
         /*Add to the chat - backend logic
