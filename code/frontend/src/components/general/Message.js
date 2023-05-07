@@ -1,7 +1,9 @@
 import "../../styles/components/message.css"
 import { useSelector } from "react-redux"
+import { getPermName } from "../../utils/permissions"
 const Message=({text,sender,isSelf, time, name})=>{
-    const {role} = useSelector(state=>state.user)
+    const {role:roleNumber} = useSelector(state=>state.user)
+    const role = getPermName({role:roleNumber})
 
     const getColor = ()=>{
         if(isSelf)return "#BFE8FB" //my message always blue
