@@ -4,7 +4,7 @@ import Button from "../../components/general/Button"
 import {useEffect, useState} from 'react'
 import { useGetContactsQuery } from '../../store' 
 import { useSelector } from 'react-redux'
-import { useAddingManyUsersToOneChatGroupMutation } from '../../store'
+import { useAddingManyUsersToOneChatGroupMutation, useRegisterManyUsersToGroupMemberMutation } from '../../store'
 
 const AddWindow =({groups})=>{
     const {agora,server,caseId} = groups
@@ -17,6 +17,7 @@ const AddWindow =({groups})=>{
     const {id} = useSelector(state=>state.user)
     const {data:contantData, error:contactError} = useGetContactsQuery({mediator_id:id});
     const [addingUsersToChat] = useAddingManyUsersToOneChatGroupMutation()
+    const [registerServerChatGroup] = useRegisterManyUsersToGroupMemberMutation()
     
 
 
@@ -87,6 +88,22 @@ const AddWindow =({groups})=>{
        else if(errorR2){
         console.log('failer',errorR)
        }
+       const filterdGroupChat = server.find(group=>group.chat === side)
+       const usersDataArr = []
+
+
+       Users.forEach(user=>{
+        const userData = {
+            side:side,
+            group_chat:filterdGroupChat.id,
+            user:user.id,
+            case:caseId,
+            mediator:id
+        }
+        usersDataArr = [...usersDataArr,userData]
+       })
+       registerServerChatGroup()
+
        
         /*Add to the chat - backend logic
             ...

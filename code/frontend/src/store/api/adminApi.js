@@ -175,18 +175,17 @@ const adminApi = createApi({
                     }
                 }
             }),
-            registerManyUsersToChatMemberGroup:builder.mutation({
-                query:({users, group_chat, caseChat,side})=>{
+            registerManyUsersToGroupMember: builder.mutation({
+                query:({users})=>{
                     return{
-                        url:'/session/chat_members/register_many_users/',
+                        url: `/session/chat_members/register_many_users/`,
                         method:'POST',
-                        body:{
-
-                        }
+                        body:users
                     }
+            
                 }
-
-            }),
+                
+            })
         }
     }
 })
