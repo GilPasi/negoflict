@@ -89,7 +89,7 @@ const AddWindow =({groups})=>{
         console.log('failer',errorR)
        }
        const filterdGroupChat = server.find(group=>group.chat === side)
-       const usersDataArr = []
+       let usersDataArr = []
 
 
        Users.forEach(user=>{
@@ -102,7 +102,14 @@ const AddWindow =({groups})=>{
         }
         usersDataArr = [...usersDataArr,userData]
        })
-       registerServerChatGroup({users:usersDataArr})
+       const {data:dataM, error:errorM} =await registerServerChatGroup({users:usersDataArr})
+
+       if(errorM){
+        console.log(errorM)
+       }
+       else if(dataM){
+        console.log(dataM)
+       }
 
        
         /*Add to the chat - backend logic
