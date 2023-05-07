@@ -208,11 +208,40 @@ class GroupMemberView(ModelViewSet):
         if len(missing_parameter) > 0:
             return Response(missing_parameter, status=status.HTTP_400_BAD_REQUEST)
         
-        member = self.queryset.get(user=id)
-        caseId = member.case_id
-        queryset = Case.objects.filter(pk=caseId).filter(is_active=open_close)
-        serializer = CaseSerializer(queryset, many=True)
+        members = self.queryset.filter(user=id)
+        cases = []
+        
+        for member in members:
+            caseId = member.case_id
+            queryset = Case.objects.filter(pk=caseId).filter(is_active=open_close)
+            cases.extend(queryset)
+            
+        serializer = CaseSerializer(cases, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    @action(detail=False, methods=['POST'],permission_classes=[permissions.IsAdminOrUser])
+    def register_many_users(self, request):
+        data = request.data
+        
+        if isinstance(data, list):
+            serializer = self.get_serializer(data=data, many=True)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        return Response('Bad request',status=status.HTTP_400_BAD_REQUEST)
+    
+    @action(detail=False, methods=['GET'], permission_classes=[permissions.IsAdminOrUser])
+    def get_users_by_case(self, request):
+        case = request.GET.get('case',None)
+        
+        if case:
+            queryset = self.queryset.filter(case=case)
+            if queryset:
+                serializer = GroupMemberSerializer(queryset, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response('cant find case', status=status.HTTP_404_NOT_FOUND)
+        return Response('missing parameter case', status=status.HTTP_400_BAD_REQUEST)
         
         
             

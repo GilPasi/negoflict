@@ -3,19 +3,21 @@
     text-align: center;
     font-size: 2em;
     font-weight:300;
-    width: 100%;
+    width: fit-content;
     display: block;
+    user-select: none;
 }
 .loading-bar--bar{
     position: relative;
     display: flex;
-    width: 80%;
+    width: 30vh;
     height: 2em;
     background-color: var(--green-light);
     border-radius:5em;
     margin-left: 50%;
     transform:translateX(-50%);
     border:3.5px solid var(--green-light);
+    
 
 }
 .loading-bar--bar::after{
@@ -84,14 +86,21 @@
     animation-delay: -1.0s;
   }
   .section-loading-bar{
+    position: absolute;
+    z-index: 10;
+    
+    left: 50%;
+    transform:translateX(-50%);
+    top: 30%;
+
     display: flex;
     justify-content: center;
     background-color: rgba(203, 190, 190, 0.133);
     z-index: 2;
   }
   .box{
-    width: 80%;
-    z-index: 1;
+    width: 100%;
+    z-index: 10;
     
   }
 

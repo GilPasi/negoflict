@@ -61,6 +61,26 @@ const adminApi = createApi({
                     }
                 }
             }),
+            addingManyUsersToOneChatGroup: builder.mutation({
+                query: ({users,group})=>{
+                    let Users = []
+
+                    users.forEach(user=>{
+                       let username = user.email.replace(/[^\w\s]/gi, '')
+                       Users = [...Users, username]
+                    })
+                return{
+                    url:'/agora/groups/adding_many_users_to_group/',
+                    method: 'POST',
+                    body:{
+                        users:Users,
+                        group:group,
+                    }
+                }
+
+                }
+
+            }),
             addMediator: builder.mutation({
                 query:({phone,education,relevant_experience,mediation_areas,
                     certification_course,user,access})=>{
@@ -155,6 +175,17 @@ const adminApi = createApi({
                     }
                 }
             }),
+            registerManyUsersToGroupMember: builder.mutation({
+                query:({users})=>{
+                    return{
+                        url: `/session/chat_members/register_many_users/`,
+                        method:'POST',
+                        body:users
+                    }
+            
+                }
+                
+            })
         }
     }
 })

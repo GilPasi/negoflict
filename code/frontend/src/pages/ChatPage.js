@@ -27,6 +27,7 @@ const ChatPage = ()=>{
      const [fetch,setFetch] = useState(false)
      const [role,setRole] = useState('')
      const [mute, setMute] = useState(false)
+     const [taskProgress, setTaskProgress] = useState({progress:0, task:'connecting'})
      //=================
  
     //values========
@@ -135,7 +136,10 @@ const ChatPage = ()=>{
         messages.sort((a,b)=>a.time - b.time)
         dispatch(addHistoryMsg({id:groupid,messages:messages}))
         setFetch(true)
+        handleProgress('fetch history', 30)
+        
     };
+
 
    const handleShuttle =()=> {// set shuttle mode
     setIsShuttled(prevState=>{
@@ -145,7 +149,16 @@ const ChatPage = ()=>{
     const handleMute = (state)=>{
         setMute(state)
     }
-
+    const handleProgress = (taskUpdate, progUpdate, set)=>{
+     
+        setTaskProgress(prev=>{
+            const update = {
+            progress:prev['progress']+ progUpdate,
+            task:taskUpdate
+            }
+            return update
+        })
+    }
     const handleSend = (text)=>{ //handling the msg send and handle save the msg to data base using the useMsg hook
         const side = activeGroup.slice(-1)
         const inputDetail = {msg:text,to:chat.id,ext:{side:side,name:first_name,userId:id,sender:userDetail.side}}
@@ -170,9 +183,8 @@ const ChatPage = ()=>{
             role={role}
             muted={mute}
             centerGroup={centerGroup}
-
-
-
+            loadingData={taskProgress}
+            groups = {{agora:groups,server:chatGroupData,caseId:caseId}}
             />
             <Chat
             username={userDetail.username}
@@ -184,6 +196,7 @@ const ChatPage = ()=>{
             firstName={first_name}
             isShuttled={role==='user'?null : isShuttled}
             centerGroup={centerGroup}
+            handleProgress={handleProgress}
 
             />
         </div>

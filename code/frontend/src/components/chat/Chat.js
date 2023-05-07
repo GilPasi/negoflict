@@ -6,7 +6,7 @@ import { getPermName } from "../../utils/permissions";
 
 
 
-const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onMute, centerGroup})=>{
+const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onMute, centerGroup, handleProgress})=>{
     //hooks=======
     const wasRenderd = useRef(false)
     const tokenRes = useGetChatTokenQuery({username:username})
@@ -51,7 +51,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
             WebIM.conn.disableSendGroupMsg({groupId:centerGroup.groupid})
         else
             WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
-            .then(res=>console.log('enable>>>>>',res))
+            
     },[isShuttled])
     //=========== 
 
@@ -59,6 +59,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     WebIM.conn.listen({
         onClosed: ()=>onConnect(false),
         onOpened: ()=>{
+            handleProgress('connecting', 10)
             onConnect(true)
             getHistoryMsg()
             },
@@ -69,7 +70,9 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
 
     WebIM.conn.addEventHandler('hen',{
         onGroupEvent: msg=>handleGroupEvent(msg),
-        onOnline: (res)=>console.log('connected',res),
+        onOnline: (res)=>{
+            handleProgress('fetching messages', 30)
+            console.log('connected',res)},
         // onConnected: ()=>{
         //     onConnect(true)
         //     getHistoryMsg()
@@ -113,13 +116,22 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         const message = WebIM.message.create(option)
         WebIM.conn.send(message)
     };
-    const getHistoryMsg = ()=>{
-        groups.forEach(group=>{
+    const getHistoryMsg =async ()=>{
+      
+      await groups.forEach(group=>{
              WebIM.conn.getHistoryMessages({targetId:group.groupid ,chatType:'groupChat', pageSize: 50})
              .then(res=>{
                 if(res.cursor==='undefined')return
-                onHistory(res,group.groupid)})
-        });
+                onHistory(res,group.groupid)}).then(()=>{
+                    handleProgress('fetching',10);
+                })
+        })
+        handleProgress('ending',30)
+        
+
+
+        
+        
     }
     const handleGroupEvent = (msg)=>{
         const {operation} = msg

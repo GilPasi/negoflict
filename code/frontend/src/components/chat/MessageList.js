@@ -1,9 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Message from '../general/Message';
 import { useSelector } from 'react-redux';
+import LoadinBar from '../general/LoadingBar';
 //Note that all styles of the list is done in the component
 
-const MessageList =( { activeGroup ,maxHeight} )=> {
+const MessageList =( { activeGroup ,maxHeight, isLoading,progress, task} )=> {
  
   const messagesEndRef = useRef(null);
   const {id} = useSelector(state=>state.user)
@@ -11,6 +12,7 @@ const MessageList =( { activeGroup ,maxHeight} )=> {
   //__________This line causes the component to disappear -  HEN
   const {messages} = useSelector(state=>state.chat[activeGroup])
   const [prevActiveGroup, setPrevActiveGroup] = useState(null);
+
 
 
   //change msg to data when i receive a messgae online
@@ -69,12 +71,27 @@ const MessageList =( { activeGroup ,maxHeight} )=> {
     style={{
         width:'100%',
         height: `${maxHeight}`,
-        overflowY: 'scroll', 
+        overflowY: 'scroll',
+        position:'relative',
+
+        // opacity:isLoading ? "0.5" : "1",
 
         //Alternatively you can use the scrollable message list
       }}
     
     >
+      
+      {isLoading&&
+      <div>
+      <div style={{position:'fixed',width:'100%', height:'60%',backgroundColor:'rgba(0,0,0,0.2)',zIndex:'12'}}></div>
+      <div style={{position:'fixed' , top: "50%" , left: "50%" }}>
+        <LoadinBar progress={progress}
+        task={task}
+        />
+      </div>
+      </div>
+        }
+      
 
       {messages&& messages.map(message => (
          
@@ -88,7 +105,10 @@ const MessageList =( { activeGroup ,maxHeight} )=> {
                 />
 
       ))}
+     
+
       <div ref={messagesEndRef} />
+
     </div>
   );
 }

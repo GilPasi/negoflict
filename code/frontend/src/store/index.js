@@ -84,6 +84,7 @@ export const { usePost_new_caseMutation } = caseApi
 export const {useGetCaseSideQuery, useLazyGetCaseSideQuery} = caseApi
 export const { usePutUserToMemberGroupMutation } = caseApi
 export const {useCloseCaseMutation} = caseApi
+export const {useGetUsersByCaseQuery} = caseApi
 //============
 
 //groupApi=====
@@ -102,6 +103,8 @@ export const {useUpdateMediatorResidentMutation} = adminApi
 export const {useIsUsernameExistQuery, useLazyIsUsernameExistQuery} = adminApi
 export const {useRegisterOneUserMutation} = adminApi
 export const {useCreateUsersMutation} = adminApi
+export const {useAddingManyUsersToOneChatGroupMutation} = adminApi
+export const {useRegisterManyUsersToGroupMemberMutation} = adminApi
 
 //msgApi=======
 export const {usePostNewMessageMutation} = msgApi
