@@ -10,7 +10,7 @@ const AddWindow =({groups})=>{
     const {agora,server,caseId} = groups
 
     const [stage , setStage] = useState('pick side');
-    const [selectedPhones , setSelectedPhones] = useState([])
+    const [selectedUsers , setSelectedUsers] = useState([])
     const [side,setSide] = useState(null)
     const [Users, setUsers] = useState([])
     const {id} = useSelector(state=>state.user)
@@ -23,30 +23,38 @@ const AddWindow =({groups})=>{
     const buttonsWidth = '6em'
 
 
-    useEffect(()=>{
-        if(participentError){
-            console.log('error',contactError)
-            return
+    useEffect(() => {
+        if (participentError) {
+          console.log("error", contactError);
+          return;
         }
-        if(!participentsData)return
-
-        let participentsIds =  participentsData.map(entry=>entry.user)
-
-        let filterdUsersData = contantData.filter((user)=> !participentsIds.includes(user.user.id)) 
-
-        filterdUsersData.forEach(user=>{
-            const tempUser = user['user']
-            const fullName = `${tempUser.first_name} ${tempUser.last_name}`
-            setUsers(prev=>[...prev,{fullName:fullName,email:tempUser.email,id:tempUser.id}])
-        })
-    },[participentsData])
+        if (!participentsData || !contantData) return;
+      
+        let participentsIds = participentsData.map((entry) => entry.user);
+        console.log('ppppaaarrr==>>>>',participentsIds)
+      
+        let filteredUsersData = contantData.filter(
+          (user) => !participentsIds.includes(user.user.id)
+        );
+        console.log('filteerrrrr',filteredUsersData)
+      
+        filteredUsersData.forEach((user) => {
+          const tempUser = user["user"];
+          const fullName = `${tempUser.first_name} ${tempUser.last_name}`;
+          setUsers((prev) => [
+            ...prev,
+            { fullName: fullName, email: tempUser.email, id: tempUser.id },
+          ]);
+        });
+      }, [participentsData, contantData]);
+      
 
     function handleMark(user) {
-        console.log(selectedPhones)
-        if (selectedPhones.includes(user)) {
-          setSelectedPhones(selectedPhones.filter(p => p !== user));
+        console.log(selectedUsers)
+        if (selectedUsers.includes(user)) {
+          setSelectedUsers(selectedUsers.filter(p => p !== user));
         } else {
-          setSelectedPhones([...selectedPhones, user]);
+          setSelectedUsers([...selectedUsers, user]);
         }
       }
 
@@ -59,7 +67,7 @@ const AddWindow =({groups})=>{
             </div>
            
             <input
-                // checked={selectedPhones.includes(user.id)?'checked':''}
+                // checked={selectedUsers.includes(user.id)?'checked':''}
                 type="checkbox"
                 onClick={()=>handleMark(user)} 
                 // name={index}
@@ -69,32 +77,33 @@ const AddWindow =({groups})=>{
     ))
 
     const handleAdd =async ()=>{
-        if(selectedPhones.length===0){
+        if(selectedUsers.length===0){
             document.querySelector('#add-win-w').style.visibility='visible';
             return
         }
+     
        let groupSideChoose = agora.find(group=>group.groupname.endsWith(side))
        let groupCenterChoose = agora.find(group=>group.groupname.endsWith('G'))
-       const {data:dataR, error:errorR} =await  addingUsersToChat({users:Users, group:groupSideChoose.groupid})
-       const {data:dataR2, error: errorR2} = await  addingUsersToChat({users:Users, group:groupCenterChoose.groupid})
+        addingUsersToChat({users:selectedUsers, group:groupSideChoose.groupid})
+        addingUsersToChat({users:selectedUsers, group:groupCenterChoose.groupid})
        
-       if(dataR){
-        console.log('success',dataR)
-       }
-       else if(errorR){
-        console.log('failer',errorR)
-       }
-       if(dataR2){
-        console.log('success',dataR)
-       }
-       else if(errorR2){
-        console.log('failer',errorR)
-       }
+    //    if(dataR){
+    //     console.log('success',dataR)
+    //    }
+    //    else if(errorR){
+    //     console.log('failer',errorR)
+    //    }
+    //    if(dataR2){
+    //     console.log('success',dataR)
+    //    }
+    //    else if(errorR2){
+    //     console.log('failer',errorR)
+    //    }
        const filterdGroupChat = server.find(group=>group.chat === side)
        let usersDataArr = []
 
 
-       Users.forEach(user=>{
+       selectedUsers.forEach(user=>{
         const userData = {
             side:side,
             group_chat:filterdGroupChat.id,
@@ -104,14 +113,14 @@ const AddWindow =({groups})=>{
         }
         usersDataArr = [...usersDataArr,userData]
        })
-       const {data:dataM, error:errorM} =await registerServerChatGroup({users:usersDataArr})
+       registerServerChatGroup({users:usersDataArr})
 
-       if(errorM){
-        console.log(errorM)
-       }
-       else if(dataM){
-        console.log(dataM)
-       }
+    //    if(errorM){
+    //     console.log(errorM)
+    //    }
+    //    else if(dataM){
+    //     console.log(dataM)
+    //    }
 
        
         /*Add to the chat - backend logic
