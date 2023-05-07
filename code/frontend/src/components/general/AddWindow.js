@@ -9,7 +9,6 @@ import { useAddingManyUsersToOneChatGroupMutation, useRegisterManyUsersToGroupMe
 const AddWindow =({groups})=>{
     const {agora,server,caseId} = groups
 
-    console.log('detail===',agora,server,caseId)
     const [stage , setStage] = useState('pick side');
     const [selectedPhones , setSelectedPhones] = useState([])
     const [side,setSide] = useState(null)
