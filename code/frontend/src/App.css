@@ -25,6 +25,7 @@
 
 .page{
   min-width: var(--screen-min);
+  min-height: 40em;
   /* padding-bottom: 10px; */
   /* margin-top: 10px; */
 

@@ -13,7 +13,7 @@ const ClientsPage = ()=>{
         console.log(list)
 
     return(
-        <article className="centerizer page">
+        <article className="middle page">
             <Header/>
             <h1>My Clients</h1>
             {list&&<ScrollableBox list={list}/>}
