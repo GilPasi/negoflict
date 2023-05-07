@@ -4,7 +4,7 @@ import Button from "../../components/general/Button"
 import {useEffect, useState} from 'react'
 import { useGetContactsQuery } from '../../store' 
 import { useSelector } from 'react-redux'
-import { useAddingManyUsersToOneChatGroupMutation, useRegisterManyUsersToGroupMemberMutation } from '../../store'
+import { useAddingManyUsersToOneChatGroupMutation, useRegisterManyUsersToGroupMemberMutation, useGetUsersByCaseQuery } from '../../store'
 
 const AddWindow =({groups})=>{
     const {agora,server,caseId} = groups
@@ -14,9 +14,17 @@ const AddWindow =({groups})=>{
     const [side,setSide] = useState(null)
     const [Users, setUsers] = useState([])
     const {id} = useSelector(state=>state.user)
+    const {data:participentsData, error:participentError} = useGetUsersByCaseQuery({caseChat:caseId})
     const {data:contantData, error:contactError} = useGetContactsQuery({mediator_id:id});
     const [addingUsersToChat] = useAddingManyUsersToOneChatGroupMutation()
     const [registerServerChatGroup] = useRegisterManyUsersToGroupMemberMutation()
+
+    if(participentsData){
+        console.log(participentsData)
+    }
+    if(contantData){
+        console.log(contantData)
+    }
     
 
 
@@ -25,18 +33,22 @@ const AddWindow =({groups})=>{
 
 
     useEffect(()=>{
-        if(contactError){
+        if(participentError){
             console.log('error',contactError)
             return
         }
-        if(!contantData)return
+        if(!participentsData)return
 
-        contantData.forEach(user=>{
+        let participentsIds =  participentsData.map(entry=>entry.user)
+
+        let filterdUsersData = contantData.filter((user)=> !participentsIds.includes(user.user.id)) 
+
+        filterdUsersData.forEach(user=>{
             const tempUser = user['user']
             const fullName = `${tempUser.first_name} ${tempUser.last_name}`
             setUsers(prev=>[...prev,{fullName:fullName,email:tempUser.email,id:tempUser.id}])
         })
-    },[contantData])
+    },[participentsData])
 
     function handleMark(user) {
         console.log(selectedPhones)
