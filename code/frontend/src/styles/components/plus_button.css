@@ -1,37 +1,29 @@
-.cap{
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
-    max-width: 350px; /*Important in order to avoid
-                        info-box overflow*/
-}
-
-
-.cap--plus{
+.plus{
     position: relative;
     padding: 2em;
     display: inline-block;
 }
-.cap--plus-wrapper{
+.plus-container{
     padding:1.5em;
     display: inline-block;
     margin:15px;
+    border: none;
+    background-color: transparent;
 }
 
-.cap--plus-wrapper:hover{
+.plus-container:hover{
     box-shadow: 3px 2px 5px 0px rgba(0,0,0,0.62);
 -webkit-box-shadow: 3px 2px 5px 0px rgba(0,0,0,0.62);
 -moz-box-shadow: 3px 2px 5px 0px rgba(0,0,0,0.62);
 }
-.cap--plus-wrapper:active{
+.plus-container:active{
     box-shadow: 3px 2px 5px 0px rgba(0,0,0,0.62) inset;
 -webkit-box-shadow: 3px 2px 5px 0px rgba(0,0,0,0.62) inset;
 -moz-box-shadow: 3px 2px 5px 0px rgba(0,0,0,0.62) inset;
 
 }
 
-.cap--line{
+.line{
 position:absolute;
 padding:0.1em;
 background-color:var(--green-dark);
@@ -40,13 +32,13 @@ left: 50%;
 transform: translateX(-50%) translateY(-50%);
 }
 
-#cap--line-ver{
+#line-ver{
   width: 0.5em;
   height:100%;
   left:50%;  
 }
 
-#cap--line-hor{
+#line-hor{
     width: 100%;
     height:0.5em;
     top:50%;
