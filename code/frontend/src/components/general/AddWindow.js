@@ -67,14 +67,23 @@ const AddWindow =({groups})=>{
             return
         }
        let groupSideChoose = groups.find(group=>group.groupname.endsWith(side))
-       console.log('group chooseeeeee==>>>',groupSideChoose)
+       let groupCenterChoose = groups.find(group=>group.groupname.endsWith('G'))
        const {data:dataR, error:errorR} =await  addingUsersToChat({users:Users, group:groupSideChoose.groupid})
+       const {data:dataR2, error: errorR2} = await  addingUsersToChat({users:Users, group:groupCenterChoose.groupid})
+       
        if(dataR){
         console.log('success',dataR)
        }
        else if(errorR){
         console.log('failer',errorR)
        }
+       if(dataR2){
+        console.log('success',dataR)
+       }
+       else if(errorR2){
+        console.log('failer',errorR)
+       }
+       
         /*Add to the chat - backend logic
             ...
             ...
