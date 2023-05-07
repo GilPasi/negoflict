@@ -7,7 +7,9 @@ import { useSelector } from 'react-redux'
 import { useAddingManyUsersToOneChatGroupMutation } from '../../store'
 
 const AddWindow =({groups})=>{
-    
+    const {agora,server,caseId} = groups
+
+    console.log('detail===',agora,server,caseId)
     const [stage , setStage] = useState('pick side');
     const [selectedPhones , setSelectedPhones] = useState([])
     const [side,setSide] = useState(null)
@@ -15,6 +17,8 @@ const AddWindow =({groups})=>{
     const {id} = useSelector(state=>state.user)
     const {data:contantData, error:contactError} = useGetContactsQuery({mediator_id:id});
     const [addingUsersToChat] = useAddingManyUsersToOneChatGroupMutation()
+    
+
 
     
     const buttonsWidth = '6em'
@@ -66,8 +70,8 @@ const AddWindow =({groups})=>{
             document.querySelector('#add-win-w').style.visibility='visible';
             return
         }
-       let groupSideChoose = groups.find(group=>group.groupname.endsWith(side))
-       let groupCenterChoose = groups.find(group=>group.groupname.endsWith('G'))
+       let groupSideChoose = agora.find(group=>group.groupname.endsWith(side))
+       let groupCenterChoose = agora.find(group=>group.groupname.endsWith('G'))
        const {data:dataR, error:errorR} =await  addingUsersToChat({users:Users, group:groupSideChoose.groupid})
        const {data:dataR2, error: errorR2} = await  addingUsersToChat({users:Users, group:groupCenterChoose.groupid})
        

@@ -184,7 +184,7 @@ const ChatPage = ()=>{
             muted={mute}
             centerGroup={centerGroup}
             loadingData={taskProgress}
-            groups = {groups}
+            groups = {{agora:groups,server:chatGroupData,caseId:caseId}}
             />
             <Chat
             username={userDetail.username}
