@@ -89,7 +89,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
 
                 <div>
                     <MessageList activeGroup={activeGroup}
-                    // maxHeight={`${size-FOOTER_SIZE-HEADER_SIZE}px`}
+                    maxHeight={`${size-FOOTER_SIZE-HEADER_SIZE}px`}
                     isLoading = {loadingData.progress < 100}
                     progress = {loadingData.progress}
                     task = {loadingData.task}
