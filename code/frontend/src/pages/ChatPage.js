@@ -184,6 +184,7 @@ const ChatPage = ()=>{
             muted={mute}
             centerGroup={centerGroup}
             loadingData={taskProgress}
+            groups = {groups}
             />
             <Chat
             username={userDetail.username}

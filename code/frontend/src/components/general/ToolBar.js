@@ -3,13 +3,13 @@ import Loader from './Loader'
 import PopupContainer from './Modal.js'
 import AddWindow from "../../components/general/AddWindow"
 
-const ToolBar =({conflictName , id , handleAdd,isMediator,connectionUsers, isChat})=>{
+const ToolBar =({conflictName , id , handleAdd,isMediator,connectionUsers, isChat, groups})=>{
     
     return(
         <div className="tb">
 
             <PopupContainer 
-                popContent={<AddWindow/>} 
+                popContent={<AddWindow  groups={groups}/>}
                 imgSrc='../../../assets/images/add_icon_dark.png'
                 classStr='tb--btn'
                 />

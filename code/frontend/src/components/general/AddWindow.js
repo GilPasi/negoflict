@@ -4,14 +4,17 @@ import Button from "../../components/general/Button"
 import {useEffect, useState} from 'react'
 import { useGetContactsQuery } from '../../store' 
 import { useSelector } from 'react-redux'
+import { useAddingManyUsersToOneChatGroupMutation } from '../../store'
 
-const AddWindow =()=>{
+const AddWindow =({groups})=>{
     
     const [stage , setStage] = useState('pick side');
     const [selectedPhones , setSelectedPhones] = useState([])
+    const [side,setSide] = useState(null)
     const [Users, setUsers] = useState([])
     const {id} = useSelector(state=>state.user)
     const {data:contantData, error:contactError} = useGetContactsQuery({mediator_id:id});
+    const [addingUsersToChat] = useAddingManyUsersToOneChatGroupMutation()
 
     
     const buttonsWidth = '6em'
@@ -58,20 +61,32 @@ const AddWindow =()=>{
         </label>
     ))
 
-    const handleAdd = ()=>{
-        alert(selectedPhones)
+    const handleAdd =async ()=>{
         if(selectedPhones.length===0){
             document.querySelector('#add-win-w').style.visibility='visible';
             return
         }
-        selectedPhones.forEach(phone=>console.log('phone: ' + phone))
+       let groupSideChoose = groups.find(group=>group.groupname.endsWith(side))
+       console.log('group chooseeeeee==>>>',groupSideChoose)
+       const {data:dataR, error:errorR} =await  addingUsersToChat({users:Users, group:groupSideChoose.groupid})
+       if(dataR){
+        console.log('success',dataR)
+       }
+       else if(errorR){
+        console.log('failer',errorR)
+       }
         /*Add to the chat - backend logic
             ...
             ...
             ...
         */
         setStage('success')
-    }   
+    }
+    const handleSideChoose = ({currentTarget:input})=>{
+        const {value} = input
+        setSide(value)
+
+    }
 
         
     return(
@@ -86,12 +101,17 @@ const AddWindow =()=>{
                         type='radio'
                         className='add-win--circle' 
                         value='A'
-                        name='side select'/>
+                        name='side select'
+                        onChange={handleSideChoose}
+                        />
+                        
                     <input 
                         type='radio'
                         className='add-win--circle' 
                         value='B'
-                        name='side select'/>
+                        name='side select'
+                        onChange={handleSideChoose}
+                        />
                 </div>
                 <Button text="Next" margin='4em 0 0 0' size='small' onClick={()=>setStage('choose')}/>
             </center>
@@ -134,10 +154,10 @@ const AddWindow =()=>{
                 {stage==='success' &&
                 <div>
                     <h1 className='add-win--success-title'>SUCCESS</h1>
-                    <div class="add-win--success-animation">
-                        <svg class="add-win--animation-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-                            <circle class="add-win--checkmark__circle" cx="26" cy="26" r="25" fill="none" />
-                            <path class="add-win--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                    <div className="add-win--success-animation">
+                        <svg className="add-win--animation-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                            <circle className="add-win--checkmark__circle" cx="26" cy="26" r="25" fill="none" />
+                            <path className="add-win--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
                         </svg>
                     </div>
                 </div>

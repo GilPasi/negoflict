@@ -126,6 +126,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
                     handleProgress('fetching',10);
                 })
         })
+        handleProgress('ending',30)
         
 
 

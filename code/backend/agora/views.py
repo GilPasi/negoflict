@@ -12,6 +12,7 @@ from .models import EmptyClass
 from .serializers import EmptySerializer
 from requests.exceptions import RequestException
 import re
+import json
 
 
 
@@ -108,7 +109,8 @@ class Groups(ModelViewSet):
             return Response({'missing properties':missing_props}, status=status.HTTP_400_BAD_REQUEST)
         
         try:
-            res = requests.post(f"{HOST_URL_APP_KEY}/chatgroups/{group_id}/users",headers=headers,data={'usernames':Users})
+            res = requests.post(f"{HOST_URL_APP_KEY}/chatgroups/{group_id}/users",headers=headers,data=json.dumps({'usernames':Users}))
+            return Response(res.json(),status=status.HTTP_200_OK)
         except RequestException as e:
             return Response(f"agora error: {e}")
 

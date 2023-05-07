@@ -102,6 +102,7 @@ export const {useUpdateMediatorResidentMutation} = adminApi
 export const {useIsUsernameExistQuery, useLazyIsUsernameExistQuery} = adminApi
 export const {useRegisterOneUserMutation} = adminApi
 export const {useCreateUsersMutation} = adminApi
+export const {useAddingManyUsersToOneChatGroupMutation} = adminApi
 
 //msgApi=======
 export const {usePostNewMessageMutation} = msgApi

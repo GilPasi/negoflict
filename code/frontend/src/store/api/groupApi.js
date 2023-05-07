@@ -29,13 +29,13 @@ const groupApi = createApi({
                 invalidatesTags: ['chatGroup'],
                 query: ({title,desc,maxusers,owner})=>{
                     const description = desc || 'No description'
-                    const maxUsers = maxusers || 50
+                    // const maxUsers = maxusers || 50
                     return {
                         url:`/agora/groups/create_groups/`,
                         body:{
                             groupname: title,
                             desc: description,
-                            maxusers: maxUsers,
+                            maxusers: 40,
                             owner: owner,
                         },
                         method: 'POST'
@@ -63,6 +63,7 @@ const groupApi = createApi({
                     } 
                 }
             }),
+          
             }}
 })
 
