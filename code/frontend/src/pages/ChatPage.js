@@ -137,7 +137,6 @@ const ChatPage = ()=>{
         dispatch(addHistoryMsg({id:groupid,messages:messages}))
         setFetch(true)
         handleProgress('fetch history', 30)
-        
     };
 
 
@@ -197,6 +196,7 @@ const ChatPage = ()=>{
             isShuttled={role==='user'?null : isShuttled}
             centerGroup={centerGroup}
             handleProgress={handleProgress}
+            caseId={caseId}
 
             />
         </div>

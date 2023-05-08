@@ -130,6 +130,18 @@ const caseApi = createApi({
         }
       }
     }),
+    getFullUsersByCase: builder.query({
+      providesTags:['users_case'],
+      query: ({caseId})=>{
+        return{
+          url:'/session/chat_members/get_full_users_by_case/',
+          method:'GET',
+          params:{
+            case:caseId,
+          }
+        }
+      }
+    })
     }
   }
 });

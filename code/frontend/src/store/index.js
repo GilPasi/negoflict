@@ -12,6 +12,7 @@ import { chatReducer, addGroupsProps, updateMsg, resetChatState, addHistoryMsg }
 import { msgReducer, postNewMessage, clearMsg } from "./slices/msgSlice";
 import { msgApi } from "./api/msgApi"; 
 import { mediatorApi } from "./api/mediatorApi";
+import { perticipentReducer, addPerticipents,clearAllPerticipents,removeParticepent,setOnlineUsers,setUserAttribute } from "./slices/perticipentSlice";
 
 
 const store = configureStore({
@@ -22,6 +23,7 @@ const store = configureStore({
         chat_groups: chatGroupsReducer,
         chat:chatReducer,
         message:msgReducer,
+        perticipent:perticipentReducer,
 
         [usersApi.reducerPath]: usersApi.reducer,
         [caseApi.reducerPath]: caseApi.reducer,
@@ -59,7 +61,13 @@ export{
     addHistoryMsg,
     postNewMessage,
     setPrivateGroup,
-    clearMsg
+    clearMsg,
+    removeParticepent,
+    clearAllPerticipents,
+    addPerticipents,
+    setUserAttribute,
+    setOnlineUsers,
+    
 
    
 }
@@ -85,6 +93,7 @@ export const {useGetCaseSideQuery, useLazyGetCaseSideQuery} = caseApi
 export const { usePutUserToMemberGroupMutation } = caseApi
 export const {useCloseCaseMutation} = caseApi
 export const {useGetUsersByCaseQuery} = caseApi
+export const {useGetFullUsersByCaseQuery} = caseApi
 //============
 
 //groupApi=====

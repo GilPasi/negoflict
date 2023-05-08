@@ -1,18 +1,25 @@
 import WebIM from "../../WebIM";
-import {useEffect, useMemo, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 import {clearMsg, resetChatState, useGetChatTokenQuery} from "../../store";
 import { useSelector, useDispatch } from "react-redux";
 import { getPermName } from "../../utils/permissions";
+import { useGetFullUsersByCaseQuery, addPerticipents,setOnlineUsers,setUserAttribute,clearAllPerticipents } from "../../store";
 
 
 
-const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onMute, centerGroup, handleProgress})=>{
+
+const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onMute, centerGroup, handleProgress, caseId})=>{
     //hooks=======
     const wasRenderd = useRef(false)
+    const mauted = useRef(false)
     const tokenRes = useGetChatTokenQuery({username:username})
     const {role} = useSelector(state=>state.user)
+    const rrrr = useSelector(state=>state.perticipent)
     const roleName  = getPermName({role:role})
+    const {data:groupParticipentsData, error:groupParticipentsError} = useGetFullUsersByCaseQuery({caseId:caseId})
     const dispatch = useDispatch()
+    console.log('hiiiiii===>>>>',rrrr)
+   
     //===========
     //state==========
     const messageDetail = useSelector(state=>state.message)
@@ -27,11 +34,35 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
             WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
         dispatch(clearMsg())
         dispatch(resetChatState())
+        dispatch(clearAllPerticipents())
+        await WebIM.conn.publishPresence({description:'offline'})
+
         await WebIM.conn.close()
     }
    
 
     //useEffect=========
+    useEffect(()=>{
+        
+        if(groupParticipentsError){
+            return
+        }
+        else if(!groupParticipentsData)return
+        if(mauted.current)return
+        mauted.current = true
+        const perticipentArr = []
+
+        groupParticipentsData.forEach(pert=>{
+            const agoraUsername = pert.user.email.replace(/[^\w\s]/gi, '')
+            const userMod = {side:pert.side, fullName:`${pert.user.first_name} ${pert.user.last_name}`,connect:false, agoraUsername:agoraUsername}
+            perticipentArr.push(userMod)
+        })
+
+        console.log(perticipentArr)
+
+        dispatch(addPerticipents(perticipentArr))
+    },[groupParticipentsData,groupParticipentsError])
+
     useEffect(()=>{
         if(wasRenderd.current)return
         if(!tokenRes.isSuccess)return
@@ -66,13 +97,23 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         onTextMessage: msg=>onTextMsg(msg),
        
     });
+    // useEffect(()=>{
+    //     if(usersAtribute.length == 0)return
+    //     const persOnline = usersAtribute.filter(item=>item.ext === 'online')
+
+        
+
+    // },[usersAtribute,perticipentArray])
+
     
 
     WebIM.conn.addEventHandler('hen',{
         onGroupEvent: msg=>handleGroupEvent(msg),
         onOnline: (res)=>{
             handleProgress('fetching messages', 30)
-            console.log('connected',res)},
+            console.log('connected',res)
+        },
+        onPresenceStatusChange: res=>setParticipentsChange(res)
         // onConnected: ()=>{
         //     onConnect(true)
         //     getHistoryMsg()
@@ -85,36 +126,59 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     //====================
 
     //function========
+    const setParticipentsChange = (changes)=>{
+        changes.forEach(change=>{
+            dispatch(setUserAttribute(change))
+        })
+      
+    }
     const connect =async ()=>{
-        console.log(username)
-        console.log(tokenRes.data.userToken)
         await WebIM.conn.open({
             user:username,
             agoraToken: tokenRes.data.userToken
         }) 
         getHistoryMsg() 
-        // getGroupsInfo()  
+        getGroupsInfo()  
     };
 
-    // const getGroupsInfo=async()=>{
-    //     // await WebIM.conn.subscribePresence({usernames:['hen'],expiry:10000})
-    //     // .then(res=>console.log('hein',res))
+    const getGroupsInfo=async()=>{
 
-    //   await  groups.forEach(group=>{
-    //         WebIM.conn.getGroupInfo({groupId:group.groupid}).then(res=>{
-    //             res.data[0].affiliations.forEach(user=>{
+       await groups.forEach(group=>{
+            WebIM.conn.getGroupInfo({groupId:group.groupid}).then(res=>{
+                const members = []
+                res.data[0].affiliations.forEach(user=>{
+             
+                    const member = user?.member ?? user.owner
+                    if(member&& member !== username)
+                        members.push(member)
+                })
+                return members
 
-    //             })
-    //         })
-    //     })
-    // await WebIM.conn.publishPresence({description:'online'})
+            }).then(members=>{
+                WebIM.conn.subscribePresence({usernames:members,expiry:100000})
+                .then(()=>{
+                    WebIM.conn.getPresenceStatus({usernames:members}).then(res=>{
+                        if(res){
+                            const onlineUsers = res.result.filter(item=>item.ext === 'online')
+                            dispatch(setOnlineUsers(onlineUsers))
+                        }
+                    })
+                })
+            })
+        })
 
-    //     await WebIM.conn.getSubscribedPresenceList({pageNum:50,pageSize:50,usernames:['hen']}).then(res=>{
-    //         console.log('lalallala===>>',res)
-    //     })
-      
+        setTimeout(()=>{
+            WebIM.conn.publishPresence({description:'online'})
 
-    // }
+        },3000)
+        // await WebIM.conn.publishPresence({description:'online'})
+        // .catch(err=>console.log(err))
+
+
+        // await WebIM.conn.getSubscribedPresenceList({pageNum:50,pageSize:50,usernames:['hen']}).then(res=>{
+        //     console.log('lalallala===>>',res)
+        // })
+    }
 
     const postNewMessage =async ()=>{
         if(!await WebIM.conn.isOpened())return

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Case,GroupChat,GroupMember,Message, Survey,category,Contact
 from core.serializers import UserSerializer
+from core.serializers import  UserCreateSerializer
 
 
 class MediationChoiceField(serializers.Field):
@@ -31,6 +32,15 @@ class GroupMemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = GroupMember
         fields = ['id','side','group_chat','user','case','mediator']
+        
+
+class GroupMemberWithUserSerializer(serializers.ModelSerializer):
+    user = UserCreateSerializer()
+    
+    class Meta:
+        model = GroupMember
+        fields = ['id','side','group_chat','user','case','mediator']
+    
         
 
         
