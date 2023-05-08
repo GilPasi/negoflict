@@ -62,6 +62,7 @@ const adminApi = createApi({
                 }
             }),
             addingManyUsersToOneChatGroup: builder.mutation({
+                invalidatesTags:['users_case'],
                 query: ({users,group})=>{
                     let Users = []
 

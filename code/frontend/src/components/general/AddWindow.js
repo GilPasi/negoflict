@@ -22,31 +22,46 @@ const AddWindow =({groups})=>{
     
     const buttonsWidth = '6em'
 
+    useEffect(() => {
+        // This will run when the component is unmounted
+        return () => {
+            setUsers([]);
+        };
+    }, []);
+
+    
+
 
     useEffect(() => {
         if (participentError) {
-          console.log("error", contactError);
-          return;
+            console.log("error", contactError);
+            return;
         }
         if (!participentsData || !contantData) return;
-      
+    
         let participentsIds = participentsData.map((entry) => entry.user);
-        console.log('ppppaaarrr==>>>>',participentsIds)
-      
+    
         let filteredUsersData = contantData.filter(
-          (user) => !participentsIds.includes(user.user.id)
+            (user) => !participentsIds.includes(user.user.id)
         );
-        console.log('filteerrrrr',filteredUsersData)
-      
-        filteredUsersData.forEach((user) => {
-          const tempUser = user["user"];
-          const fullName = `${tempUser.first_name} ${tempUser.last_name}`;
-          setUsers((prev) => [
-            ...prev,
-            { fullName: fullName, email: tempUser.email, id: tempUser.id },
-          ]);
+    
+        // Filter out duplicate users based on their IDs
+        const uniqueUsersData = Array.from(
+            new Map(filteredUsersData.map((user) => [user["user"].id, user])).values()
+        );
+    
+        uniqueUsersData.forEach((user) => {
+            const tempUser = user["user"];
+            const fullName = `${tempUser.first_name} ${tempUser.last_name}`;
+            const userTemp = { fullName: fullName, email: tempUser.email, id: tempUser.id };
+    
+            setUsers((prev) => [
+                ...prev,
+                userTemp,
+            ]);
         });
-      }, [participentsData, contantData]);
+    }, [participentsData, contantData]);
+    
       
 
     function handleMark(user) {
