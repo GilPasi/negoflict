@@ -179,7 +179,7 @@ const LoginPage=()=>{
 
     return(
         <article className="page" >
-            <Header isLarge={true} />
+            <Header isLarge={true} unconnected={true}/>
 
             <h1 className="lp--title">Log-in<br/>{isMediator?<span>Mediator</span>:<div></div>}</h1>
             <form onSubmit={isMediator?submitHandlerMediator:submitHandlerUser} className="lp--form">

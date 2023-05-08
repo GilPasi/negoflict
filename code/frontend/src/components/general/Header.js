@@ -1,7 +1,8 @@
 import "../../styles/components/header.css"
-import {React} from 'react'
+import { Link } from "react-router-dom"
+ 
 
-const  Header=({isLarge})=>{
+const  Header=({isLarge , unconnected})=>{
 
 
     // __UI properies__
@@ -17,14 +18,13 @@ const  Header=({isLarge})=>{
         width: '100%',
     }
 
-    const title = <h1 style={titleStyle} className="header--title" >
-                    negoflict
-                </h1>
+    const title = <h1 style={titleStyle} className="header--title" >negoflict</h1>
     
 
     return(
         <div className="header">
             <div style={wrapperStyle}>
+            {!unconnected && 
                 <div className="header--menu">
                     <div >
                         <button className="header--menu-button">
@@ -35,24 +35,18 @@ const  Header=({isLarge})=>{
                     </div>
 
                 <div className="header--menu-content">
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 2</a>
-                    <a href="#">Link 3</a>
+                    {/* Hen: route propely  */}
+                    <Link to="/">Log out</Link>
+                    <Link to="/">Enter chat</Link>
+                    <Link to="">Settings</Link>
                 </div>
-            </div>
+            </div>}
 
-
-
-                {!isLarge && (
-                    <div className="" >
-                        {title}
-                </div>
-                )}
+                {!isLarge && <div>{title}</div>}
 
             </div>
             <center>
                 {isLarge &&title}
-
             </center>
 
         </div>
