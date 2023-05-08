@@ -92,8 +92,29 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
             user:username,
             agoraToken: tokenRes.data.userToken
         }) 
-        getHistoryMsg()   
+        getHistoryMsg() 
+        // getGroupsInfo()  
     };
+
+    // const getGroupsInfo=async()=>{
+    //     // await WebIM.conn.subscribePresence({usernames:['hen'],expiry:10000})
+    //     // .then(res=>console.log('hein',res))
+
+    //   await  groups.forEach(group=>{
+    //         WebIM.conn.getGroupInfo({groupId:group.groupid}).then(res=>{
+    //             res.data[0].affiliations.forEach(user=>{
+
+    //             })
+    //         })
+    //     })
+    // await WebIM.conn.publishPresence({description:'online'})
+
+    //     await WebIM.conn.getSubscribedPresenceList({pageNum:50,pageSize:50,usernames:['hen']}).then(res=>{
+    //         console.log('lalallala===>>',res)
+    //     })
+      
+
+    // }
 
     const postNewMessage =async ()=>{
         if(!await WebIM.conn.isOpened())return
@@ -127,12 +148,9 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
                 })
         })
         handleProgress('ending',30)
-        
 
-
-        
-        
     }
+
     const handleGroupEvent = (msg)=>{
         const {operation} = msg
         switch(operation){
