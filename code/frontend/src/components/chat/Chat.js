@@ -3,7 +3,7 @@ import {useEffect, useRef} from "react";
 import {clearMsg, resetChatState, useGetChatTokenQuery} from "../../store";
 import { useSelector, useDispatch } from "react-redux";
 import { getPermName } from "../../utils/permissions";
-import { useGetFullUsersByCaseQuery, addPerticipents,setOnlineUsers,setUserAttribute,clearAllPerticipents } from "../../store";
+import { useGetFullUsersByCaseQuery, addPerticipents,setOnlineUsers,setUserAttribute,clearAllPerticipents, useLazyGetMyMediatorQuery } from "../../store";
 
 
 
@@ -14,11 +14,10 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     const mauted = useRef(false)
     const tokenRes = useGetChatTokenQuery({username:username})
     const {role} = useSelector(state=>state.user)
-    const rrrr = useSelector(state=>state.perticipent)
     const roleName  = getPermName({role:role})
     const {data:groupParticipentsData, error:groupParticipentsError} = useGetFullUsersByCaseQuery({caseId:caseId})
     const dispatch = useDispatch()
-    console.log('hiiiiii===>>>>',rrrr)
+    const [getMediator] = useLazyGetMyMediatorQuery()
    
     //===========
     //state==========
@@ -36,6 +35,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         dispatch(resetChatState())
         dispatch(clearAllPerticipents())
         await WebIM.conn.publishPresence({description:'offline'})
+        .catch(err=>console.log(err))
 
         await WebIM.conn.close()
     }
@@ -47,10 +47,26 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         if(groupParticipentsError){
             return
         }
-        else if(!groupParticipentsData)return
+        else if(!groupParticipentsData || groupParticipentsData.length == 0)return
         if(mauted.current)return
         mauted.current = true
         const perticipentArr = []
+
+        if(roleName === 'user'){
+            const { mediator } = groupParticipentsData[0]
+            getMediator({mediatorId:mediator}).then(res=>{
+                const {first_name,last_name, username } = res.data.user
+               const modMediator = {side:'M', fullName:`${first_name} ${last_name}`,connect:false, agoraUsername:username}
+               dispatch(addPerticipents([modMediator]))
+            })
+        }        
+  
+        
+
+
+
+        
+
 
         groupParticipentsData.forEach(pert=>{
             const agoraUsername = pert.user.email.replace(/[^\w\s]/gi, '')
@@ -58,7 +74,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
             perticipentArr.push(userMod)
         })
 
-        console.log(perticipentArr)
+       
 
         dispatch(addPerticipents(perticipentArr))
     },[groupParticipentsData,groupParticipentsError])
@@ -80,8 +96,10 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         if(!WebIM.conn.isOpened())return
         if(isShuttled)
             WebIM.conn.disableSendGroupMsg({groupId:centerGroup.groupid})
+            .catch(err=>console.log(err))
         else
             WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
+            .catch(err=>console.log(err))
             
     },[isShuttled])
     //=========== 
@@ -136,7 +154,8 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         await WebIM.conn.open({
             user:username,
             agoraToken: tokenRes.data.userToken
-        }) 
+        }).catch(err=>console.log(err))
+        
         getHistoryMsg() 
         getGroupsInfo()  
     };
@@ -164,11 +183,12 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
                         }
                     })
                 })
-            })
+            }).catch(err=>console.log(err))
         })
 
         setTimeout(()=>{
             WebIM.conn.publishPresence({description:'online'})
+            .catch(err=>console.log(err))
 
         },3000)
         // await WebIM.conn.publishPresence({description:'online'})
@@ -210,6 +230,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
                 onHistory(res,group.groupid)}).then(()=>{
                     handleProgress('fetching',10);
                 })
+                .catch(err=>console.log(err))
         })
         handleProgress('ending',30)
 

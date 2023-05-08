@@ -18,9 +18,9 @@ const UsersList = ()=>{
                         {user.side}
                     </div>
                     {user.connect?(
-                    <span class="checkmark">
-                        <div class="checkmark_stem"></div>
-                        <div class="checkmark_kick"></div>
+                    <span className="checkmark">
+                        <div className="checkmark_stem"></div>
+                        <div className="checkmark_kick"></div>
                     </span>)
                     :
                     (

@@ -123,6 +123,17 @@ const usersApi = createApi({
                         // },
                     }
                 }
+            }),
+            getMyMediator:builder.query({
+                query:({mediatorId})=>{
+                    return{
+                        url:'/users/mediator_view/my_mediator/',
+                        params:{
+                            id:mediatorId
+                        },
+                        method:'GET'
+                    }
+                }
             })
 
 

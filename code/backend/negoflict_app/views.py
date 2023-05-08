@@ -172,6 +172,20 @@ class MediatorView(ModelViewSet):
         serializer = MediatorSerializer(me)
         return Response(serializer.data,status=status.HTTP_302_FOUND)
     
+    @action(detail=False,methods=['GET'],permission_classes=[permissions.IsAdminOrUser])
+    def my_mediator(self,request):
+        id = request.GET.get('id',None)
+        if id:
+            user = self.queryset.get(user__id=id)
+            if user:
+                serializer = MediatorSerializer(user)
+                return Response(serializer.data,status=status.HTTP_200_OK)
+            return Response('cant find user', status=status.HTTP_404_NOT_FOUND)
+        return Response('bad request', status=status.HTTP_400_BAD_REQUEST)
+            
+    
+
+    
     
  
 class AddressView(ModelViewSet):

@@ -13,6 +13,7 @@ import { msgReducer, postNewMessage, clearMsg } from "./slices/msgSlice";
 import { msgApi } from "./api/msgApi"; 
 import { mediatorApi } from "./api/mediatorApi";
 import { perticipentReducer, addPerticipents,clearAllPerticipents,removeParticepent,setOnlineUsers,setUserAttribute } from "./slices/perticipentSlice";
+import { chat_attrbuteReducer, setMediator, setStartChat } from "./slices/chatAttributeSlice";
 
 
 const store = configureStore({
@@ -24,6 +25,7 @@ const store = configureStore({
         chat:chatReducer,
         message:msgReducer,
         perticipent:perticipentReducer,
+        chat_attrbute:chat_attrbuteReducer,
 
         [usersApi.reducerPath]: usersApi.reducer,
         [caseApi.reducerPath]: caseApi.reducer,
@@ -67,6 +69,8 @@ export{
     addPerticipents,
     setUserAttribute,
     setOnlineUsers,
+    setMediator,
+    setStartChat,
     
 
    
@@ -84,6 +88,7 @@ export const { useGetTokenQuery, useLazyGetTokenQuery} = usersApi
 export const {useGetChatTokenQuery, useLazyGetChatTokenQuery} = usersApi
 export const {useChangePasswordMutation} = usersApi
 export const {useModifyUserMutation} = usersApi
+export const {useGetMyMediatorQuery,useLazyGetMyMediatorQuery} = usersApi
 //===========
 
 //caseApi=====
