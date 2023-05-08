@@ -1,5 +1,5 @@
 import WebIM from "../../WebIM";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useRef} from "react";
 import {clearMsg, resetChatState, useGetChatTokenQuery} from "../../store";
 import { useSelector, useDispatch } from "react-redux";
 import { getPermName } from "../../utils/permissions";

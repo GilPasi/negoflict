@@ -2,11 +2,13 @@
 
 
 .tb{
-  display: flex;
+  display: grid;
+  grid-template-columns: 20% 60% 20% ;
   position: relative;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
+
+  /* align-items: center; */
+  width: 46vh;
+  height: 10vh;
   padding: 0.5em 0;
   background-color: #89E0A240;
 
@@ -50,6 +52,7 @@
   align-items: center;
   flex-direction: column;
   margin:0 2em;
+  
 }
 
 .tb--name{

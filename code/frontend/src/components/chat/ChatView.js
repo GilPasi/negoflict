@@ -11,6 +11,7 @@ import { useState, useEffect} from 'react';
 const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isShuttled, role, muted,centerGroup,loadingData,groups})=>{
 
     const [size, setSize] = useState(window.innerHeight);
+    const [usersListClick, setUsersListClick] = useState(false)
     const shuttelView = muted
     &&
     role==='user'
@@ -83,7 +84,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
             </p>
                 <header className='cp--header'>
                     <Header isLarge={false}/>
-                    <ToolBar conflictName="A political conflict" id={caseId}  isChat={true} groups={groups}/>
+                    <ToolBar conflictName="A political conflict" id={caseId}  isChat={true} groups={groups} isInfo={usersListClick}/>
                     <ShuttleSwitch isMediator={isMediator}/>
                 </header>
 
@@ -100,7 +101,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
 
                 <footer className="cp--footer">
                     <div className="cp--input">
-                        <span className="material-symbols-outlined cp--help">
+                        <span className="material-symbols-outlined cp--help" onClick={()=>setUsersListClick(prev=>!prev)}>
                             help
                         </span>
                         <textarea

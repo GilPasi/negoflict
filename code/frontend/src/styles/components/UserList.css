@@ -1,0 +1,65 @@
+.listBox{
+    position: absolute;
+    height: 90%;
+    overflow: scroll;
+    padding-left: 15px;
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+}
+.listBox::-webkit-scrollbar{
+    display: none;
+}
+
+
+.row{
+    display: flex;
+    justify-content: flex-start;
+    font-family:'Roboto', sans-serif;
+    font-weight:800;
+    font-size:large;
+    margin-bottom: 5px;
+    align-items: center;
+    /* overflow-x: hidden; */
+    color: var(--green-dark);
+
+}
+.attribute{
+    background-color: #d13d3d;
+    margin-right: 10px;
+    margin-left: 10px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50px;
+}
+.side{
+    font-size:medium;
+    font-weight:200;
+    color: black;
+}
+
+.checkmark {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+  }
+  
+  .checkmark_stem {
+    position: absolute;
+    width: 3px;
+    height: 9px;
+    background-color: var(--green-dark-shaded);
+    left: 11px;
+    top: 6px;
+  }
+  
+  .checkmark_kick {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background-color: var(--green-dark-shaded);
+    left: 8px;
+    top: 12px;
+  }

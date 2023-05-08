@@ -5,7 +5,8 @@ import RequireAuth from './components/Authentication/RequireAuth'
 import Layout from './components/general/Layout';
 import {UserLandingPage,MediatorLandingPage,SuperUserLandingPage} from './pages/LandingPage';
 import './App.css'
-import LoadinBar from './components/general/LoadingBar.js';
+import './styles/components/UserList.css'
+
 
 
 
@@ -34,6 +35,7 @@ import LoadinBar from './components/general/LoadingBar.js';
             
             </Route>
         </Routes>
+        
     </div>  
 
 
