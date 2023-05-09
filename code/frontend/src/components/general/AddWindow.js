@@ -65,7 +65,6 @@ const AddWindow =({groups})=>{
       
 
     function handleMark(user) {
-        console.log(selectedUsers)
         if (selectedUsers.includes(user)) {
           setSelectedUsers(selectedUsers.filter(p => p !== user));
         } else {
@@ -191,6 +190,8 @@ const AddWindow =({groups})=>{
 
 
             {stage==='create'&&<AddUserPage
+                isMediator={true}
+                idCase={caseId}
                 window='large'
                 goBack={()=>setStage('choose')}
                 next={()=>setStage('success')}

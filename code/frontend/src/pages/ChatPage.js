@@ -29,6 +29,7 @@ const ChatPage = ()=>{
      const [mute, setMute] = useState(false)
      const [taskProgress, setTaskProgress] = useState({progress:0, task:'connecting'})
      //=================
+   
  
     //values========
     const {username, role:userRole, first_name, id, access} = useSelector(state=>state.user)
@@ -41,6 +42,7 @@ const ChatPage = ()=>{
     //apiFetch==========
     const {data,error, isSuccess, isFetching} =useGetChatGroupsQuery({CaseId:caseId}) 
     //==========
+    
 
     //functions============
     const getSide =async (role)=>{ //get user side of conflict

@@ -34,7 +34,7 @@
 .side{
     font-size:medium;
     font-weight:200;
-    color: black;
+    color: var(--green-dark);
 }
 
 .checkmark {
