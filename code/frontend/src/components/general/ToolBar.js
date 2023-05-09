@@ -15,7 +15,7 @@ const ToolBar =({conflictName , id , handleAdd,isMediator,connectionUsers, isCha
                 classStr='tb--btn'
                 />
             {isInfo?
-            <div style={{  height:'inherit',width:'100%', flexDirection:'column'} }>
+            <div style={{  height:'inherit',width:'100%', flexDirection:'column', paddingLeft:'25px'} }>
                 <UsersList/>
             </div>
                 :
