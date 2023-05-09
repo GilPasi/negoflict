@@ -10,6 +10,14 @@
   transition: all 0.3s, border-bottom 0.35s ease-in;
     
 }
+.text-input--lbl{
+  position: absolute;
+  left:0;
+  right:7%;
+  left: 7%;
+  color:var(--red-warning);
+  
+}
 
 .text-field-input::placeholder{
   position: absolute;
@@ -56,6 +64,7 @@
 .input-box{
   display: grid;
   grid-template-rows: 1fr 5px;
+  position: relative;
 }
 
 
