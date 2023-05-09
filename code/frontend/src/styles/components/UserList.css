@@ -21,6 +21,20 @@
     align-items: center;
     /* overflow-x: hidden; */
     color: var(--green-dark);
+    
+
+}
+.row:hover{
+    font-weight: 900;
+    font-size: large;
+    background-color: rgba(219, 209, 209, 0.4);
+    border-radius: 5px;
+}
+.row:active{
+    font-weight: 900;
+    font-size: large;
+    background-color: rgba(145, 130, 130, 0.4);
+    border-radius: 5px;
 
 }
 .attribute{
