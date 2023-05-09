@@ -5,7 +5,6 @@ import MessageList from './MessageList'
 import UserPanel from '../general/UserPanel'
 import ToolBar from '../general/ToolBar'
 import { useState, useEffect} from 'react';
-import LoadinBar from '../general/LoadingBar'
 
 
 
@@ -124,6 +123,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
                         caseId= {caseId}
                         centerGroup={centerGroup}
                     />
+
                 </footer> 
         </article>
      
