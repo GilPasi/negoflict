@@ -1,13 +1,12 @@
-.listBox{
-    position: absolute;
-    height: 90%;
-    overflow: scroll;
-    padding-left: 15px;
+.users-list{
+    overflow-y: scroll;
     -ms-overflow-style: none; 
     scrollbar-width: none; 
+    text-align: center;
 }
-.listBox::-webkit-scrollbar{
+.users-list::-webkit-scrollbar{
     display: none;
+    background-color: #80808056;;
 }
 
 
@@ -19,7 +18,6 @@
     font-size:large;
     margin-bottom: 5px;
     align-items: center;
-    /* overflow-x: hidden; */
     color: var(--green-dark);
     
 
@@ -45,10 +43,20 @@
     height: 5px;
     border-radius: 50px;
 }
-.side{
+.users-list--side{
+    --size : 20px;
+    height :var(--size);
+    width :var(--size);
+
     font-size:medium;
     font-weight:200;
-    color: var(--green-dark);
+    border-top: 0px solid;
+    border-left: 1px solid;
+    border-right: 1px solid;
+    border-bottom: 2px solid;
+    border-radius: 50%;
+    margin:2px;
+    margin-right: 5px;
 }
 
 .checkmark {

@@ -5,7 +5,6 @@ import RequireAuth from './components/Authentication/RequireAuth'
 import Layout from './components/general/Layout';
 import {UserLandingPage,MediatorLandingPage,SuperUserLandingPage} from './pages/LandingPage';
 import './App.css'
-import './styles/components/UserList.css'
 
 
 

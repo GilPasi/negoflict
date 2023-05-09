@@ -10,20 +10,19 @@ const LoadinBar = ({progress,task,style }) => {
         
     <section className="section-loading-bar">
         <div>
-        <div className="box">
-      
-        <label className="loading-bar--task">
-        <div className="loading-dots">
-            <span>{task}</span>
-            <span className="dot"></span>
-            <span className="dot"></span>
-            <span className="dot"></span>
-        </div>
-        </label>
-        </div>
+            
+            <div>
+                <label className="loading-bar--task">
+                    <div className="loading-dots">
+                        <span>{task}</span>
+                        <span className="dot"></span>
+                        <span className="dot"></span>
+                        <span className="dot"></span>
+                    </div>
+                </label>
+            </div>
 
-            <div
-                className="loading-bar--bar progress"
+            <div className="loading-bar--bar progress"
                 role="progress bar"
                 value={progress}
                 aria-valuenow={progress}
@@ -35,6 +34,7 @@ const LoadinBar = ({progress,task,style }) => {
                 className="loading-bar--filler progress-bar progress-bar-striped bg-success progress-bar-animated"
                  style={_style}/>
             </div>
+
         </div>
     </section>
     );

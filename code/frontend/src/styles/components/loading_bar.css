@@ -8,7 +8,6 @@
     user-select: none;
 }
 .loading-bar--bar{
-    position: relative;
     display: flex;
     width: 30vh;
     height: 2em;
@@ -91,18 +90,12 @@
     
     left: 50%;
     transform:translateX(-50%);
-    top: 30%;
-
+    top: 50%;
     display: flex;
     justify-content: center;
-    background-color: rgba(203, 190, 190, 0.133);
     z-index: 2;
   }
-  .box{
-    width: 100%;
-    z-index: 10;
-    
-  }
+
 
   
   
