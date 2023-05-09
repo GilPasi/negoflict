@@ -6,11 +6,10 @@
 }
 .users-list::-webkit-scrollbar{
     display: none;
-    background-color: #80808056;;
+    background-color: #000000d4;
 }
 
-
-.row{
+.users-list--member{
     display: flex;
     justify-content: flex-start;
     font-family:'Roboto', sans-serif;
@@ -20,29 +19,17 @@
     align-items: center;
     color: var(--green-dark);
     
-
 }
-.row:hover{
+
+.users-list--member:hover , .users-list--member:active{
     font-weight: 900;
     font-size: large;
-    background-color: rgba(219, 209, 209, 0.4);
     border-radius: 5px;
 }
-.row:active{
-    font-weight: 900;
-    font-size: large;
-    background-color: rgba(145, 130, 130, 0.4);
-    border-radius: 5px;
 
-}
-.attribute{
-    background-color: #d13d3d;
-    margin-right: 10px;
-    margin-left: 10px;
-    width: 5px;
-    height: 5px;
-    border-radius: 50px;
-}
+.users-list--member:hover{background-color: rgba(219, 209, 209, 0.4);}
+.users-list--member:active{background-color: rgba(145, 130, 130, 0.4);}
+
 .users-list--side{
     --size : 20px;
     height :var(--size);
@@ -57,31 +44,5 @@
     border-radius: 50%;
     margin:2px;
     margin-right: 5px;
+    user-select: none;
 }
-
-.checkmark {
-    display: inline-block;
-    width: 22px;
-    height: 22px;
-    -ms-transform: rotate(45deg); /* IE 9 */
-    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
-    transform: rotate(45deg);
-  }
-  
-  .checkmark_stem {
-    position: absolute;
-    width: 3px;
-    height: 9px;
-    background-color: var(--green-dark-shaded);
-    left: 11px;
-    top: 6px;
-  }
-  
-  .checkmark_kick {
-    position: absolute;
-    width: 3px;
-    height: 3px;
-    background-color: var(--green-dark-shaded);
-    left: 8px;
-    top: 12px;
-  }
