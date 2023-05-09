@@ -8,7 +8,7 @@ const AdminMenu = ()=>{
 
     return(
         <div className='am page centerizer'>
-            <Header className='' isLarge={true}/>
+            <Header isLarge={true}/>
             <div className='text_header'>
             <div>
                 <h1>Hello</h1>
