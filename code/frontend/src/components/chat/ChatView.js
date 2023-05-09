@@ -1,6 +1,6 @@
 import '../../styles/pages/chat_page.css'
 import Header from '../general/Header'
-import ShuttleSwitch from '../general/ShuttleSwitch'
+import ShuttleSwitch from '../general/GroupSwitch'
 import MessageList from './MessageList'
 import UserPanel from '../general/UserPanel'
 import ToolBar from '../general/ToolBar'
