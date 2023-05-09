@@ -42,7 +42,6 @@ const AddUserPage =({side,idCase,goBack,
 
             {!window&&<header className='aup--header'>
                     <Header/>
-                    {!isMediator&&<ToolBar conflictName="A political conflict" id={idCase}/>}
             </header>}
 
 
