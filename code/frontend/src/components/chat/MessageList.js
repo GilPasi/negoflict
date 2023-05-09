@@ -80,17 +80,22 @@ const MessageList =( { activeGroup ,maxHeight, isLoading,progress, task} )=> {
       }}
     
     >
-      
-      {isLoading&&
-      <div>
-      <div style={{position:'fixed',width:'45vh', height:'58vh',backgroundColor:'rgba(0,0,0,0.2)',zIndex:'5', left:'50%', transform:'translateX(-50%)'}}></div>
-      <div style={{position:'fixed' , top: "50%" , left: "50%" }}>
-        <LoadinBar progress={progress}
-        task={task}
-        />
-      </div>
-      </div>
-        }
+      {isLoading&&<div>
+        <div 
+          style={{position:'absolute',
+          width:'45vh', height:'58vh',
+          backgroundColor:'rgba(0,0,0,0.2)',
+          zIndex:'5', left:'50%', 
+          transform:'translateX(-50%)'
+          }}/>
+
+        <div style={{position:'fixed' , top: "50%" , left: "50%" }}>
+          <LoadinBar
+            progress={progress}
+            task={task}
+          />
+        </div>
+      </div>}
       
 
       {messages&& messages.map(message => (

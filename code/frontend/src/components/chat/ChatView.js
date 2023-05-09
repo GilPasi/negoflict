@@ -5,6 +5,7 @@ import MessageList from './MessageList'
 import UserPanel from '../general/UserPanel'
 import ToolBar from '../general/ToolBar'
 import { useState, useEffect} from 'react';
+import LoadinBar from '../general/LoadingBar'
 
 
 
@@ -75,9 +76,8 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
                 //The header and the footer has fixed sizes , the message-list 
                 //will take the rest of the available space = 1fr
                 gridTemplateRows:`${HEADER_SIZE}px 1fr ${FOOTER_SIZE}px`,
-            }}
+            }}>
             
-        >
             <p className='cp--shuttled-msg' style={shuttleMsgStyle}>
                {isMediator?'Shuttle mode activated, main chat is temporary unavailable.' : 
                'Shuttle mode is active, users can only send you private messages'}

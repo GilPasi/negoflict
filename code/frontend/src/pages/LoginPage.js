@@ -2,6 +2,7 @@ import "../styles/pages/login_page.css"
 import Header from "../components/general/Header"
 import TextInput from "../components/general/TextInput"
 import Button from '../components/general/Button'
+import LoadingBar from '../components/general/LoadingBar'
 import { useEffect, useRef, useState } from "react"
 import { useDispatch,  } from 'react-redux'
 import { login } from '../store/index'
@@ -183,40 +184,35 @@ const LoginPage=()=>{
 
             <h1 className="lp--title">Log-in<br/>{isMediator?<span>Mediator</span>:<div></div>}</h1>
             <form onSubmit={isMediator?submitHandlerMediator:submitHandlerUser} className="lp--form">
-                {isMediator?
-                ( <TextInput 
+            {isMediator&&<TextInput 
                 type="text"
                 placeHolder="Username"
                 onChange = {handleChange}
                 name = 'username'
                 value={formData.username}
-            />):(<div></div>)}
-                
+            />}
+            <TextInput 
+                type="email"
+                placeHolder="Email"
+                onChange = {handleChange}
+                name={isMediator?'email':'username'}
+                value={isMediator?formData.email:formData.username}
+            />
 
-
-                <TextInput 
-                            type="email"
-                            placeHolder="Email"
-                            onChange = {handleChange}
-                            name={isMediator?'email':'username'}
-                            value={isMediator?formData.email:formData.username}
-                        />
-
-                <TextInput 
-                            type="password"
-                            placeHolder="Password"
-                            onChange = {handleChange}
-                            name='password'
-                            value={formData.password}
-                        />
-                        <div className="flexbox">
-                            <input  type="checkbox" id="lp--checkbox"/>
-                            <label htmlFor="lp--checkbox">Disclaimer Lorem ispum dolor T&C <a href="#"> Link</a></label>
-                        </div>
+            <TextInput 
+                type="password"
+                placeHolder="Password"
+                onChange = {handleChange}
+                name='password'
+                value={formData.password}
+            />
+            <div className="flexbox">
+                <input  type="checkbox" id="lp--checkbox"/>
+                <label htmlFor="lp--checkbox">Disclaimer Lorem ispum dolor T&C <a href="#"> Link</a></label>
+            </div>
                         
                 <Button  text="Submit" size="small"/>
             </form> 
-            
             <center>
                 <label 
                     style={{padding:'10px'}}>
