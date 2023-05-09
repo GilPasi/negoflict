@@ -31,7 +31,7 @@ const  TextField=({type,placeHolder,
 
     return(
         <div className="input-box">
-            {!userReacted&&!isValid&&<label htmlFor={name} className="text-input--lbl">{_warnText}</label>}
+            {!userReacted&&!_valid&&<label htmlFor={name} className="text-input--lbl">{_warnText}</label>}
             <input 
                 ref={parentRef}
                 name={name}
