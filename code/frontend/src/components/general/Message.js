@@ -18,6 +18,11 @@ const Message=({text,sender,isSelf, time, name})=>{
         const messageStyle ={
             backgroundColor : getColor(),
         }
+        //Check direction for hebrew
+        const firstChar = text.charCodeAt(0);
+        //א == 1488 , ת == 1514
+        const textDir = firstChar >= 1488 && firstChar <= 1514 ? "right": "left ";
+       
 
     return(
 
@@ -30,11 +35,16 @@ const Message=({text,sender,isSelf, time, name})=>{
                 </div>
 
                 <div className="message-container" >
-                    <p className="message--text" dir="auto">{text}</p>
+                    <p className="message--text"
+                        dir="auto"
+                        style={{textAlign:textDir}}>
+                        {text}
+                    </p>
                 </div>
             </div>
 
         </div>
+
         
         )
 }

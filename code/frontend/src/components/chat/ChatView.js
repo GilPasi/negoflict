@@ -1,6 +1,6 @@
 import '../../styles/pages/chat_page.css'
 import Header from '../general/Header'
-import ShuttleSwitch from '../general/ShuttleSwitch'
+import ShuttleSwitch from '../general/GroupSwitch'
 import MessageList from './MessageList'
 import UserPanel from '../general/UserPanel'
 import ToolBar from '../general/ToolBar'
@@ -75,9 +75,8 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
                 //The header and the footer has fixed sizes , the message-list 
                 //will take the rest of the available space = 1fr
                 gridTemplateRows:`${HEADER_SIZE}px 1fr ${FOOTER_SIZE}px`,
-            }}
+            }}>
             
-        >
             <p className='cp--shuttled-msg' style={shuttleMsgStyle}>
                {isMediator?'Shuttle mode activated, main chat is temporary unavailable.' : 
                'Shuttle mode is active, users can only send you private messages'}
@@ -124,6 +123,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
                         caseId= {caseId}
                         centerGroup={centerGroup}
                     />
+
                 </footer> 
         </article>
      

@@ -1,48 +1,26 @@
 import { useSelector } from "react-redux";
-import '../../styles/components/UserList.css'
+import '../../styles/components/users_list.css'
 
 
 const UsersList = ()=>{
     const users = useSelector(state=>state.perticipent)
-
-
-
+    const fontColor = "#000000d4"
 
     return(
-        <div className="listBox" >
+        <div className="users-list" >
             {users.map(user=>{
-                const onlineColor = user.connect === true? '#0b590b' :'#d13d3d'
                 return(
-                <div key={user.agoraUsername} className="row">
-                     <div className="side">
+                <div key={user.agoraUsername} className="users-list--member">
+                    <div className="users-list--side" 
+                    style={{color:fontColor,
+                            borderColor:fontColor,
+                            backgroundColor:user.connect === true?"var(--green-dark)" :"transparent"}}>
                         {user.side}
                     </div>
-                    {user.connect?(
-                    <span className="checkmark">
-                        <div className="checkmark_stem"></div>
-                        <div className="checkmark_kick"></div>
-                    </span>)
-                    :
-                    (
-                        <div>
-                        <div className="attribute" style={{backgroundColor:onlineColor}}></div>
-                    </div>
-                    )}
-                   
-                   
-                    <div>
-                        {user.fullName}
-                    </div>
-
-
+                    <div style={{color:fontColor}}>{user.fullName}</div>
                 </div>
             )})}
         </div>
     )
-
-
-
-
-
 }
 export default UsersList

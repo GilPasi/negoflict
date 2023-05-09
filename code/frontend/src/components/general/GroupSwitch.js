@@ -52,13 +52,13 @@ const GroupSwitch =({isMediator})=>{
         let offset = 0
         switch(btnPosition) {
             case 1:
-                offset = 0.5;
+                offset = 0.4;
                 break;
             case 2:
                 offset = 50;
                 break;
             case 3:
-                offset = 99.5;
+                offset = 99.6;
                 break;
         }
         setSelectorOffset(offset)
