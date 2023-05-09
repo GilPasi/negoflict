@@ -2,7 +2,7 @@ import "../../styles/components/toolbar.css"
 import Loader from './Loader'
 import PopupContainer from './Modal.js'
 import AddWindow from "../../components/general/AddWindow"
-import UsersList from "./UsersList"
+import UsersList from "./usersList"
 
 const ToolBar =({conflictName , id , handleAdd,isMediator,connectionUsers, isChat, groups, isInfo})=>{
     
