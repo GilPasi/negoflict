@@ -131,7 +131,8 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
             handleProgress('fetching messages', 30)
             console.log('connected',res)
         },
-        onPresenceStatusChange: res=>setParticipentsChange(res)
+        onPresenceStatusChange: res=>setParticipentsChange(res),
+        onError:err=>console.log('error',err)
         // onConnected: ()=>{
         //     onConnect(true)
         //     getHistoryMsg()
