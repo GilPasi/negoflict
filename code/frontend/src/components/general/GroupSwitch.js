@@ -77,7 +77,6 @@ const GroupSwitch =({isMediator})=>{
                 setNotifArray(()=>{
                     const newNotifArray = [...notifArray]
                     newNotifArray[clickedButton - 1] = false
-                    console.log(newNotifArray)
                 return newNotifArray
             })}
 
