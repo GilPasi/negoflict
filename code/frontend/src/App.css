@@ -10,13 +10,11 @@
 
   --green-dark : #4AAC65;
   --green-dark-shaded : #459d5e;
-
   --green-light : #89E0A2;
   --green-light-shaded : #D1EAD8;
-
   --grey:#828282;
-
   --blue-anchor:#1D62F0;
+  --red-warning: #c91111;
 
   --screen-min:375px; /*Iphone SE resolution*/
 
@@ -67,7 +65,7 @@ a:hover{
 }
 
 .warning{
-    color:#c91111;
+    color:var(--red-warning);
     visibility: hidden;
 }
 
