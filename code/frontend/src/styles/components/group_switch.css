@@ -9,10 +9,12 @@
     margin:0.5em 0 0.5em 50%;
 
     transform: translateX(-50%);
+    color:#ffffff4e;
 
   }
   
   .gs--btn{
+    position: relative;
     font-weight:var(--weight-semi);
     border:none;
     font-size:10px;
@@ -20,35 +22,64 @@
     padding: 1em;
     width: 10em;
     border-radius: 5px;
-    
     min-width: 5em;
     max-height:2.5em;
     margin:0.1em;
     flex-wrap: wrap;
     cursor: pointer;
     background:none;
+    overflow: hidden;
     
+  }
+  .gs--parallelogram{
+    --size : 21px;
+    --color: #ffffffba;
+    width : calc(var(--size));
+    padding: 1em;
+    position: absolute;
+    top:0;
+    bottom: 0;
+    animation-name:flash;
+    animation-duration:2s;
+    animation-iteration-count: infinite;
+
+  }
+  @keyframes flash {
+    from {transform: translateX(-50px);}
+    to {transform: translateX(100px);}
+
+  }
+
+  .gs--triangle-up{
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-left: var(--size) solid transparent;    
+    border-bottom: var(--size) solid var(--color);
+  }
+  .gs--triangle-bot{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0; 
+    height: 0; 
+    border-right: var(--size) solid transparent;    
+    border-top: var(--size) solid var(--color);
   }
 
   .gs--btn-content{
     transform: translateY(-100%) ;
     white-space: nowrap;
     transition:300ms
-    /* border-top: 1px solid */
+    
   }
-  #gs--pa{
-    /* margin-left: 2.5em; */
-  }
-  
-  #gs--pb{
-    /* margin-right: 2.5em; */
-  }
+
   
   .gs-selector{
     padding: 0.7em 3em 0.7em 3em;
     background: var(--green-dark-shaded);
     position: absolute;
-    top:2px;
+    top:2.5px;
     left:0;
     border-radius: 5px;
     box-shadow: 0px 3px 1px 0px #0000000A;

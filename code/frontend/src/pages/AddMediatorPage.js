@@ -49,6 +49,7 @@ const AddMediatorPage =({disable, goBack, handleChange,formData, handleSubmit, h
                 onChange={handleChange}
                 value={formData?.mediation_areas}
                 name='mediation_areas'
+                height="2em"
             />
 
             <TextInput

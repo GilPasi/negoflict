@@ -1,6 +1,6 @@
 import '../../styles/pages/chat_page.css'
 import Header from '../general/Header'
-import ShuttleSwitch from '../general/GroupSwitch'
+import GroupSwitch from '../general/GroupSwitch'
 import MessageList from './MessageList'
 import UserPanel from '../general/UserPanel'
 import ToolBar from '../general/ToolBar'
@@ -12,6 +12,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
 
     const [size, setSize] = useState(window.innerHeight);
     const [usersListClick, setUsersListClick] = useState(false)
+    const [notifications ,setNotifications] = useState([true,true,true])
     const shuttelView = muted
     &&
     role==='user'
@@ -54,7 +55,6 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
         document.querySelector("#cp--input-tb").value='';//Eventually clean the text box
 
     }
-    //___Hen: update showShuttleMsg___
     const showShuttleMsg = shuttelView==='-shuttel'
 
     
@@ -62,6 +62,11 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
         zIndex:showShuttleMsg ? '1' : '-1',
         top:`${showShuttleMsg? HEADER_SIZE: 0}px`,
         opacity: showShuttleMsg ? '0.5' : '0',
+    }
+
+    const handleNotification =()=>{
+        
+
     }
     
 
@@ -84,7 +89,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
                 <header className='cp--header'>
                     <Header isLarge={false}/>
                     <ToolBar conflictName="A political conflict" id={caseId}  isChat={true} groups={groups} isInfo={usersListClick}/>
-                    <ShuttleSwitch isMediator={isMediator}/>
+                    <GroupSwitch isMediator={isMediator} newMessage={notifications}/>
                 </header>
 
                 <div>
