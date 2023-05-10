@@ -14,6 +14,7 @@ import { msgApi } from "./api/msgApi";
 import { mediatorApi } from "./api/mediatorApi";
 import { perticipentReducer, addPerticipents,clearAllPerticipents,removeParticepent,setOnlineUsers,setUserAttribute } from "./slices/perticipentSlice";
 import { chat_attrbuteReducer, setMediator, setStartChat } from "./slices/chatAttributeSlice";
+import { superUserApi } from "./api/superUserApi";
 
 
 const store = configureStore({
@@ -32,7 +33,8 @@ const store = configureStore({
         [groupApi.reducerPath]: groupApi.reducer,
         [adminApi.reducerPath]: adminApi.reducer,
         [msgApi.reducerPath]: msgApi.reducer,
-        [mediatorApi.reducerPath]: mediatorApi.reducer
+        [mediatorApi.reducerPath]: mediatorApi.reducer,
+        [superUserApi.reducerPath]: superUserApi.reducer,
         
     },
     middleware: getDefaultMiddleware =>{
@@ -42,6 +44,7 @@ const store = configureStore({
         .concat(adminApi.middleware)
         .concat(msgApi.middleware)
         .concat(mediatorApi.middleware)
+        .concat(superUserApi.middleware)
         
     }
     
@@ -130,3 +133,6 @@ export const {usePostNewMessageMutation} = msgApi
 export const {useGet_clientsQuery,useLazyGet_clientsQuery} = mediatorApi
 export const {useGetContactsQuery,useLazyGetContactsQuery} = mediatorApi
 export const {useCreateContactMutation} = mediatorApi
+
+//superUserAi========
+export const {useGetMediatorsQuery,useLazyGetMediatorsQuery} = superUserApi

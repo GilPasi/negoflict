@@ -1,0 +1,33 @@
+
+
+.full-name-box{
+    background-color: #89E0A2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    border-radius: 5%;
+}
+
+.info-mediator-box{
+    display: grid;
+    grid-template-columns: 20% 70%;
+    column-gap: 20%;
+    text-align: center;
+    margin-bottom: 30px;
+
+}
+.first_name_mediator{
+    margin-right: 5%;
+
+}
+
+.headr-MediatorList{
+    color: #4AAC65;
+    margin-bottom: 30px;
+}
