@@ -1,5 +1,9 @@
 .users-list{
-    /* height: 100%; */
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translate(-50%);
+    height: 11vh;
     overflow-y: scroll;
     -ms-overflow-style: none; 
     scrollbar-width: none; 
