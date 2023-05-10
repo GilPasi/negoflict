@@ -1,0 +1,48 @@
+
+.exit-div-box{
+    position: absolute;
+    z-index: 10001;
+    background-color: #39814d;
+    width: 30px;
+    height: 30px;
+    right: 4%;
+    top: 10%;
+    clip-path: circle(50%);
+}
+.exit-biv-p1{
+    position: absolute;
+    clip-path: circle(34% at 43% 43%);
+    background-color: rgb(241, 237, 237);
+    width: 35px;
+    height: 35px;
+
+}
+.exit-div-left-right{
+    position: absolute;
+    background-color: #39814d;
+    width: 5px;
+    height: 20px;
+    clip-path: polygon();
+    top: 35%;
+    left: 70%;
+    transform: translate(-50%,-50%);
+    rotate: -45deg;
+    
+
+    /* clip-path: polygon(89% 0, 98% 0, 7% 100%, 0% 100%); */
+}
+.exit-div-right-left{
+    position: absolute;
+    background-color: #39814d;
+    width: 5px;
+    height: 20px;
+    clip-path: polygon();
+    top: 48%;
+    right: 59%;
+    transform: translate(-50%,-50%);
+    rotate: 45deg;
+
+}
+.btn-close{
+  border: none;
+}
