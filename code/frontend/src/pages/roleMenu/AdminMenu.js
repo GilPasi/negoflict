@@ -30,7 +30,7 @@ const AdminMenu = ()=>{
                     <Button text='Open Cases' size='medium' margin='0'/>
                 </Link>
                 <Link to='' style={{borderRadius:'2em' , margin:'10px'}}>
-                    <Button text='Mediator Screen' size='medium' margin='0'/>
+                    <Button text='Manage accounts' size='medium' margin='0'/>
                 </Link>
                 <Link to='' style={{borderRadius:'2em' , margin:'10px'}}>
                     <Button text='Massege to Mediator' size='medium' margin='0'/>
