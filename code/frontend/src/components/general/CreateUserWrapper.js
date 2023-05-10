@@ -4,6 +4,7 @@ import AddUserPage from '../../pages/AddUserPage'
 import { useNavigate } from "react-router-dom"
 import {store, useRegisterUsersMutation, useRegisterToChatGroupsMutation, usePutUserToMemberGroupMutation, useCreateContactMutation, useCreateUsersMutation} from '../../store/index'
 import {useSelector} from "react-redux";
+import { useLazyIsEmailExistQuery,useLazyIsUsernameExistQuery } from "../../store/index"
 
 
 const CreateUserWraper = ()=>{
@@ -30,6 +31,9 @@ const CreateUserWraper = ()=>{
     const [sideVal,setSideVal] = useState(0)
     const [groups,setGorups] = useState([])
     const [disableSubmit,setDisableSubmit] = useState(true)
+    const [disableNext, setDisableNext] = useState(true)
+    const [isEmailValid] = useLazyIsEmailExistQuery()
+    const [validation,setValidation] = useState({isValid:true, errorMsg:''})
   //===========
 
   //useEffects==========
@@ -61,12 +65,13 @@ const CreateUserWraper = ()=>{
       unsubscribe()
     };
   }, []);
-  useEffect(()=>{
-     if(groups.length>0&&idCase) {
-         setDisableSubmit(false)
-     }
 
-  },[groups,idCase])
+  useEffect(() => {
+    if (groups.length > 0 && idCase) {
+      setDisableSubmit(false);
+    }
+  }, [groups, idCase]);
+  
     //================
 
     //handlers============
@@ -86,11 +91,72 @@ const CreateUserWraper = ()=>{
           }
           return prevData
         })
+        validate(value,index)
       }
+
+      const validate = (value, index) => {
+        if (!userData[index]) {
+          return;
+        }
+      
+        if (value === "") {
+          if (side === "A") {
+            setDisableNext(true);
+            return;
+          } else {
+            setDisableSubmit(true);
+            return;
+          }
+        }
+      
+        const keys = Object.keys(userData[index]);
+        if (!keys) {
+          return;
+        }
+      
+        if (keys.length < 4) {
+          if (side === "A") {
+            setDisableNext(true);
+            return;
+          } else {
+            setDisableSubmit(true);
+            return;
+          }
+        }
+      
+        if (side === "A") {
+          setDisableNext(false);
+        } else {
+          setDisableSubmit(false);
+        }
+      };
+      const validateSubmit = async ({ users }) => {
+        let isExist = 'not-exist'
+        let errors = ''
+   
+        for (let userId in users) {
+          let { data, error } = await isEmailValid({ email: users[userId].email });
+          
+          if (data === true || error) {
+              isExist ='exist';
+              errors+=`this email ${users[userId].email} is already exist \n` 
+          }
+        }
+        if(errors.length > 0)
+          setValidation({isValid:false,errorMsg:errors})
+        
+        return isExist;
+      };
+      
+      
+
     //handlers===========
-    const handleSubmit =(event)=>{
+    const handleSubmit =async(event)=>{
         event.preventDefault()
         const arrUser = userData
+        const isExistEmail =await validateSubmit({users:arrUser})
+        console.log('email is ',isExistEmail)
+        if(isExistEmail==='exist')return
 
         arrUser.forEach(user=>{
           let pass = `Negoflict${user.phoneNumber}`
@@ -98,12 +164,14 @@ const CreateUserWraper = ()=>{
           user.password = pass
         })
 
+        
+
         registerUsers({users:arrUser,access:access,caseId:idCase})
 
         createUsers({users:arrUser,access:access}) //need to add more api to register in server
         .then(res=>{
           const usersArr = [...res.data]
-          const sides = ['A','B']
+          const sides = ['A','B']         
 
           registerToChatGroups({groups:groups,users:arrUser})
 
@@ -158,7 +226,9 @@ const CreateUserWraper = ()=>{
         next={next}
         handleChange={handleChange}
         userData={userData[0]}
+        disabled ={disableNext}
         goBack={goBack}
+        errorMsg={validation}
         />
         :
         <AddUserPage
@@ -169,6 +239,7 @@ const CreateUserWraper = ()=>{
         handleSubmit={handleSubmit}
         userData={userData[1]}
         disabled={disableSubmit}
+        errorMsg={validation}
         />
 
     )

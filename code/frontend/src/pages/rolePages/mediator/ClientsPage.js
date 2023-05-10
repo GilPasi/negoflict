@@ -16,7 +16,7 @@ const ClientsPage = ()=>{
         <article className="middle page">
             <Header/>
             <h1>My Clients</h1>
-            {list&&<ScrollableBox list={list}/>}
+            {list&&<ScrollableBox list={list} hasExit={true}/>}
             <PlusButton to='create_user'/>
         </article>
     )

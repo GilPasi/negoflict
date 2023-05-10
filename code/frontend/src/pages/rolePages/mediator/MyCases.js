@@ -19,9 +19,11 @@ const MyCases = ({isMediator, open_close})=>{
             {isSuccess &&
                 cases.map(caseData=>(
                     <div key={caseData.id}>
+                        
                         <TextHolder 
                         caseData={caseData} 
                         withInfo={true}
+                        hasExit={false}
                         />
                     </div>
             ))}

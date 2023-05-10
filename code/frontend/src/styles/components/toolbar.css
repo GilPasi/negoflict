@@ -3,7 +3,7 @@
 
 .tb{
   display: grid;
-  grid-template-columns: 20% 60% 20% ;
+  grid-template-columns: 20% 60% 20%;
   position: relative;
   height: 11vh;
   min-width: 300px;
@@ -50,7 +50,7 @@
   align-items: center;
   flex-direction: column;
   user-select: text;
-  
+  grid-column: 2/3;
 }
 
 .tb--name{

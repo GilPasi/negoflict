@@ -14,18 +14,20 @@ const ToolBar =({conflictName,id,isMediator,groups,isInfo})=>{
                 imgSrc='../../../assets/images/add_icon_dark.png'
                 classStr='tb--btn'
             />}
-                <div className='centerizer'>
-                    {isInfo?
-                        <div>
-                            <UsersList/>
-                        </div>
-                            :
-                        <div className="tb--title" >
-                            <h3 className="tb--name">{conflictName}</h3>
-                            {id?<h4 className="tb--id">I.D. {id}</h4>:<Loader size='small' withLogo={false}/>}
-                        </div>
-                    }
-                </div>
+
+
+
+                {isInfo?
+                    <div>
+                        <UsersList/>
+                    </div>
+                        :
+                    <div className="tb--title" >
+                        <h3 className="tb--name">{conflictName}</h3>
+                        {id?<h4 className="tb--id">I.D. {id}</h4>:<Loader size='small' withLogo={false}/>}
+                    </div>
+                }
+
                 
                 
             {isMediator&&<div className="tb--btn">

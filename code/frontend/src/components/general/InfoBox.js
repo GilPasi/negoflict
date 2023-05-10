@@ -7,8 +7,10 @@ import AddUserPage from '../../pages/AddUserPage';
 import useAlert from '../../hooks/useAlert';
 import { useDeleteGroupMutation } from '../../store';
 import { useCloseCaseMutation } from '../../store';
+import ExitIcon from "./ExitIcon"
 
-const InfoBox = ({ obj, isOpen }) => {
+
+const InfoBox = ({ obj, isOpen,hasExit }) => {
   const { deletAlert, textAlert } = useAlert();
   const { role } = useSelector((state) => state.user);
   const gotRole = role <= 2 ? 'mediator' : 'user';

@@ -105,12 +105,12 @@ const CreateMediatorWrapper = ()=>{
         <div>
         {firstPage?(
         <AddUserPage 
-        handleChange={handleChange}
-    isMediator={true}
-        userData={formData}
-        next={next}
-        goBack={back}
-        options={addressData || []}
+            handleChange={handleChange}
+            isMediator={true}
+            userData={formData}
+            next={next}
+            goBack={back}
+            options={addressData || []}
         />
         ):(
             <AddMediatorPage 

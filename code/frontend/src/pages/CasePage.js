@@ -11,8 +11,6 @@ import  useAlert  from '../hooks/useAlert'
 import { useGetGroupsByUserQuery } from "../store"
 
 
-
-
 const CasePage =({isMediator})=>{
     //dont change the order***********
     //status= finished

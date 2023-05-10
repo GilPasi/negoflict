@@ -16,7 +16,7 @@ const CaseFormPage = () =>{
     //dont change the order***************
     //hooks=========
     const navigate = useNavigate()
-    const [addGroup,{error:createGroupsError}] = useCreateNewGroupMutation()
+    const [addGroup] = useCreateNewGroupMutation()
     const [addCase] = usePost_new_caseMutation()
     //===========
 
@@ -70,6 +70,7 @@ const CaseFormPage = () =>{
         }
         addGroup(data)
         addCase(data)
+
 
         navigate('/mediator/create_users/?side=A',{
             replace:true,
