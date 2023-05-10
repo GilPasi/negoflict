@@ -84,7 +84,6 @@ class UserView(ModelViewSet):
     def is_username_exist(self,request):
         username = request.GET.get('username',None)
         
-        print(username)
         
         
         
