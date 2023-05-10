@@ -11,10 +11,6 @@ const GroupSwitch =({isMediator ,notifHook, closeNotification})=>{
     const[selectorOffsetU , setSelectorOffsetU] = useState(5)
     const[selectedBtnU , setSelectedBtnU] = useState(2)
     //Actual needed values
-    // const [notifArray , setNotifArray] = useState([true , true , true])
-    // const [notifArray , setNotifArray] = notifHook
-
-    // const [notifArray , setNotifArray] = useState([false , true , true])//Mock for testing
 
     const dispatch = useDispatch()
 
@@ -74,17 +70,7 @@ const GroupSwitch =({isMediator ,notifHook, closeNotification})=>{
     //Notifications :
     const handleNotifications =(clickedButton)=>{
         closeNotification(clickedButton-1)
-        // console.log('whhhattttt',clickedButton)
-        // notifHook[clickedButton-1] = false
-        // setNotifArray(()=>{
-        //     const newNotifArray = [...notifArray]
-        //     newNotifArray[clickedButton - 1] = false
-        // return newNotifArray
     }
-   
-
-
-
 
     //Structure : 
     const mediatorVersion =(
@@ -100,10 +86,7 @@ const GroupSwitch =({isMediator ,notifHook, closeNotification})=>{
                             }}>
                         <p  className="gs--btn-content">Party A</p>
 
-                        {notifHook[0] &&<div className="gs--parallelogram">
-                            <div className="gs--triangle-up"/>
-                            <div className="gs--triangle-bot"/>
-                        </div>}
+                        {notifHook[0] &&<div className="gs--parallelogram"/>}
 
                     </button>
                     <button 
@@ -117,10 +100,7 @@ const GroupSwitch =({isMediator ,notifHook, closeNotification})=>{
                             }}>
                         <p className="gs--btn-content">Main</p>
 
-                        {notifHook[1] &&<div className="gs--parallelogram">
-                            <div className="gs--triangle-up"/>
-                            <div className="gs--triangle-bot"/>
-                        </div>}
+                        {notifHook[1] &&<div className="gs--parallelogram"/>}
 
                     </button>
                     <button 
@@ -133,10 +113,7 @@ const GroupSwitch =({isMediator ,notifHook, closeNotification})=>{
                             handleNotifications(3)
                             }}>
                         <p className="gs--btn-content">Party B</p> 
-                        {notifHook[2] &&<div className="gs--parallelogram">
-                            <div className="gs--triangle-up"/>
-                            <div className="gs--triangle-bot"/>
-                        </div>}
+                        {notifHook[2] &&<div className="gs--parallelogram"/>}
                     </button>
                     <div className="gs-selector" style={selectorStyle}></div>
                 </div>)
@@ -154,10 +131,7 @@ const GroupSwitch =({isMediator ,notifHook, closeNotification})=>{
                             }}
                     >
                         <p  className="gs--btn-content">Me & Mediator</p>
-                        {notifHook[0] &&<div className="gs--parallelogram">
-                            <div className="gs--triangle-up"/>
-                            <div className="gs--triangle-bot"/>
-                        </div>}
+                        {notifHook[0] &&<div className="gs--parallelogram"/>}
                          </button>
                         <div className="gs--spacer" />
                     <button
@@ -170,10 +144,7 @@ const GroupSwitch =({isMediator ,notifHook, closeNotification})=>{
                             handleNotifications(2)
                             }}>
                         <p id="gs--pb" className="gs--btn-content">Main</p>
-                        {notifHook[1] &&<div className="gs--parallelogram">
-                            <div className="gs--triangle-up"/>
-                            <div className="gs--triangle-bot"/>
-                        </div>}
+                        {notifHook[1] &&<div className="gs--parallelogram"/>}
                         </button>
                     
                     <div className="gs-selector" style={selectorStyleU}></div>

@@ -33,40 +33,22 @@
   }
   .gs--parallelogram{
     --size : 21px;
-    --color: #ffffffba;
     width : calc(var(--size));
+    padding: 0.7em 1em ;
     position: absolute;
-    top:0;
-    bottom: 0;
+    top:2.5px;
+    bottom: 2px;
+    background-color: #ffffffba;
     animation-name:flash;
     animation-duration:2s;
     animation-iteration-count: infinite;
 
   }
   @keyframes flash {
-    from {transform: translateX(-50px);}
-    to {transform: translateX(100px);}
+    from {transform: translateX(-50px) skew(-40deg);}
+    to {transform: translateX(100px) skew(-40deg);}
 
   }
-
-  .gs--triangle-up{
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    border-left: var(--size) solid transparent;    
-    border-bottom: var(--size) solid var(--color);
-  }
-  .gs--triangle-bot{
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 0; 
-    height: 0;
-    transform: translateX(99%); 
-    border-right: var(--size) solid transparent;    
-    border-top: var(--size) solid var(--color);
-  }
-
   .gs--btn-content{
     transform: translateY(-100%) ;
     white-space: nowrap;
@@ -86,3 +68,9 @@
     transition: 300ms;
     width:min-content;
   }
+
+
+
+
+
+  

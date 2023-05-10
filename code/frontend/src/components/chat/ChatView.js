@@ -4,6 +4,8 @@ import GroupSwitch from '../general/GroupSwitch'
 import MessageList from './MessageList'
 import UserPanel from '../general/UserPanel'
 import ToolBar from '../general/ToolBar'
+import Button from '../general/Button'
+
 import { useState, useEffect} from 'react';
 
 
@@ -64,6 +66,12 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
         top:`${showShuttleMsg? HEADER_SIZE: 0}px`,
         opacity: showShuttleMsg ? '0.5' : '0',
     }
+
+    const handleRemove = ()=>{
+        //Remove logic : HEN
+
+        document.querySelector(".cp--user-info").close()
+    }
     
 
     return(
@@ -77,6 +85,23 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
                 //will take the rest of the available space = 1fr
                 gridTemplateRows:`${HEADER_SIZE}px 1fr ${FOOTER_SIZE}px`,
             }}>
+            <dialog className="cp--user-info">
+
+                <h1>User data ...</h1>
+               <Button
+                    onClick={()=>document.querySelector(".cp--user-info").close()}
+                    text="cancel"
+                    altitude="2em"
+                    length="5em"
+                    margin="5px"
+                />
+                <Button
+                    onClick={handleRemove}
+                    text="remove"
+                    altitude="2em"
+                    length="5em"
+                />
+            </dialog> 
             
             <p className='cp--shuttled-msg' style={shuttleMsgStyle}>
                {isMediator?'Shuttle mode activated, main chat is temporary unavailable.' : 
@@ -84,16 +109,29 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
             </p>
                 <header className='cp--header'>
                     <Header isLarge={false}/>
-                    <ToolBar conflictName="A political conflict" id={caseId}  isChat={true} groups={groups} isInfo={usersListClick} isMediator={isMediator}/>
-                    <GroupSwitch isMediator={isMediator} notifHook={notifications} closeNotification={closeNotification}/>
+                    <ToolBar 
+                        conflictName="A political conflict" 
+                        id={caseId}
+                        isChat={true} 
+                        groups={groups} 
+                        isInfo={usersListClick} 
+                        isMediator={isMediator}
+                    />
+                    
+                    <GroupSwitch 
+                        isMediator={isMediator} 
+                        notifHook={notifications} 
+                        closeNotification={closeNotification}
+                    />
                 </header>
 
                 <div>
-                    <MessageList activeGroup={activeGroup}
-                    maxHeight={`${size-FOOTER_SIZE-HEADER_SIZE}px`}
-                    isLoading = {loadingData.progress < 100}
-                    progress = {loadingData.progress}
-                    task = {loadingData.task}
+                    <MessageList
+                        activeGroup={activeGroup}
+                        maxHeight={`${size-FOOTER_SIZE-HEADER_SIZE}px`}
+                        isLoading = {loadingData.progress < 100}
+                        progress = {loadingData.progress}
+                        task = {loadingData.task}
 
                     /> 
                     
