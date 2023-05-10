@@ -12,7 +12,7 @@ const GroupSwitch =({isMediator ,notifHook})=>{
     const[selectedBtnU , setSelectedBtnU] = useState(2)
     //Actual needed values
     // const [notifArray , setNotifArray] = useState([true , true , true])
-    const [notifArray , setNotifArray] = notifHook
+    // const [notifArray , setNotifArray] = notifHook
 
     // const [notifArray , setNotifArray] = useState([false , true , true])//Mock for testing
 
@@ -73,11 +73,14 @@ const GroupSwitch =({isMediator ,notifHook})=>{
     }
     //Notifications :
     const handleNotifications =(clickedButton)=>{
-        setNotifArray(()=>{
-            const newNotifArray = [...notifArray]
-            newNotifArray[clickedButton - 1] = false
-        return newNotifArray
-    })}
+        console.log('whhhattttt',clickedButton)
+        notifHook[clickedButton-1] = false
+        // setNotifArray(()=>{
+        //     const newNotifArray = [...notifArray]
+        //     newNotifArray[clickedButton - 1] = false
+        // return newNotifArray
+    }
+    console.log('whhaht===>>>222222222',notifHook)
 
 
 
@@ -87,7 +90,7 @@ const GroupSwitch =({isMediator ,notifHook})=>{
                 <div className="gs" style={style}>        
                     <button 
                         style={{
-                            border:notifArray[0] && "2px solid #ffffff4e",
+                            border:notifHook[0] && "2px solid #ffffff4e",
                             color : selectedBtn === 1 ?"white": "black"}}
                         className="gs--btn"  
                         onClick={()=>{
@@ -96,7 +99,7 @@ const GroupSwitch =({isMediator ,notifHook})=>{
                             }}>
                         <p  className="gs--btn-content">Party A</p>
 
-                        {notifArray[0] &&<div className="gs--parallelogram">
+                        {notifHook[0] &&<div className="gs--parallelogram">
                             <div className="gs--triangle-up"/>
                             <div className="gs--triangle-bot"/>
                         </div>}
@@ -104,7 +107,7 @@ const GroupSwitch =({isMediator ,notifHook})=>{
                     </button>
                     <button 
                         style={{
-                            border:notifArray[1] && "2px solid #ffffff4e",
+                            border:notifHook[1] && "2px solid #ffffff4e",
                             color : selectedBtn === 2 ?"white": "black"}}
                          className="gs--btn"  
                          onClick={()=>{
@@ -113,7 +116,7 @@ const GroupSwitch =({isMediator ,notifHook})=>{
                             }}>
                         <p className="gs--btn-content">Main</p>
 
-                        {notifArray[1] &&<div className="gs--parallelogram">
+                        {notifHook[1] &&<div className="gs--parallelogram">
                             <div className="gs--triangle-up"/>
                             <div className="gs--triangle-bot"/>
                         </div>}
@@ -121,7 +124,7 @@ const GroupSwitch =({isMediator ,notifHook})=>{
                     </button>
                     <button 
                         style={{
-                            border:notifArray[2] && "2px solid #ffffff4e",
+                            border:notifHook[2] && "2px solid #ffffff4e",
                             color : selectedBtn === 3 ?"white": "black"}}
                          className="gs--btn"  
                          onClick={()=>{
@@ -129,7 +132,7 @@ const GroupSwitch =({isMediator ,notifHook})=>{
                             handleNotifications(3)
                             }}>
                         <p className="gs--btn-content">Party B</p> 
-                        {notifArray[2] &&<div className="gs--parallelogram">
+                        {notifHook[2] &&<div className="gs--parallelogram">
                             <div className="gs--triangle-up"/>
                             <div className="gs--triangle-bot"/>
                         </div>}
@@ -141,7 +144,7 @@ const GroupSwitch =({isMediator ,notifHook})=>{
                 <div className="gs" style={{justifyContent: 'center'}}>
                     <button id="gs--pa"
                      style={{color : selectedBtnU === 1 ?"white": "black",
-                     border:notifArray[0] && "2px solid #ffffff4e",}}
+                     border:notifHook[0] && "2px solid #ffffff4e",}}
                       className="gs--btn gs--btn-uv"
                         
                       onClick={()=>{
@@ -150,7 +153,7 @@ const GroupSwitch =({isMediator ,notifHook})=>{
                             }}
                     >
                         <p  className="gs--btn-content">Me & Mediator</p>
-                        {notifArray[0] &&<div className="gs--parallelogram">
+                        {notifHook[0] &&<div className="gs--parallelogram">
                             <div className="gs--triangle-up"/>
                             <div className="gs--triangle-bot"/>
                         </div>}
@@ -158,7 +161,7 @@ const GroupSwitch =({isMediator ,notifHook})=>{
                         <div className="gs--spacer" />
                     <button
                          style={{color: selectedBtnU === 2 ? "white" : "black",
-                            border:notifArray[1]&& "2px solid #ffffff4e",}}
+                            border:notifHook[1]&& "2px solid #ffffff4e",}}
                          className="gs--btn"
                          
                          onClick={()=>{
@@ -166,7 +169,7 @@ const GroupSwitch =({isMediator ,notifHook})=>{
                             handleNotifications(2)
                             }}>
                         <p id="gs--pb" className="gs--btn-content">Main</p>
-                        {notifArray[1] &&<div className="gs--parallelogram">
+                        {notifHook[1] &&<div className="gs--parallelogram">
                             <div className="gs--triangle-up"/>
                             <div className="gs--triangle-bot"/>
                         </div>}

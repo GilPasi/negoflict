@@ -28,11 +28,13 @@ const ChatPage = ()=>{
      const [role,setRole] = useState('')
      const [mute, setMute] = useState(false)
      const [taskProgress, setTaskProgress] = useState({progress:0, task:'connecting'})
+     const [notificationGroups, setNotifictionGroup] = useState([])
      //=================
    
  
     //values========
     const {username, role:userRole, first_name, id, access} = useSelector(state=>state.user)
+    const allChatGroups = useSelector(state=>state.chat)
     const groups = location.state?.groups ?? []
     const {caseId} = location.state ?? ''
     const {pos} = useSelector(state=>state.pos)
@@ -42,6 +44,7 @@ const ChatPage = ()=>{
     //apiFetch==========
     const {data,error, isSuccess, isFetching} =useGetChatGroupsQuery({CaseId:caseId}) 
     //==========
+
     
 
     //functions============
@@ -88,6 +91,14 @@ const ChatPage = ()=>{
     //==============
 
     //useEffect===========
+    useEffect(()=>{
+        if(userDetail.role==='mediator'){
+            setNotifictionGroup([false,false,false])
+            return
+        }
+        setNotifictionGroup([false,false])
+    },[])
+
     useEffect(()=>{  //save the groups properties (agora) 
         if(!groups)return
         dispatch(addGroupsProps({groups:groups}))
@@ -117,6 +128,7 @@ const ChatPage = ()=>{
     const handleRecivedMsg = (msg)=>{ //handle recived messages only in real time
         const {to, type} = msg
         if(type !== 'groupChat')return
+        HandleNotification(to)
 
             const modifiedObject = {
                 ...msg,
@@ -126,6 +138,8 @@ const ChatPage = ()=>{
               
             delete modifiedObject.data;
             dispatch(updateMsg({id:to, message:modifiedObject}))
+            console.log('mmmmssgg',msg)
+          
     };
     const handleConnect = (value)=>{ //handle the connection property
         connect.current = value
@@ -160,6 +174,44 @@ const ChatPage = ()=>{
             return update
         })
     }
+
+    const HandleNotification = (to)=>{
+        const {groupA, groupB, groupG} = allChatGroups
+        let groupArray =[]
+
+        if(groupA.id!=='')
+            groupArray.push(groupA)
+        if(groupG.id!=='')
+            groupArray.push(groupG)
+        if(groupB.id!=='')
+            groupArray.push(groupB)
+
+        const idRecive =  groupArray.find(group_id=>group_id.id===to)
+
+        if(idRecive.id === chat.id)
+            return
+
+     
+            
+
+        if(userDetail.role==='mediator'){
+            if(idRecive.side==='G')
+                notificationGroups[1] = true
+            else if(idRecive.side==='A')
+                notificationGroups[0] = true
+            else
+                notificationGroups[2] = true
+        }
+        else{
+            if(idRecive.side==='G')
+                notificationGroups[1] = true
+            else
+                notificationGroups[0] = true
+        }
+
+    }
+    console.log(notificationGroups)
+    
     const handleSend = (text)=>{ //handling the msg send and handle save the msg to data base using the useMsg hook
         const side = activeGroup.slice(-1)
         const inputDetail = {msg:text,to:chat.id,ext:{side:side,name:first_name,userId:id,sender:userDetail.side}}
@@ -186,6 +238,7 @@ const ChatPage = ()=>{
             centerGroup={centerGroup}
             loadingData={taskProgress}
             groups = {{agora:groups,server:chatGroupData,caseId:caseId}}
+            notifications={notificationGroups}
             />
             <Chat
             username={userDetail.username}
