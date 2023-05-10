@@ -60,7 +60,6 @@ const usersApi = createApi({
             }),
             getToken: builder.query({
                 query: ({username,password})=>{
-                    console.log(username , password)
                     return {
                         url: '/core/auth/token/',
                         body:{
@@ -134,7 +133,18 @@ const usersApi = createApi({
                         method:'GET'
                     }
                 }
-            })
+            }),
+            isEmailExist:builder.query({
+                query:({email})=>{
+                    return{
+                        url:'/users/user_view/is_email_exist/',
+                        params:{
+                            email:email
+                        },
+                        method:'GET'
+                    }
+                }
+            }),
 
 
 

@@ -35,7 +35,6 @@
     --size : 21px;
     --color: #ffffffba;
     width : calc(var(--size));
-    padding: 1em;
     position: absolute;
     top:0;
     bottom: 0;
@@ -52,8 +51,8 @@
 
   .gs--triangle-up{
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 0px;
+    left: 0px;
     border-left: var(--size) solid transparent;    
     border-bottom: var(--size) solid var(--color);
   }
@@ -62,7 +61,8 @@
     top: 0;
     right: 0;
     width: 0; 
-    height: 0; 
+    height: 0;
+    transform: translateX(99%); 
     border-right: var(--size) solid transparent;    
     border-top: var(--size) solid var(--color);
   }

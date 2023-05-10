@@ -9,7 +9,6 @@ const MessageList =( { activeGroup ,maxHeight, isLoading,progress, task} )=> {
   const messagesEndRef = useRef(null);
   const {id} = useSelector(state=>state.user)
 
-  //__________This line causes the component to disappear -  HEN
   const {messages} = useSelector(state=>state.chat[activeGroup])
   const [prevActiveGroup, setPrevActiveGroup] = useState(null);
 

@@ -12,7 +12,8 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
 
     const [size, setSize] = useState(window.innerHeight);
     const [usersListClick, setUsersListClick] = useState(false)
-    const [notifications ,setNotifications] = useState([true,true,true])
+    const notificationsHook = useState([false,false,true])
+    const [notifications ,setNotifications] = notificationsHook 
     const shuttelView = muted
     &&
     role==='user'
@@ -63,11 +64,6 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
         top:`${showShuttleMsg? HEADER_SIZE: 0}px`,
         opacity: showShuttleMsg ? '0.5' : '0',
     }
-
-    const handleNotification =()=>{
-        
-
-    }
     
 
     return(
@@ -88,8 +84,8 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
             </p>
                 <header className='cp--header'>
                     <Header isLarge={false}/>
-                    <ToolBar conflictName="A political conflict" id={caseId}  isChat={true} groups={groups} isInfo={usersListClick}/>
-                    <GroupSwitch isMediator={isMediator} newMessage={notifications}/>
+                    <ToolBar conflictName="A political conflict" id={caseId}  isChat={true} groups={groups} isInfo={usersListClick} isMediator={isMediator}/>
+                    <GroupSwitch isMediator={isMediator} notifHook={notificationsHook}/>
                 </header>
 
                 <div>

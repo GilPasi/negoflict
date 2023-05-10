@@ -16,14 +16,17 @@
   --blue-anchor:#1D62F0;
   --red-warning: #c91111;
 
-  --screen-min:375px; /*Iphone SE resolution*/
+  --screen-minw:375px; /*Iphone SE resolution*/
+  --screen-minh:667px; 
 
 }
-.app  {min-width: var(--screen-min);}
+.app  {min-width: var(--screen-minw);}
 
 .page{
-  min-width: var(--screen-min);
-  min-height: 40em;
+  min-width: var(--screen-minw);
+  min-height: var(--screen-minh);
+
+  /* min-height: 40em; */
   /* padding-bottom: 10px; */
   /* margin-top: 10px; */
 
@@ -66,7 +69,8 @@ a:hover{
 
 .warning{
     color:var(--red-warning);
-    visibility: hidden;
+    min-height: 20px;/*avoid appear bump*/
+
 }
 
 .flexbox{

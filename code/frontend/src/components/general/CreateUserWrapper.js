@@ -133,13 +133,11 @@ const CreateUserWraper = ()=>{
       navigate(`?side=B&id=${idCase}`,{
         state: { idCase, groups}
       })
-
   }
   const goBack = ()=>{
       navigate(-1,{
         state: { idCase,groups }
-      }
-        )
+      })
   }
   const clearState = ()=>{
     setUserData(()=>[])
@@ -160,6 +158,7 @@ const CreateUserWraper = ()=>{
         next={next}
         handleChange={handleChange}
         userData={userData[0]}
+        goBack={goBack}
         />
         :
         <AddUserPage
