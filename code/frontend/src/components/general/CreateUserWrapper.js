@@ -96,6 +96,7 @@ const CreateUserWraper = ()=>{
 
       const validate = (value, index) => {
         if (!userData[index]) {
+          setDisableSubmit(true)
           return;
         }
       
@@ -197,12 +198,15 @@ const CreateUserWraper = ()=>{
       })
 
     }
+    
     const next = ()=>{
+      validate('notEmpty',1)
       navigate(`?side=B&id=${idCase}`,{
         state: { idCase, groups}
       })
   }
   const goBack = ()=>{
+    validate('notEmpty',0)
       navigate(-1,{
         state: { idCase,groups }
       })
