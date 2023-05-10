@@ -2,7 +2,6 @@ import "../styles/pages/login_page.css"
 import Header from "../components/general/Header"
 import TextInput from "../components/general/TextInput"
 import Button from '../components/general/Button'
-import LoadingBar from '../components/general/LoadingBar'
 import { useEffect, useRef, useState } from "react"
 import { useDispatch,  } from 'react-redux'
 import { login } from '../store/index'
@@ -190,7 +189,7 @@ const LoginPage=()=>{
     
 
     return(
-        <article className="page" >
+        <article className="page lp" >
             <Header isLarge={true} unconnected={true}/>
 
             <h1 className="lp--title">Log-in<br/>{isMediator?<span>Mediator</span>:<div></div>}</h1>
@@ -230,17 +229,16 @@ const LoginPage=()=>{
                 <Button  text="Submit" size="small"/>
             </form> 
             <center>
-                <label 
-                    style={{padding:'10px'}}>
+
                     <a href=""
-                    onClick={event=>{
-                        event.preventDefault()
-                        isMediator?setIsMediator(false):setIsMediator(true)
-                        setValidity({isValid:true , errorMsg:''})
-                    }}>
+                        onClick={event=>{
+                            event.preventDefault()
+                            isMediator?setIsMediator(false):setIsMediator(true)
+                            setValidity({isValid:true , errorMsg:''})
+                        }}
+                        style={{height:"10em"}}>
                         {loginHref}
                     </a>
-                </label>
             </center>
         </article>
 )}

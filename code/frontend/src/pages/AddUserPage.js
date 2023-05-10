@@ -36,6 +36,7 @@ const AddUserPage =({side,idCase,goBack,
         const validateForm =async()=>{ // validate user properties           
             //___ 1. check if all fields are treated ___
             
+            console.log(userData)
             
             for(const dataField in userData){
                 if(dataField === ''){
@@ -43,17 +44,17 @@ const AddUserPage =({side,idCase,goBack,
                     return
                 }
             }
-
+            
             //___ 2. check if the email is not occupied ___
-           
+            
             const email = userData?.email ?? null
             const username = userData?.username ?? null
             const phone = userData?.phoneNumber ?? null
             const firstName = userData?.first_name ?? null
             const lastName = userData?.last_name ?? null
-
-            if(!email || !username || phone || firstName || lastName){
-                setValidity({isValid:false, errMsg:"Please fill all fields"})
+            
+            if(!(email && username && phone && firstName && lastName)){
+                setValidity({isValid:false, errMsg:"Something went wrong, please try again later"})
                 return
             }
             

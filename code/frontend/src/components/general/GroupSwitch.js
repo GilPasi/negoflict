@@ -4,14 +4,16 @@ import "../../styles/components/group_switch.css"
 import { useDispatch } from 'react-redux'
 import { updatePosition } from '../../store'
 
-const GroupSwitch =({isMediator})=>{
+const GroupSwitch =({isMediator ,notifHook})=>{
 
     const[selectorOffset , setSelectorOffset] = useState(50)
     const[selectedBtn , setSelectedBtn] = useState(2)
     const[selectorOffsetU , setSelectorOffsetU] = useState(5)
     const[selectedBtnU , setSelectedBtnU] = useState(2)
     //Actual needed values
-    const [notifArray , setNotifArray] = useState([false , false , false])
+    // const [notifArray , setNotifArray] = useState([true , true , true])
+    const [notifArray , setNotifArray] = notifHook
+
     // const [notifArray , setNotifArray] = useState([false , true , true])//Mock for testing
 
     const dispatch = useDispatch()
@@ -70,19 +72,12 @@ const GroupSwitch =({isMediator})=>{
        
     }
     //Notifications :
-    const mockNotifications = [true , false , true] //HEN: replace with actual values
-    const fetchedNotifs = [...mockNotifications]
     const handleNotifications =(clickedButton)=>{
-        if(clickedButton){
-                setNotifArray(()=>{
-                    const newNotifArray = [...notifArray]
-                    newNotifArray[clickedButton - 1] = false
-                return newNotifArray
-            })}
-
-        else
-            setNotifArray([...fetchedNotifs])
-    }
+        setNotifArray(()=>{
+            const newNotifArray = [...notifArray]
+            newNotifArray[clickedButton - 1] = false
+        return newNotifArray
+    })}
 
 
 
