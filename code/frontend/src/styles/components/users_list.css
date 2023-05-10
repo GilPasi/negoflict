@@ -23,6 +23,7 @@
     margin-bottom: 5px;
     align-items: center;
     color: var(--green-dark);
+    cursor: pointer;
     
 }
 
@@ -50,4 +51,11 @@
     margin:2px;
     margin-right: 5px;
     user-select: none;
+}
+
+.users-list--modal{
+    position: fixed;
+    z-index: 10;
+    top:100%;
+    /* inset: 50%; */
 }

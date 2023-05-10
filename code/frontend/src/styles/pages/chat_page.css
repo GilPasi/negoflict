@@ -17,6 +17,15 @@
 
 }
 
+.cp--user-info{
+  position: fixed;
+  z-index: 500;
+  top:50%;
+  left: 50%;
+  transform: translate(-50% ,-50%);
+  border:3pe solid rgba(112, 105, 105, 0.596);
+}
+
 .cp--shader{
   position: absolute;
   top:0;

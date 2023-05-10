@@ -72,12 +72,6 @@ const GroupSwitch =({isMediator ,notifHook, closeNotification})=>{
         closeNotification(clickedButton-1)
     }
 
-    
-   
-
-
-
-
     //Structure : 
     const mediatorVersion =(
                 <div className="gs" style={style}>        
