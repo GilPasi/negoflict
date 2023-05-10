@@ -4,7 +4,7 @@ import "../../styles/components/group_switch.css"
 import { useDispatch } from 'react-redux'
 import { updatePosition } from '../../store'
 
-const GroupSwitch =({isMediator ,notifHook})=>{
+const GroupSwitch =({isMediator ,notifHook, closeNotification})=>{
 
     const[selectorOffset , setSelectorOffset] = useState(50)
     const[selectedBtn , setSelectedBtn] = useState(2)
@@ -73,14 +73,15 @@ const GroupSwitch =({isMediator ,notifHook})=>{
     }
     //Notifications :
     const handleNotifications =(clickedButton)=>{
-        console.log('whhhattttt',clickedButton)
-        notifHook[clickedButton-1] = false
+        closeNotification(clickedButton-1)
+        // console.log('whhhattttt',clickedButton)
+        // notifHook[clickedButton-1] = false
         // setNotifArray(()=>{
         //     const newNotifArray = [...notifArray]
         //     newNotifArray[clickedButton - 1] = false
         // return newNotifArray
     }
-    console.log('whhaht===>>>222222222',notifHook)
+   
 
 
 

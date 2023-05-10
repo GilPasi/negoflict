@@ -196,21 +196,27 @@ const ChatPage = ()=>{
 
         if(userDetail.role==='mediator'){
             if(idRecive.side==='G')
-                notificationGroups[1] = true
+                setNotifictionGroup(prev=>[prev[0],true,prev[2]])
+            
             else if(idRecive.side==='A')
-                notificationGroups[0] = true
+                setNotifictionGroup(prev=>[true,prev[1],prev[2]])
             else
-                notificationGroups[2] = true
+                setNotifictionGroup(prev=>[prev[0],prev[1],true])
         }
         else{
             if(idRecive.side==='G')
-                notificationGroups[1] = true
+                setNotifictionGroup(prev=>[prev[0],true])
             else
-                notificationGroups[0] = true
+                setNotifictionGroup(prev=>[true,prev[1]])
         }
-
     }
-    console.log(notificationGroups)
+    const HandleCloseNotification = (side)=>{
+        let arrayNot = [...notificationGroups]
+
+        arrayNot[side] = false
+        setNotifictionGroup(arrayNot)
+    }
+    
     
     const handleSend = (text)=>{ //handling the msg send and handle save the msg to data base using the useMsg hook
         const side = activeGroup.slice(-1)
@@ -239,6 +245,7 @@ const ChatPage = ()=>{
             loadingData={taskProgress}
             groups = {{agora:groups,server:chatGroupData,caseId:caseId}}
             notifications={notificationGroups}
+            closeNotification = {HandleCloseNotification}
             />
             <Chat
             username={userDetail.username}
