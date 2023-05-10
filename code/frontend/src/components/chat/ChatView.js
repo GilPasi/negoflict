@@ -84,16 +84,29 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
             </p>
                 <header className='cp--header'>
                     <Header isLarge={false}/>
-                    <ToolBar conflictName="A political conflict" id={caseId}  isChat={true} groups={groups} isInfo={usersListClick} isMediator={isMediator}/>
-                    <GroupSwitch isMediator={isMediator} notifHook={notifications} closeNotification={closeNotification}/>
+                    <ToolBar 
+                        conflictName="A political conflict" 
+                        id={caseId}
+                        isChat={true} 
+                        groups={groups} 
+                        isInfo={usersListClick} 
+                        isMediator={isMediator}
+                    />
+                    
+                    <GroupSwitch 
+                        isMediator={isMediator} 
+                        notifHook={notifications} 
+                        closeNotification={closeNotification}
+                    />
                 </header>
 
                 <div>
-                    <MessageList activeGroup={activeGroup}
-                    maxHeight={`${size-FOOTER_SIZE-HEADER_SIZE}px`}
-                    isLoading = {loadingData.progress < 100}
-                    progress = {loadingData.progress}
-                    task = {loadingData.task}
+                    <MessageList
+                        activeGroup={activeGroup}
+                        maxHeight={`${size-FOOTER_SIZE-HEADER_SIZE}px`}
+                        isLoading = {loadingData.progress < 100}
+                        progress = {loadingData.progress}
+                        task = {loadingData.task}
 
                     /> 
                     
