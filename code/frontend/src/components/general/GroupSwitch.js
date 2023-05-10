@@ -11,8 +11,8 @@ const GroupSwitch =({isMediator})=>{
     const[selectorOffsetU , setSelectorOffsetU] = useState(5)
     const[selectedBtnU , setSelectedBtnU] = useState(2)
     //Actual needed values
-    // const [notifArray , setNotifArray] = useState([false , false , false])
-    const [notifArray , setNotifArray] = useState([false , true , true])//Mock for testing
+    const [notifArray , setNotifArray] = useState([false , false , false])
+    // const [notifArray , setNotifArray] = useState([false , true , true])//Mock for testing
 
     const dispatch = useDispatch()
 
