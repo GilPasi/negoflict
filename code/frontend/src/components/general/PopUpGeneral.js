@@ -1,5 +1,5 @@
 import '../../styles/components/popupGeneral.css'
-
+import ExitIcon from './ExitIcon'
 
 const PopUpGeneral = ({children, onClose})=>{
     const {user} = children
@@ -14,15 +14,7 @@ const PopUpGeneral = ({children, onClose})=>{
     return(
         <div className='popUpContiner'>
             <span className='title-full-name'>{`${user.first_name} ${user.last_name}`}</span>
-            <button className='btn-close' onClick={onClose}>
-            <div className='exit-div-box'>
-                <div className='exit-biv-p1'></div>
-                <div className='exit-div-left-right'></div>
-                <div className='exit-div-right-left'></div>
-
-            </div>
-
-            </button>
+            <ExitIcon onClose={onClose}/>
          
         <div className='popUpBox'>
             <ul className='list-prop'>
