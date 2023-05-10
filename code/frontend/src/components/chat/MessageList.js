@@ -81,7 +81,8 @@ const MessageList =( { activeGroup ,maxHeight, isLoading,progress, task} )=> {
       {isLoading&&<div>
 
         <div style={{position:'absolute',
-          width:'90%', height:'100%',
+          width:'100%', height:'100%',
+          
           backgroundColor:'rgba(0,0,0,0.2)',
           zIndex:'5', left:'50%', 
           transform:'translateX(-50%)'}}/>
