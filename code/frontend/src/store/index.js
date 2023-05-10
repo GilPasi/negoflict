@@ -79,6 +79,7 @@ export{
 setupListeners(store.dispatch)
 
 
+
 //userApi=====
 export const { useLoginQuery, useLazyLoginQuery } = usersApi
 export const { useIs_loginQuery, useLazyIs_loginQuery} = usersApi
@@ -89,6 +90,7 @@ export const {useGetChatTokenQuery, useLazyGetChatTokenQuery} = usersApi
 export const {useChangePasswordMutation} = usersApi
 export const {useModifyUserMutation} = usersApi
 export const {useGetMyMediatorQuery,useLazyGetMyMediatorQuery} = usersApi
+export const {useIsEmailExistQuery, useLazyIsEmailExistQuery} = usersApi
 //===========
 
 //caseApi=====

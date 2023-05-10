@@ -33,6 +33,8 @@ const LoginPage=()=>{
     const baseData = {username:'',email:'',password:''}
     const [isMediator,setIsMediator] = useState(false)
     const [formData,setFormData] = useState(baseData)
+    const [validity , setValidity] = useState({isValid:true, errorMsg:''})
+    // setValidity({isValid:true, errorMsg:''})
     //===========
      
 
@@ -47,10 +49,13 @@ const LoginPage=()=>{
     const [fetchToken,{isLoading:loadingFetchToken}] = useLazyGetTokenQuery()
     const [fetch_is_login] = useLazyIs_loginQuery()
     const [fetch_logout] = useLazyLog_outQuery()
+    
     //********
     
 
     //useEffect=======
+    
+    
     useEffect(()=>{
         if(WasMounts.current)return
         isLogin()
@@ -110,15 +115,21 @@ const LoginPage=()=>{
         const {data:access_data,error:errorToken} = await fetchToken(data)
         
         if(errorToken){
+            setValidity({isValid:false, errorMsg:'One or more details is incorrect'})
             console.log('token error',errorToken)
             return
         }
 
         let {data:user, error:errorUser} =await fetchUser({username:formData.username,access:access_data.access})
-        if(user.email !== checkprop)return //email or username not match
+        if(user.email !== checkprop){
+            setValidity({isValid:false, errorMsg:'Email do not match'})
+            console.log('email not match')
+
+            return
+        } //email or username not match
 
         if(errorUser){
-            console.log('user error',errorUser)
+            console.log('user fetchin  error',errorUser)
             return
         }
         
@@ -176,7 +187,7 @@ const LoginPage=()=>{
     const setNullFields = ()=>{
         setFormData({})
     };
-
+    
 
     return(
         <article className="page" >
@@ -188,8 +199,10 @@ const LoginPage=()=>{
                 type="text"
                 placeHolder="Username"
                 onChange = {handleChange}
-                name = 'username'
+                name='username'
                 value={formData.username}
+                isValid={validity.isValid}
+                warnText={validity.errorMsg}
             />}
             <TextInput 
                 type="email"
@@ -197,6 +210,8 @@ const LoginPage=()=>{
                 onChange = {handleChange}
                 name={isMediator?'email':'username'}
                 value={isMediator?formData.email:formData.username}
+                isValid={isMediator?true:validity.isValid}
+                warnText={isMediator?'':validity.errorMsg}
             />
 
             <TextInput 
@@ -205,6 +220,7 @@ const LoginPage=()=>{
                 onChange = {handleChange}
                 name='password'
                 value={formData.password}
+                
             />
             <div className="flexbox">
                 <input  type="checkbox" id="lp--checkbox"/>
@@ -220,6 +236,7 @@ const LoginPage=()=>{
                     onClick={event=>{
                         event.preventDefault()
                         isMediator?setIsMediator(false):setIsMediator(true)
+                        setValidity({isValid:true , errorMsg:''})
                     }}>
                         {loginHref}
                     </a>

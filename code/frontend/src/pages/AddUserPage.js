@@ -1,16 +1,22 @@
 import '../styles/pages/add_user_page.css'
 import Header from '../components/general/Header.js'
-import ToolBar from '../components/general/ToolBar.js'
 import TextInput from '../components/general/TextInput.js'
 import DropdownSelector from '../components/general/DropdownSelector.js'
 import Button from '../components/general/Button.js'
-import { AREA_CODES , ISR_RESIDENCE } from '../utils/data'
+import {useState} from 'react'
+import { AREA_CODES } from '../utils/data'
+import { useLazyIsEmailExistQuery, useLazyIsUsernameExistQuery } from '../store'
 
 
 
 const AddUserPage =({side,idCase,goBack,
     next,handleSubmit,handleChange,
    userData,isMediator,window,disabled,options})=>{
+
+    const [isEmailValid] = useLazyIsEmailExistQuery()
+    const [isUsernameValid] = useLazyIsUsernameExistQuery()
+
+    const [validity , setValidity] = useState({isValid: true, errMsg: ''}) 
 
 
     let _fontSize = ''
@@ -27,13 +33,54 @@ const AddUserPage =({side,idCase,goBack,
         const windowStyle={fontSize:_fontSize,}
         const dropdownSize = window
 
-        const validateForm =()=>{ // validate user properties
-            let valid = true
-            //Validate the form (Hen)
-            if(valid)
-                next()
-            else
-                document.querySelector('#aup--w').style.visibility = 'visible'
+        const validateForm =async()=>{ // validate user properties           
+            //___ 1. check if all fields are treated ___
+            
+            
+            for(const dataField in userData){
+                if(dataField === ''){
+                    setValidity({isValid:false, errMsg:"Please address all fields"})
+                    return
+                }
+            }
+
+            //___ 2. check if the email is not occupied ___
+           
+            const email = userData?.email ?? null
+            const username = userData?.username ?? null
+            const phone = userData?.phoneNumber ?? null
+            const firstName = userData?.first_name ?? null
+            const lastName = userData?.last_name ?? null
+
+            if(!email || !username || phone || firstName || lastName){
+                setValidity({isValid:false, errMsg:"Please fill all fields"})
+                return
+            }
+            
+            
+            if(isMediator){
+               const {data:usernameExistData, error:usernameExistError} =await isUsernameValid({username:username})
+               if(usernameExistError){
+                console.log('something went wrong',emailExistError)
+                return
+               }
+               if(usernameExistData===true){
+                setValidity({isValid:false, errMsg:'User name is already taken'})
+                return
+               }
+                
+            }
+            const {data:emailExistData, error:emailExistError}=await isEmailValid({email:email})
+            if(emailExistData){
+                console.log('something went wrong',emailExistError)
+                return
+            }
+            if(emailExistData===true){
+                setValidity({isValid:false, errMsg:'Email is already taken'})
+                return
+            }
+            
+        next()
         }
 
         return(
@@ -69,7 +116,8 @@ const AddUserPage =({side,idCase,goBack,
                      onChange={handleChange}
                      length="100%"
                      align="left"
-
+                     inGrid={true}
+                    
                  />
              </div>
                 }
@@ -84,7 +132,9 @@ const AddUserPage =({side,idCase,goBack,
                             height="0.5em"
                             altitude="0.5em"
                             align="left"
-                            />
+                            inGrid={true}
+        
+                        />
                     </div>
  
                     <div className="aup--grid-row">
@@ -95,6 +145,7 @@ const AddUserPage =({side,idCase,goBack,
                             onChange={handleChange}
                             length="100%"
                             align="left"
+                            inGrid={true}
 
                         />
                     </div>
@@ -108,9 +159,8 @@ const AddUserPage =({side,idCase,goBack,
                             name="phonePrefix"
                             value={userData?.phonePrefix || ''}
                             onChange={handleChange}
-                            align="left"
                             width="100%"
-                            height="2.5em"
+                            height="2.25em"
                             />
                     </div>
 
@@ -125,6 +175,7 @@ const AddUserPage =({side,idCase,goBack,
                             type="number"
                             align="left"
                             onmousewheel="return false;"
+                            inGrid={true}
                         />
                     </div> 
 
@@ -136,7 +187,9 @@ const AddUserPage =({side,idCase,goBack,
                             onChange={handleChange}
                             length="100%"
                             align="left"
+                            inGrid={true}
                         />
+
                     </div>
                     {isMediator&&
                     <div className="aup--grid-row">
@@ -156,7 +209,8 @@ const AddUserPage =({side,idCase,goBack,
                     }
 
                 </form>
-                    <p className='warning' id='aup--w'>Some of the details are not valid</p>
+                
+                <p className='warning'>{!validity.isValid&&<span>{validity.errMsg}</span>}</p>
 
                 <nav>
                     <Button 
@@ -186,7 +240,6 @@ const AddUserPage =({side,idCase,goBack,
                         />
                         )
                     }
-
 
                 </nav>
     </article>

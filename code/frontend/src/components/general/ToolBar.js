@@ -4,16 +4,16 @@ import PopupContainer from './Modal.js'
 import AddWindow from "../../components/general/AddWindow"
 import UsersList from "./UsersList.js"
 
-const ToolBar =({conflictName , id , handleAdd,isMediator,connectionUsers, isChat, groups, isInfo})=>{
+const ToolBar =({conflictName,id,isMediator,groups,isInfo})=>{
     
     return(
         <div className="tb" >
 
-            <PopupContainer 
+            {isMediator&&<PopupContainer 
                 popContent={<AddWindow  groups={groups}/>}
                 imgSrc='../../../assets/images/add_icon_dark.png'
                 classStr='tb--btn'
-                />
+            />}
                 <div className='centerizer'>
                     {isInfo?
                         <div>
@@ -28,12 +28,12 @@ const ToolBar =({conflictName , id , handleAdd,isMediator,connectionUsers, isCha
                 </div>
                 
                 
-            <div className="tb--btn">
+            {isMediator&&<div className="tb--btn">
                 <img src={`../../../assets/images/search_icon_dark.png`}
                 alt="Search button" 
                 className="tb--btn-img"
                 />
-            </div>
+            </div>}
         </div>
         
         )

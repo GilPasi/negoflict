@@ -41,11 +41,11 @@ class UserView(ModelViewSet):
             try:
                 answer = self.queryset.get(email=email)
                 if answer:
-                    return Response('ok', status=status.HTTP_200_OK)
+                    return Response(True, status=status.HTTP_200_OK)
             except:
-                pass
+                return Response(False, status=status.HTTP_200_OK)
                 
-        return Response('Not exist',status=status.HTTP_404_NOT_FOUND)
+        return Response('Bad request missing email',status=status.HTTP_400_BAD_REQUEST)
     
     @action(detail=False,methods=['GET'],permission_classes=[permissions.IsAdminOrUser])
     def role(self,request):
@@ -84,16 +84,12 @@ class UserView(ModelViewSet):
     def is_username_exist(self,request):
         username = request.GET.get('username',None)
         
-        print(username)
-        
-        
-        
         if username:
             user = self.queryset.filter(username=username).exists()
             if user:
-               return  Response('alredy exist', status=status.HTTP_200_OK)
+               return  Response(True, status=status.HTTP_200_OK)
             else:
-                return Response('not found', status=status.HTTP_200_OK)
+                return Response(False, status=status.HTTP_200_OK)
         return Response('bad request', status=status.HTTP_400_BAD_REQUEST)
         
     
