@@ -32,7 +32,7 @@ const CaseFormPage = () =>{
     const mediatorName = `${first_name} ${last_name}`
     //state========
     const [formData , setFormData] = useState({})
-     
+     const [isFilled , setIsFilled] = useState(false) 
     //===========
     //****************
    
@@ -40,6 +40,7 @@ const CaseFormPage = () =>{
     //handles=======
     const handleChange = (event)=>{
         let {name, value} = event.target
+            
         if(name === 'category'&& value === 'Select Areas of Mediation')
             value = null
 
@@ -47,7 +48,11 @@ const CaseFormPage = () =>{
             ...prevForm,
             [name] : value
         }))
-       
+       const keys =  Object.keys(formData)
+        if(value === '' || keys.length <4)
+            setIsFilled(false)
+        else
+            setIsFilled(true)
     }
 
     const handleSubmit =async (event) => {
@@ -99,7 +104,6 @@ const CaseFormPage = () =>{
                             margin="25px"
                         />
 
-
                         <h2 className="cfp--h2">Subcategory</h2>
                         <TextInput 
                             placeHolder="Free Text"
@@ -110,9 +114,10 @@ const CaseFormPage = () =>{
                         <TextArea onChange={handleChange}
                             withButtons={false}
                             name='problem_brief'
+                            title="The problem"
                         />
                         
-                        <Button size="small" text="Next"/>
+                        <Button size="small" text="Next" disabled={!isFilled}/>
                     </form>
             </article>
         )
