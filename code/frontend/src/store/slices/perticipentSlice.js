@@ -34,9 +34,12 @@ const perticipentSlice = createSlice({
                     user.connect = change
                 }
             })
+        },
+        addNewParticipent: (state,action)=>{
+            return [...state,action.payload]
         }
     }
 })
 
 export const perticipentReducer = perticipentSlice.reducer
-export const {addPerticipents,clearAllPerticipents,removeParticepent,setUserAttribute,setOnlineUsers } = perticipentSlice.actions
+export const {addPerticipents,clearAllPerticipents,removeParticepent,setUserAttribute,setOnlineUsers, addNewParticipent } = perticipentSlice.actions

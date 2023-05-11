@@ -4,7 +4,8 @@ import Button from "../../components/general/Button"
 import {useEffect, useState} from 'react'
 import { useGetContactsQuery } from '../../store' 
 import { useSelector } from 'react-redux'
-import { useAddingManyUsersToOneChatGroupMutation, useRegisterManyUsersToGroupMemberMutation, useGetUsersByCaseQuery } from '../../store'
+import { useDispatch } from 'react-redux'
+import { useAddingManyUsersToOneChatGroupMutation, useRegisterManyUsersToGroupMemberMutation, useGetUsersByCaseQuery,addPerticipents } from '../../store'
 
 const AddWindow =({groups})=>{
     const {agora,server,caseId} = groups
@@ -18,6 +19,7 @@ const AddWindow =({groups})=>{
     const {data:contantData, error:contactError, refetch:refetchContact} = useGetContactsQuery({mediator_id:id});
     const [addingUsersToChat] = useAddingManyUsersToOneChatGroupMutation()
     const [registerServerChatGroup] = useRegisterManyUsersToGroupMemberMutation()
+    const dispatch = useDispatch()
 
     
     const buttonsWidth = '6em'
@@ -38,7 +40,6 @@ const AddWindow =({groups})=>{
             return;
         }
         if (!participentsData || !contantData) return;
-        console.log('inside useEffect')
     
         let participentsIds = participentsData.map((entry) => entry.user);
     
@@ -50,9 +51,9 @@ const AddWindow =({groups})=>{
         const uniqueUsersData = Array.from(
             new Map(filteredUsersData.map((user) => [user["user"].id, user])).values()
         );
-        console.log('prev Users',Users)
+  
         setUsers([])
-        console.log('after Users',Users)
+ 
     
         uniqueUsersData.forEach((user) => {
             const tempUser = user["user"];
@@ -104,55 +105,47 @@ const AddWindow =({groups})=>{
         if(!side)return
        let groupSideChoose = agora.find(group=>group.groupname.endsWith(side))
        let groupCenterChoose = agora.find(group=>group.groupname.endsWith('G'))
-       await addingUsersToChat({users:selectedUsers, group:groupSideChoose.groupid})
-       await addingUsersToChat({users:selectedUsers, group:groupCenterChoose.groupid})
+       addingUsersToChat({users:selectedUsers, group:groupSideChoose.groupid})
+       .then(()=>addingUsersToChat({users:selectedUsers, group:groupCenterChoose.groupid}))
+       .then(()=>{
+        selectedUsers.forEach(user=>{
+            const userData = {
+                side:side,
+                group_chat:filterdGroupChat.id,
+                user:user.id,
+                case:caseId,
+                mediator:id
+            }
+            usersDataArr = [...usersDataArr,userData]
+           })
+          registerServerChatGroup({users:usersDataArr}).then(()=>{
+            setSide(null)
+            refetchGetUser()
+            refetchContact()
+            setStage('success')
+          })
+    
+
+       })
+      
+
+       const modUsersArray = []
+       selectedUsers.forEach(user=>{
+        const modMediator = {side:side, fullName:user.fullName ,connect:false, agoraUsername:user.email.replace(/[^\w\s]/gi, '')}
+        modUsersArray.push(modMediator)
+       })
+       dispatch(addPerticipents(modUsersArray))
        
-    //    if(dataR){
-    //     console.log('success',dataR)
-    //    }
-    //    else if(errorR){
-    //     console.log('failer',errorR)
-    //    }
-    //    if(dataR2){
-    //     console.log('success',dataR)
-    //    }
-    //    else if(errorR2){
-    //     console.log('failer',errorR)
-    //    }
+    
        const filterdGroupChat = server.find(group=>group.chat === side)
        let usersDataArr = []
 
-
-       selectedUsers.forEach(user=>{
-        const userData = {
-            side:side,
-            group_chat:filterdGroupChat.id,
-            user:user.id,
-            case:caseId,
-            mediator:id
-        }
-        usersDataArr = [...usersDataArr,userData]
-       })
-      await registerServerChatGroup({users:usersDataArr})
-
-    //    if(errorM){
-    //     console.log(errorM)
-    //    }
-    //    else if(dataM){
-    //     console.log(dataM)
-    //    }
-
-       
-        /*Add to the chat - backend logic
-            ...
-            ...
-            ...
-        */
-        setStage('success')
-        setSide(null)
-        refetchGetUser()
-        refetchContact()
+    
+        
+        
     }
+
+
     const handleSideChoose = ({currentTarget:input})=>{
         const {value} = input
         setSide(value)

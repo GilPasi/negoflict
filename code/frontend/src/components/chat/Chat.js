@@ -15,7 +15,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     const tokenRes = useGetChatTokenQuery({username:username})
     const {role} = useSelector(state=>state.user)
     const roleName  = getPermName({role:role})
-    const {data:groupParticipentsData, error:groupParticipentsError} = useGetFullUsersByCaseQuery({caseId:caseId})
+    const {data:groupParticipentsData, error:groupParticipentsError, refetch:refetchGetGroupParticipent} = useGetFullUsersByCaseQuery({caseId:caseId})
     const dispatch = useDispatch()
     const [getMediator] = useLazyGetMyMediatorQuery()
    
@@ -233,6 +233,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     }
 
     const handleGroupEvent = (msg)=>{
+        console.log('grouuupppp>>>',msg)
         const {operation} = msg
         switch(operation){
             case 'muteAllMembers':
@@ -241,12 +242,17 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
             case 'unmuteAllMembers': 
                 onMute(false)
                 break
+            case 'memberPresence':
+                
+                
+                
 
             default:
                 break
         }
 
     }
+    
     // const handleConnectionMsg = (connectionType)=>{
     //     const option = {
     //         chatType:'groupChat',
