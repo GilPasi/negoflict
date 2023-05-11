@@ -63,11 +63,6 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
   
         
 
-
-
-        
-
-
         groupParticipentsData.forEach(pert=>{
             const agoraUsername = pert.user.email.replace(/[^\w\s]/gi, '')
             const userMod = {side:pert.side, fullName:`${pert.user.first_name} ${pert.user.last_name}`,connect:false, agoraUsername:agoraUsername}

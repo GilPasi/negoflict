@@ -14,8 +14,8 @@ const AddWindow =({groups})=>{
     const [side,setSide] = useState(null)
     const [Users, setUsers] = useState([])
     const {id} = useSelector(state=>state.user)
-    const {data:participentsData, error:participentError} = useGetUsersByCaseQuery({caseChat:caseId})
-    const {data:contantData, error:contactError} = useGetContactsQuery({mediator_id:id});
+    const {data:participentsData, error:participentError, refetch:refetchGetUser} = useGetUsersByCaseQuery({caseChat:caseId})
+    const {data:contantData, error:contactError, refetch:refetchContact} = useGetContactsQuery({mediator_id:id});
     const [addingUsersToChat] = useAddingManyUsersToOneChatGroupMutation()
     const [registerServerChatGroup] = useRegisterManyUsersToGroupMemberMutation()
 
@@ -38,6 +38,7 @@ const AddWindow =({groups})=>{
             return;
         }
         if (!participentsData || !contantData) return;
+        console.log('inside useEffect')
     
         let participentsIds = participentsData.map((entry) => entry.user);
     
@@ -49,17 +50,22 @@ const AddWindow =({groups})=>{
         const uniqueUsersData = Array.from(
             new Map(filteredUsersData.map((user) => [user["user"].id, user])).values()
         );
+        console.log('prev Users',Users)
+        setUsers([])
+        console.log('after Users',Users)
     
         uniqueUsersData.forEach((user) => {
             const tempUser = user["user"];
             const fullName = `${tempUser.first_name} ${tempUser.last_name}`;
             const userTemp = { fullName: fullName, email: tempUser.email, id: tempUser.id };
+            console.log('new user',userTemp)
     
             setUsers((prev) => [
                 ...prev,
                 userTemp,
             ]);
         });
+        
     }, [participentsData, contantData]);
     
       
@@ -95,11 +101,11 @@ const AddWindow =({groups})=>{
             document.querySelector('#add-win-w').style.visibility='visible';
             return
         }
-     
+        if(!side)return
        let groupSideChoose = agora.find(group=>group.groupname.endsWith(side))
        let groupCenterChoose = agora.find(group=>group.groupname.endsWith('G'))
-        addingUsersToChat({users:selectedUsers, group:groupSideChoose.groupid})
-        addingUsersToChat({users:selectedUsers, group:groupCenterChoose.groupid})
+       await addingUsersToChat({users:selectedUsers, group:groupSideChoose.groupid})
+       await addingUsersToChat({users:selectedUsers, group:groupCenterChoose.groupid})
        
     //    if(dataR){
     //     console.log('success',dataR)
@@ -127,7 +133,7 @@ const AddWindow =({groups})=>{
         }
         usersDataArr = [...usersDataArr,userData]
        })
-       registerServerChatGroup({users:usersDataArr})
+      await registerServerChatGroup({users:usersDataArr})
 
     //    if(errorM){
     //     console.log(errorM)
@@ -143,10 +149,14 @@ const AddWindow =({groups})=>{
             ...
         */
         setStage('success')
+        setSide(null)
+        refetchGetUser()
+        refetchContact()
     }
     const handleSideChoose = ({currentTarget:input})=>{
         const {value} = input
         setSide(value)
+        
 
     }
 
