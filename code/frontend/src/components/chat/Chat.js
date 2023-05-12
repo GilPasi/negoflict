@@ -106,6 +106,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
             handleProgress('connecting', 10)
             onConnect(true)
             getHistoryMsg()
+            getGroupsInfo()
             },
         onTextMessage: msg=>onTextMsg(msg),
        
@@ -127,7 +128,8 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
             console.log('connected',res)
         },
         onPresenceStatusChange: res=>setParticipentsChange(res),
-        onError:err=>console.log('error',err)
+        onError:err=>console.log('error',err),
+        
         // onConnected: ()=>{
         //     onConnect(true)
         //     getHistoryMsg()
@@ -152,8 +154,8 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
             agoraToken: tokenRes.data.userToken
         }).catch(err=>console.log(err))
         
-        getHistoryMsg() 
-        getGroupsInfo()  
+        // getHistoryMsg() 
+        // getGroupsInfo()  
     };
 
     const getGroupsInfo=async()=>{
@@ -179,14 +181,19 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
                         }
                     })
                 })
-            }).catch(err=>console.log(err))
+            }).then(()=>{
+                // setTimeout(()=>{
+                    WebIM.conn.publishPresence({description:'online'})
+                    .catch(err=>console.log(err))
+                    handleProgress('connecting', 20)
+        
+                // },500)
+
+            })
+            .catch(err=>console.log(err))
         })
 
-        setTimeout(()=>{
-            WebIM.conn.publishPresence({description:'online'})
-            .catch(err=>console.log(err))
-
-        },3000)
+       
         // await WebIM.conn.publishPresence({description:'online'})
         // .catch(err=>console.log(err))
 
