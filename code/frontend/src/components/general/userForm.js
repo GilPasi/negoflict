@@ -1,13 +1,52 @@
-import TextInput from './TextInput'
-import DropdownSelector from './DropdownSelector'
-import { AREA_CODES } from '../../utils/data'
 import '../../styles/pages/add_user_page.css'
+import Header from '../../components/general/Header.js'
+import TextInput from '../../components/general/TextInput.js'
+import DropdownSelector from '../../components/general/DropdownSelector.js'
+import Button from '../../components/general/Button.js'
+import { AREA_CODES } from '../../utils/data'
 
-const UserForm = ({userData, handleChange, required})=>{
 
-    return(
-        <div>
-        <div className="aup--grid-row">
+
+
+const UserForm =({goBack,
+    next,handleChange,
+   userData,isMediator,errorMsg})=>{
+
+   
+
+
+        const validateForm =()=>{ // validate user properties           
+          
+            next()
+        }
+
+        return(
+
+        <article className="aup">
+
+            {!window&&<header className='aup--header'>
+                    <Header/>
+            </header>}
+
+
+                <div className="aup--grid">
+
+                {isMediator&&
+                 <div className="aup--grid-row">
+                 <TextInput
+                     placeHolder="Username"
+                     name="username"
+                     value={userData?.username || ''}
+                     onChange={handleChange}
+                     length="100%"
+                     align="left"
+                     inGrid={true}
+                     
+                     />
+             </div>
+                }
+                  
+                    <div className="aup--grid-row">
                         <TextInput
                             placeHolder="First Name"
                             name="first_name"
@@ -17,7 +56,9 @@ const UserForm = ({userData, handleChange, required})=>{
                             height="0.5em"
                             altitude="0.5em"
                             align="left"
-                            required={required}
+                            inGrid={true}
+                            
+                            
                             />
                     </div>
  
@@ -29,11 +70,12 @@ const UserForm = ({userData, handleChange, required})=>{
                             onChange={handleChange}
                             length="100%"
                             align="left"
-                            required={required}
-
-                        />
+                            inGrid={true}
+                            
+                            />
                     </div>
 
+                            
                     <div className="aup--grid-phone-prefix">
                         <DropdownSelector 
                             placHolder="--"
@@ -42,10 +84,8 @@ const UserForm = ({userData, handleChange, required})=>{
                             name="phonePrefix"
                             value={userData?.phonePrefix || ''}
                             onChange={handleChange}
-                            align="left"
                             width="100%"
-                            height="2em"
-                            
+                            height="1.75em"
                             />
                     </div>
 
@@ -59,7 +99,8 @@ const UserForm = ({userData, handleChange, required})=>{
                             altitude="2em"
                             type="number"
                             align="left"
-                            required={required}
+                            onmousewheel="return false;"
+                            inGrid={true}
                         />
                     </div> 
 
@@ -71,14 +112,19 @@ const UserForm = ({userData, handleChange, required})=>{
                             onChange={handleChange}
                             length="100%"
                             align="left"
-                            required={required}
+                            inGrid={true}
                         />
-                        </div>
 
                     </div>
+                </div>
+                
+                {!errorMsg&&
+                <p  >
+                    {<span className='warning-to-plat'>{errorMsg}</span>}
+                </p>
+                }
 
-    )
-
-}
+    </article>
+    )}
 
 export default UserForm
