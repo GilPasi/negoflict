@@ -72,18 +72,18 @@ class Message(models.Model):
 
    
 class Survey(models.Model):
-    GREAT_SUCCESS = 'GS'
-    SUCCESS = 'S'
-    PARTIAL_SUCCESS = 'PS'
-    WITHOUT_SUCCESS = 'WS'
-    FAILURE = 'F'
+    VERY_SATISFIED = 'VS'
+    SATISFIED = 'SS'
+    OK = 'OK'
+    DISATISFIED= 'DS'
+    VERY_DISATISFIED = 'VF'
     
     VALUES_CHOICESS = [
-        (GREAT_SUCCESS,'GREAT_SUCCESS'),
-        (SUCCESS,'SUCCESS'),
-        (PARTIAL_SUCCESS,'PARTIAL_SUCCESS'),
-        (WITHOUT_SUCCESS,'WITHOUT_SUCCESS'),
-        (FAILURE,'FAILURE')
+        (VERY_SATISFIED,'Very satisfied'),
+        (SATISFIED,'Satisfied'),
+        (OK,'OK'),
+        (DISATISFIED,'Disatisfied'),
+        (VERY_DISATISFIED,'Very disatisfied')
     ]
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.SET_NULL,null=True)

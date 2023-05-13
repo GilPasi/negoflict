@@ -3,10 +3,10 @@ import '../../styles/components/users_list.css'
 
 
 
-const UsersList = ({handleSelctedUser})=>{
+const UsersList = ({handleSelctedUser, isMediator})=>{
     const users = useSelector(state=>state.perticipent)
+    console.log('usersssss===>>',users)
     const fontColor = "#000000d4"
-    console.log('usssss',users)
 
     const handleObserve = (user)=>{
         handleSelctedUser(user)
@@ -20,7 +20,7 @@ const UsersList = ({handleSelctedUser})=>{
             {users.map(user=>{
                 return(
                 <div key={user.agoraUsername} className="users-list--member"
-                  onClick={()=>handleObserve(user)}
+                  onClick={isMediator?()=>handleObserve(user): null}
                   >
                     <div className="users-list--side" 
                        

@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { useAddingManyUsersToOneChatGroupMutation, useRegisterManyUsersToGroupMemberMutation, useGetUsersByCaseQuery,addPerticipents, useSetUserCaseAttributeMutation } from '../../store'
 import CreateSelfUser from '../../pages/CreateSelfUserPage'
+import Loader from './Loader'
 
 const AddWindow =({groups})=>{
     const {agora,server,caseId} = groups
@@ -16,8 +17,8 @@ const AddWindow =({groups})=>{
     const [side,setSide] = useState(null)
     const [Users, setUsers] = useState([])
     const {id} = useSelector(state=>state.user)
-    const {data:participentsData, error:participentError, refetch:refetchGetUser} = useGetUsersByCaseQuery({caseChat:caseId})
-    const {data:contantData, error:contactError, refetch:refetchContact} = useGetContactsQuery({mediator_id:id});
+    const {data:participentsData, error:participentError, refetch:refetchGetUser, isLoading:loadingGetUsers} = useGetUsersByCaseQuery({caseChat:caseId})
+    const {data:contantData, error:contactError, refetch:refetchContact, isLoading:loadingGetContact} = useGetContactsQuery({mediator_id:id});
     const [addingUsersToChat] = useAddingManyUsersToOneChatGroupMutation()
     const [registerServerChatGroup] = useRegisterManyUsersToGroupMemberMutation()
     const dispatch = useDispatch()
@@ -35,6 +36,7 @@ const AddWindow =({groups})=>{
         };
     }, []);
 
+
     
 
 
@@ -45,6 +47,10 @@ const AddWindow =({groups})=>{
             if (participentError.status !== 404) return;
             empty = true;
         } else if (!contantData || !participentsData) return;
+        console.log('participent',participentsData)
+        console.log('contact data',contantData)
+        console.log(empty)
+        if(empty && !contantData)return
     
         let participentsIds = empty ? [] : participentsData.map((entry) => entry.user);
     
@@ -68,7 +74,7 @@ const AddWindow =({groups})=>{
             ]);
         });
     
-    }, [participentsData, contantData]);
+    }, [participentsData, contantData, participentError]);
     
       
 
@@ -186,6 +192,14 @@ const AddWindow =({groups})=>{
         
     return(
         <article>
+            {(loadingGetContact || loadingGetUsers) &&
+                // <div style={{position:'fixed',zIndex:'100',width:'100%',height:'100%',opacity:'0.6',backgroundColor:'gray', left:'50%',top:'50%',transform:'translate(-50%,-50%)'}}>
+                    <Loader withLogo={true} size={'medium'}/>
+                // </div>
+            }
+                
+               
+            
             {stage==='pick side' &&
              <center>
                 <h1 className="add-win--title">Choose a party to add a person</h1>
@@ -268,6 +282,9 @@ const AddWindow =({groups})=>{
                 </div>
                 
                 }
+              
+                
+                
 
         </article>
     )

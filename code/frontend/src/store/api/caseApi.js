@@ -118,18 +118,7 @@ const caseApi = createApi({
             }
         }
     }),
-    getUsersByCase: builder.query({
-      providesTags:['users_case'],
-      query: ({caseChat})=>{
-        return {
-          url:'/session/chat_members/get_users_by_case/',
-          method:'GET',
-          params:{
-            case:caseChat
-          }
-        }
-      }
-    }),
+    
     getFullUsersByCase: builder.query({
       providesTags:['users_case'],
       query: ({caseId})=>{
@@ -141,7 +130,8 @@ const caseApi = createApi({
           }
         }
       }
-    })
+    }),
+    
     }
   }
 });

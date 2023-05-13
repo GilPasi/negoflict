@@ -70,7 +70,7 @@ const CasePage =({isMediator})=>{
     return(
         <article>
             {is_banded &&
-                <div style={{position:'fixed',zIndex:'100',width:'100%',height:'100%',opacity:'0.6',backgroundColor:'gray', left:'50%',top:'50%',transform:'translate(-50%,-50%)'}}>
+                <div className="loader-box-selector" style={{position:'fixed',zIndex:'100',width:'100%',height:'100%',opacity:'0.6',backgroundColor:'gray', left:'50%',top:'50%',transform:'translate(-50%,-50%)'}}>
                     <Loader withLogo={true} size={'medium'}/>
                 </div>
             }

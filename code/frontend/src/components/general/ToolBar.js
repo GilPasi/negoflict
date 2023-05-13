@@ -19,7 +19,7 @@ const ToolBar =({conflictName,id,isMediator,groups,isInfo,handleSelctedUser})=>{
 
                 {isInfo?
                     <div>
-                        <UsersList handleSelctedUser={handleSelctedUser}/>
+                        <UsersList handleSelctedUser={handleSelctedUser} isMediator={isMediator}/>
                     </div>
                         :
                     <div className="tb--title" >
