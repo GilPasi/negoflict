@@ -2,9 +2,10 @@ import React, { useRef, useEffect, useState } from 'react';
 import Message from '../general/Message';
 import { useSelector } from 'react-redux';
 import LoadinBar from '../general/LoadingBar';
+import '../../styles/components/loading_bar.css'
 //Note that all styles of the list is done in the component
 
-const MessageList =( { activeGroup ,maxHeight, isLoading,progress, task} )=> {
+const MessageList =( { activeGroup ,maxHeight, isLoading,progress, task,chatStart} )=> {
  
   const messagesEndRef = useRef(null);
   const {id} = useSelector(state=>state.user)
@@ -93,6 +94,20 @@ const MessageList =( { activeGroup ,maxHeight, isLoading,progress, task} )=> {
 
           />
       </div>}
+      {!(isLoading)&&!(chatStart)&&
+      <div>
+      <div style={{zIndex:'10', position:'fixed', width:'80%',height:'50%',backgroundColor:'gray', left:'50%', top:'50%',   transform: 'translate(-50%,-50%)',opacity:'0.6', borderRadius:'10%'}}></div>
+      <span style={{position:'absolute',zIndex:'100', left:'50%', top:'30%',transform: 'translate(-50%,-50%)', fontWeight:'bold', fontSize:'X-large',textAlign:'start', display:'flex',flexDirection:'column'}}>Waiting Host to start the 
+      <div className="loading-dots" style={{display:'flex',alignItems:'end'}}>
+      <span>converstation</span>
+      <span className="dot" style={{marginBottom:'5px', marginLeft:'5px'}}></span>
+      <span className="dot" style={{marginBottom:'5px', marginLeft:'5px'}}></span>
+      <span className="dot" style={{marginBottom:'5px', marginLeft:'5px'}}></span>
+      </div>
+      </span>
+      
+      </div>
+      }
       
 
       {messages&& messages.map(message => (
@@ -107,6 +122,7 @@ const MessageList =( { activeGroup ,maxHeight, isLoading,progress, task} )=> {
                 />
 
       ))}
+    
      
 
       <div ref={messagesEndRef} />

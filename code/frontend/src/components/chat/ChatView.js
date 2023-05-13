@@ -7,6 +7,7 @@ import ToolBar from '../general/ToolBar'
 import Button from '../general/Button'
 
 import { useState, useEffect} from 'react';
+import { useSelector } from 'react-redux'
 
 
 
@@ -14,9 +15,10 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
 
     const [size, setSize] = useState(window.innerHeight);
     const [usersListClick, setUsersListClick] = useState(false)
+    const { startChat } = useSelector(state=>state.chat_attrbute.mediator)
     
  
-    const shuttelView = muted
+    const shuttelView = !(startChat) || muted
     &&
     role==='user'
     &&
@@ -58,7 +60,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
         document.querySelector("#cp--input-tb").value='';//Eventually clean the text box
 
     }
-    const showShuttleMsg = shuttelView==='-shuttel'
+    const showShuttleMsg = shuttelView==='-shuttel' && startChat
 
     
     const shuttleMsgStyle={
@@ -132,6 +134,7 @@ const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isS
                         isLoading = {loadingData.progress < 100}
                         progress = {loadingData.progress}
                         task = {loadingData.task}
+                        chatStart = {startChat}
 
                     /> 
                     

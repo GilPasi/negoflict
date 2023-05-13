@@ -3,7 +3,7 @@ import {useEffect, useRef} from "react";
 import {clearMsg, resetChatState, useGetChatTokenQuery} from "../../store";
 import { useSelector, useDispatch } from "react-redux";
 import { getPermName } from "../../utils/permissions";
-import { useGetFullUsersByCaseQuery, addPerticipents,setOnlineUsers,setUserAttribute,clearAllPerticipents, useLazyGetMyMediatorQuery } from "../../store";
+import { useGetFullUsersByCaseQuery, addPerticipents,setOnlineUsers,setUserAttribute,clearAllPerticipents, useLazyGetMyMediatorQuery,setStartChat } from "../../store";
 
 
 
@@ -36,6 +36,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         dispatch(clearAllPerticipents())
         await WebIM.conn.publishPresence({description:'offline'})
         .catch(err=>console.log(err))
+        dispatch(setStartChat(false))
 
         await WebIM.conn.close()
     }
@@ -107,13 +108,42 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
             onConnect(true)
             getHistoryMsg()
             getGroupsInfo()
+            if(roleName==='mediator')
+                handleChatStart()
+            else
+                getiStartChat()
+
+
             },
         onTextMessage: msg=>onTextMsg(msg),
        
     });
+
+    const handleChatStart = ()=>{
+        dispatch(setStartChat(true))
+        let option = {
+            groupId: centerGroup.groupid,   
+            announcement: "chat_start"                       
+        };
+        WebIM.conn.updateGroupAnnouncement(option).then(res => console.log(res))
+    }
     // useEffect(()=>{
     //     if(usersAtribute.length == 0)return
     //     const persOnline = usersAtribute.filter(item=>item.ext === 'online')
+
+    const getiStartChat = ()=>{
+        let option = {
+            groupId: centerGroup.groupid,
+        };
+        WebIM.conn.fetchGroupAnnouncement(option).then(res => {
+            console.log('groupaNNONCE',res)
+            if(res.data.announcement==='chat_start')
+                dispatch(setStartChat(true))
+            else if(res.data.announcement==='chat_end')
+                dispatch(setStartChat(false))
+    })
+
+    }
 
         
 
@@ -129,6 +159,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         },
         onPresenceStatusChange: res=>setParticipentsChange(res),
         onError:err=>console.log('error',err),
+        
         
         // onConnected: ()=>{
         //     onConnect(true)
@@ -234,19 +265,20 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     }
 
     const handleGroupEvent = (msg)=>{
-        console.log('grouuupppp>>>',msg)
+        console.log('groupEvent>>>>>>',msg)
+        
         const {operation} = msg
         switch(operation){
             case 'muteAllMembers':
                 onMute(true)
-                break
+                break;
             case 'unmuteAllMembers': 
                 onMute(false)
-                break
-            case 'memberPresence':
-                
-                
-                
+                break;
+            case 'updateAnnouncement':
+                if(roleName!=='mediator')
+                    getiStartChat()
+                break;
 
             default:
                 break
