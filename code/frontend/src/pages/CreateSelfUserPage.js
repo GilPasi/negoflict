@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import Button from "../components/general/Button"
 import { useRegisterOneUserMutation,useCreateContactMutation,useCreateUsersMutation,useLazyIsEmailExistQuery } from "../store"
 import { useSelector } from "react-redux"
+import "../styles/pages/create_self_page.css"
 
 const CreateSelfUser = ({fulfiled,goBack})=>{
     const [formData,setFormData] = useState({})
@@ -58,19 +59,18 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
 
 
     return(
-        <div>
+        <article className="csp page">
             <form>
                 <Header/>
                 <UserForm
                  userData={formData}
                  handleChange={handleChange}
                  required={true}
-                 />
-
-                 <Button onClick={handleSubmit} text={'Submit'} size={'medium'} disabled={valid}/>
-                 <Button onClick={goBack} text={'Back'} size={'medium'}/>
+                />
+                <Button onClick={handleSubmit} text={'Submit'} size={'medium'} disabled={valid}/>
+                <Button onClick={goBack} text={'Back'} size={'medium'}/>
             </form>
-        </div>
+        </article>
     )
 
 }

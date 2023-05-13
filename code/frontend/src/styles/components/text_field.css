@@ -3,9 +3,12 @@
   position: relative;
 }
 
-[class^="text-input--in"]{ 
+[class^="text-input--in"]{
   position: relative;
-  padding: 1em;
+  box-sizing:content-box;
+  width: 5em;
+ 
+  padding: 1em  ;
   font-size: var(--font-medium);
   border-radius: 5px;
   border:none;
