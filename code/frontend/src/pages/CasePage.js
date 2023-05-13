@@ -9,6 +9,7 @@ import { useLocation } from "react-router-dom"
 import { useRef } from "react"
 import  useAlert  from '../hooks/useAlert'
 import { useGetGroupsByUserQuery } from "../store"
+import Loader from "../components/general/Loader"
 
 
 const CasePage =({isMediator})=>{
@@ -23,6 +24,7 @@ const CasePage =({isMediator})=>{
     const quaryParams = new URLSearchParams(location.search)
     const open_close = quaryParams.get('open_close')
     const {trigerNotification} = useAlert()
+    const {BandCase:is_banded} = useSelector(state=>state.band)
     //============
 
     //values=========
@@ -67,6 +69,11 @@ const CasePage =({isMediator})=>{
 
     return(
         <article>
+            {is_banded &&
+                <div style={{position:'fixed',zIndex:'100',width:'100%',height:'100%',opacity:'0.6',backgroundColor:'gray', left:'50%',top:'50%',transform:'translate(-50%,-50%)'}}>
+                    <Loader withLogo={true} size={'medium'}/>
+                </div>
+            }
             <Header isLarge={true}/>
                 <MyCases isMediator={isMediator} open_close={open_close}/>
                 {isMediator&&<div className="centerizer">

@@ -15,6 +15,7 @@ import { mediatorApi } from "./api/mediatorApi";
 import { perticipentReducer, addPerticipents,clearAllPerticipents,removeParticepent,setOnlineUsers,setUserAttribute, addNewParticipent } from "./slices/perticipentSlice";
 import { chat_attrbuteReducer, setMediator, setStartChat } from "./slices/chatAttributeSlice";
 import { superUserApi } from "./api/superUserApi";
+import { BandReducer, setBand } from "./slices/bandSlice";
 
 
 const store = configureStore({
@@ -27,6 +28,7 @@ const store = configureStore({
         message:msgReducer,
         perticipent:perticipentReducer,
         chat_attrbute:chat_attrbuteReducer,
+        band:BandReducer,
 
         [usersApi.reducerPath]: usersApi.reducer,
         [caseApi.reducerPath]: caseApi.reducer,
@@ -75,9 +77,7 @@ export{
     setMediator,
     setStartChat,
     addNewParticipent,
-    
-
-   
+    setBand,
 }
 
 setupListeners(store.dispatch)

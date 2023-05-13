@@ -4,8 +4,10 @@ import AddUserPage from '../../pages/AddUserPage'
 import { useNavigate } from "react-router-dom"
 import {store, useRegisterUsersMutation, useRegisterToChatGroupsMutation, usePutUserToMemberGroupMutation, useCreateContactMutation, useCreateUsersMutation} from '../../store/index'
 import {useSelector} from "react-redux";
-import { useLazyIsEmailExistQuery,useLazyIsUsernameExistQuery } from "../../store/index"
+import { useLazyIsEmailExistQuery, setBand } from "../../store/index"
 import Loader from "./Loader"
+import useAlert from "../../hooks/useAlert"
+import { useDispatch } from "react-redux"
 
 
 const CreateUserWraper = ()=>{
@@ -20,6 +22,8 @@ const CreateUserWraper = ()=>{
   const [updateMembers] = usePutUserToMemberGroupMutation()
   const [createContact] = useCreateContactMutation()
   const [isFetching,setIsFetching] = useState(false)
+  const {trigerNotification} = useAlert()
+  const dispatch = useDispatch()
   //==============
 
   //values=========
@@ -170,7 +174,9 @@ const CreateUserWraper = ()=>{
         
         setIsFetching(true)
         await registerUsers({users:arrUser,access:access,caseId:idCase})
+        dispatch(setBand({band_name:'BandCase', band_state:true}))
         setIsFetching(false)
+        
 
         createUsers({users:arrUser,access:access}) //need to add more api to register in server
         .then(res=>{
@@ -178,7 +184,11 @@ const CreateUserWraper = ()=>{
           const sides = ['A','B']         
 
         registerToChatGroups({groups:groups,users:arrUser})
-        .then(res=>console.log(res))
+        .then(res=>{
+          console.log(res)
+          dispatch(setBand({band_name:'BandCase', band_state:false}))
+          trigerNotification('created case and users','success')
+        })
         .catch(err=>console.log('err',err))
 
           for(let i=0; i<2;i++){
