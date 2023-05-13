@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom"
 import {store, useRegisterUsersMutation, useRegisterToChatGroupsMutation, usePutUserToMemberGroupMutation, useCreateContactMutation, useCreateUsersMutation} from '../../store/index'
 import {useSelector} from "react-redux";
 import { useLazyIsEmailExistQuery,useLazyIsUsernameExistQuery } from "../../store/index"
+import Loader from "./Loader"
 
 
 const CreateUserWraper = ()=>{
@@ -18,6 +19,7 @@ const CreateUserWraper = ()=>{
   const [registerToChatGroups] = useRegisterToChatGroupsMutation()
   const [updateMembers] = usePutUserToMemberGroupMutation()
   const [createContact] = useCreateContactMutation()
+  const [isFetching,setIsFetching] = useState(false)
   //==============
 
   //values=========
@@ -166,15 +168,18 @@ const CreateUserWraper = ()=>{
         })
 
         
-
-        registerUsers({users:arrUser,access:access,caseId:idCase})
+        setIsFetching(true)
+        await registerUsers({users:arrUser,access:access,caseId:idCase})
+        setIsFetching(false)
 
         createUsers({users:arrUser,access:access}) //need to add more api to register in server
         .then(res=>{
           const usersArr = [...res.data]
           const sides = ['A','B']         
 
-          registerToChatGroups({groups:groups,users:arrUser})
+        registerToChatGroups({groups:groups,users:arrUser})
+        .then(res=>console.log(res))
+        .catch(err=>console.log('err',err))
 
           for(let i=0; i<2;i++){
             updateMembers({user:usersArr[i],access:access,idCase:idCase,side:sides[i]})
@@ -222,7 +227,14 @@ const CreateUserWraper = ()=>{
   //=================
 
     return(
-        side==='A'
+      <div>
+        {isFetching &&
+        <div style={{position:'fixed',zIndex:'100',width:'100%',height:'100%',opacity:'0.6',backgroundColor:'gray'}}>
+          <Loader withLogo={true} size={'medium'}/>
+        </div>
+        }
+      
+        {side==='A'
         ?
         <AddUserPage 
         side='A'
@@ -245,6 +257,9 @@ const CreateUserWraper = ()=>{
         disabled={disableSubmit}
         errorMsg={validation}
         />
+    }
+
+    </div>
 
     )
 }

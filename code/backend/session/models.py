@@ -53,6 +53,7 @@ class GroupMember(models.Model): #define the user side in the conflict
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True,null=True)
     case = models.ForeignKey(Case,on_delete=models.CASCADE)
     mediator = models.ForeignKey(Mediator,on_delete=models.CASCADE)
+    is_active = models.BooleanField(null=True, default=True)
 
 
 

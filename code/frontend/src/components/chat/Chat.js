@@ -4,6 +4,7 @@ import {clearMsg, resetChatState, useGetChatTokenQuery} from "../../store";
 import { useSelector, useDispatch } from "react-redux";
 import { getPermName } from "../../utils/permissions";
 import { useGetFullUsersByCaseQuery, addPerticipents,setOnlineUsers,setUserAttribute,clearAllPerticipents, useLazyGetMyMediatorQuery,setStartChat } from "../../store";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -18,6 +19,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     const {data:groupParticipentsData, error:groupParticipentsError, refetch:refetchGetGroupParticipent} = useGetFullUsersByCaseQuery({caseId:caseId})
     const dispatch = useDispatch()
     const [getMediator] = useLazyGetMyMediatorQuery()
+    const navigate = useNavigate()
    
     //===========
     //state==========
@@ -279,7 +281,9 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
                 if(roleName!=='mediator')
                     getiStartChat()
                 break;
-
+            case 'destroy':
+                if(msg.id===centerGroup.groupid)
+                    navigate(-1)
             default:
                 break
         }

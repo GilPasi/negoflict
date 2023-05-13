@@ -208,7 +208,7 @@ class GroupMemberView(ModelViewSet):
         if len(missing_parameter) > 0:
             return Response(missing_parameter, status=status.HTTP_400_BAD_REQUEST)
         
-        members = self.queryset.filter(user=id)
+        members = self.queryset.filter(user=id).filter(is_active=True)
         cases = []
         
         for member in members:

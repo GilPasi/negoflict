@@ -29,6 +29,7 @@ const  TextHolder=({caseData, withInfo, hasExit})=>{
             background:'#fffcfcb4',
            })
            if(isDismissed)return
+           
 
            //Hen: delete chat
 
