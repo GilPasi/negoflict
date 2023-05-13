@@ -1,5 +1,4 @@
 import LoginPage from './pages/LoginPage.js';
-import ManageAccountsPage from './pages/ManageAccountsPage.js';
 
 import useInactivityRedirect from './hooks/useInActiveRediract.js';
 import { Route, Routes } from 'react-router-dom'; 
@@ -36,7 +35,7 @@ import './App.css'
             
             </Route>
         </Routes>
-      {/* <ManageAccountsPage/> */}
+   
         
     </div>  
 
