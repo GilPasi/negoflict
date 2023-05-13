@@ -50,11 +50,11 @@ const AddUserPage =({side,idCase,goBack,
                             <span style={{
                                 color:"var(--green-dark)",
                                 fontWeight:"var(--weight-bold)"
-                                }}>Add Mediator</span><br/>
+                            }}>Add Mediator</span><br/>
                                 Mediator personal details
                         </h2>
                     ):(
-                    <h2 className="aup--title aup--grid-row" >
+                        <h2 className="aup--title aup--grid-row" >
                         Party {side}
                     </h2>)
                 }
@@ -68,8 +68,8 @@ const AddUserPage =({side,idCase,goBack,
                      length="100%"
                      align="left"
                      inGrid={true}
-                    
-                 />
+                     
+                     />
              </div>
                 }
                   
@@ -84,9 +84,9 @@ const AddUserPage =({side,idCase,goBack,
                             altitude="0.5em"
                             align="left"
                             inGrid={true}
-                         
-        
-                        />
+                            
+                            
+                            />
                     </div>
  
                     <div className="aup--grid-row">
@@ -98,10 +98,11 @@ const AddUserPage =({side,idCase,goBack,
                             length="100%"
                             align="left"
                             inGrid={true}
-
-                        />
+                            
+                            />
                     </div>
 
+                            
                     <div className="aup--grid-phone-prefix">
                         <DropdownSelector 
                             size={dropdownSize}
@@ -162,9 +163,9 @@ const AddUserPage =({side,idCase,goBack,
 
                 </form>
                 
-                {!(errorMsg.isValid)&&
+                {!errorMsg&&
                 <p  >
-                    {<span className='warning-to-plat'>{errorMsg.errMsg}</span>}
+                    {<span className='warning-to-plat'>{errorMsg}</span>}
                 </p>
                 }
 

@@ -11,7 +11,12 @@ import { useSelector } from 'react-redux'
 
 
 
-const ChatView = ({isMediator, caseId,activeGroup,handleSend, handleShuttle, isShuttled, role, muted,centerGroup,loadingData,groups,notifications,closeNotification})=>{
+const ChatView = ({
+    isMediator, caseId,activeGroup,
+    handleSend, handleShuttle, isShuttled,
+     role, muted,centerGroup,
+     loadingData,groups,notifications,
+     closeNotification})=>{
 
     const [size, setSize] = useState(window.innerHeight);
     const [usersListClick, setUsersListClick] = useState(false)

@@ -32,6 +32,15 @@ const CreateUserWraper = ()=>{
   //=============
   
   //state========
+    let userDataTemplate ={
+      email: "",
+      first_name: "",
+      last_name: "",
+      phoneNumber: "",
+      phonePrefix: ""
+  }
+
+
     const [userData,setUserData] = useState([])
     const [idCase,setIdCase] = useState(null)
     const [sideVal,setSideVal] = useState(0)
@@ -85,6 +94,7 @@ const CreateUserWraper = ()=>{
     const handleChange = (event) => {
         const { name, value } = event.target
         const index = sideVal
+        console.log(userData)
       
         setUserData(prevState => {
           const prevData = [...prevState]

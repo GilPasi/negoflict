@@ -1,9 +1,10 @@
 *{
   font-family: Inter,sans-serif;
 
-  --font-large: 2em;
-  --font-medium: 1.5em;
-  --font-small: 1.25em;
+  --font-huge:3em;
+  --font-large: 1.5em;
+  --font-medium: 1.25em;
+  --font-small: 1em;
 
   --weight-medium:500;
   --weight-semi:600;
@@ -87,7 +88,7 @@ hr{
 
 
 [class^=title]{text-align: center;}
-.title-large{font-size: var(--font-large);}
+.title-large{font-size: var(--font-huge);}
 .title-medium{font-size: var(--font-medium);}
 .title-small{font-size: var(--font-small);}
 
