@@ -31,7 +31,7 @@ class GroupChatSerializer(serializers.ModelSerializer):
 class GroupMemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = GroupMember
-        fields = ['id','side','group_chat','user','case','mediator']
+        fields = ['id','side','group_chat','user','case','mediator', 'is_active']
         
 
 class GroupMemberWithUserSerializer(serializers.ModelSerializer):

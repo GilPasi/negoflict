@@ -186,7 +186,23 @@ const adminApi = createApi({
             
                 }
                 
+            }),
+            setUserCaseAttribute: builder.mutation({
+                query: ({case_id,user_id,status})=>{
+                    const statusChange = status?'True':'False'
+                    return{
+                        url:'/session/chat_members/set_active_member/',
+                        method:'PUT',
+                        params:{
+                            case:case_id,
+                            user_id:user_id,
+                            status:statusChange,
+                        }
+
+                    }
+                }
             })
+
         }
     }
 })

@@ -2,12 +2,16 @@ import { useSelector } from "react-redux";
 import '../../styles/components/users_list.css'
 
 
-const UsersList = ()=>{
+
+const UsersList = ({handleSelctedUser})=>{
     const users = useSelector(state=>state.perticipent)
     const fontColor = "#000000d4"
+    console.log('usssss',users)
 
-    const handleObserve = ()=>{
+    const handleObserve = (user)=>{
+        handleSelctedUser(user)
         const modal = document.querySelector(".cp--user-info")
+        
         modal.show()
     }
 
@@ -16,7 +20,7 @@ const UsersList = ()=>{
             {users.map(user=>{
                 return(
                 <div key={user.agoraUsername} className="users-list--member"
-                  onClick={handleObserve}
+                  onClick={()=>handleObserve(user)}
                   >
                     <div className="users-list--side" 
                        

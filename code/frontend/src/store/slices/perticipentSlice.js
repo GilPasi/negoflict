@@ -7,13 +7,14 @@ const perticipentSlice = createSlice({
 
     reducers:{
         addPerticipents:(state,action)=>{
+            console.log('peeeerr',action.payload)
             return [...state,...action.payload]
         },
         clearAllPerticipents:()=>{
             return []
         },
         removeParticepent:(state,action)=>{
-            state = state.filter(user=>user.uid!==action.payload)
+            return state.filter(user=>user.id!==action.payload)
         },
         setOnlineUsers: (state,action)=>{
             const onlineUsers = [...action.payload]

@@ -125,6 +125,7 @@ export const {useRegisterOneUserMutation} = adminApi
 export const {useCreateUsersMutation} = adminApi
 export const {useAddingManyUsersToOneChatGroupMutation} = adminApi
 export const {useRegisterManyUsersToGroupMemberMutation} = adminApi
+export const {useSetUserCaseAttributeMutation} = adminApi
 
 //msgApi=======
 export const {usePostNewMessageMutation} = msgApi

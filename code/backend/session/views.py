@@ -236,7 +236,7 @@ class GroupMemberView(ModelViewSet):
         case = request.GET.get('case',None)
         
         if case:
-            queryset = self.queryset.filter(case=case)
+            queryset = self.queryset.filter(case=case, is_active=True)
             if queryset:
                 serializer = GroupMemberSerializer(queryset, many=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
@@ -248,12 +248,44 @@ class GroupMemberView(ModelViewSet):
         case = request.GET.get('case',None)
         
         if case:
-            queryset = self.queryset.filter(case=case)
+            queryset = self.queryset.filter(case=case,is_active=True)
             if queryset:
                 serializer = GroupMemberWithUserSerializer(queryset, many=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             return Response('cant find case', status=status.HTTP_404_NOT_FOUND)
         return Response('missing parameter case', status=status.HTTP_400_BAD_REQUEST)
+    
+    @action(detail=False, methods=['PUT'], permission_classes=[permissions.All])
+    def set_active_member(self, request):
+        case = request.GET.get('case', None)
+        user_id = request.GET.get('user_id', None)
+        status_value = request.GET.get('status', None)
+        
+        
+        missing_parameter = []
+
+        if not case:
+            missing_parameter.append(('missing parameter case', status.HTTP_400_BAD_REQUEST))
+        if not user_id:
+            missing_parameter.append(('missing parameter user id', status.HTTP_400_BAD_REQUEST))
+
+        if len(missing_parameter) > 0:
+            return Response(missing_parameter, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            member = self.queryset.get(user=user_id, case=case)
+        except self.queryset.model.DoesNotExist:
+            return Response('member not found', status=status.HTTP_400_BAD_REQUEST)
+
+        member.is_active = status_value
+        serializer = self.get_serializer(member, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+        
+         
+    
+    
         
          
     
