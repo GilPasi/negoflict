@@ -89,13 +89,15 @@ const aup = <AddUserPage window='small' isMediator={false} side='A' goBack={()=>
                     finish
                   </button>}
 
-                  {gotRole==='mediator'&& 
+                  {/* Currently disabled */}
+
+                  {/* {gotRole==='mediator'&& 
                   <button 
                     className="ib--btn"
                     onClick={()=>setStep('aup')}
                   >
                     add
-                  </button>}
+                  </button>} */}
 
                 </div>}
               </div>

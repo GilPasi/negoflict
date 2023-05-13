@@ -21,9 +21,9 @@ const MyCases = ({isMediator, open_close})=>{
                     <div key={caseData.id}>
                         
                         <TextHolder 
-                        caseData={caseData} 
-                        withInfo={true}
-                        hasExit={false}
+                            caseData={caseData} 
+                            withInfo={true}
+                            hasExit={false}
                         />
                     </div>
             ))}
