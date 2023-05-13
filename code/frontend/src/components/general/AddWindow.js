@@ -6,6 +6,7 @@ import { useGetContactsQuery } from '../../store'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { useAddingManyUsersToOneChatGroupMutation, useRegisterManyUsersToGroupMemberMutation, useGetUsersByCaseQuery,addPerticipents } from '../../store'
+import CreateSelfUser from '../../pages/CreateSelfUserPage'
 
 const AddWindow =({groups})=>{
     const {agora,server,caseId} = groups
@@ -193,12 +194,20 @@ const AddWindow =({groups})=>{
             }
 
 
-            {stage==='create'&&<AddUserPage
+            {/* {stage==='create'&&<AddUserPage
                 isMediator={true}
                 idCase={caseId}
                 window='large'
                 goBack={()=>setStage('choose')}
                 next={()=>setStage('success')}
+            />} */}
+            {stage==='create'&&<CreateSelfUser
+            fulfiled={()=>{
+                setStage('exist')
+                refetchGetUser()
+                refetchContact()
+            }}
+            goBack={()=>setStage('choose')}
             />}
 
             {stage==='exist'&&

@@ -6,7 +6,7 @@ import Button from "../components/general/Button"
 import { useRegisterOneUserMutation,useCreateContactMutation,useCreateUsersMutation,useLazyIsEmailExistQuery } from "../store"
 import { useSelector } from "react-redux"
 
-const CreateSelfUser = ({fulfiled})=>{
+const CreateSelfUser = ({fulfiled,goBack})=>{
     const [formData,setFormData] = useState({})
     const [valid,setValid] = useState(true)
     const [registerUser] = useRegisterOneUserMutation()
@@ -46,10 +46,10 @@ const CreateSelfUser = ({fulfiled})=>{
             console.log('user ',res.data[0].id)
             console.log(res)
             createContact({mediator_id:id,user_id:res.data[0].id})
-            .then(()=>fulfiled('success'))
+            .then(()=>fulfiled())
             .catch(err=>{
                 console.log(err)
-                fulfiled('error')
+                // fulfiled()
 
             })
         })
@@ -68,6 +68,7 @@ const CreateSelfUser = ({fulfiled})=>{
                  />
 
                  <Button onClick={handleSubmit} text={'Submit'} size={'medium'} disabled={valid}/>
+                 <Button onClick={goBack} text={'Back'} size={'medium'}/>
             </form>
         </div>
     )
