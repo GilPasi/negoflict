@@ -210,6 +210,7 @@ const CreateUserWraper = ()=>{
       const rediract = ()=>{
         navigate('/mediator/cases/?open_close=True',{
           replace:true,
+          
       })
 
     }

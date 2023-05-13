@@ -16,7 +16,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     const tokenRes = useGetChatTokenQuery({username:username})
     const {role} = useSelector(state=>state.user)
     const roleName  = getPermName({role:role})
-    const {data:groupParticipentsData, error:groupParticipentsError, refetch:refetchGetGroupParticipent} = useGetFullUsersByCaseQuery({caseId:caseId})
+    const {data:groupParticipentsData, error:groupParticipentsError} = useGetFullUsersByCaseQuery({caseId:caseId})
     const dispatch = useDispatch()
     const [getMediator] = useLazyGetMyMediatorQuery()
     const navigate = useNavigate()
@@ -283,11 +283,15 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
                 break;
             case 'destroy':
                 if(msg.id===centerGroup.groupid)
-                    navigate(-1)
+                navigate('/user/survey_page',{
+                    replace:true,
+                    state:{
+                        caseId:caseId
+                    }
+                })
             default:
                 break
         }
-
     }
     
     // const handleConnectionMsg = (connectionType)=>{
