@@ -20,6 +20,7 @@ const AddWindow =({groups})=>{
     const [addingUsersToChat] = useAddingManyUsersToOneChatGroupMutation()
     const [registerServerChatGroup] = useRegisterManyUsersToGroupMemberMutation()
     const dispatch = useDispatch()
+    const [isClicked, setIsClicked] = useState(false)
 
     
     const buttonsWidth = '6em'
@@ -103,6 +104,7 @@ const AddWindow =({groups})=>{
             return
         }
         if(!side)return
+        setIsClicked(true)
        let groupSideChoose = agora.find(group=>group.groupname.endsWith(side))
        let groupCenterChoose = agora.find(group=>group.groupname.endsWith('G'))
        addingUsersToChat({users:selectedUsers, group:groupSideChoose.groupid})
@@ -122,11 +124,9 @@ const AddWindow =({groups})=>{
             setSide(null)
             refetchGetUser()
             refetchContact()
-            
           })
           setStage('success')
-    
-
+          setIsClicked(false)
        })
       
 
@@ -213,7 +213,7 @@ const AddWindow =({groups})=>{
                     <p className='warning' id='add-win-w'>You must select at least one user</p>
                     <footer>
                         <Button text='Back' length='5em' altitude='2em' margin='0.1em' onClick={()=>setStage('choose')}/>
-                        <Button text='Add' length='5em' altitude='2em' margin='0.1em' onClick={handleAdd}/>
+                        <Button text='Add' length='5em' altitude='2em' margin='0.1em' onClick={handleAdd} disabled={isClicked}/>
                     </footer>
 
 

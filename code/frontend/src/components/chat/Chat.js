@@ -194,13 +194,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         })
 
        
-        // await WebIM.conn.publishPresence({description:'online'})
-        // .catch(err=>console.log(err))
-
-
-        // await WebIM.conn.getSubscribedPresenceList({pageNum:50,pageSize:50,usernames:['hen']}).then(res=>{
-        //     console.log('lalallala===>>',res)
-        // })
+       
     }
 
     const postNewMessage =async ()=>{
