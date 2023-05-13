@@ -59,12 +59,12 @@ const CreateMediatorWrapper = ()=>{
         const username = formData['username']
         const {data, error} =await isUsernameExist({username:username})
         const response = data ?? error
-
-        if(response !== 'not found')return
+        
+        if(response !== 'not found' && response !== false)return
         const phoneNumber = formData['phoneNumber']
         const residentData = {
-        city:formData['city'],access:access
-    }
+            city:formData['city'],access:access
+        }
         const userData = {
         first_name:formData['first_name'],
         last_name:formData['last_name'],
@@ -96,6 +96,7 @@ const CreateMediatorWrapper = ()=>{
         setFirstPage(true)
     };
     const handleMediatorData = (data)=>{
+        
         setFormData(prevState=>({...prevState,...data}))
         handleSubmit()
     };
@@ -114,12 +115,11 @@ const CreateMediatorWrapper = ()=>{
         />
         ):(
             <AddMediatorPage 
-            goBack ={back}
-            handleMediatorData={handleMediatorData}
-            handleChange={handleChange}
-            handleSubmit={handleSubmit}
-            handleClick={handleClick}
-            
+                goBack ={back}
+                handleMediatorData={handleMediatorData}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+                handleClick={handleClick}
             />
 
         )}
