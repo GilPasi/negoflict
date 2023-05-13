@@ -77,7 +77,7 @@ const CasePage =({isMediator})=>{
             <Header isLarge={true}/>
                 <MyCases isMediator={isMediator} open_close={open_close}/>
                 {isMediator&&<div className="centerizer">
-                    <h1 className="title">Create a new<br />Case</h1>
+                    <h1 className="title-large">Create new<br />Case</h1>
                     <PlusButton to="new_case"/>
                 </div>}
         </article>

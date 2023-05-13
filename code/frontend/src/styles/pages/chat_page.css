@@ -63,8 +63,8 @@
   /* top:50%; */
   /* left: 50%; */
 
-  transform:rotate(0.6125turn) translateX(80%) translateY(10%) ;
-  font-size:var(--font-large);
+  transform:rotate(0.6125turn) translateX(80%) translateY(10%);
+  font-size:3em;
   user-select: none;
 
 }
