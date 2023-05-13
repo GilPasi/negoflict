@@ -1,9 +1,9 @@
 *{
   font-family: Inter,sans-serif;
 
-  --font-large: 2em;
-  --font-medium: 1.5em;
-  --font-small: 1.25em;
+  --font-large: 1.5em;
+  --font-medium: 1.25em;
+  --font-small: 1em;
 
   --weight-medium:500;
   --weight-semi:600;

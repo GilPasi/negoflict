@@ -3,7 +3,7 @@ import Header from "../components/general/Header"
 import TextInput from "../components/general/TextInput"
 import Button from "../components/general/Button"
 import DropdownSelector from "../components/general/DropdownSelector.js"
-import { useState} from "react"
+import { useState , useEffect} from "react"
 import TextArea from "../components/general/TextArea"
 import {MEDIATION_CHOICES} from '../utils/data'
 import { useSelector } from "react-redux"
@@ -31,28 +31,38 @@ const CaseFormPage = () =>{
 
     const mediatorName = `${first_name} ${last_name}`
     //state========
-    const [formData , setFormData] = useState({})
+    let formTemplate ={
+        title:'',
+        category:'',
+        sub_category:'',
+        problem_brief: '',
+    }
+    const [formData , setFormData] = useState(formTemplate)
      const [isFilled , setIsFilled] = useState(false) 
     //===========
+    useEffect(()=>{
+        for(const field in formData)
+            if(formData[field] === '' || formData[field] === null){
+                setIsFilled(false)
+                return   
+        }
+        setIsFilled(true)
+    },[formData])
+
     //****************
    
 
-    //handles=======
-    const handleChange = (event)=>{
+    //handlers=======
+    const handleChange = event =>{
         let {name, value} = event.target
-            
+        
         if(name === 'category'&& value === 'Select Areas of Mediation')
             value = null
-
+        
         setFormData(prevForm=>({
             ...prevForm,
             [name] : value
         }))
-       const keys =  Object.keys(formData)
-        if(value === '' || keys.length <4)
-            setIsFilled(false)
-        else
-            setIsFilled(true)
     }
 
     const handleSubmit =async (event) => {
@@ -70,12 +80,7 @@ const CaseFormPage = () =>{
         }
         addGroup(data)
         addCase(data)
-
-
-        navigate('/mediator/create_users/?side=A',{
-            replace:true,
-          
-        })
+        navigate('/mediator/create_users/?side=A',{replace:true,})
     }
 
 
