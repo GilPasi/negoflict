@@ -20,7 +20,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     const dispatch = useDispatch()
     const [getMediator] = useLazyGetMyMediatorQuery()
     const navigate = useNavigate()
-    const [hasKicked,setHesKicked] = useState(false)
+    const [hasKicked,setHesKicked] = useState(null)
    
     //===========
     //state==========
@@ -322,7 +322,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         setTimeout(() => {
           console.log("start");
       
-          if (!hasKicked) {
+          if (hasKicked===false) {
             console.log("inside", hasKicked);
             return;
           }
