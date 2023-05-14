@@ -162,7 +162,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
 
     WebIM.conn.addEventHandler('hen',{
         onGroupEvent: msg=>handleGroupEvent(msg),
-        onOnline: (res)=>{
+        onOnline: (res)=>{  
             handleProgress('fetching messages', 30)
             console.log('connected',res)
         },
@@ -292,6 +292,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
                 break;
             case 'destroy':
                 if(msg.id===centerGroup.groupid)
+                    setHesKicked(()=>true)
                     handleKikOut()
                 break;
                 
@@ -301,11 +302,11 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
                 break;
 
             case 'removeMember':
-                setHesKicked(true)
+                setHesKicked(()=>true)
                 handleKikOut()
                 break;
             case 'direct_joined':
-                setHesKicked(false)
+                setHesKicked(()=>false)
                 break;
 
 
@@ -317,38 +318,26 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         dispatch(removeParticepentByAgoraName(agora_name))
     }
 
-    const handleKikOut =async ()=>{
-
-       
-
-        setTimeout(()=>{
-            console.log('start')
-            const kicked = hasKicked
-
-        if(!kicked){
-            console.log('inside',kicked)
-            return
-        }
+    const handleKikOut = async () => {
+        setTimeout(() => {
+          console.log("start");
       
-
-        handleDisconnectHelper()
-
-     
-
-        navigate('/user/survey_page',{
-            replace:true,
-            state:{
-                caseId:caseId.slice(-7),
-            }
-        })
-        
-        
-
-        },4000)
-
-     
-        
-    }
+          if (!hasKicked) {
+            console.log("inside", hasKicked);
+            return;
+          }
+      
+          handleDisconnectHelper();
+      
+          navigate("/user/survey_page", {
+            replace: true,
+            state: {
+              caseId: caseId.slice(-7),
+            },
+          });
+        }, 4000);
+      };
+      
 
     
     // const handleConnectionMsg = (connectionType)=>{
