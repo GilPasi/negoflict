@@ -186,7 +186,36 @@ const adminApi = createApi({
             
                 }
                 
-            })
+            }),
+            setUserCaseAttribute: builder.mutation({
+                invalidatesTags:['users_case'],
+                query: ({case_id,user_id,status})=>{
+                    const statusChange = status?'True':'False'
+                    return{
+                        url:'/session/chat_members/set_active_member/',
+                        method:'PUT',
+                        params:{
+                            case:case_id,
+                            user_id:user_id,
+                            status:statusChange,
+                        }
+
+                    }
+                }
+            }),
+            getUsersByCase: builder.query({
+                providesTags:['users_case'],
+                query: ({caseChat})=>{
+                  return {
+                    url:'/session/chat_members/get_users_by_case/',
+                    method:'GET',
+                    params:{
+                      case:caseChat
+                    }
+                  }
+                }
+              }),
+
         }
     }
 })

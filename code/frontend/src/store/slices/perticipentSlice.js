@@ -7,13 +7,18 @@ const perticipentSlice = createSlice({
 
     reducers:{
         addPerticipents:(state,action)=>{
+            console.log('peeeerr',action.payload)
             return [...state,...action.payload]
         },
         clearAllPerticipents:()=>{
             return []
         },
         removeParticepent:(state,action)=>{
-            state = state.filter(user=>user.uid!==action.payload)
+            return state.filter(user=>user.id!==action.payload)
+        },
+        removeParticepentByAgoraName:(state,action)=>{
+            return state.filter(user=>user.agoraUsername !== action.payload)
+
         },
         setOnlineUsers: (state,action)=>{
             const onlineUsers = [...action.payload]
@@ -42,4 +47,4 @@ const perticipentSlice = createSlice({
 })
 
 export const perticipentReducer = perticipentSlice.reducer
-export const {addPerticipents,clearAllPerticipents,removeParticepent,setUserAttribute,setOnlineUsers, addNewParticipent } = perticipentSlice.actions
+export const {addPerticipents,clearAllPerticipents,removeParticepent,setUserAttribute,setOnlineUsers, addNewParticipent,removeParticepentByAgoraName } = perticipentSlice.actions

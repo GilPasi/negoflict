@@ -2,12 +2,16 @@ import { useSelector } from "react-redux";
 import '../../styles/components/users_list.css'
 
 
-const UsersList = ()=>{
+
+const UsersList = ({handleSelctedUser, isMediator})=>{
     const users = useSelector(state=>state.perticipent)
+    console.log('usersssss===>>',users)
     const fontColor = "#000000d4"
 
-    const handleObserve = ()=>{
+    const handleObserve = (user)=>{
+        handleSelctedUser(user)
         const modal = document.querySelector(".cp--user-info")
+        
         modal.show()
     }
 
@@ -16,7 +20,7 @@ const UsersList = ()=>{
             {users.map(user=>{
                 return(
                 <div key={user.agoraUsername} className="users-list--member"
-                  onClick={handleObserve}
+                  onClick={isMediator?()=>handleObserve(user): null}
                   >
                     <div className="users-list--side" 
                        

@@ -6,13 +6,13 @@ import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { usersApi } from "./api/usersApi";
 import { caseApi } from './api/caseApi'
 import { groupApi } from "./api/groupApi";
-import { chatGroupsReducer, addChatGroups, removeChatGroups } from "./slices/chatGroupsSlice";
+import { chatGroupsReducer, addChatGroups, removeChatGroups,addCaseId } from "./slices/chatGroupsSlice";
 import  {adminApi} from "./api/adminApi";
 import { chatReducer, addGroupsProps, updateMsg, resetChatState, addHistoryMsg } from "./slices/chatSlice";
 import { msgReducer, postNewMessage, clearMsg } from "./slices/msgSlice";
 import { msgApi } from "./api/msgApi"; 
 import { mediatorApi } from "./api/mediatorApi";
-import { perticipentReducer, addPerticipents,clearAllPerticipents,removeParticepent,setOnlineUsers,setUserAttribute, addNewParticipent } from "./slices/perticipentSlice";
+import { perticipentReducer, addPerticipents,clearAllPerticipents,removeParticepent,setOnlineUsers,setUserAttribute, addNewParticipent,removeParticepentByAgoraName } from "./slices/perticipentSlice";
 import { chat_attrbuteReducer, setMediator, setStartChat } from "./slices/chatAttributeSlice";
 import { superUserApi } from "./api/superUserApi";
 import { BandReducer, setBand } from "./slices/bandSlice";
@@ -78,6 +78,8 @@ export{
     setStartChat,
     addNewParticipent,
     setBand,
+    removeParticepentByAgoraName,
+    addCaseId,
 }
 
 setupListeners(store.dispatch)
@@ -103,8 +105,8 @@ export const { usePost_new_caseMutation } = caseApi
 export const {useGetCaseSideQuery, useLazyGetCaseSideQuery} = caseApi
 export const { usePutUserToMemberGroupMutation } = caseApi
 export const {useCloseCaseMutation} = caseApi
-export const {useGetUsersByCaseQuery} = caseApi
 export const {useGetFullUsersByCaseQuery} = caseApi
+export const {usePostNewSurveyMutation} = caseApi
 //============
 
 //groupApi=====
@@ -125,6 +127,8 @@ export const {useRegisterOneUserMutation} = adminApi
 export const {useCreateUsersMutation} = adminApi
 export const {useAddingManyUsersToOneChatGroupMutation} = adminApi
 export const {useRegisterManyUsersToGroupMemberMutation} = adminApi
+export const {useSetUserCaseAttributeMutation} = adminApi
+export const {useGetUsersByCaseQuery} = adminApi
 
 //msgApi=======
 export const {usePostNewMessageMutation} = msgApi

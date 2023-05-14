@@ -5,9 +5,12 @@ import MessageList from './MessageList'
 import UserPanel from '../general/UserPanel'
 import ToolBar from '../general/ToolBar'
 import Button from '../general/Button'
+import WebIM from '../../WebIM'
 
 import { useState, useEffect} from 'react';
 import { useSelector } from 'react-redux'
+import { useSetUserCaseAttributeMutation,removeParticepent } from '../../store'
+import { useDispatch } from 'react-redux'
 
 
 
@@ -21,6 +24,10 @@ const ChatView = ({
     const [size, setSize] = useState(window.innerHeight);
     const [usersListClick, setUsersListClick] = useState(false)
     const { startChat } = useSelector(state=>state.chat_attrbute.mediator)
+    const [selectedUser,setSelectedUser] = useState({})
+    const [removeFromCase] = useSetUserCaseAttributeMutation()
+    const dispatch = useDispatch()
+  
     
  
     const shuttelView = !(startChat) || muted
@@ -43,6 +50,10 @@ const ChatView = ({
         window.removeEventListener('resize', handleResize);
       };
     }, []);
+
+    const handleSelctedUser = (user)=>{
+        setSelectedUser(user)
+    }
 
     
     const FOOTER_SIZE = 125 , HEADER_SIZE = 297.281-0.11298*window.innerHeight//Found by linear approximation
@@ -74,11 +85,29 @@ const ChatView = ({
         opacity: showShuttleMsg ? '0.5' : '0',
     }
 
-    const handleRemove = ()=>{
-        //Remove logic : HEN
+    const handleRemove =async ()=>{
+        const userRemove = selectedUser
+        console.log(userRemove)
 
+        const filteredGroups = groups.agora.filter(group=> (group.groupname.endsWith(userRemove.side)) || (group.groupname.endsWith('G')))
+       
+  
+        filteredGroups.forEach(group=>{
+            WebIM.conn.removeGroupMember({groupId:group.groupid, username:userRemove.agoraUsername})
+
+        })
+        dispatch(removeParticepent(userRemove.id))
+        const {data, error} =await removeFromCase({case_id:groups.caseId,user_id:userRemove.id,status:false})
+
+        console.log('data',data)
+        console.log('error',error)
+
+        setSelectedUser({})
+        
         document.querySelector(".cp--user-info").close()
     }
+    console.log(selectedUser)
+  
     
 
     return(
@@ -93,8 +122,9 @@ const ChatView = ({
                 gridTemplateRows:`${HEADER_SIZE}px 1fr ${FOOTER_SIZE}px`,
             }}>
             <dialog className="cp--user-info">
-
-                <h1>User data ...</h1>
+                {Object.keys(selectedUser).length>0&&
+                    <h3>Do yo want to remove {selectedUser['fullName']} from the group ?</h3>
+                }
                <Button
                     onClick={()=>document.querySelector(".cp--user-info").close()}
                     text="cancel"
@@ -117,6 +147,7 @@ const ChatView = ({
                 <header className='cp--header'>
                     <Header isLarge={false}/>
                     <ToolBar 
+                        handleSelctedUser={handleSelctedUser}
                         conflictName="A political conflict" 
                         id={caseId}
                         isChat={true} 

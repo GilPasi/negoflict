@@ -40,7 +40,7 @@ const LoginPage=()=>{
     //values========
     const loginHref = isMediator?'Login as User': 'Login as Mediator'
     const WasMounts = useRef(false)
-    const { accessToken, role } = useSelector(state=>state.user)
+    const { access, role } = useSelector(state=>state.user)
     //==========
   
     //apiHooks=====
@@ -97,7 +97,7 @@ const LoginPage=()=>{
 
     //functions==========
     const isLogin =async ()=>{ 
-        const token = accessToken || null
+        const token = access || null
 
         if(token){ 
             const {isSuccess} =await fetch_is_login(token)

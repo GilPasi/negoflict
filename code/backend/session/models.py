@@ -4,6 +4,22 @@ from negoflict_app.models import Mediator
 from negoflict_app.models import category
 import uuid
 
+class surveyCategory:
+    VERY_SATISFIED = 'VS'
+    SATISFIED = 'SS'
+    OK = 'OK'
+    DISATISFIED= 'DS'
+    VERY_DISATISFIED = 'VF'
+    
+    VALUES_CHOICESS = [
+        (VERY_SATISFIED,'Very satisfied'),
+        (SATISFIED,'Satisfied'),
+        (OK,'OK'),
+        (DISATISFIED,'Disatisfied'),
+        (VERY_DISATISFIED,'Very disatisfied')
+    ]
+    
+
 
 class Case(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4,editable=False)
@@ -72,24 +88,12 @@ class Message(models.Model):
 
    
 class Survey(models.Model):
-    GREAT_SUCCESS = 'GS'
-    SUCCESS = 'S'
-    PARTIAL_SUCCESS = 'PS'
-    WITHOUT_SUCCESS = 'WS'
-    FAILURE = 'F'
     
-    VALUES_CHOICESS = [
-        (GREAT_SUCCESS,'GREAT_SUCCESS'),
-        (SUCCESS,'SUCCESS'),
-        (PARTIAL_SUCCESS,'PARTIAL_SUCCESS'),
-        (WITHOUT_SUCCESS,'WITHOUT_SUCCESS'),
-        (FAILURE,'FAILURE')
-    ]
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.SET_NULL,null=True)
     case = models.ForeignKey(Case,on_delete=models.CASCADE, null=True)
     note = models.CharField(max_length=180, null=True)
-    case_rate = models.CharField(max_length=2,choices=VALUES_CHOICESS,default='', null=True)
+    case_rate = models.CharField(max_length=2,choices=surveyCategory.VALUES_CHOICESS,default='', null=True)
     
     
 

@@ -9,6 +9,9 @@ import '../../../styles/components/mediator_menu.css'
 const MediatorMenu = ()=>{
     //finished importing Web here for improve preformence later
     //dont remore importing WebIm
+    
+
+
 
     return(
             <article className='page'>

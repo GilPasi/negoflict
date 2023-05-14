@@ -5,8 +5,9 @@ import {useEffect, useState} from 'react'
 import { useGetContactsQuery } from '../../store' 
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { useAddingManyUsersToOneChatGroupMutation, useRegisterManyUsersToGroupMemberMutation, useGetUsersByCaseQuery,addPerticipents } from '../../store'
+import { useAddingManyUsersToOneChatGroupMutation, useRegisterManyUsersToGroupMemberMutation, useGetUsersByCaseQuery,addPerticipents, useSetUserCaseAttributeMutation } from '../../store'
 import CreateSelfUser from '../../pages/CreateSelfUserPage'
+import Loader from './Loader'
 
 const AddWindow =({groups})=>{
     const {agora,server,caseId} = groups
@@ -16,12 +17,14 @@ const AddWindow =({groups})=>{
     const [side,setSide] = useState(null)
     const [Users, setUsers] = useState([])
     const {id} = useSelector(state=>state.user)
-    const {data:participentsData, error:participentError, refetch:refetchGetUser} = useGetUsersByCaseQuery({caseChat:caseId})
-    const {data:contantData, error:contactError, refetch:refetchContact} = useGetContactsQuery({mediator_id:id});
+    const {data:participentsData, error:participentError, refetch:refetchGetUser, isLoading:loadingGetUsers} = useGetUsersByCaseQuery({caseChat:caseId})
+    const {data:contantData, error:contactError, refetch:refetchContact, isLoading:loadingGetContact} = useGetContactsQuery({mediator_id:id});
     const [addingUsersToChat] = useAddingManyUsersToOneChatGroupMutation()
     const [registerServerChatGroup] = useRegisterManyUsersToGroupMemberMutation()
     const dispatch = useDispatch()
     const [isClicked, setIsClicked] = useState(false)
+    const [setUserAttributeCaseIfExist] = useSetUserCaseAttributeMutation()
+  
 
     
     const buttonsWidth = '6em'
@@ -33,43 +36,45 @@ const AddWindow =({groups})=>{
         };
     }, []);
 
+
     
 
 
     useEffect(() => {
+        let empty = false;
         if (participentError) {
             console.log("error", contactError);
-            return;
-        }
-        if (!participentsData || !contantData) return;
+            if (participentError.status !== 404) return;
+            empty = true;
+        } else if (!contantData || !participentsData) return;
+        console.log('participent',participentsData)
+        console.log('contact data',contantData)
+        console.log(empty)
+        if(empty && !contantData)return
     
-        let participentsIds = participentsData.map((entry) => entry.user);
+        let participentsIds = empty ? [] : participentsData.map((entry) => entry.user);
     
-        let filteredUsersData = contantData.filter(
-            (user) => !participentsIds.includes(user.user.id)
-        );
+        let filteredUsersData = contantData.filter((user) => !participentsIds.includes(user.user.id));
     
         // Filter out duplicate users based on their IDs
         const uniqueUsersData = Array.from(
             new Map(filteredUsersData.map((user) => [user["user"].id, user])).values()
         );
-  
-        setUsers([])
- 
+    
+        setUsers([]);
     
         uniqueUsersData.forEach((user) => {
             const tempUser = user["user"];
             const fullName = `${tempUser.first_name} ${tempUser.last_name}`;
             const userTemp = { fullName: fullName, email: tempUser.email, id: tempUser.id };
-            console.log('new user',userTemp)
     
             setUsers((prev) => [
                 ...prev,
                 userTemp,
             ]);
         });
-        
-    }, [participentsData, contantData]);
+    
+    }, [participentsData, contantData, participentError]);
     
       
 
@@ -121,23 +126,19 @@ const AddWindow =({groups})=>{
             }
             usersDataArr = [...usersDataArr,userData]
            })
-          registerServerChatGroup({users:usersDataArr}).then(()=>{
-            setSide(null)
-            refetchGetUser()
-            refetchContact()
-          })
-          setStage('success')
-          setIsClicked(false)
+           handleAddNewMember(usersDataArr)
        })
+
+     
       
 
        const modUsersArray = []
        selectedUsers.forEach(user=>{
-        const modMediator = {side:side, fullName:user.fullName ,connect:false, agoraUsername:user.email.replace(/[^\w\s]/gi, '')}
+        const modMediator = {id:user.id,side:side, fullName:user.fullName ,connect:false, agoraUsername:user.email.replace(/[^\w\s]/gi, '')}
         modUsersArray.push(modMediator)
        })
        dispatch(addPerticipents(modUsersArray))
-       
+       setStage('success')
     
        const filterdGroupChat = server.find(group=>group.chat === side)
        let usersDataArr = []
@@ -145,6 +146,39 @@ const AddWindow =({groups})=>{
     
         
         
+    }
+    const handleAddOrSet =async (users)=>{
+        console.log('users',users)
+        let filterdUsers = []
+        for(let i in users){
+            console.log(users[i]['user'])
+          const {data, error}= await setUserAttributeCaseIfExist({case_id:caseId, user_id:users[i].user,status:true})
+        //   if(!data,!err)return
+        // console.log('err',err)
+        
+          
+          if(error?.status=== 400 && error?.data === 'member not found')
+            filterdUsers = [...filterdUsers, users[i]]
+        }
+        return filterdUsers
+        
+
+
+    }
+
+    const handleAddNewMember =async (users)=>{
+        let filterdUsers = []
+        filterdUsers = await handleAddOrSet(users)
+       console.log('filterdUsers', filterdUsers)
+
+       registerServerChatGroup({users:filterdUsers}).then(()=>{
+        setSide(null)
+        refetchGetUser()
+        refetchContact()
+      })
+      
+      setIsClicked(false)
+
     }
 
 
@@ -158,6 +192,14 @@ const AddWindow =({groups})=>{
         
     return(
         <article>
+            {(loadingGetContact || loadingGetUsers) &&
+                // <div style={{position:'fixed',zIndex:'100',width:'100%',height:'100%',opacity:'0.6',backgroundColor:'gray', left:'50%',top:'50%',transform:'translate(-50%,-50%)'}}>
+                    <Loader withLogo={true} size={'medium'}/>
+                // </div>
+            }
+                
+               
+            
             {stage==='pick side' &&
              <center>
                 <h1 className="add-win--title">Choose a party to add a person</h1>
@@ -240,6 +282,9 @@ const AddWindow =({groups})=>{
                 </div>
                 
                 }
+              
+                
+                
 
         </article>
     )
