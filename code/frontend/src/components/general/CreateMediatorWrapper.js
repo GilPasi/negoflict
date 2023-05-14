@@ -82,7 +82,7 @@ const CreateMediatorWrapper = ()=>{
         user:userData
     }
         addMediator(mediatorData)
-        registerUser({username:userData.username,password:'Negoflict123',first_name:userData.username})
+        registerUser({username:userData.username,password:`Negoflict${phoneNumber}`,first_name:userData.username})
     };
     //==============
 
