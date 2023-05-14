@@ -40,9 +40,9 @@ const  TextField=({type,placeHolder,
             
             {!(userReacted)&&!(_valid)&&
             <label 
-            htmlFor={name}
-            className="text-input--lbl"
-            style={labelStyle}
+                htmlFor={name}
+                className="text-input--lbl"
+                style={labelStyle}
             >
                 {_warnText}
             </label>}
