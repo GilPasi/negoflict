@@ -131,6 +131,21 @@ const caseApi = createApi({
         }
       }
     }),
+    postNewSurvey: builder.mutation({
+      invalidatesTags:['Cases'],
+      query:({note,case_rate,user_id,case_id})=>{
+        return{
+          url:'/session/survey/',
+          method:'POST',
+          body:{
+            note:note,
+            case_rate:case_rate,
+            user:user_id,
+            case:case_id
+          }
+        }
+      }
+    })
     
     }
   }

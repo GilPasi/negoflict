@@ -6,7 +6,7 @@ import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { usersApi } from "./api/usersApi";
 import { caseApi } from './api/caseApi'
 import { groupApi } from "./api/groupApi";
-import { chatGroupsReducer, addChatGroups, removeChatGroups } from "./slices/chatGroupsSlice";
+import { chatGroupsReducer, addChatGroups, removeChatGroups,addCaseId } from "./slices/chatGroupsSlice";
 import  {adminApi} from "./api/adminApi";
 import { chatReducer, addGroupsProps, updateMsg, resetChatState, addHistoryMsg } from "./slices/chatSlice";
 import { msgReducer, postNewMessage, clearMsg } from "./slices/msgSlice";
@@ -79,6 +79,7 @@ export{
     addNewParticipent,
     setBand,
     removeParticepentByAgoraName,
+    addCaseId,
 }
 
 setupListeners(store.dispatch)
@@ -105,6 +106,7 @@ export const {useGetCaseSideQuery, useLazyGetCaseSideQuery} = caseApi
 export const { usePutUserToMemberGroupMutation } = caseApi
 export const {useCloseCaseMutation} = caseApi
 export const {useGetFullUsersByCaseQuery} = caseApi
+export const {usePostNewSurveyMutation} = caseApi
 //============
 
 //groupApi=====

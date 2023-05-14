@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
-from .models import Case,GroupChat, GroupMember, Message, Contact
+from .models import Case,GroupChat, GroupMember, Message, Contact, Survey
 from negoflict_app import permissions
-from .serializers import CaseSerializer, GroupChatSerializer,GroupMemberSerializer, MessageSerial, GroupMemberWithUserSerializer, ContactCreateSerializer, ContactSerializer
+from .serializers import CaseSerializer, GroupChatSerializer,GroupMemberSerializer, MessageSerial, GroupMemberWithUserSerializer, ContactCreateSerializer, ContactSerializer, SurveySerializer
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from core.models import User
@@ -255,7 +255,7 @@ class GroupMemberView(ModelViewSet):
             return Response('cant find case', status=status.HTTP_404_NOT_FOUND)
         return Response('missing parameter case', status=status.HTTP_400_BAD_REQUEST)
     
-    @action(detail=False, methods=['PUT'], permission_classes=[permissions.All])
+    @action(detail=False, methods=['PUT'], permission_classes=[permissions.IsAdminOrUser])
     def set_active_member(self, request):
         case = request.GET.get('case', None)
         user_id = request.GET.get('user_id', None)
@@ -283,20 +283,8 @@ class GroupMemberView(ModelViewSet):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
         
-         
-    
-    
-        
-         
-    
-    
         
         
-            
-        
-        
-    
-    
 class MessageView(ModelViewSet):
     queryset = Message.objects.all()
     serializer_class = MessageSerial
@@ -324,6 +312,22 @@ class ContactView(ModelViewSet):
                 return Response(serializer.data,status=status.HTTP_200_OK)
             return Response('no contacts', status=status.HTTP_404_NOT_FOUND)
         return Response('Bad request',status=status.HTTP_400_BAD_REQUEST)
+    
+    
+    
+class SurveyView(ModelViewSet):
+    queryset = Survey.objects.all()
+    serializer_class= SurveySerializer
+    permission_classes= [permissions.All]
+    
+    # def get_permissions(self):
+    #     if self.request.method == 'POST' and self.request.user.is_authenticated:
+    #         return permissions.IsAdminOrUser
+    #     return super().get_permissions()
+        
+        
+        
+        
     
     
     
