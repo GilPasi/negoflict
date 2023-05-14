@@ -3,7 +3,7 @@ import {useLocation} from "react-router-dom";
 import Chat from "../components/chat/Chat";
 import { useSelector, useDispatch } from "react-redux";
 import {getPermName} from '../utils/permissions'
-import { addGroupsProps, addHistoryMsg, postNewMessage, resetChatState, setPrivateGroup, updateMsg } from "../store";
+import { addGroupsProps, addHistoryMsg, postNewMessage, resetChatState, setPrivateGroup, updateMsg, addCaseId } from "../store";
 import ChatView from "../components/chat/ChatView";
 import { useLazyGetCaseSideQuery } from "../store";
 import { useGetChatGroupsQuery } from "../store";
@@ -67,6 +67,7 @@ const ChatPage = ()=>{
     useMemo(()=>{  //set user detail role and username
         let role,userName = username
         role = getPermName({role:userRole})
+        dispatch(addCaseId(caseId))
         setRole(role)
         if(role === 'user')
              userName = username.replace(/[^\w\s]/gi, '')

@@ -118,18 +118,7 @@ const caseApi = createApi({
             }
         }
     }),
-    getUsersByCase: builder.query({
-      providesTags:['users_case'],
-      query: ({caseChat})=>{
-        return {
-          url:'/session/chat_members/get_users_by_case/',
-          method:'GET',
-          params:{
-            case:caseChat
-          }
-        }
-      }
-    }),
+    
     getFullUsersByCase: builder.query({
       providesTags:['users_case'],
       query: ({caseId})=>{
@@ -141,7 +130,23 @@ const caseApi = createApi({
           }
         }
       }
+    }),
+    postNewSurvey: builder.mutation({
+      invalidatesTags:['Cases'],
+      query:({note,case_rate,user_id,case_id})=>{
+        return{
+          url:'/session/survey/',
+          method:'POST',
+          body:{
+            note:note,
+            case_rate:case_rate,
+            user:user_id,
+            case:case_id
+          }
+        }
+      }
     })
+    
     }
   }
 });

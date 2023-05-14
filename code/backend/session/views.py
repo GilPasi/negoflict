@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
-from .models import Case,GroupChat, GroupMember, Message, Contact
+from .models import Case,GroupChat, GroupMember, Message, Contact, Survey
 from negoflict_app import permissions
-from .serializers import CaseSerializer, GroupChatSerializer,GroupMemberSerializer, MessageSerial, GroupMemberWithUserSerializer, ContactCreateSerializer, ContactSerializer
+from .serializers import CaseSerializer, GroupChatSerializer,GroupMemberSerializer, MessageSerial, GroupMemberWithUserSerializer, ContactCreateSerializer, ContactSerializer, SurveySerializer
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from core.models import User
@@ -236,7 +236,7 @@ class GroupMemberView(ModelViewSet):
         case = request.GET.get('case',None)
         
         if case:
-            queryset = self.queryset.filter(case=case)
+            queryset = self.queryset.filter(case=case, is_active=True)
             if queryset:
                 serializer = GroupMemberSerializer(queryset, many=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
@@ -248,23 +248,43 @@ class GroupMemberView(ModelViewSet):
         case = request.GET.get('case',None)
         
         if case:
-            queryset = self.queryset.filter(case=case)
+            queryset = self.queryset.filter(case=case,is_active=True)
             if queryset:
                 serializer = GroupMemberWithUserSerializer(queryset, many=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             return Response('cant find case', status=status.HTTP_404_NOT_FOUND)
         return Response('missing parameter case', status=status.HTTP_400_BAD_REQUEST)
-        
-         
     
-    
+    @action(detail=False, methods=['PUT'], permission_classes=[permissions.IsAdminOrUser])
+    def set_active_member(self, request):
+        case = request.GET.get('case', None)
+        user_id = request.GET.get('user_id', None)
+        status_value = request.GET.get('status', None)
         
         
-            
+        missing_parameter = []
+
+        if not case:
+            missing_parameter.append(('missing parameter case', status.HTTP_400_BAD_REQUEST))
+        if not user_id:
+            missing_parameter.append(('missing parameter user id', status.HTTP_400_BAD_REQUEST))
+
+        if len(missing_parameter) > 0:
+            return Response(missing_parameter, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            member = self.queryset.get(user=user_id, case=case)
+        except self.queryset.model.DoesNotExist:
+            return Response('member not found', status=status.HTTP_400_BAD_REQUEST)
+
+        member.is_active = status_value
+        serializer = self.get_serializer(member, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
         
         
-    
-    
+        
 class MessageView(ModelViewSet):
     queryset = Message.objects.all()
     serializer_class = MessageSerial
@@ -292,6 +312,22 @@ class ContactView(ModelViewSet):
                 return Response(serializer.data,status=status.HTTP_200_OK)
             return Response('no contacts', status=status.HTTP_404_NOT_FOUND)
         return Response('Bad request',status=status.HTTP_400_BAD_REQUEST)
+    
+    
+    
+class SurveyView(ModelViewSet):
+    queryset = Survey.objects.all()
+    serializer_class= SurveySerializer
+    permission_classes= [permissions.All]
+    
+    # def get_permissions(self):
+    #     if self.request.method == 'POST' and self.request.user.is_authenticated:
+    #         return permissions.IsAdminOrUser
+    #     return super().get_permissions()
+        
+        
+        
+        
     
     
     

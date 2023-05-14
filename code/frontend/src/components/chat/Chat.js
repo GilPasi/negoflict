@@ -1,9 +1,9 @@
 import WebIM from "../../WebIM";
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 import {clearMsg, resetChatState, useGetChatTokenQuery} from "../../store";
 import { useSelector, useDispatch } from "react-redux";
 import { getPermName } from "../../utils/permissions";
-import { useGetFullUsersByCaseQuery, addPerticipents,setOnlineUsers,setUserAttribute,clearAllPerticipents, useLazyGetMyMediatorQuery,setStartChat } from "../../store";
+import { useGetFullUsersByCaseQuery, addPerticipents,setOnlineUsers,setUserAttribute,clearAllPerticipents, useLazyGetMyMediatorQuery,setStartChat,removeParticepentByAgoraName, useLazyInvalidateCaseTagQuery } from "../../store";
 import { useNavigate } from "react-router-dom";
 
 
@@ -20,6 +20,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     const dispatch = useDispatch()
     const [getMediator] = useLazyGetMyMediatorQuery()
     const navigate = useNavigate()
+    const [hasKicked,setHesKicked] = useState(false)
    
     //===========
     //state==========
@@ -29,6 +30,12 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         event.preventDefault()
         event.returnValue = ''
 
+       await handleDisconnectHelper()
+
+       
+    }
+    
+    const handleDisconnectHelper=async ()=>{
         if(!WebIM.conn.isOpened())return
         wasRenderd.current = false
         if(roleName ==='mediator')
@@ -68,7 +75,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
 
         groupParticipentsData.forEach(pert=>{
             const agoraUsername = pert.user.email.replace(/[^\w\s]/gi, '')
-            const userMod = {side:pert.side, fullName:`${pert.user.first_name} ${pert.user.last_name}`,connect:false, agoraUsername:agoraUsername}
+            const userMod = {id:pert.user.id,side:pert.side, fullName:`${pert.user.first_name} ${pert.user.last_name}`,connect:false, agoraUsername:agoraUsername}
             perticipentArr.push(userMod)
         })
 
@@ -186,6 +193,8 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
             user:username,
             agoraToken: tokenRes.data.userToken
         }).catch(err=>console.log(err))
+
+
         
         // getHistoryMsg() 
         // getGroupsInfo()  
@@ -283,16 +292,64 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
                 break;
             case 'destroy':
                 if(msg.id===centerGroup.groupid)
-                navigate('/user/survey_page',{
-                    replace:true,
-                    state:{
-                        caseId:caseId
-                    }
-                })
+                    handleKikOut()
+                break;
+                
+            case 'memberAbsence':
+                if(roleName!=='mediator')
+                    handleRemoveFromList(msg.from)
+                break;
+
+            case 'removeMember':
+                setHesKicked(true)
+                handleKikOut()
+                break;
+            case 'direct_joined':
+                setHesKicked(false)
+                break;
+
+
             default:
                 break
         }
     }
+    const handleRemoveFromList = (agora_name)=>{
+        dispatch(removeParticepentByAgoraName(agora_name))
+    }
+
+    const handleKikOut =async ()=>{
+
+       
+
+        setTimeout(()=>{
+            console.log('start')
+            const kicked = hasKicked
+
+        if(!kicked){
+            console.log('inside',kicked)
+            return
+        }
+      
+
+        handleDisconnectHelper()
+
+     
+
+        navigate('/user/survey_page',{
+            replace:true,
+            state:{
+                caseId:caseId.slice(-7),
+            }
+        })
+        
+        
+
+        },4000)
+
+     
+        
+    }
+
     
     // const handleConnectionMsg = (connectionType)=>{
     //     const option = {
@@ -308,6 +365,8 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     //     const message = WebIM.message.create(option)
     //     WebIM.conn.send(message)
     // }
+
+
 }
 
 export default Chat

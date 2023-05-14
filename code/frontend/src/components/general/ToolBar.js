@@ -4,7 +4,7 @@ import PopupContainer from './Modal.js'
 import AddWindow from "../../components/general/AddWindow"
 import UsersList from "./UsersList.js"
 
-const ToolBar =({conflictName,id,isMediator,groups,isInfo})=>{
+const ToolBar =({conflictName,id,isMediator,groups,isInfo,handleSelctedUser})=>{
     
     return(
         <div className="tb" >
@@ -19,7 +19,7 @@ const ToolBar =({conflictName,id,isMediator,groups,isInfo})=>{
 
                 {isInfo?
                     <div>
-                        <UsersList/>
+                        <UsersList handleSelctedUser={handleSelctedUser} isMediator={isMediator}/>
                     </div>
                         :
                     <div className="tb--title" >

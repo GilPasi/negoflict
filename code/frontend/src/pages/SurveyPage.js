@@ -7,6 +7,8 @@ import { SATISFATION_OP } from '../utils/data'
 import {useState , useRef} from 'react'
 import { useLocation } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
+import { usePostNewSurveyMutation } from "../store"
+import { useSelector } from "react-redux"
 
 
 const SurveyPage=(duration,stages,interactions , isMediator)=>{
@@ -15,6 +17,9 @@ const SurveyPage=(duration,stages,interactions , isMediator)=>{
     const [satLevel , setSatLevel] = useState('0') // 0 for unknown
     const location = useLocation()
     const navigate = useNavigate()
+    const {caseId:fullCaseId} = useSelector(state=>state.chat_groups)
+    const {id} = useSelector(state=>state.user)
+    const [postSurvey] = usePostNewSurveyMutation()
 
         //Mock values for testing
         // duration="21" 
@@ -29,11 +34,15 @@ const SurveyPage=(duration,stages,interactions , isMediator)=>{
 
 
 
-    const handleSignOut=()=>{
+    const handleSignOut=async()=>{
         document.querySelector(".sp--gratitude-bg").style.display="block"
-        const data ={rate:satLevel , comment:textFeedbackRef.current.value}
+        const data ={case_rate:SATISFATION_OP[satLevel] , note:textFeedbackRef.current.value,user_id:id,case_id:fullCaseId }
         //Backend: save data to DB
         console.log('survey data',data)
+        const {data:postData,error} =await postSurvey(data)
+        if(error){
+            console.log('err',error)
+        }
         navigate('/user/cases/?open_close=True',{
             replace:true,
         })

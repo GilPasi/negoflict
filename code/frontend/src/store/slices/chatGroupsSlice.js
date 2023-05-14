@@ -15,8 +15,12 @@ const chatGroupsSlice = createSlice({
         removeChatGroups: (state,action)=>{
             return []
         },
+        addCaseId: (state,action)=>{
+            state.caseId = action.payload
+        }
+        
     }
 })
 
 export const chatGroupsReducer = chatGroupsSlice.reducer
-export const {addChatGroups,removeChatGroups} = chatGroupsSlice.actions
+export const {addChatGroups,removeChatGroups, addCaseId} = chatGroupsSlice.actions
