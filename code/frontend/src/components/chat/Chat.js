@@ -317,7 +317,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         dispatch(removeParticepentByAgoraName(agora_name))
     }
 
-    const handleKikOut = ()=>{
+    const handleKikOut =async ()=>{
 
        
 
