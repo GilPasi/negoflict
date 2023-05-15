@@ -67,6 +67,7 @@ const CreateUserWraper = ()=>{
         if(error)
           console.log(error)
         setIdCase(data.case.id)
+        localStorage.setItem('case_id',data.case.id)
       } 
       const resultGroups = Object.values(state.group_api.mutations)[0]
       if (resultGroups && resultGroups.status === 'fulfilled'){
@@ -74,6 +75,7 @@ const CreateUserWraper = ()=>{
         if(error)
           alert(error)
         setGorups(data.AgoraResponse)
+        localStorage.setItem('groups',JSON.stringify(data.AgoraResponse))
       }
     });
     return () => {
@@ -86,6 +88,16 @@ const CreateUserWraper = ()=>{
       setDisableSubmit(false);
     }
   }, [groups, idCase]);
+
+
+  useEffect(()=>{
+    if(!idCase)
+      setIdCase(localStorage.getItem('case_id') || null)
+
+    if(groups.length==0)
+      setGorups(JSON.parse(localStorage.getItem('groups')) || [])
+  },[groups,idCase])
+
   
     //================
 
@@ -183,7 +195,15 @@ const CreateUserWraper = ()=>{
 
         
         setIsFetching(true)
-        await registerUsers({users:arrUser,access:access,caseId:idCase})
+        const {error:registerError} = await registerUsers({users:arrUser,access:access,caseId:idCase})
+        if(registerError){
+          setIsFetching(false)
+          trigerNotification('unable to create the users for that case.','error')
+          rediract()
+          return
+        }
+          
+
         dispatch(setBand({band_name:'BandCase', band_state:true}))
         setIsFetching(false)
         
@@ -218,6 +238,9 @@ const CreateUserWraper = ()=>{
 
       //functions========
       const rediract = ()=>{
+        localStorage.removeItem('groups')
+        localStorage.removeItem('case_id')
+        
         navigate('/mediator/cases/?open_close=True',{
           replace:true,
           

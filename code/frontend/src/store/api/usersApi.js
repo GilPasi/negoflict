@@ -53,7 +53,7 @@ const usersApi = createApi({
                     return{
                         url:'/core/auth/token/refresh/',
                         credentials: 'include',
-                        method: 'GET'
+                        method: 'POST'
                     }
                 }
 
@@ -145,6 +145,18 @@ const usersApi = createApi({
                     }
                 }
             }),
+            getUserByAccess: builder.query({
+                query: ({ access }) => {
+                    console.log('aaa',access)
+                  return {
+                    url: '/users/user_view/',
+                    method: 'GET',
+                    headers: {
+                      'Authorization': `JWT ${access}`,
+                    },
+                  };
+                },
+              }),
 
 
 

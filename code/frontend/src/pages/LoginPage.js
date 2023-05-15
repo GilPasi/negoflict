@@ -9,10 +9,10 @@ import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import useAlert from "../hooks/useAlert"
 import { getPermSign, getPermName } from "../utils/permissions"
-import { useLazyLoginQuery, useLazyIs_loginQuery,useLazyLog_outQuery, useLazyGetTokenQuery } from "../store/index"
+import { useLazyLoginQuery, useLazyIs_loginQuery,useLazyLog_outQuery, useLazyGetTokenQuery,useLazyGetUserByAccessQuery } from "../store/index"
 import Loader from "../components/general/Loader"
-import { useChangePasswordMutation, useModifyUserMutation } from "../store/index"
-
+import { useChangePasswordMutation, useModifyUserMutation, useLazyGetNewAccessQuery, persistor,logout } from "../store/index"
+import { useLocation } from "react-router-dom"
 
 
 const LoginPage=()=>{
@@ -26,6 +26,10 @@ const LoginPage=()=>{
     const { bigSuccessAlert, changePasswordPop } = useAlert()
     const [changePassword] = useChangePasswordMutation()
     const [modifyUserDetail] = useModifyUserMutation()
+    const [getNewAccess] = useLazyGetNewAccessQuery()
+    const [getUserByAccess] = useLazyGetUserByAccessQuery()
+    const location = useLocation();
+    const { logout:is_logout } = location.state || {};
     //==========
 
     //state==========
@@ -53,15 +57,21 @@ const LoginPage=()=>{
     
 
     //useEffect=======
-    
-    
     useEffect(()=>{
         if(WasMounts.current)return
+        if(is_logout===true){
+            dispatch(logout())
+            fetch_logout()
+            persistor.purge()
+            return
+        }
+
         isLogin()
     },[]);
     useEffect(()=>{
         setFormData(baseData)
     },[isMediator])
+
     //==========
 
     //middleware=====
@@ -92,26 +102,65 @@ const LoginPage=()=>{
         const data = {password:`Negoflict${password}`, username:username}
 
         submitLogin(data,username)
-    };   
+    };
+    console.log(role)   
     //=============
 
     //functions==========
     const isLogin =async ()=>{ 
         const token = access || null
 
-        if(token){ 
-            const {isSuccess} =await fetch_is_login(token)
+        if(!token)return
+
+       
+        const {isSuccess} =await fetch_is_login(token)
 
             if(isSuccess){
                 directTo(role)
                 return
             }
+        
+        const {data:dataNewAcces,error:errorNewAcces, isSuccess:getNewAccessSuccess} = await getNewAccess()
+        if(dataNewAcces)
+            console.log(dataNewAcces)
+            submitByAccessToken(dataNewAcces['access'])
+
+        if(errorNewAcces){
+            console.log(errorNewAcces)
         }
-       fetch_logout()
+            
     };
+    
+
+    const submitByAccessToken =async (token)=>{
+        if(!token)return
+        const {data,error} =await  getUserByAccess({access:token})
+        if(error)
+            return
+        console.log('userDetails',data)
+        const role = getPermSign({is_staff:data[0]['is_staff'],is_superuser:data[0]['is_superuser']})
+
+
+        const user = {id:data[0]['id'],
+        username:data[0]['username'],
+        email:data[0]['email'],
+        access:token,
+        role:role,
+        first_name:data[0]['first_name'],
+        last_name:data[0]['last_name'],
+    }
+
+        dispatch(login(user))
+        directTo(role)
+
+
+
+    }
+    
     const submitLogin =async (data,checkprop)=>{
 
         const {data:access_data,error:errorToken} = await fetchToken(data)
+       
         
         if(errorToken){
             setValidity({isValid:false, errorMsg:'One or more details is incorrect'})
@@ -120,6 +169,7 @@ const LoginPage=()=>{
         }
 
         let {data:user, error:errorUser} =await fetchUser({username:formData.username,access:access_data.access})
+
         if(user.email !== checkprop){
             setValidity({isValid:false, errorMsg:'Email do not match'})
             console.log('email not match')
@@ -131,8 +181,10 @@ const LoginPage=()=>{
             console.log('user fetchin  error',errorUser)
             return
         }
+      
         
         const role = getPermSign(user)
+        console.log('role',role)
         const roleName = getPermName({role:role})
         user = {...user, 'role':role, 'access':access_data.access}
         dispatch(login(user))
@@ -164,10 +216,11 @@ const LoginPage=()=>{
             }
         }
         setNullFields()
-        directTo(role)
+        directTo(role,true)
         };
-    const directTo = (role)=>{
-        bigSuccessAlert('Login successfuly')
+    const directTo = (role, withPop)=>{
+        if(withPop)
+            bigSuccessAlert('Login successfuly')
 
         switch(role){
             case 1:
@@ -185,6 +238,7 @@ const LoginPage=()=>{
     };
     const setNullFields = ()=>{
         setFormData({})
+        
     };
     
 
