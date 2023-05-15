@@ -86,6 +86,7 @@ const CreateUserWraper = ()=>{
     };
   }, []);
 
+
   useEffect(() => {
     if (groups.length > 0 && idCase) {
       setDisableSubmit(false);
@@ -93,11 +94,13 @@ const CreateUserWraper = ()=>{
     if(!idCase)
     setIdCase(localStorage.getItem('case_id') || null)
 
-  if(groups.length==0)
-    setGorups(JSON.parse(localStorage.getItem('groups')) || [])
+    if(groups.length==0)
+      setGorups(JSON.parse(localStorage.getItem('groups')) || [])
+
   }, [groups, idCase]);
 
 
+  
 
   
     //================

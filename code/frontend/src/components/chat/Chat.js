@@ -33,8 +33,6 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         event.returnValue = ''
 
        await handleDisconnectHelper()
-
-       
     }
     
     const handleDisconnectHelper= async ()=>{

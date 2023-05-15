@@ -132,7 +132,7 @@ const ChatPage = ()=>{
         const {to, type} = msg
         if(type !== 'groupChat')return
         HandleNotification(to)
-        if(msg['id']=== chat.messages[chat.messages.length -1]['id'])
+        if(msg?.id=== chat?.messages[chat.messages.length -1]?.id)
             return
 
             const modifiedObject = {
