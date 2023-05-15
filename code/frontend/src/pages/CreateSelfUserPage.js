@@ -60,12 +60,12 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
 
     return(
         <article className="csp page">
-            <form>
+            <form className="centerizer" >
                 <Header/>
                 <UserForm
-                 userData={formData}
-                 handleChange={handleChange}
-                 required={true}
+                    userData={formData}
+                    handleChange={handleChange}
+                    required={true}
                 />
                 <Button onClick={handleSubmit} text={'Submit'} size={'medium'} disabled={valid}/>
                 <Button onClick={goBack} text={'Back'} size={'medium'}/>
