@@ -5,6 +5,7 @@ from rest_framework_simplejwt.views import TokenRefreshView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.http import HttpResponse
+from negoflict_app.permissions import permissions
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
@@ -26,7 +27,11 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 
 class CustomTokenRefreshView(TokenRefreshView):
+   
+    
+    
     def post(self, request, *args, **kwargs):
+        print('insiiiisssddddddd')
         refresh_token = request.COOKIES.get('refresh_token')
         if refresh_token is None:
             return Response({'error': 'Refresh token is missing.'}, status=400)

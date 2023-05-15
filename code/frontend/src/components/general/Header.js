@@ -36,7 +36,7 @@ const  Header=({isLarge , unconnected})=>{
 
                 <div className="header--menu-content">
                     {/* Hen: route propely  */}
-                    <Link to="/">Log out</Link>
+                    <Link state={{logout:true}} to="/login">Log out</Link>
                     <Link to="/">Enter chat</Link>
                     <Link to="">Settings</Link>
                 </div>

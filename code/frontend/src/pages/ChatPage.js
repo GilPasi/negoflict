@@ -40,6 +40,7 @@ const ChatPage = ()=>{
     const {pos} = useSelector(state=>state.pos)
     const chat = useSelector(state=>state.chat[activeGroup])
     const centerGroup = groups.find(group => group.groupname.endsWith('G'));
+    console.log('chat',chat)
     //=============
     //apiFetch==========
     const {data,error, isSuccess, isFetching} =useGetChatGroupsQuery({CaseId:caseId}) 
@@ -127,9 +128,12 @@ const ChatPage = ()=>{
 
     //handles=============
     const handleRecivedMsg = (msg)=>{ //handle recived messages only in real time
+        console.log(msg)
         const {to, type} = msg
         if(type !== 'groupChat')return
         HandleNotification(to)
+        if(msg['id']=== chat.messages[chat.messages.length -1]['id'])
+            return
 
             const modifiedObject = {
                 ...msg,
@@ -139,7 +143,7 @@ const ChatPage = ()=>{
               
             delete modifiedObject.data;
             dispatch(updateMsg({id:to, message:modifiedObject}))
-            console.log('mmmmssgg',msg)
+           
           
     };
     const handleConnect = (value)=>{ //handle the connection property
@@ -147,6 +151,7 @@ const ChatPage = ()=>{
         if(value===false)
             dispatch(resetChatState())
        };
+
     const handleHistoryMsg =async (history,groupid)=>{ //gets history messages work's only ones
         let messages = []
         messages = [...history.messages]

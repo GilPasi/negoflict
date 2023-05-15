@@ -10,11 +10,14 @@ const RequireAuth = ()=>{
 
     const role = getPermName(user)
     const {id} = user
+    
+    const auth = location.pathname.split('/')[1] || false
 
-    const auth = location.pathname.split('/')[1]
-    if(role !== auth && id)
+    if(role !== auth && id){
+        if(!auth)
+            return <Navigate to='/login' state={{from: location}} replace={true} />
         return <Navigate to='/unauthorised' state={{from: location}} replace={true}/>
-
+    }
     else
         return(
             id
