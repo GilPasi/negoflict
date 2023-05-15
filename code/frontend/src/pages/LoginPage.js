@@ -9,10 +9,10 @@ import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import useAlert from "../hooks/useAlert"
 import { getPermSign, getPermName } from "../utils/permissions"
-import { useLazyLoginQuery, useLazyIs_loginQuery,useLazyLog_outQuery, useLazyGetTokenQuery } from "../store/index"
+import { useLazyLoginQuery, useLazyIs_loginQuery,useLazyLog_outQuery, useLazyGetTokenQuery,useLazyGetUserByAccessQuery } from "../store/index"
 import Loader from "../components/general/Loader"
-import { useChangePasswordMutation, useModifyUserMutation } from "../store/index"
-
+import { useChangePasswordMutation, useModifyUserMutation, useLazyGetNewAccessQuery, persistor } from "../store/index"
+import { useLocation } from "react-router-dom"
 
 
 const LoginPage=()=>{
@@ -26,19 +26,25 @@ const LoginPage=()=>{
     const { bigSuccessAlert, changePasswordPop } = useAlert()
     const [changePassword] = useChangePasswordMutation()
     const [modifyUserDetail] = useModifyUserMutation()
+    const [getNewAccess] = useLazyGetNewAccessQuery()
+    const [getUserByAccess] = useLazyGetUserByAccessQuery()
+    const location = useLocation();
+    const { logout:is_logout } = location.state || {};
     //==========
 
     //state==========
     const baseData = {username:'',email:'',password:''}
     const [isMediator,setIsMediator] = useState(false)
     const [formData,setFormData] = useState(baseData)
+    const [validity , setValidity] = useState({isValid:true, errorMsg:''})
+    // setValidity({isValid:true, errorMsg:''})
     //===========
      
 
     //values========
     const loginHref = isMediator?'Login as User': 'Login as Mediator'
     const WasMounts = useRef(false)
-    const { accessToken, role } = useSelector(state=>state.user)
+    const { access, role } = useSelector(state=>state.user)
     //==========
   
     //apiHooks=====
@@ -46,12 +52,19 @@ const LoginPage=()=>{
     const [fetchToken,{isLoading:loadingFetchToken}] = useLazyGetTokenQuery()
     const [fetch_is_login] = useLazyIs_loginQuery()
     const [fetch_logout] = useLazyLog_outQuery()
+    
     //********
     
 
     //useEffect=======
     useEffect(()=>{
         if(WasMounts.current)return
+        if(is_logout===true){
+            fetch_logout()
+            persistor.purge()
+            return
+        }
+
         isLogin()
     },[]);
     useEffect(()=>{
@@ -92,32 +105,74 @@ const LoginPage=()=>{
 
     //functions==========
     const isLogin =async ()=>{ 
-        const token = accessToken || null
+        const token = access || null
 
-        if(token){ 
-            const {isSuccess} =await fetch_is_login(token)
+        if(!token)return
+
+       
+        const {isSuccess} =await fetch_is_login(token)
 
             if(isSuccess){
                 directTo(role)
                 return
             }
+        
+        const {data:dataNewAcces,error:errorNewAcces, isSuccess:getNewAccessSuccess} = await getNewAccess()
+        if(dataNewAcces)
+            console.log(dataNewAcces)
+            submitByAccessToken(dataNewAcces['access'])
+
+        if(errorNewAcces){
+            console.log(errorNewAcces)
         }
-       fetch_logout()
+            
     };
+
+    const submitByAccessToken =async (token)=>{
+        if(!token)return
+        const {data,error} =await  getUserByAccess({access:token})
+        if(error)
+            return
+        console.log('userDetails',data)
+        const role = getPermSign({is_staff:data[0]['is_staff'],is_superuser:data[0]['is_superuser']})
+
+
+        const user = {id:data[0]['id'],
+        username:data[0]['username'],
+        email:data[0]['email'],
+        access:token,
+        role:role,
+        first_name:data[0]['first_name'],
+        last_name:data[0]['last_name'],
+    }
+
+        dispatch(login(user))
+        directTo(role)
+
+
+
+    }
+    
     const submitLogin =async (data,checkprop)=>{
 
         const {data:access_data,error:errorToken} = await fetchToken(data)
         
         if(errorToken){
+            setValidity({isValid:false, errorMsg:'One or more details is incorrect'})
             console.log('token error',errorToken)
             return
         }
 
         let {data:user, error:errorUser} =await fetchUser({username:formData.username,access:access_data.access})
-        if(user.email !== checkprop)return //email or username not match
+        if(user.email !== checkprop){
+            setValidity({isValid:false, errorMsg:'Email do not match'})
+            console.log('email not match')
+
+            return
+        } //email or username not match
 
         if(errorUser){
-            console.log('user error',errorUser)
+            console.log('user fetchin  error',errorUser)
             return
         }
         
@@ -153,10 +208,11 @@ const LoginPage=()=>{
             }
         }
         setNullFields()
-        directTo(role)
+        directTo(role,true)
         };
-    const directTo = (role)=>{
-        bigSuccessAlert('Login successfuly')
+    const directTo = (role, withPop)=>{
+        if(withPop)
+            bigSuccessAlert('Login successfuly')
 
         switch(role){
             case 1:
@@ -175,59 +231,59 @@ const LoginPage=()=>{
     const setNullFields = ()=>{
         setFormData({})
     };
-
+    
 
     return(
-        <article className="page" >
-            <Header isLarge={true} />
+        <article className="page lp" >
+            <Header isLarge={true} unconnected={true}/>
 
             <h1 className="lp--title">Log-in<br/>{isMediator?<span>Mediator</span>:<div></div>}</h1>
             <form onSubmit={isMediator?submitHandlerMediator:submitHandlerUser} className="lp--form">
-                {isMediator?
-                ( <TextInput 
+            {isMediator&&<TextInput 
                 type="text"
                 placeHolder="Username"
                 onChange = {handleChange}
-                name = 'username'
+                name='username'
                 value={formData.username}
-            />):(<div></div>)}
+                isValid={validity.isValid}
+                warnText={validity.errorMsg}
+            />}
+            <TextInput 
+                type="email"
+                placeHolder="Email"
+                onChange = {handleChange}
+                name={isMediator?'email':'username'}
+                value={isMediator?formData.email:formData.username}
+                isValid={isMediator?true:validity.isValid}
+                warnText={isMediator?'':validity.errorMsg}
+            />
+
+            <TextInput 
+                type="password"
+                placeHolder="Password"
+                onChange = {handleChange}
+                name='password'
+                value={formData.password}
                 
-
-
-                <TextInput 
-                            type="email"
-                            placeHolder="Email"
-                            onChange = {handleChange}
-                            name={isMediator?'email':'username'}
-                            value={isMediator?formData.email:formData.username}
-                        />
-
-                <TextInput 
-                            type="password"
-                            placeHolder="Password"
-                            onChange = {handleChange}
-                            name='password'
-                            value={formData.password}
-                        />
-                        <div className="flexbox">
-                            <input  type="checkbox" id="lp--checkbox"/>
-                            <label htmlFor="lp--checkbox">Disclaimer Lorem ispum dolor T&C <a href="#"> Link</a></label>
-                        </div>
+            />
+            <div className="flexbox">
+                <input  type="checkbox" id="lp--checkbox"/>
+                <label htmlFor="lp--checkbox">Disclaimer Lorem ispum dolor T&C <a href="#"> Link</a></label>
+            </div>
                         
                 <Button  text="Submit" size="small"/>
             </form> 
-            
             <center>
-                <label 
-                    style={{padding:'10px'}}>
+
                     <a href=""
-                    onClick={event=>{
-                        event.preventDefault()
-                        isMediator?setIsMediator(false):setIsMediator(true)
-                    }}>
+                        onClick={event=>{
+                            event.preventDefault()
+                            isMediator?setIsMediator(false):setIsMediator(true)
+                            setValidity({isValid:true , errorMsg:''})
+                        }}
+                        style={{height:"10em"}}>
                         {loginHref}
                     </a>
-                </label>
             </center>
         </article>
 )}

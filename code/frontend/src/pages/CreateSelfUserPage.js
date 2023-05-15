@@ -3,11 +3,18 @@ import UserForm from "../components/general/userForm"
 import Header from "../components/general/Header"
 import { useEffect, useState } from "react"
 import Button from "../components/general/Button"
-import { useRegisterOneUserMutation, } from "../store"
+import { useRegisterOneUserMutation,useCreateContactMutation,useCreateUsersMutation,useLazyIsEmailExistQuery } from "../store"
+import { useSelector } from "react-redux"
+import "../styles/pages/create_self_page.css"
 
-const CreateSelfUser = ()=>{
+const CreateSelfUser = ({fulfiled,goBack})=>{
     const [formData,setFormData] = useState({})
     const [valid,setValid] = useState(true)
+    const [registerUser] = useRegisterOneUserMutation()
+    const [createContact] = useCreateContactMutation()
+    const [createUser] = useCreateUsersMutation()
+    const [isEmailValid] = useLazyIsEmailExistQuery()
+    const {id} = useSelector(state=>state.user)
     
     useEffect(()=>{
         if(Object.keys(formData).length >=4)
@@ -20,25 +27,50 @@ const CreateSelfUser = ()=>{
         setFormData(prevState=>({...prevState,[name]:value}))
     }
 
-    const handleSubmit = (event)=>{
+    const handleSubmit =async (event)=>{
         event.preventDefault()
-        console.log(formData)
+        const {phoneNumber,email,first_name, last_name} = formData
+        const modEmail = email.replace(/[^\w\s]/gi, '')
+        const modPass = `Negoflict${phoneNumber}`
+
+        let { data, error } = await isEmailValid({ email:email });
+          
+          if (data === true || error) {
+              console.log(`this email ${email} is already exist \n`)
+              return
+          }
+
+        registerUser({username:modEmail,password:modPass,first_name:first_name})
+        .catch(err=>console.log(err))
+        createUser({users:[{username:email,password:modPass,first_name:first_name,last_name:last_name, email:email}]}).then(res=>{
+            console.log('medi: ',id)
+            console.log('user ',res.data[0].id)
+            console.log(res)
+            createContact({mediator_id:id,user_id:res.data[0].id})
+            .then(()=>fulfiled())
+            .catch(err=>{
+                console.log(err)
+                // fulfiled()
+
+            })
+        })
+        .catch(err=>console.log(err))
     }
 
 
     return(
-        <div>
+        <article className="csp page">
             <form>
                 <Header/>
                 <UserForm
                  userData={formData}
                  handleChange={handleChange}
                  required={true}
-                 />
-
-                 <Button text={'Submit'} size={'medium'} disabled={valid}/>
+                />
+                <Button onClick={handleSubmit} text={'Submit'} size={'medium'} disabled={valid}/>
+                <Button onClick={goBack} text={'Back'} size={'medium'}/>
             </form>
-        </div>
+        </article>
     )
 
 }

@@ -1,62 +1,65 @@
 /*__ Text Field component __*/
-
-.text-field-input{ 
+[class=text-input]{
   position: relative;
-  padding: 1em;
+}
+
+[class^="text-input--in"]{
+  position: relative;
+  box-sizing:content-box;
+  width: 5em;
+ 
+  padding: 1em  ;
   font-size: var(--font-medium);
   border-radius: 5px;
   border:none;
   background-color:var(--green-light);
-  transition: all 0.3s, border-bottom 0.35s ease-in;
-    
+  transition: all 0.3s, border-bottom 0.2s ease-in; 
 }
 
-.text-field-input::placeholder{
+.text-input--lbl{
+  position: absolute;
+  right:7%;
+  color:var(--red-warning);
+  user-select: none;
+  
+}
+
+/*===placeholders===*/
+.text-input--in::placeholder{
   position: absolute;
   color:whitesmoke;
-
   /* Center the sub-titles */
   left: 50%;
   top:50%;
   transform: translateX(-50%) translateY(-50%);
 }
 
-/*A diffrent version for left align*/
 
-.text-field-input-la{ 
-  box-sizing: border-box;
-  position: relative;
-  padding: 1em;
-  font-size: var(--font-medium);
-  border-radius: 5px;
-  border:none;
-  border-bottom: 5px solid var(--green-light);
-  background-color:var(--green-light);
-  transition: all 0.2s, border-bottom 0.2s ease-in;
-    
-}
 
-.text-field-input-la::placeholder{
+
+.text-input--in-la::placeholder{
   color:whitesmoke;
 }
-.text-field-input-la::-webkit-outer-spin-button{
+.text-input--in-la::-webkit-outer-spin-button{
   -webkit-appearance: none;
   margin: 0;
 }
-.text-field-input:focus{
+
+/*===focus===*/
+
+.text-input--in:focus{
   background-color: whitesmoke;
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.4);
   border-bottom: 5px solid var(--green-dark);
   outline: none;
 }
-.text-field-input-la:focus{
-  border-bottom: 10px solid whitesmoke;
+.text-input--in-la:focus{
+  border-bottom: 5px solid whitesmoke;
   outline: none;
 }
-.input-box{
-  display: grid;
-  grid-template-rows: 1fr 5px;
-}
+
+
+
 
 
 

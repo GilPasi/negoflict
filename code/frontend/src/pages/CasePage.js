@@ -1,8 +1,7 @@
-import "../styles/pages/case_page.css"
 import Header from "../components/general/Header"
+import PlusButton from "../components/general/PlusButton"
 import React, { useEffect } from "react"
 import MyCases from "./rolePages/mediator/MyCases"
-import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
 import { addGroups } from "../store"
@@ -10,8 +9,7 @@ import { useLocation } from "react-router-dom"
 import { useRef } from "react"
 import  useAlert  from '../hooks/useAlert'
 import { useGetGroupsByUserQuery } from "../store"
-
-
+import Loader from "../components/general/Loader"
 
 
 const CasePage =({isMediator})=>{
@@ -26,6 +24,7 @@ const CasePage =({isMediator})=>{
     const quaryParams = new URLSearchParams(location.search)
     const open_close = quaryParams.get('open_close')
     const {trigerNotification} = useAlert()
+    const {BandCase:is_banded} = useSelector(state=>state.band)
     //============
 
     //values=========
@@ -69,23 +68,27 @@ const CasePage =({isMediator})=>{
     
 
     return(
-        <article className="cap page">
+        <article>
+            {is_banded &&
+                <div style={{
+                    position:'fixed',
+                    zIndex:'100',
+                    width:'100%',
+                    height:'100%',
+                    opacity:'0.6',
+                    backgroundColor:'gray',
+                     left:'50%',
+                     top:'50%',
+                     transform:'translate(-50%,-50%)'}}>
+                    <Loader withLogo={true} size={'medium'}/>
+                </div>
+            }
             <Header isLarge={true}/>
                 <MyCases isMediator={isMediator} open_close={open_close}/>
-                {isMediator?(
-                    <><h1 className="title">Create a new<br />Case</h1><Link to="new_case">
-                        <div className="cap--plus-wrapper">
-                            <div className="cap--plus">
-                                <div className="cap--line" id="cap--line-ver"></div>
-                                <div className="cap--line" id="cap--line-hor"></div>
-                            </div>
-                        </div>
-                    </Link></>
-
-                ):(<div></div>)}
-                
-             
-           
+                {isMediator&&<div className="centerizer">
+                    <h1 className="title-large">Create new<br />Case</h1>
+                    <PlusButton to="new_case"/>
+                </div>}
         </article>
     )
 }

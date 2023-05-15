@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from .models import Case,GroupChat,GroupMember,Message, Survey,category,Contact
+from .models import Case,GroupChat,GroupMember,Message, Survey,category,Contact, surveyCategory
 from core.serializers import UserSerializer
+from core.serializers import  UserCreateSerializer
 
 
 class MediationChoiceField(serializers.Field):
@@ -13,6 +14,19 @@ class MediationChoiceField(serializers.Field):
             if value == data:
                 return key
         raise serializers.ValidationError("Invalid mediation area value.")
+    
+    
+class SurveyChoiceField(serializers.Field):
+    def to_representation(self, value):
+        survey_dict = dict(surveyCategory.VALUES_CHOICESS)
+        return survey_dict.get(value, value)
+
+    def to_internal_value(self, data):
+        for key, value in surveyCategory.VALUES_CHOICESS:
+            if value == data:
+                return key
+        raise serializers.ValidationError("Invalid mediation area value.")
+        
 
 
 class CaseSerializer(serializers.ModelSerializer):
@@ -30,14 +44,24 @@ class GroupChatSerializer(serializers.ModelSerializer):
 class GroupMemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = GroupMember
+        fields = ['id','side','group_chat','user','case','mediator', 'is_active']
+        
+
+class GroupMemberWithUserSerializer(serializers.ModelSerializer):
+    user = UserCreateSerializer()
+    
+    class Meta:
+        model = GroupMember
         fields = ['id','side','group_chat','user','case','mediator']
+    
         
 
         
 class SurveySerializer(serializers.ModelSerializer):
+    case_rate = SurveyChoiceField()
     class Meta:
         model = Survey
-        fields = '__all__'
+        fields = ['user','case','note','case_rate']
         
         
         

@@ -61,6 +61,27 @@ const adminApi = createApi({
                     }
                 }
             }),
+            addingManyUsersToOneChatGroup: builder.mutation({
+                invalidatesTags:['users_case'],
+                query: ({users,group})=>{
+                    let Users = []
+
+                    users.forEach(user=>{
+                       let username = user.email.replace(/[^\w\s]/gi, '')
+                       Users = [...Users, username]
+                    })
+                return{
+                    url:'/agora/groups/adding_many_users_to_group/',
+                    method: 'POST',
+                    body:{
+                        users:Users,
+                        group:group,
+                    }
+                }
+
+                }
+
+            }),
             addMediator: builder.mutation({
                 query:({phone,education,relevant_experience,mediation_areas,
                     certification_course,user,access})=>{
@@ -155,6 +176,46 @@ const adminApi = createApi({
                     }
                 }
             }),
+            registerManyUsersToGroupMember: builder.mutation({
+                query:({users})=>{
+                    return{
+                        url: `/session/chat_members/register_many_users/`,
+                        method:'POST',
+                        body:users
+                    }
+            
+                }
+                
+            }),
+            setUserCaseAttribute: builder.mutation({
+                invalidatesTags:['users_case'],
+                query: ({case_id,user_id,status})=>{
+                    const statusChange = status?'True':'False'
+                    return{
+                        url:'/session/chat_members/set_active_member/',
+                        method:'PUT',
+                        params:{
+                            case:case_id,
+                            user_id:user_id,
+                            status:statusChange,
+                        }
+
+                    }
+                }
+            }),
+            getUsersByCase: builder.query({
+                providesTags:['users_case'],
+                query: ({caseChat})=>{
+                  return {
+                    url:'/session/chat_members/get_users_by_case/',
+                    method:'GET',
+                    params:{
+                      case:caseChat
+                    }
+                  }
+                }
+              }),
+
         }
     }
 })

@@ -24,11 +24,12 @@
 }
 
 .aup--grid{
+    /* background-color:red; */
     display:grid;
     grid-template-columns: 5;
     grid-template-rows:5 ;
     width: 75%;
-    row-gap:3em;
+    row-gap:2em;
     column-gap:1em ;
     min-width: auto;
     min-height: auto;
@@ -62,3 +63,10 @@
     flex-direction: column;
     align-items: center;
 }
+/* .warning-to-plat{
+    position: absolute;
+    z-index: 1000;
+    width: 50px;
+    height: 50px;
+    background-color: red;
+} */

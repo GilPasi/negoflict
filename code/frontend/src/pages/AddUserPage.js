@@ -1,16 +1,18 @@
 import '../styles/pages/add_user_page.css'
 import Header from '../components/general/Header.js'
-import ToolBar from '../components/general/ToolBar.js'
 import TextInput from '../components/general/TextInput.js'
 import DropdownSelector from '../components/general/DropdownSelector.js'
 import Button from '../components/general/Button.js'
-import { AREA_CODES , ISR_RESIDENCE } from '../utils/data'
+import { AREA_CODES } from '../utils/data'
+
 
 
 
 const AddUserPage =({side,idCase,goBack,
     next,handleSubmit,handleChange,
-   userData,isMediator,window,disabled,options})=>{
+   userData,isMediator,window,disabled,options,errorMsg})=>{
+
+   
 
 
     let _fontSize = ''
@@ -27,13 +29,9 @@ const AddUserPage =({side,idCase,goBack,
         const windowStyle={fontSize:_fontSize,}
         const dropdownSize = window
 
-        const validateForm =()=>{ // validate user properties
-            let valid = true
-            //Validate the form (Hen)
-            if(valid)
-                next()
-            else
-                document.querySelector('#aup--w').style.visibility = 'visible'
+        const validateForm =()=>{ // validate user properties           
+          
+            next()
         }
 
         return(
@@ -42,7 +40,6 @@ const AddUserPage =({side,idCase,goBack,
 
             {!window&&<header className='aup--header'>
                     <Header/>
-                    {!isMediator&&<ToolBar conflictName="A political conflict" id={idCase}/>}
             </header>}
 
 
@@ -53,11 +50,11 @@ const AddUserPage =({side,idCase,goBack,
                             <span style={{
                                 color:"var(--green-dark)",
                                 fontWeight:"var(--weight-bold)"
-                                }}>Add Mediator</span><br/>
+                            }}>Add Mediator</span><br/>
                                 Mediator personal details
                         </h2>
                     ):(
-                    <h2 className="aup--title aup--grid-row" >
+                        <h2 className="aup--title aup--grid-row" >
                         Party {side}
                     </h2>)
                 }
@@ -70,8 +67,9 @@ const AddUserPage =({side,idCase,goBack,
                      onChange={handleChange}
                      length="100%"
                      align="left"
-
-                 />
+                     inGrid={true}
+                     
+                     />
              </div>
                 }
                   
@@ -85,6 +83,9 @@ const AddUserPage =({side,idCase,goBack,
                             height="0.5em"
                             altitude="0.5em"
                             align="left"
+                            inGrid={true}
+                            
+                            
                             />
                     </div>
  
@@ -96,10 +97,12 @@ const AddUserPage =({side,idCase,goBack,
                             onChange={handleChange}
                             length="100%"
                             align="left"
-
-                        />
+                            inGrid={true}
+                            
+                            />
                     </div>
 
+                            
                     <div className="aup--grid-phone-prefix">
                         <DropdownSelector 
                             size={dropdownSize}
@@ -109,9 +112,8 @@ const AddUserPage =({side,idCase,goBack,
                             name="phonePrefix"
                             value={userData?.phonePrefix || ''}
                             onChange={handleChange}
-                            align="left"
                             width="100%"
-                            height="2.5em"
+                            height="2.25em"
                             />
                     </div>
 
@@ -126,6 +128,7 @@ const AddUserPage =({side,idCase,goBack,
                             type="number"
                             align="left"
                             onmousewheel="return false;"
+                            inGrid={true}
                         />
                     </div> 
 
@@ -137,7 +140,9 @@ const AddUserPage =({side,idCase,goBack,
                             onChange={handleChange}
                             length="100%"
                             align="left"
+                            inGrid={true}
                         />
+
                     </div>
                     {isMediator&&
                     <div className="aup--grid-row">
@@ -157,7 +162,12 @@ const AddUserPage =({side,idCase,goBack,
                     }
 
                 </form>
-                    <p className='warning' id='aup--w'>Some of the details are not valid</p>
+                
+                {!errorMsg&&
+                <p  >
+                    {<span className='warning-to-plat'>{errorMsg}</span>}
+                </p>
+                }
 
                 <nav>
                     <Button 
@@ -176,6 +186,7 @@ const AddUserPage =({side,idCase,goBack,
                                 margin='0.2em'
                                 color='#09680b'
                                 disabled={disabled}
+                                
                             />
                         ):(
                         <Button 
@@ -184,10 +195,10 @@ const AddUserPage =({side,idCase,goBack,
                             margin="0.2em"
                             type="submit"
                             onClick={validateForm}
+                            disabled={disabled}
                         />
                         )
                     }
-
 
                 </nav>
     </article>

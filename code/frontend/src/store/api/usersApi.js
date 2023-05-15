@@ -53,7 +53,7 @@ const usersApi = createApi({
                     return{
                         url:'/core/auth/token/refresh/',
                         credentials: 'include',
-                        method: 'GET'
+                        method: 'POST'
                     }
                 }
 
@@ -122,7 +122,41 @@ const usersApi = createApi({
                         // },
                     }
                 }
-            })
+            }),
+            getMyMediator:builder.query({
+                query:({mediatorId})=>{
+                    return{
+                        url:'/users/mediator_view/my_mediator/',
+                        params:{
+                            id:mediatorId
+                        },
+                        method:'GET'
+                    }
+                }
+            }),
+            isEmailExist:builder.query({
+                query:({email})=>{
+                    return{
+                        url:'/users/user_view/is_email_exist/',
+                        params:{
+                            email:email
+                        },
+                        method:'GET'
+                    }
+                }
+            }),
+            getUserByAccess: builder.query({
+                query: ({ access }) => {
+                    console.log('aaa',access)
+                  return {
+                    url: '/users/user_view/',
+                    method: 'GET',
+                    headers: {
+                      'Authorization': `JWT ${access}`,
+                    },
+                  };
+                },
+              }),
 
 
 

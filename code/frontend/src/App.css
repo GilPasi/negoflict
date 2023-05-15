@@ -1,8 +1,10 @@
 *{
   font-family: Inter,sans-serif;
 
-  --font-large: 3em;
-  --font-medium: 1.5em;
+  --font-huge:3em;
+  --font-large: 1.5em;
+  --font-medium: 1.25em;
+  --font-small: 1em;
 
   --weight-medium:500;
   --weight-semi:600;
@@ -10,24 +12,23 @@
 
   --green-dark : #4AAC65;
   --green-dark-shaded : #459d5e;
-
   --green-light : #89E0A2;
   --green-light-shaded : #D1EAD8;
-
   --grey:#828282;
-
   --blue-anchor:#1D62F0;
+  --red-warning: #c91111;
 
-  --screen-min:375px; /*Iphone SE resolution*/
-
-}
-.app  {
-  min-width: var(--screen-min);
+  --screen-minw:375px; /*Iphone SE resolution*/
+  --screen-minh:667px; 
 
 }
+.app  {min-width: var(--screen-minw);}
 
 .page{
-  min-width: var(--screen-min);
+  min-width: var(--screen-minw);
+  min-height: var(--screen-minh);
+
+  /* min-height: 40em; */
   /* padding-bottom: 10px; */
   /* margin-top: 10px; */
 
@@ -69,8 +70,9 @@ a:hover{
 }
 
 .warning{
-    color:#c91111;
-    visibility: hidden;
+    color:var(--red-warning);
+    min-height: 20px;/*avoid appear bump*/
+
 }
 
 .flexbox{
@@ -84,7 +86,10 @@ hr{
   margin-bottom:1em;
 }
 
-.title{
-  font-size: var(--font-large);
-  text-align: center;
-}
+
+[class^=title]{text-align: center;}
+.title-large{font-size: var(--font-huge);}
+.title-medium{font-size: var(--font-medium);}
+.title-small{font-size: var(--font-small);}
+
+

@@ -108,7 +108,7 @@ const caseApi = createApi({
         query:({caseId, summary})=>{
             const currentDateTime = new Date().toISOString()
             return{
-                url:`${Server_url}/session/case/${caseId}/`,
+                url:`/session/case/${caseId}/`,
                 method:'PATCH',
                 body:{
                     close_at:currentDateTime,
@@ -118,6 +118,35 @@ const caseApi = createApi({
             }
         }
     }),
+    
+    getFullUsersByCase: builder.query({
+      providesTags:['users_case'],
+      query: ({caseId})=>{
+        return{
+          url:'/session/chat_members/get_full_users_by_case/',
+          method:'GET',
+          params:{
+            case:caseId,
+          }
+        }
+      }
+    }),
+    postNewSurvey: builder.mutation({
+      invalidatesTags:['Cases'],
+      query:({note,case_rate,user_id,case_id})=>{
+        return{
+          url:'/session/survey/',
+          method:'POST',
+          body:{
+            note:note,
+            case_rate:case_rate,
+            user:user_id,
+            case:case_id
+          }
+        }
+      }
+    })
+    
     }
   }
 });

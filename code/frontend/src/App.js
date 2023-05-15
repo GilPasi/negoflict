@@ -5,6 +5,8 @@ import RequireAuth from './components/Authentication/RequireAuth'
 import Layout from './components/general/Layout';
 import {UserLandingPage,MediatorLandingPage,SuperUserLandingPage} from './pages/LandingPage';
 import './App.css'
+import Unauthorised from './components/Authentication/Unauthorised'
+
 
 
 
@@ -30,9 +32,13 @@ import './App.css'
             </Route>
             ):(<div><h1>not active</h1></div>)}
               {/* catch */}
+
+             <Route path='unauthorised/*' element={<Unauthorised/>} />
             
             </Route>
-        </Routes>  
+        </Routes>
+   
+        
     </div>  
 
 

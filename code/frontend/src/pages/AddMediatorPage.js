@@ -49,12 +49,14 @@ const AddMediatorPage =({disable, goBack, handleChange,formData, handleSubmit, h
                 onChange={handleChange}
                 value={formData?.mediation_areas}
                 name='mediation_areas'
+                height="2em"
             />
 
             <TextInput
                 placeHolder="Education"
                 align="left"
-                altitude="2.5em"
+                altitude="1em"
+                length="11em"
                 name='education'
                 value={formData?.education }
                 onChange={handleChange}
@@ -69,7 +71,7 @@ const AddMediatorPage =({disable, goBack, handleChange,formData, handleSubmit, h
                     verified
                 </span>
                 <span className="amp--certified-text">
-                    Negoflict Mediation Course
+                    Negoflict Certified
                 </span>   
                 
             </div>

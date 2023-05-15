@@ -1,7 +1,6 @@
 .th{
     margin: 15px;
-    /* width: 15em;; */
-
+    position: relative;
 }
 .th--title{
     margin: 20px;

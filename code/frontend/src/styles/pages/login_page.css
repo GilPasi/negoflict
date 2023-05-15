@@ -1,18 +1,22 @@
 /*__ Login page component __*/
+.lp{
+  padding-bottom: 2em;
+  
+}
 .lp--title{
   text-align: left;
   font-weight: 700;
   display: block;
   margin-left: 1em;
-  margin-top:4em;
+  /* margin-top:4em; */
 }
-/* @media(min-width:750px){.lp--title{transform: translate(5em);}} */
 
 .lp--form{
   display: flex;
   flex-direction:column;
   justify-content: center;
   align-items: center;
+  /* padding-bottom: 5px; */
 }
 
 #lp--checkbox{
