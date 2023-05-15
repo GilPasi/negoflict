@@ -16,41 +16,56 @@ import { perticipentReducer, addPerticipents,clearAllPerticipents,removeParticep
 import { chat_attrbuteReducer, setMediator, setStartChat } from "./slices/chatAttributeSlice";
 import { superUserApi } from "./api/superUserApi";
 import { BandReducer, setBand } from "./slices/bandSlice";
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; 
 
 
-const store = configureStore({
-    reducer:{
-        user: userReducer,
-        pos: positionReducer,
-        groups: groupsReducer,
-        chat_groups: chatGroupsReducer,
-        chat:chatReducer,
-        message:msgReducer,
-        perticipent:perticipentReducer,
-        chat_attrbute:chat_attrbuteReducer,
-        band:BandReducer,
+const userPersistConfig = {
+    key: 'user',
+    storage,
+  };
 
-        [usersApi.reducerPath]: usersApi.reducer,
-        [caseApi.reducerPath]: caseApi.reducer,
-        [groupApi.reducerPath]: groupApi.reducer,
-        [adminApi.reducerPath]: adminApi.reducer,
-        [msgApi.reducerPath]: msgApi.reducer,
-        [mediatorApi.reducerPath]: mediatorApi.reducer,
-        [superUserApi.reducerPath]: superUserApi.reducer,
-        
-    },
-    middleware: getDefaultMiddleware =>{
-        return getDefaultMiddleware().concat(usersApi.middleware)
+
+  const persistedUserReducer = persistReducer(userPersistConfig, userReducer);
+
+
+  
+  const rootReducer = {
+    user: persistedUserReducer, 
+    pos: positionReducer,
+    groups: groupsReducer,
+    chat_groups: chatGroupsReducer,
+    chat: chatReducer,
+    message: msgReducer,
+    perticipent: perticipentReducer,
+    chat_attrbute: chat_attrbuteReducer,
+    band: BandReducer,
+  
+    [usersApi.reducerPath]: usersApi.reducer,
+    [caseApi.reducerPath]: caseApi.reducer,
+    [groupApi.reducerPath]: groupApi.reducer,
+    [adminApi.reducerPath]: adminApi.reducer,
+    [msgApi.reducerPath]: msgApi.reducer,
+    [mediatorApi.reducerPath]: mediatorApi.reducer,
+    [superUserApi.reducerPath]: superUserApi.reducer,
+  };
+  
+  
+  const store = configureStore({
+    reducer: rootReducer,
+    middleware: getDefaultMiddleware => {
+      return getDefaultMiddleware({ serializableCheck: false })
+        .concat(usersApi.middleware)
         .concat(caseApi.middleware)
         .concat(groupApi.middleware)
         .concat(adminApi.middleware)
         .concat(msgApi.middleware)
         .concat(mediatorApi.middleware)
-        .concat(superUserApi.middleware)
-        
-    }
-    
-});
+        .concat(superUserApi.middleware);
+    },
+  });
+
+export const persistor = persistStore(store);
 
 
 export{
@@ -97,6 +112,7 @@ export const {useChangePasswordMutation} = usersApi
 export const {useModifyUserMutation} = usersApi
 export const {useGetMyMediatorQuery,useLazyGetMyMediatorQuery} = usersApi
 export const {useIsEmailExistQuery, useLazyIsEmailExistQuery} = usersApi
+export const {useGetUserByAccessQuery,useLazyGetUserByAccessQuery} = usersApi
 //===========
 
 //caseApi=====

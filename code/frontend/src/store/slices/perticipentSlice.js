@@ -6,9 +6,19 @@ const perticipentSlice = createSlice({
     initialState: [],
 
     reducers:{
-        addPerticipents:(state,action)=>{
-            console.log('peeeerr',action.payload)
-            return [...state,...action.payload]
+        addPerticipents: (state, action) => {
+            
+            const newState = [...state];
+            action.payload.forEach((newParticipant) => {
+              const existingParticipant = newState.find(
+                (participant) => participant.id === newParticipant.id
+              );
+              if (!existingParticipant) {
+                newState.push(newParticipant);
+              }
+            });
+          
+            return newState;
         },
         clearAllPerticipents:()=>{
             return []
@@ -40,9 +50,17 @@ const perticipentSlice = createSlice({
                 }
             })
         },
-        addNewParticipent: (state,action)=>{
-            return [...state,action.payload]
-        }
+        addNewParticipent: (state, action) => {
+            const existingParticipant = state.find(
+              (participant) => participant.id === action.payload.id
+            );
+          
+            if (!existingParticipant) {
+              return [...state, action.payload];
+            }
+            return state;
+          },
+          
     }
 })
 

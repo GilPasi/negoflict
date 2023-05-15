@@ -20,7 +20,9 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     const dispatch = useDispatch()
     const [getMediator] = useLazyGetMyMediatorQuery()
     const navigate = useNavigate()
-    const [hasKicked,setHesKicked] = useState(null)
+    // const [hasKicked,setHesKicked] = useState(null)
+    const hasKicked = useRef(null);
+    var kikOutTimeout;
    
     //===========
     //state==========
@@ -279,6 +281,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         console.log('groupEvent>>>>>>',msg)
         
         const {operation} = msg
+       
         switch(operation){
             case 'muteAllMembers':
                 onMute(true)
@@ -292,7 +295,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
                 break;
             case 'destroy':
                 if(msg.id===centerGroup.groupid)
-                    setHesKicked(()=>true)
+
                     handleKikOut()
                 break;
                 
@@ -302,11 +305,14 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
                 break;
 
             case 'removeMember':
-                setHesKicked(()=>true)
-                handleKikOut()
+                kikOutTimeout = setTimeout(() => {
+                    handleKikOut();
+                  }, 5000);
                 break;
-            case 'direct_joined':
-                setHesKicked(()=>false)
+            case 'directJoined':
+                hasKicked.current = false
+                clearTimeout(kikOutTimeout);
+                
                 break;
 
 
@@ -318,14 +324,11 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         dispatch(removeParticepentByAgoraName(agora_name))
     }
 
-    const handleKikOut = async () => {
-        setTimeout(() => {
-          console.log("start");
-      
-          if (hasKicked===false) {
-            console.log("inside", hasKicked);
-            return;
-          }
+    const handleKikOut = () => {
+        if(hasKicked.current===false){
+            hasKicked.current = true
+            return
+        }
       
           handleDisconnectHelper();
       
@@ -335,8 +338,8 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
               caseId: caseId.slice(-7),
             },
           });
-        }, 4000);
       };
+      
       
 
     
