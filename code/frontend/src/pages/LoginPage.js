@@ -11,7 +11,7 @@ import useAlert from "../hooks/useAlert"
 import { getPermSign, getPermName } from "../utils/permissions"
 import { useLazyLoginQuery, useLazyIs_loginQuery,useLazyLog_outQuery, useLazyGetTokenQuery,useLazyGetUserByAccessQuery } from "../store/index"
 import Loader from "../components/general/Loader"
-import { useChangePasswordMutation, useModifyUserMutation, useLazyGetNewAccessQuery, persistor } from "../store/index"
+import { useChangePasswordMutation, useModifyUserMutation, useLazyGetNewAccessQuery, persistor,logout } from "../store/index"
 import { useLocation } from "react-router-dom"
 
 
@@ -60,6 +60,7 @@ const LoginPage=()=>{
     useEffect(()=>{
         if(WasMounts.current)return
         if(is_logout===true){
+            dispatch(logout())
             fetch_logout()
             persistor.purge()
             return
@@ -70,6 +71,7 @@ const LoginPage=()=>{
     useEffect(()=>{
         setFormData(baseData)
     },[isMediator])
+
     //==========
 
     //middleware=====
@@ -100,7 +102,8 @@ const LoginPage=()=>{
         const data = {password:`Negoflict${password}`, username:username}
 
         submitLogin(data,username)
-    };   
+    };
+    console.log(role)   
     //=============
 
     //functions==========
@@ -127,6 +130,7 @@ const LoginPage=()=>{
         }
             
     };
+    
 
     const submitByAccessToken =async (token)=>{
         if(!token)return
@@ -156,6 +160,7 @@ const LoginPage=()=>{
     const submitLogin =async (data,checkprop)=>{
 
         const {data:access_data,error:errorToken} = await fetchToken(data)
+       
         
         if(errorToken){
             setValidity({isValid:false, errorMsg:'One or more details is incorrect'})
@@ -164,6 +169,7 @@ const LoginPage=()=>{
         }
 
         let {data:user, error:errorUser} =await fetchUser({username:formData.username,access:access_data.access})
+
         if(user.email !== checkprop){
             setValidity({isValid:false, errorMsg:'Email do not match'})
             console.log('email not match')
@@ -175,8 +181,10 @@ const LoginPage=()=>{
             console.log('user fetchin  error',errorUser)
             return
         }
+      
         
         const role = getPermSign(user)
+        console.log('role',role)
         const roleName = getPermName({role:role})
         user = {...user, 'role':role, 'access':access_data.access}
         dispatch(login(user))
@@ -230,6 +238,7 @@ const LoginPage=()=>{
     };
     const setNullFields = ()=>{
         setFormData({})
+        
     };
     
 
