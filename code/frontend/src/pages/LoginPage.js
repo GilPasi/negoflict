@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import useAlert from "../hooks/useAlert"
 import { getPermSign, getPermName } from "../utils/permissions"
-import { useLazyLoginQuery, useLazyIs_loginQuery,useLazyLog_outQuery, useLazyGetTokenQuery,useLazyGetUserByAccessQuery } from "../store/index"
+import { useLazyLoginQuery, useLazyIs_loginQuery,useLazyLog_outQuery, useLazyGetTokenQuery,useLazyGetUserByAccessQuery, useLazyLog_outQuery } from "../store/index"
 import Loader from "../components/general/Loader"
 import { useChangePasswordMutation, useModifyUserMutation, useLazyGetNewAccessQuery, persistor } from "../store/index"
 import { useLocation } from "react-router-dom"
@@ -28,6 +28,7 @@ const LoginPage=()=>{
     const [modifyUserDetail] = useModifyUserMutation()
     const [getNewAccess] = useLazyGetNewAccessQuery()
     const [getUserByAccess] = useLazyGetUserByAccessQuery()
+    const [deleteRefreshToken] = useLazyLog_outQuery()
     const location = useLocation();
     const { logout:is_logout } = location.state || {};
     //==========
@@ -60,6 +61,7 @@ const LoginPage=()=>{
     useEffect(()=>{
         if(WasMounts.current)return
         if(is_logout===true){
+            deleteRefreshToken()
             fetch_logout()
             persistor.purge()
             return
