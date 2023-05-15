@@ -59,16 +59,29 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
 
 
     return(
-        <article className="csp page">
-            <form>
+        <article className="csp">
+            <form className="centerizer" >
                 <Header/>
                 <UserForm
-                 userData={formData}
-                 handleChange={handleChange}
-                 required={true}
+                    userData={formData}
+                    handleChange={handleChange}
+                    required={true}
                 />
-                <Button onClick={handleSubmit} text={'Submit'} size={'medium'} disabled={valid}/>
-                <Button onClick={goBack} text={'Back'} size={'medium'}/>
+                <div className="aligner">
+                    <Button 
+                        onClick={handleSubmit}
+                        text='Submit'
+                        size='small'
+                        disabled={valid}
+                        margin="0.5em"
+                    />
+                    <Button
+                        onClick={goBack}
+                        text='Back'
+                        size='small'
+                        margin="0.5em"
+                    />
+                </div>
             </form>
         </article>
     )

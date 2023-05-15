@@ -20,13 +20,7 @@ const Button=({text , size, margin,type,onClick,color,length, disabled,altitude}
             break;
     }
 
-    const style =disabled?{
-        width:length,
-        minWidth: size === "small" ? "8em" : "10em" ,
-        height: size==="small" ? "2em" : "3em",
-        margin: margin ? margin : "1.5em",
-        type: type ? type : "",
-    }:{
+    const style ={
         width:size?_width : length,
         height:size? _height :altitude,
         margin: margin ? margin : "1.5em",

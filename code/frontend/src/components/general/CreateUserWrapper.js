@@ -51,11 +51,14 @@ const CreateUserWraper = ()=>{
     const [validation,setValidation] = useState({isValid:true, errorMsg:''})
   //===========
 
+
+  //Hen this cause exception
   //useEffects==========
     useEffect(()=>{
       const val =side==='A'?0:1
       setSideVal(val)
     },[side]);
+  
   
   useEffect(() => {
     const unsubscribe = store.subscribe(() => {
@@ -104,7 +107,6 @@ const CreateUserWraper = ()=>{
     const handleChange = (event) => {
         const { name, value } = event.target
         const index = sideVal
-        console.log(userData)
       
         setUserData(prevState => {
           const prevData = [...prevState]
