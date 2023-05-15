@@ -103,7 +103,7 @@ const LoginPage=()=>{
 
         submitLogin(data,username)
     };
-    console.log(role)   
+
     //=============
 
     //functions==========
@@ -184,7 +184,6 @@ const LoginPage=()=>{
       
         
         const role = getPermSign(user)
-        console.log('role',role)
         const roleName = getPermName({role:role})
         user = {...user, 'role':role, 'access':access_data.access}
         dispatch(login(user))

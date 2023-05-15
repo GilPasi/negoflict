@@ -43,6 +43,7 @@ const perticipentSlice = createSlice({
             })
         },
         setUserAttribute: (state,action)=>{
+            console.log('lallalalla122222',action.payload)
             state.forEach(user=>{
                 if(user.agoraUsername === action.payload.userId){
                     const change = action.payload.ext === 'online'?true:false
@@ -50,6 +51,7 @@ const perticipentSlice = createSlice({
                 }
             })
         },
+
         addNewParticipent: (state, action) => {
             const existingParticipant = state.find(
               (participant) => participant.id === action.payload.id

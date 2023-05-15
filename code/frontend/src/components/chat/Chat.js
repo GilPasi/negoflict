@@ -37,15 +37,15 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
        
     }
     
-    const handleDisconnectHelper=async ()=>{
+    const handleDisconnectHelper= async ()=>{
         if(!WebIM.conn.isOpened())return
         wasRenderd.current = false
         if(roleName ==='mediator')
             WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
+        await WebIM.conn.publishPresence({description:'offline'})
         dispatch(clearMsg())
         dispatch(resetChatState())
         dispatch(clearAllPerticipents())
-        await WebIM.conn.publishPresence({description:'offline'})
         .catch(err=>console.log(err))
         dispatch(setStartChat(false))
 
