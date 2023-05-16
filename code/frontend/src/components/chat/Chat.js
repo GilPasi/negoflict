@@ -1,5 +1,5 @@
 import WebIM from "../../WebIM";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useRef} from "react";
 import {clearMsg, resetChatState, useGetChatTokenQuery} from "../../store";
 import { useSelector, useDispatch } from "react-redux";
 import { getPermName } from "../../utils/permissions";
@@ -28,13 +28,13 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     //state==========
     const messageDetail = useSelector(state=>state.message)
 
-    const handleDisconnect =async (event)=>{
-        event.preventDefault()
-        event.returnValue = ''
+    // const handleDisconnect =async (event)=>{
+    //     event.preventDefault()
+    //     event.returnValue = ''
 
-       await handleDisconnectHelper()
+    //    await handleDisconnectHelper()
        
-    }
+    // }
     
     const handleDisconnectHelper= async ()=>{
         if(!WebIM.conn.isOpened())return
