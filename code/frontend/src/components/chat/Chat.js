@@ -271,9 +271,9 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         const message = WebIM.message.create(option)
         WebIM.conn.send(message).then(()=>{
             dispatch(clearMsg())
-
         })
     };
+    console.log(messageDetail)
 
     const getHistoryMsg =async ()=>{
       

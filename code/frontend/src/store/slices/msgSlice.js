@@ -29,7 +29,7 @@ const msgSlice = createSlice({
            state.ext.sender = sender
         },
         clearMsg: (state)=>{
-            state = {
+            return {
                 ext:{
                     side:'',
                     color:0,
