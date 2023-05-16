@@ -178,12 +178,12 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     })
 
     useEffect(()=>{
-        window.addEventListener('popstate',handleDisconnect)
-        window.addEventListener('beforeunload',handleDisconnect)
+        window.addEventListener('popstate',handleDisconnectHelper)
+        window.addEventListener('beforeunload',handleDisconnectHelper)
 
         return ()=>{
-            window.removeEventListener('beforeunload', handleDisconnect);
-            window.removeEventListener('popstate', handleDisconnect);
+            window.removeEventListener('beforeunload', handleDisconnectHelper);
+            window.removeEventListener('popstate', handleDisconnectHelper);
         }
 
     },[])
