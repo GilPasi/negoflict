@@ -34,7 +34,7 @@ import Unauthorised from './components/Authentication/Unauthorised'
               {/* catch */}
 
              <Route path='unauthorised/*' element={<Unauthorised/>} />
-             <Route path='info/' element={<p>version 2.3 data: 16/5 time: 9:11</p>}/>
+             <Route path='info/' element={<p>version 2.3 data: 16/5 time: 10:49</p>}/>
             
             </Route>
         </Routes>
