@@ -153,9 +153,12 @@ const ChatPage = ()=>{
        };
 
     const handleHistoryMsg =async (history,groupid)=>{ //gets history messages work's only ones
+
+        console.log('history===>>>>',history)
         let messages = []
         messages = [...history.messages]
         messages.sort((a,b)=>a.time - b.time)
+        console.log('messages==>>>',messages)
         dispatch(addHistoryMsg({id:groupid,messages:messages}))
         setFetch(true)
         handleProgress('fetch history', 30)

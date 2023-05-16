@@ -3,7 +3,7 @@ import {useEffect, useRef, useState} from "react";
 import {clearMsg, resetChatState, useGetChatTokenQuery} from "../../store";
 import { useSelector, useDispatch } from "react-redux";
 import { getPermName } from "../../utils/permissions";
-import { useGetFullUsersByCaseQuery, addPerticipents,setOnlineUsers,setUserAttribute,clearAllPerticipents, useLazyGetMyMediatorQuery,setStartChat,removeParticepentByAgoraName, useLazyInvalidateCaseTagQuery } from "../../store";
+import { useGetFullUsersByCaseQuery, addPerticipents,setOnlineUsers,setUserAttribute,clearAllPerticipents, useLazyGetMyMediatorQuery,setStartChat,removeParticepentByAgoraName } from "../../store";
 import { useNavigate } from "react-router-dom";
 
 
@@ -33,6 +33,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         event.returnValue = ''
 
        await handleDisconnectHelper()
+       
     }
     
     const handleDisconnectHelper= async ()=>{
@@ -175,8 +176,18 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         //     },
         // onDisconnected:()=>handleConnectionMsg('disconnect')
     })
-    window.addEventListener('popstate',handleDisconnectHelper)
-    window.addEventListener('beforeunload',handleDisconnectHelper)
+
+    useEffect(()=>{
+        window.addEventListener('popstate',handleDisconnect)
+        window.addEventListener('beforeunload',handleDisconnect)
+
+        return ()=>{
+            window.removeEventListener('beforeunload', handleDisconnect);
+            window.removeEventListener('popstate', handleDisconnect);
+        }
+
+    },[])
+  
     
     //====================
 
@@ -256,9 +267,14 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
                     sender:ext.sender,
                 }
         }
+
         const message = WebIM.message.create(option)
-        WebIM.conn.send(message)
+        WebIM.conn.send(message).then(()=>{
+            dispatch(clearMsg())
+
+        })
     };
+
     const getHistoryMsg =async ()=>{
       
       await groups.forEach(group=>{
