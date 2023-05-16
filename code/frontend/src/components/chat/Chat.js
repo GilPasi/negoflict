@@ -273,7 +273,6 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
             dispatch(clearMsg())
         })
     };
-    console.log(messageDetail)
 
     const getHistoryMsg =async ()=>{
       
