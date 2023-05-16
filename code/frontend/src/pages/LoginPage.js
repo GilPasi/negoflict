@@ -45,6 +45,8 @@ const LoginPage=()=>{
     const loginHref = isMediator?'Login as User': 'Login as Mediator'
     const WasMounts = useRef(false)
     const { access, role } = useSelector(state=>state.user)
+    const hasCaseId = localStorage.getItem('case_id') || null
+    const hasGroups = localStorage.getItem('groups') || null
     //==========
   
     //apiHooks=====
@@ -54,20 +56,30 @@ const LoginPage=()=>{
     const [fetch_logout] = useLazyLog_outQuery()
     
     //********
+
+    useEffect(()=>{
+        if(hasCaseId)
+            localStorage.removeItem('case_id')
+        if(hasGroups)
+            localStorage.removeItem('groups')
+
+    },[])
     
 
     //useEffect=======
     useEffect(()=>{
-        if(WasMounts.current)return
+        // if(WasMounts.current)return
         if(is_logout===true){
             dispatch(logout())
             fetch_logout()
             persistor.purge()
+            persistor.flush()
             return
         }
 
         isLogin()
     },[]);
+    
     useEffect(()=>{
         setFormData(baseData)
     },[isMediator])
@@ -159,6 +171,9 @@ const LoginPage=()=>{
     
     const submitLogin =async (data,checkprop)=>{
 
+        if(access){
+            dispatch(logout())
+        }
         const {data:access_data,error:errorToken} = await fetchToken(data)
        
         
