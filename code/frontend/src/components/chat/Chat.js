@@ -44,7 +44,6 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         dispatch(clearMsg())
         dispatch(resetChatState())
         dispatch(clearAllPerticipents())
-        .catch(err=>console.log(err))
         dispatch(setStartChat(false))
 
         await WebIM.conn.close()
@@ -176,8 +175,8 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         //     },
         // onDisconnected:()=>handleConnectionMsg('disconnect')
     })
-    window.addEventListener('popstate',handleDisconnect)
-    window.addEventListener('beforeunload',handleDisconnect)
+    window.addEventListener('popstate',handleDisconnectHelper)
+    window.addEventListener('beforeunload',handleDisconnectHelper)
     
     //====================
 

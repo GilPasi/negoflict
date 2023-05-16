@@ -91,12 +91,6 @@ const CreateUserWraper = ()=>{
     if (groups.length > 0 && idCase) {
       setDisableSubmit(false);
     }
-    if(!idCase)
-    setIdCase(localStorage.getItem('case_id') || null)
-
-    if(groups.length==0)
-      setGorups(JSON.parse(localStorage.getItem('groups')) || [])
-
   }, [groups, idCase]);
 
 
@@ -185,6 +179,12 @@ const CreateUserWraper = ()=>{
     //handlers===========
     const handleSubmit =async(event)=>{
         event.preventDefault()
+        if(!idCase)
+        setIdCase(localStorage.getItem('case_id') || null)
+  
+      if(groups.length==0)
+        setGorups(JSON.parse(localStorage.getItem('groups')) || [])
+        
         const arrUser = userData
         const isExistEmail =await validateSubmit({users:arrUser})
         console.log('email is ',isExistEmail)
