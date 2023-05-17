@@ -35,7 +35,7 @@ const AdminMenu = ()=>{
                 <Link to='' style={{borderRadius:'2em' , margin:'10px'}}>
                     <Button text='Massege to Mediator' size='medium' margin='0'/>
                 </Link>
-                <Link to='' style={{borderRadius:'2em' , margin:'10px'}}>
+                <Link to='statistics' style={{borderRadius:'2em' , margin:'10px'}}>
                     <Button text='Statistics' size='medium' margin='0'/>
                 </Link>
         
