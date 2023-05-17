@@ -51,11 +51,14 @@ const CreateUserWraper = ()=>{
     const [validation,setValidation] = useState({isValid:true, errorMsg:''})
   //===========
 
+
+  //Hen this cause exception
   //useEffects==========
     useEffect(()=>{
       const val =side==='A'?0:1
       setSideVal(val)
     },[side]);
+  
   
   useEffect(() => {
     const unsubscribe = store.subscribe(() => {
@@ -83,6 +86,7 @@ const CreateUserWraper = ()=>{
     };
   }, []);
 
+
   useEffect(() => {
     if (groups.length > 0 && idCase) {
       setDisableSubmit(false);
@@ -90,13 +94,7 @@ const CreateUserWraper = ()=>{
   }, [groups, idCase]);
 
 
-  useEffect(()=>{
-    if(!idCase)
-      setIdCase(localStorage.getItem('case_id') || null)
-
-    if(groups.length==0)
-      setGorups(JSON.parse(localStorage.getItem('groups')) || [])
-  },[groups,idCase])
+  
 
   
     //================
@@ -106,7 +104,6 @@ const CreateUserWraper = ()=>{
     const handleChange = (event) => {
         const { name, value } = event.target
         const index = sideVal
-        console.log(userData)
       
         setUserData(prevState => {
           const prevData = [...prevState]
@@ -182,6 +179,12 @@ const CreateUserWraper = ()=>{
     //handlers===========
     const handleSubmit =async(event)=>{
         event.preventDefault()
+        if(!idCase)
+        setIdCase(localStorage.getItem('case_id') || null)
+  
+      if(groups.length==0)
+        setGorups(JSON.parse(localStorage.getItem('groups')) || [])
+        
         const arrUser = userData
         const isExistEmail =await validateSubmit({users:arrUser})
         console.log('email is ',isExistEmail)

@@ -50,6 +50,7 @@ const perticipentSlice = createSlice({
                 }
             })
         },
+
         addNewParticipent: (state, action) => {
             const existingParticipant = state.find(
               (participant) => participant.id === action.payload.id

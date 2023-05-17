@@ -60,6 +60,7 @@ const CreateMediatorWrapper = ()=>{
         const {data, error} =await isUsernameExist({username:username})
         const response = data ?? error
         
+        console.log(response)
         if(response !== 'not found' && response !== false)return
         const phoneNumber = formData['phoneNumber']
         const residentData = {

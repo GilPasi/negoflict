@@ -145,7 +145,7 @@ const ChatView = ({
                'Shuttle mode is active, users can only send you private messages'}
             </p>
                 <header className='cp--header'>
-                    <Header isLarge={false}/>
+                    <Header isLarge={false} unconnected={true}/>
                     <ToolBar 
                         handleSelctedUser={handleSelctedUser}
                         conflictName="A political conflict" 

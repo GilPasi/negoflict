@@ -5,7 +5,7 @@ import LoadinBar from '../general/LoadingBar';
 import '../../styles/components/loading_bar.css'
 //Note that all styles of the list is done in the component
 
-const MessageList =( { activeGroup ,maxHeight, isLoading,progress, task,chatStart} )=> {
+const MessageList =( {activeGroup ,maxHeight, isLoading,progress, task,chatStart} )=> {
  
   const messagesEndRef = useRef(null);
   const {id} = useSelector(state=>state.user)

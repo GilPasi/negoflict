@@ -1,9 +1,9 @@
 import WebIM from "../../WebIM";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useRef} from "react";
 import {clearMsg, resetChatState, useGetChatTokenQuery} from "../../store";
 import { useSelector, useDispatch } from "react-redux";
 import { getPermName } from "../../utils/permissions";
-import { useGetFullUsersByCaseQuery, addPerticipents,setOnlineUsers,setUserAttribute,clearAllPerticipents, useLazyGetMyMediatorQuery,setStartChat,removeParticepentByAgoraName, useLazyInvalidateCaseTagQuery } from "../../store";
+import { useGetFullUsersByCaseQuery, addPerticipents,setOnlineUsers,setUserAttribute,clearAllPerticipents, useLazyGetMyMediatorQuery,setStartChat,removeParticepentByAgoraName } from "../../store";
 import { useNavigate } from "react-router-dom";
 
 
@@ -28,25 +28,23 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     //state==========
     const messageDetail = useSelector(state=>state.message)
 
-    const handleDisconnect =async (event)=>{
-        event.preventDefault()
-        event.returnValue = ''
+    // const handleDisconnect =async (event)=>{
+    //     event.preventDefault()
+    //     event.returnValue = ''
 
-       await handleDisconnectHelper()
-
+    //    await handleDisconnectHelper()
        
-    }
+    // }
     
-    const handleDisconnectHelper=async ()=>{
+    const handleDisconnectHelper= async ()=>{
         if(!WebIM.conn.isOpened())return
         wasRenderd.current = false
         if(roleName ==='mediator')
             WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
+        await WebIM.conn.publishPresence({description:'offline'})
         dispatch(clearMsg())
         dispatch(resetChatState())
         dispatch(clearAllPerticipents())
-        await WebIM.conn.publishPresence({description:'offline'})
-        .catch(err=>console.log(err))
         dispatch(setStartChat(false))
 
         await WebIM.conn.close()
@@ -178,8 +176,18 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         //     },
         // onDisconnected:()=>handleConnectionMsg('disconnect')
     })
-    window.addEventListener('popstate',handleDisconnect)
-    window.addEventListener('beforeunload',handleDisconnect)
+
+    useEffect(()=>{
+        window.addEventListener('popstate',handleDisconnectHelper)
+        window.addEventListener('beforeunload',handleDisconnectHelper)
+
+        return ()=>{
+            window.removeEventListener('beforeunload', handleDisconnectHelper);
+            window.removeEventListener('popstate', handleDisconnectHelper);
+        }
+
+    },[])
+  
     
     //====================
 
@@ -259,9 +267,13 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
                     sender:ext.sender,
                 }
         }
+
         const message = WebIM.message.create(option)
-        WebIM.conn.send(message)
+        WebIM.conn.send(message).then(()=>{
+            dispatch(clearMsg())
+        })
     };
+
     const getHistoryMsg =async ()=>{
       
       await groups.forEach(group=>{

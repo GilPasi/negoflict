@@ -132,7 +132,7 @@ const ChatPage = ()=>{
         const {to, type} = msg
         if(type !== 'groupChat')return
         HandleNotification(to)
-        if(msg['id']=== chat.messages[chat.messages.length -1]['id'])
+        if(msg?.id=== chat?.messages[chat.messages.length -1]?.id)
             return
 
             const modifiedObject = {
@@ -153,9 +153,12 @@ const ChatPage = ()=>{
        };
 
     const handleHistoryMsg =async (history,groupid)=>{ //gets history messages work's only ones
+
+        console.log('history===>>>>',history)
         let messages = []
         messages = [...history.messages]
         messages.sort((a,b)=>a.time - b.time)
+        console.log('messages==>>>',messages)
         dispatch(addHistoryMsg({id:groupid,messages:messages}))
         setFetch(true)
         handleProgress('fetch history', 30)

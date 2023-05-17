@@ -68,6 +68,10 @@ a:hover{
   align-items: center;
   flex-direction: column;
 }
+.aligner{
+  display: flex;
+  align-items: center;
+}
 
 .warning{
     color:var(--red-warning);

@@ -32,8 +32,8 @@ const UserPanel=({
             WebIM.conn.updateGroupAnnouncement(option).then(res => console.log(res))
        }
            
-
-       WebIM.conn.close()
+       await WebIM.conn.publishPresence({description:'offline'})
+       await WebIM.conn.close()
        
 
        if(roleName==='user')
