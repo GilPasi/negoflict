@@ -1,6 +1,6 @@
 import "../../../styles/pages/statistics_page.css"
 import Header from "../../../components/general/Header.js"
-import {useState} from "react"
+import {useState , useEffect} from "react"
 
 const StatisticsPage = (category)=> {
     const usersThs = ["First Name" , "Last Name" , "User Name" , "Role" , "Creation" , "Cases"]
@@ -104,34 +104,61 @@ const StatisticsPage = (category)=> {
                 </tr>)}
             </tbody>
         </table> 
-        const messagesTable =                 
-            <table className="sp--table">
-                <thead>
-                    <tr>
-                        {messagesThs.map(cat=>(<th>{cat}</th>))}{/*Category*/}
-                    </tr>
-                </thead>
-            <tbody>
-            {messagesTds.map(msg => <tr>
-                <td>{msg.sender_first_name}{pre}{msg.sender_last_name}</td>
-                <td>{msg.side}</td>
-                <td>{msg.send_time}</td>
-                <td>{msg.content}</td>
-                <td>{msg.case_id}</td>
-            </tr>)}
-        </tbody>
-    </table> 
-    const [currentTable ,setCurrentTable] = useState(0)
 
+        const messagesTable =                 
+                <table className="sp--table">
+                    <thead>
+                        <tr>
+                            {messagesThs.map(cat=>(<th>{cat}</th>))}{/*Category*/}
+                        </tr>
+                    </thead>
+                <tbody>
+                {messagesTds.map(msg => <tr>
+                    <td>{msg.sender_first_name}{pre}{msg.sender_last_name}</td>
+                    <td>{msg.side}</td>
+                    <td>{msg.send_time}</td>
+                    <td>{msg.content}</td>
+                    <td>{msg.case_id}</td>
+                </tr>)}
+            </tbody>
+        </table> 
+    const [currentTable ,setCurrentTable] = useState(0)
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    
+    //Address changing perspective
+    useEffect(() => {
+      setWindowWidth(window.innerWidth);
+  
+      const handleResize = () => {
+        setWindowWidth(window.innerWidth);
+        if(windowWidth < 767)
+            setCurrentTable(0);
+      };
+  
+      window.addEventListener('resize', handleResize);
+        return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }, []);
+
+    let tableName = "View users"
+    switch(currentTable){
+        case 0 : 
+        tableName = "View Cases"
+        break;
+        default :
+        tableName = "View Users"
+    }
+     
     return(
     <article className="page middle sp">
         <Header isLarge={false}/>
-             <h1 className="title-large">View Users</h1>
-                <div className="middle">
+             <h1 className="title-large">{tableName}</h1>
+                <div>
                     <button 
                         class="sp--arrow-btn"
                         onClick={()=>setCurrentTable(1)}
-                        id="sp--right-arrow"
+                        style={{transform:`rotate(calc(-1*var(--btn-rotation)))`}}
                     >
                         <span class="left-arm"/>
                         <span class="right-arm"/>
@@ -140,13 +167,13 @@ const StatisticsPage = (category)=> {
                     <button
                         class="sp--arrow-btn"
                         onClick={()=>setCurrentTable(0)}
-                        id="sp--left-arrow"
-                    >
-                    <span class="left-arm"/>
-                    <span class="right-arm"/>
-                    <span class="arrow-slide"/>
-                </button>
+                        style={{transform:`rotate(calc(1*var(--btn-rotation)))`}}
 
+                    >
+                        <span class="left-arm"/>
+                        <span class="right-arm"/>
+                        <span class="arrow-slide"/>
+                    </button>
                 </div>
            
                 <div className="sp--table-scope">
@@ -160,6 +187,16 @@ const StatisticsPage = (category)=> {
                         </div>
                    
                     </div> 
+                </div>
+
+                <div className="sp--download">
+                    <img
+                        id="sp--download-img"
+                        className="user-panel--img"
+                        src="../../../assets/images/save_icon.png" 
+                        alt="menu symbol"
+                    />  
+                    <h5>Download</h5>
                 </div>
 
     </article>)}

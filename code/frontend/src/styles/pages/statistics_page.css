@@ -1,10 +1,12 @@
 .sp{
     --frame-size :600px ;
+    --btn-rotation : 90deg;
 }
 
 @media (max-width: 767px) {
     .sp{
-    --frame-size : 360px;}
+    --frame-size : 360px;
+}
 }
 .sp--table-scope{
     width: calc(var(--frame-size));
@@ -143,17 +145,21 @@
 
   
   
-  .sp--arrow-btn {
-    height: 40px;
-    width: 40px;
-    display: block;
-    border: 1px solid #666;
-    position: relative;
-    cursor: pointer;
-    
-    transition: all 0.5s cubic-bezier(0.25, 1.7, 0.35, 1.5);
-    overflow: hidden;
-  }
+.sp--arrow-btn {
+height: 40px;
+width: 40px;
+border: none;
+background-color:transparent;
+position: relative;
+cursor: pointer;
+transition: all 0.5s cubic-bezier(0.25, 1.7, 0.35, 1.5);
+overflow: hidden;
+}
+@media (max-width: 767px) {
+    .sp--arrow-btn{display: none}
+}
+
+
   
   .left-arm {
     position: absolute;
@@ -168,7 +174,7 @@
   
   .left-arm:after {
     content: "";
-    background-color: #666;
+    background-color: var(--green-dark);
     width: 20px;
     height: 1px;
     display: block;
@@ -192,7 +198,7 @@
   
   .right-arm:after {
     content: "";
-    background-color: #666;
+    background-color: var(--green-dark);
     width: 20px;
     height: 1px;
     display: block;
@@ -214,4 +220,44 @@
     transform: rotate(10deg);
   }
   
+.sp--download{
+    width:2em;
+    margin-left:1em;
+    margin-right:1em;
+    margin-bottom: 0 ;
+    transition:300ms;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 30px;
+
+}
+.sp--download:active{
+    opacity:0.7;
+    transform:scale(1.2);
+
+
+}
+
+
+.sp--download h5{
+    margin:0;
+    text-align: center;
+    margin-left: 0.5em;
+}
+
+.user-panel--img{
+    width:100%;
+}
+#sp--download-img{
+    transform: scale(1);
+
+}
+
+
+
+
+
+
 
