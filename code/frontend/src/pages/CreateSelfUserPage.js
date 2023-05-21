@@ -6,8 +6,10 @@ import Button from "../components/general/Button"
 import { useRegisterOneUserMutation,useCreateContactMutation,useCreateUsersMutation,useLazyIsEmailExistQuery } from "../store"
 import { useSelector } from "react-redux"
 import "../styles/pages/create_self_page.css"
+import useValidateData from "../hooks/useValidate"
 
 const CreateSelfUser = ({fulfiled,goBack})=>{
+    const {clearValidate,validateData} = useValidateData()
     const [formData,setFormData] = useState({})
     const [valid,setValid] = useState(true)
     const [registerUser] = useRegisterOneUserMutation()
@@ -21,6 +23,8 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
             setValid(false)
     },[formData])
 
+    console.log(formData)
+
     
     const handleChange = (event)=>{
         const {name, value} = event.target
@@ -30,6 +34,7 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
     const handleSubmit =async (event)=>{
         console.log("HERE")
         event.preventDefault()
+        if(!validateData(formData,'createUser'))return
         const {phoneNumber,email,first_name, last_name} = formData
         const modEmail = email.replace(/[^\w\s]/gi, '')
         const modPass = `Negoflict${phoneNumber}`
@@ -40,6 +45,8 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
               console.log(`this email ${email} is already exist \n`)
               return
           }
+
+          console.log('askdfkasdkfasdfasd',formData)
 
         registerUser({username:modEmail,password:modPass,first_name:first_name})
         .catch(err=>console.log(err))
@@ -57,6 +64,8 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
         })
         .catch(err=>console.log(err))
     }
+
+    
 
 
     return(

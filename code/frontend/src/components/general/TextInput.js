@@ -36,8 +36,8 @@ const  TextField=({type,placeHolder,
    
 
     return(
-        <div id={id || ''}>
-        <section  className="text-input">
+        <div >
+        <section   className="text-input">
             
             {!(userReacted)&&!(_valid)&&
             <label 
@@ -47,6 +47,7 @@ const  TextField=({type,placeHolder,
             >
                 {_warnText}
             </label>}
+            <div id={id || ''}></div>
             <input 
                 ref={parentRef}
                 name={name}

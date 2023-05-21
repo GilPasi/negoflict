@@ -4,6 +4,7 @@ import DropdownSelector from '../../components/general/DropdownSelector.js'
 import { AREA_CODES } from '../../utils/data'
 
 
+
 const UserForm =({goBack,
         next,handleChange,
     userData,isMediator,errorMsg,required})=>{
@@ -14,10 +15,11 @@ const UserForm =({goBack,
     }
 
     return(
-            <article className="centerizer">
+            <article className="centerizer" >
                 <div className="aup--grid">
                     <div className="aup--grid-row">
                         <TextInput
+                            id='first_name'
                             placeHolder="First Name"
                             name="first_name"
                             value={userData?.first_name || ''}
@@ -32,6 +34,7 @@ const UserForm =({goBack,
  
                     <div className="aup--grid-row">
                         <TextInput
+                            id='last_name'
                             placeHolder="Last Name"
                             name="last_name"
                             value={userData?.last_name || ''}
@@ -58,6 +61,7 @@ const UserForm =({goBack,
 
                     <div className="aup--grid-phone-number">
                         <TextInput
+                            id='phoneNumber'
                             placeHolder="Phone"
                             name="phoneNumber"
                             value={userData?.phoneNumber || ''}
@@ -73,6 +77,7 @@ const UserForm =({goBack,
 
                     <div className="aup--grid-row">
                         <TextInput
+                            id='email'
                             placeHolder="Email"
                             name="email"
                             value={userData?.email || ''}
