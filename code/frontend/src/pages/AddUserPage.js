@@ -141,6 +141,7 @@ const AddUserPage =({side,idCase,goBack,
                             length="100%"
                             align="left"
                             inGrid={true}
+                            type="email"
                         />
 
                     </div>

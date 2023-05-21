@@ -8,16 +8,14 @@ const UserForm =({goBack,
         next,handleChange,
     userData,isMediator,errorMsg,required})=>{
 
-
-        const validateForm =()=>{ // validate user properties           
-          
-            next()
-        }
+    const validateForm =()=>{ // validate user properties           
+        
+        next()
+    }
 
     return(
             <article className="centerizer">
                 <div className="aup--grid">
-                  
                     <div className="aup--grid-row">
                         <TextInput
                             placeHolder="First Name"
@@ -82,6 +80,7 @@ const UserForm =({goBack,
                             length="100%"
                             align="left"
                             inGrid={true}
+                            type="email"
                         />
                     </div>
                 </div>

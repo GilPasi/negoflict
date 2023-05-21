@@ -1,6 +1,7 @@
 import "../../styles/components/button.css"
 
-const Button=({text , size, margin,type,onClick,color,length, disabled,altitude})=>{
+const Button=({text , size, margin,type,onClick,color,length, disabled,altitude,
+                disableSubmit})=>{
     let _width, _height
 
     switch(size){
@@ -33,6 +34,7 @@ const Button=({text , size, margin,type,onClick,color,length, disabled,altitude}
 
     return(
         <button 
+            type = {disableSubmit&&"button"}
             className={disabled?'btn-disable':"btn-active"}
             style={style}
             onClick={onClick}
