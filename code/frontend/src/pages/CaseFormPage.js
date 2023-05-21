@@ -88,10 +88,12 @@ const CaseFormPage = () =>{
         if(!data[key] || data[key].trim()==='' || data[key]===undefined){
             let label = document.createElement('label')
             label.style.position = 'absolute'
-            label.style.left = '20%'
+            label.style.left = '35%'
             label.style.margin = '0'
             label.style.color = 'red'
             label.style.marginTop = '-15px'
+            label.style.translate = 'transform(-30%)'
+
            
             label.innerText = `${key} is missing`
             label.id = `${key}_error`
