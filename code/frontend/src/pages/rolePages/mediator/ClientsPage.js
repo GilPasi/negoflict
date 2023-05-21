@@ -3,6 +3,8 @@ import ScrollableBox from "../../../components/general/ScrollableBox"
 import PlusButton from "../../../components/general/PlusButton"
 import { useGetContactsQuery } from "../../../store" 
 import { useSelector } from 'react-redux'
+import {useState , useEffect} from 'react'
+
 
 
 const ClientsPage = ()=>{
@@ -12,13 +14,33 @@ const ClientsPage = ()=>{
     if(list)
         console.log(list)
 
+    const [isAllClients , setIsAllClients] = useState( false);
+
+    useEffect(()=>{
+        //Hen: implement fetching
+
+
+    },[isAllClients])
+
+    const titleStyle = {
+        margin:"0",
+        display:"inline",
+    }
+
     return(
         <article className="middle page">
             <Header/>
-            <h1>My Clients</h1>
+                <div 
+                    role="button"
+                    class="switch-arrow"
+                    onClick={()=>setIsAllClients(prevState=>!prevState)}
+                />
+                <h1 style={titleStyle}>{isAllClients ?'All Clients' : 'My Clients'}</h1>
+
             {list&&<ScrollableBox list={list} hasExit={true}/>}
             <PlusButton to='create_user'/>
         </article>
     )
 }
 export default ClientsPage
+
