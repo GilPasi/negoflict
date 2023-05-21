@@ -2,7 +2,7 @@ import "../styles/pages/login_page.css"
 import Header from "../components/general/Header"
 import TextInput from "../components/general/TextInput"
 import Button from '../components/general/Button'
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch,  } from 'react-redux'
 import { login } from '../store/index'
 import { useNavigate } from "react-router-dom"
@@ -43,7 +43,6 @@ const LoginPage=()=>{
 
     //values========
     const loginHref = isMediator?'Login as User': 'Login as Mediator'
-    const WasMounts = useRef(false)
     const { access, role } = useSelector(state=>state.user)
     const hasCaseId = localStorage.getItem('case_id') || null
     const hasGroups = localStorage.getItem('groups') || null
@@ -132,10 +131,10 @@ const LoginPage=()=>{
                 return
             }
         
-        const {data:dataNewAcces,error:errorNewAcces, isSuccess:getNewAccessSuccess} = await getNewAccess()
+        const {data:dataNewAcces,error:errorNewAcces} = await getNewAccess()
         if(dataNewAcces)
             console.log(dataNewAcces)
-            submitByAccessToken(dataNewAcces['access'])
+            await submitByAccessToken(dataNewAcces['access'])
 
         if(errorNewAcces){
             console.log(errorNewAcces)
@@ -185,7 +184,7 @@ const LoginPage=()=>{
 
         let {data:user, error:errorUser} =await fetchUser({username:formData.username,access:access_data.access})
 
-        if(user.email !== checkprop){
+        if(user.email.toLowerCase() !== checkprop.toLowerCase()){
             setValidity({isValid:false, errorMsg:'Email do not match'})
             console.log('email not match')
 
@@ -193,7 +192,7 @@ const LoginPage=()=>{
         } //email or username not match
 
         if(errorUser){
-            console.log('user fetchin  error',errorUser)
+            console.log('user fetching error',errorUser)
             return
         }
       
@@ -204,7 +203,7 @@ const LoginPage=()=>{
         dispatch(login(user))
 
 
-        if(user.first_logged){  //if it is a user and it is his first login he must to change default password unless he dosent the mediator or other users can know his password because he will login with his email and phone number
+        if(user.first_logged){  //if it is a user, and it is his first login he must change default password unless he doesn't the mediator or other users can know his password because he will login with his email and phone number
             const newPassword =await changePasswordPop()
             
             if(!newPassword.value)return
@@ -291,6 +290,7 @@ const LoginPage=()=>{
             />
             <div className="flexbox">
                 <input  type="checkbox" id="lp--checkbox"/>
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <label htmlFor="lp--checkbox">Disclaimer Lorem ispum dolor T&C <a href="#"> Link</a></label>
             </div>
                         

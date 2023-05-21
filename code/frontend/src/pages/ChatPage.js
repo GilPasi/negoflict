@@ -40,7 +40,6 @@ const ChatPage = ()=>{
     const {pos} = useSelector(state=>state.pos)
     const chat = useSelector(state=>state.chat[activeGroup])
     const centerGroup = groups.find(group => group.groupname.endsWith('G'));
-    console.log('chat',chat)
     //=============
     //apiFetch==========
     const {data,error, isSuccess, isFetching} =useGetChatGroupsQuery({CaseId:caseId}) 
@@ -186,6 +185,7 @@ const ChatPage = ()=>{
 
     const HandleNotification = (to)=>{
         const {groupA, groupB, groupG} = allChatGroups
+        console.log('addChattt',allChatGroups)
         let groupArray =[]
 
         if(groupA.id!=='')
