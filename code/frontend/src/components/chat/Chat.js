@@ -23,24 +23,23 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     // const [hasKicked,setHesKicked] = useState(null)
     const hasKicked = useRef(null);
     var kikOutTimeout;
+    const isOpened = useRef(false)
+    
    
     //===========
     //state==========
     const messageDetail = useSelector(state=>state.message)
 
-    // const handleDisconnect =async (event)=>{
-    //     event.preventDefault()
-    //     event.returnValue = ''
-
-    //    await handleDisconnectHelper()
-       
-    // }
-    
-    const handleDisconnectHelper= async ()=>{
-        if(!WebIM.conn.isOpened())return
+    //functions===================
+    const handleDisconnect =async ()=>{
+        console.log(isOpened.current)
+        if(!isOpened.current)return
         wasRenderd.current = false
+        window.removeEventListener('beforeunload', handleDisconnect);
+        window.removeEventListener('popstate', handleDisconnect);
+        WebIM.conn.removeEventHandler('negoflict')
         if(roleName ==='mediator')
-            WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
+           await WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
         await WebIM.conn.publishPresence({description:'offline'})
         dispatch(clearMsg())
         dispatch(resetChatState())
@@ -48,16 +47,102 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         dispatch(setStartChat(false))
 
         await WebIM.conn.close()
-    }
-   
+    };
+    const addEvents = ()=>{
+      WebIM.conn.addEventHandler('hen',{
+        onGroupEvent: msg=>handleGroupEvent(msg),
+        onConnected: (res)=>{
+            handleProgress('fetching messages', 30)
+            onConnect(true)
+            getHistoryMsg()
+            getGroupsInfo()
+            if(roleName==='mediator')
+                handleChatStart()
+            else
+                getiStartChat()
 
-    //useEffect=========
+        },
+        onPresenceStatusChange: res=>setParticipentsChange(res),
+        onError:err=>console.log('error',err),
+        onDisconnected:()=>onConnect(false),
+        onTextMessage:msg=>onTextMsg(msg)
+
+    })
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+     const connect =async ()=>{
+         await WebIM.conn.open({
+            user:username,
+            agoraToken: tokenRes?.data?.userToken
+        })
+
+        isOpened.current = true
+    };
+        const postNewMessage =async ()=>{
+        if(!isOpened)return
+
+        const {ext,msg,to} = messageDetail
+
+        const option = {
+            chatType:'groupChat',
+                type:'txt',
+                to:to,
+                msg:msg,
+                ext:{
+                    name:ext?.name,
+                    color:ext?.color,
+                    side:ext?.side,
+                    userId:ext?.userId,
+                    sender:ext.sender,
+                }
+        }
+
+        const message = WebIM.message.create(option)
+            WebIM.conn.send(message).then(()=> dispatch(clearMsg()))
+        };
+
+        const handleChatStart = ()=>{
+        let option = {
+            groupId: centerGroup.groupid,
+            announcement: "chat_start"
+        };
+        WebIM.conn.updateGroupAnnouncement(option).then(res =>dispatch(setStartChat(true)))
+    };
+        const getiStartChat = ()=>{
+            let option = {
+                groupId: centerGroup.groupid,
+            };
+
+            WebIM.conn.fetchGroupAnnouncement(option).then(res => {
+                if(res.data.announcement==='chat_start')
+                    dispatch(setStartChat(true))
+                else if(res.data.announcement==='chat_end')
+                    dispatch(setStartChat(false))
+        })};
+
+         const setParticipentsChange = (changes)=>{
+        changes.forEach(change=>{
+            dispatch(setUserAttribute(change))
+        })
+
+    }
+
+    //useEffects==============
     useEffect(()=>{
-        
+        if(wasRenderd.current)return
+        if(!tokenRes.isSuccess)return
+        wasRenderd.current = true
+        connect()
+        addEvents()
+        window.addEventListener('popstate',handleDisconnect)
+        window.addEventListener('beforeunload',handleDisconnect)
+    },[tokenRes]);
+
+    useEffect(()=>{
         if(groupParticipentsError){
             return
         }
-        else if(!groupParticipentsData || groupParticipentsData.length == 0)return
+        else if(!groupParticipentsData || groupParticipentsData.length === 0)return
         if(mauted.current)return
         mauted.current = true
         const perticipentArr = []
@@ -69,9 +154,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
                const modMediator = {side:'M', fullName:`${first_name} ${last_name}`,connect:false, agoraUsername:username}
                dispatch(addPerticipents([modMediator]))
             })
-        }        
-  
-        
+        }
 
         groupParticipentsData.forEach(pert=>{
             const agoraUsername = pert.user.email.replace(/[^\w\s]/gi, '')
@@ -79,24 +162,15 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
             perticipentArr.push(userMod)
         })
 
-       
-
         dispatch(addPerticipents(perticipentArr))
-    },[groupParticipentsData,groupParticipentsError])
-
-    useEffect(()=>{
-        if(wasRenderd.current)return
-        if(!tokenRes.isSuccess)return
-        wasRenderd.current = true
-        connect()      
-    },[tokenRes]);
+    },[groupParticipentsData,groupParticipentsError]);
 
     useEffect(()=>{
       if(!messageDetail || messageDetail.msg==='')return
         postNewMessage()
     },[messageDetail]);
 
-    useEffect(()=>{
+     useEffect(()=>{
         if(isShuttled===null)return
         if(!WebIM.conn.isOpened())return
         if(isShuttled)
@@ -105,111 +179,13 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         else
             WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
             .catch(err=>console.log(err))
-            
+
     },[isShuttled])
-    //=========== 
-
-    //listeners==========
-    WebIM.conn.listen({
-        onClosed: ()=>onConnect(false),
-        onOpened: ()=>{
-            handleProgress('connecting', 10)
-            onConnect(true)
-            getHistoryMsg()
-            getGroupsInfo()
-            if(roleName==='mediator')
-                handleChatStart()
-            else
-                getiStartChat()
+    //==================
 
 
-            },
-        onTextMessage: msg=>onTextMsg(msg),
-       
-    });
 
-    const handleChatStart = ()=>{
-        dispatch(setStartChat(true))
-        let option = {
-            groupId: centerGroup.groupid,   
-            announcement: "chat_start"                       
-        };
-        WebIM.conn.updateGroupAnnouncement(option).then(res => console.log(res))
-    }
-    // useEffect(()=>{
-    //     if(usersAtribute.length == 0)return
-    //     const persOnline = usersAtribute.filter(item=>item.ext === 'online')
-
-    const getiStartChat = ()=>{
-        let option = {
-            groupId: centerGroup.groupid,
-        };
-        WebIM.conn.fetchGroupAnnouncement(option).then(res => {
-            console.log('groupaNNONCE',res)
-            if(res.data.announcement==='chat_start')
-                dispatch(setStartChat(true))
-            else if(res.data.announcement==='chat_end')
-                dispatch(setStartChat(false))
-    })
-
-    }
-
-        
-
-    // },[usersAtribute,perticipentArray])
-
-    
-
-    WebIM.conn.addEventHandler('hen',{
-        onGroupEvent: msg=>handleGroupEvent(msg),
-        onOnline: (res)=>{  
-            handleProgress('fetching messages', 30)
-            console.log('connected',res)
-        },
-        onPresenceStatusChange: res=>setParticipentsChange(res),
-        onError:err=>console.log('error',err),
-        
-        
-        // onConnected: ()=>{
-        //     onConnect(true)
-        //     getHistoryMsg()
-        //     },
-        // onDisconnected:()=>handleConnectionMsg('disconnect')
-    })
-
-    useEffect(()=>{
-        window.addEventListener('popstate',handleDisconnectHelper)
-        window.addEventListener('beforeunload',handleDisconnectHelper)
-
-        return ()=>{
-            window.removeEventListener('beforeunload', handleDisconnectHelper);
-            window.removeEventListener('popstate', handleDisconnectHelper);
-        }
-
-    },[])
-  
-    
-    //====================
-
-    //function========
-    const setParticipentsChange = (changes)=>{
-        changes.forEach(change=>{
-            dispatch(setUserAttribute(change))
-        })
-      
-    }
-    const connect =async ()=>{
-        await WebIM.conn.open({
-            user:username,
-            agoraToken: tokenRes.data.userToken
-        }).catch(err=>console.log(err))
-
-
-        
-        // getHistoryMsg() 
-        // getGroupsInfo()  
-    };
-
+    //function 2========
     const getGroupsInfo=async()=>{
 
        await groups.forEach(group=>{
@@ -244,35 +220,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
             })
             .catch(err=>console.log(err))
         })
-
-       
-       
     }
-
-    const postNewMessage =async ()=>{
-        if(!await WebIM.conn.isOpened())return
-        
-        const {ext,msg,to} = messageDetail
-
-        const option = {
-            chatType:'groupChat',
-                type:'txt',
-                to:to,
-                msg:msg,
-                ext:{
-                    name:ext?.name,
-                    color:ext?.color,
-                    side:ext?.side,
-                    userId:ext?.userId,
-                    sender:ext.sender,
-                }
-        }
-
-        const message = WebIM.message.create(option)
-        WebIM.conn.send(message).then(()=>{
-            dispatch(clearMsg())
-        })
-    };
 
     const getHistoryMsg =async ()=>{
       
@@ -290,8 +238,6 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     }
 
     const handleGroupEvent = (msg)=>{
-        console.log('groupEvent>>>>>>',msg)
-        
         const {operation} = msg
        
         switch(operation){
@@ -307,7 +253,6 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
                 break;
             case 'destroy':
                 if(msg.id===centerGroup.groupid)
-
                     handleKikOut()
                 break;
                 
@@ -326,8 +271,6 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
                 clearTimeout(kikOutTimeout);
                 
                 break;
-
-
             default:
                 break
         }
@@ -342,7 +285,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
             return
         }
       
-          handleDisconnectHelper();
+          handleDisconnect();
       
           navigate("/user/survey_page", {
             replace: true,
@@ -351,27 +294,13 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
             },
           });
       };
-      
-      
 
-    
-    // const handleConnectionMsg = (connectionType)=>{
-    //     const option = {
-    //         chatType:'groupChat',
-    //             type:'txt',
-    //             to:centerGroup.groupid,
-    //             msg:'connectionChatAgora',
-    //             ext:{
-    //                 name:`${first_name} ${last_name}`,
-    //                 action:connectionType
-    //             }
-    //     }
-    //     const message = WebIM.message.create(option)
-    //     WebIM.conn.send(message)
-    // }
+
 
 
 }
 
 export default Chat
+
+
 

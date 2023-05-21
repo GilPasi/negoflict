@@ -128,16 +128,16 @@ const ChatPage = ()=>{
 
     //handles=============
     const handleRecivedMsg = (msg)=>{ //handle recived messages only in real time
-        console.log(msg)
-        const {to, type} = msg
-        if(type !== 'groupChat')return
+        console.log('ressssiiiii===>>mmsgg==>>>',msg)
+        const {to, chatType} = msg
+        if(chatType !== 'groupChat')return
         HandleNotification(to)
-        if(msg?.id=== chat?.messages[chat.messages.length -1]?.id)
-            return
+        // if(msg?.id=== chat?.messages[chat.messages.length -1]?.id)
+        //     return
 
             const modifiedObject = {
                 ...msg,
-                msg: msg.data,
+                msg: msg.msg,
                 time: parseInt(msg.time),
               };
               
