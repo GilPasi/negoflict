@@ -48,13 +48,13 @@ class CaseView(ModelViewSet):
             group_instance = group_chat_serializer.save()
             chat_groups.append(group_chat_serializer.data)
             
-            if i <2:
-                group_member_serializer = GroupMemberSerializer(data={'side':sides[i],'group_chat':group_instance.id,'case':case.id,'mediator':case.mediator})
-                group_member_serializer.is_valid(raise_exception=True)
-                group_member_serializer.save()
-                member_groups.append(group_member_serializer.data)
+            # if i <2:
+            #     group_member_serializer = GroupMemberSerializer(data={'side':sides[i],'group_chat':group_instance.id,'case':case.id,'mediator':case.mediator})
+            #     group_member_serializer.is_valid(raise_exception=True)
+            #     group_member_serializer.save()
+            #     member_groups.append(group_member_serializer.data)
                 
-        data = {'case':case_serializer.data,'chat_groups':chat_groups,'members_groups':member_groups}
+        data = {'case':case_serializer.data,'chat_groups':chat_groups}
         
         return Response(data,status=201)
     

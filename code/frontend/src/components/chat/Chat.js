@@ -140,6 +140,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
 
     useEffect(()=>{
         if(groupParticipentsError){
+            handleProgress('fetching',20)
             return
         }
         else if(!groupParticipentsData || groupParticipentsData.length === 0)return

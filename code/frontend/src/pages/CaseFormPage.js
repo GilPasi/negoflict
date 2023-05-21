@@ -80,7 +80,7 @@ const CaseFormPage = () =>{
         }
         addGroup(data)
         addCase(data)
-        navigate('/mediator/create_users/?side=A',{replace:true,})
+        navigate(-1,{replace:true})
     }
 
 
