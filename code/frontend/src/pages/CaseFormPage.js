@@ -63,17 +63,15 @@ const CaseFormPage = () =>{
     //handlers=======
     const handleChange = event =>{
         let {name, value} = event.target;
-        console.log('name', name);
+
     
        
         const child = document.getElementById(`${name}_error`);
-        console.log('element', child);
+      
     
-        if(child) {
-            console.log('element parentNode before removal', child.parentNode);
+        if(child) 
             child.parentNode.removeChild(child);
-            console.log('element parentNode after removal', child.parentNode);
-        }
+        
         
         if(name === 'category' && value === 'Select Areas of Mediation')
             value = null;
