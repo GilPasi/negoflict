@@ -86,16 +86,16 @@ const CaseFormPage = () =>{
        let is_valid = true
        keys.forEach(key=>{
         if(!data[key] || data[key].trim()==='' || data[key]===undefined){
-            let lable = document.createElement('label')
-            lable.style.position = 'absolute'
-            lable.style.left = '20%'
-            lable.style.margin = '0'
-            lable.style.color = 'red'
-            lable.style.marginTop = '-15px'
+            let label = document.createElement('label')
+            label.style.position = 'absolute'
+            label.style.left = '20%'
+            label.style.margin = '0'
+            label.style.color = 'red'
+            label.style.marginTop = '-15px'
            
-            lable.innerText = `${key} is missing`
-            lable.id = `${key}_error`
-            document.getElementById(key).appendChild(lable)
+            label.innerText = `${key} is missing`
+            label.id = `${key}_error`
+            document.getElementById(key).appendChild(label)
             is_valid = false
         }
        })

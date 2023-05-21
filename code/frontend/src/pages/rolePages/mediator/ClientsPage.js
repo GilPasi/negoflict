@@ -32,7 +32,7 @@ const ClientsPage = ()=>{
             <Header/>
                 <div 
                     role="button"
-                    class="switch-arrow"
+                    className="switch-arrow"
                     onClick={()=>setIsAllClients(prevState=>!prevState)}
                 />
                 <h1 style={titleStyle}>{isAllClients ?'All Clients' : 'My Clients'}</h1>
