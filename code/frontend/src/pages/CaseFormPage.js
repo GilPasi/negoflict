@@ -12,6 +12,7 @@ import { useCreateNewGroupMutation, usePost_new_caseMutation,setBand } from '../
 import { useDispatch } from "react-redux"
 import useAlert from "../hooks/useAlert"
 import Loader from "../components/general/Loader"
+import useValidateData from "../hooks/useValidate"
 
 
 const CaseFormPage = () =>{
@@ -19,6 +20,7 @@ const CaseFormPage = () =>{
     //dont change the order***************
     const dispatch = useDispatch()
     const {trigerNotification} = useAlert()
+    const {validateData,clearValidate} = useValidateData()
     //hooks=========
     const navigate = useNavigate()
     const [addGroup] = useCreateNewGroupMutation()
@@ -63,15 +65,9 @@ const CaseFormPage = () =>{
     const handleChange = event =>{
         let {name, value} = event.target;
 
-    
-       
-        const child = document.getElementById(`${name}_error`);
-      
-    
-        if(child) 
-            child.parentNode.removeChild(child);
-        
-        
+
+        clearValidate(name)
+
         if(name === 'category' && value === 'Select Areas of Mediation')
             value = null;
         
@@ -81,29 +77,7 @@ const CaseFormPage = () =>{
         }));
     }
     
-    const validateData = (data)=>{
-       const keys = Object.keys(data)
-       let is_valid = true
-       keys.forEach(key=>{
-        if(!data[key] || data[key].trim()==='' || data[key]===undefined){
-            let label = document.createElement('label')
-            label.style.position = 'absolute'
-            label.style.left = '35%'
-            label.style.margin = '0'
-            label.style.color = 'red'
-            label.style.marginTop = '-15px'
-            label.style.translate = 'transform(-30%)'
-
-           
-            label.innerText = `${key} is missing`
-            label.id = `${key}_error`
-            document.getElementById(key).appendChild(label)
-            is_valid = false
-        }
-       })
-       return is_valid
-
-    }
+   
 
     const handleSubmit =async (event) => {
         event.preventDefault()
