@@ -20,7 +20,6 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
     const dispatch = useDispatch()
     const [getMediator] = useLazyGetMyMediatorQuery()
     const navigate = useNavigate()
-    // const [hasKicked,setHesKicked] = useState(null)
     const hasKicked = useRef(null);
     var kikOutTimeout;
     const isOpened = useRef(false)
