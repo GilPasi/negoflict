@@ -1,6 +1,7 @@
 import Header from "../../../components/general/Header"
 import ScrollableBox from "../../../components/general/ScrollableBox"
 import PlusButton from "../../../components/general/PlusButton"
+import SearchBar from "../../../components/general/SearchBar"
 import { useGetContactsQuery } from "../../../store" 
 import { useSelector } from 'react-redux'
 import {useState , useEffect} from 'react'
@@ -15,6 +16,8 @@ const ClientsPage = ()=>{
         console.log(list)
 
     const [isAllClients , setIsAllClients] = useState( false);
+    const [searchRes , setSearchRes] = useState("");
+
 
     useEffect(()=>{
         //Hen: implement fetching
@@ -27,9 +30,27 @@ const ClientsPage = ()=>{
         display:"inline",
     }
 
+    const handleSearch =()=>{
+        const mocks = ["Avi", "Beni", "Gadi", "Aviram"];
+
+        const filteredMocks = mocks.filter((name) => name.includes(searchRes));
+        
+        console.log(filteredMocks); 
+        console.log(filteredMocks.length); 
+
+        //Hen : add fetch 
+
+    }
+
+
     return(
         <article className="middle page">
-            <Header/>
+            <Header />
+            <SearchBar search={searchRes} 
+            handleClick={handleSearch} 
+            handleChange={e=>setSearchRes(e.target.value)}
+            
+            />
                 <div 
                     role="button"
                     className="switch-arrow"

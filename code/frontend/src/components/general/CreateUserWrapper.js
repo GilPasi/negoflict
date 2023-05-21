@@ -305,10 +305,6 @@ const CreateUserWraper = ()=>{
         errorMsg={validation}
         />
     }
-
     </div>
-
-    )
-}
-
+)}
 export default CreateUserWraper
