@@ -8,16 +8,24 @@ import TextArea from "../components/general/TextArea"
 import {MEDIATION_CHOICES} from '../utils/data'
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { useCreateNewGroupMutation, usePost_new_caseMutation } from '../store/index'
+import { useCreateNewGroupMutation, usePost_new_caseMutation,setBand } from '../store/index'
+import { useDispatch } from "react-redux"
+import useAlert from "../hooks/useAlert"
+import Loader from "../components/general/Loader"
 
 
 const CaseFormPage = () =>{
     //status = finished
     //dont change the order***************
+    const dispatch = useDispatch()
+    const {trigerNotification} = useAlert()
     //hooks=========
     const navigate = useNavigate()
     const [addGroup] = useCreateNewGroupMutation()
     const [addCase] = usePost_new_caseMutation()
+    const [isFetching, setIsFetching] = useState(0)
+
+
     //===========
 
     //values========
@@ -54,38 +62,88 @@ const CaseFormPage = () =>{
 
     //handlers=======
     const handleChange = event =>{
-        let {name, value} = event.target
+        let {name, value} = event.target;
+        console.log('name', name);
+    
+       
+        const child = document.getElementById(`${name}_error`);
+        console.log('element', child);
+    
+        if(child) {
+            console.log('element parentNode before removal', child.parentNode);
+            child.parentNode.removeChild(child);
+            console.log('element parentNode after removal', child.parentNode);
+        }
         
-        if(name === 'category'&& value === 'Select Areas of Mediation')
-            value = null
+        if(name === 'category' && value === 'Select Areas of Mediation')
+            value = null;
         
         setFormData(prevForm=>({
             ...prevForm,
             [name] : value
-        }))
+        }));
+    }
+    
+    const validateData = (data)=>{
+       const keys = Object.keys(data)
+       let is_valid = true
+       keys.forEach(key=>{
+        if(!data[key] || data[key].trim()==='' || data[key]===undefined){
+            let lable = document.createElement('label')
+            lable.style.position = 'absolute'
+            lable.style.left = '20%'
+            lable.style.margin = '0'
+            lable.style.color = 'red'
+            lable.style.marginTop = '-15px'
+           
+            lable.innerText = `${key} is missing`
+            lable.id = `${key}_error`
+            document.getElementById(key).appendChild(lable)
+            is_valid = false
+        }
+       })
+       return is_valid
+
     }
 
     const handleSubmit =async (event) => {
         event.preventDefault()
+        if(!validateData(formData))return
         const {title,category,sub_category,problem_brief} = formData
+     
+
       
         const data = {
-            title: title,
+            title: title.trim(),
             mediator:id,
-            category:category,
-            sub_category:sub_category,
-            problem_brief:problem_brief,
+            category:category.trim(),
+            sub_category:sub_category.trim(),
+            problem_brief:problem_brief.trim(),
             access:access,
             owner:username
         }
-        addGroup(data)
-        addCase(data)
+        dispatch(setBand({band_name:'BandCase', band_state:true}))
+        setIsFetching(true)
+        Promise.all([addGroup(data), addCase(data)])
+        .then(()=>trigerNotification('created case and users','success'))
+        .catch(()=>trigerNotification('unable to create the users for that case.','error'))
+        .finally(()=>dispatch(setBand({band_name:'BandCase', band_state:false})))
+         
         navigate(-1,{replace:true})
     }
 
+    
+
 
         return(
-    
+            <div>
+                 {isFetching &&
+        <div style={{position:'fixed',zIndex:'100',width:'100%',height:'100%',opacity:'0.6',backgroundColor:'gray'}}>
+          <Loader withLogo={true} size={'medium'}/>
+        </div>
+        }
+            
+            
             <article className="cfp page">
                 <Header isLarge={false} />
                     <form onSubmit={handleSubmit} className="centerizer">
@@ -93,7 +151,8 @@ const CaseFormPage = () =>{
                         <h2 className="cfp--h2">Mediator name</h2>
                         <h3 className="cfp--m-name">{mediatorName}</h3>
                         <h2 className="cfp--h2">Conflict name</h2>
-                        <TextInput 
+                        <TextInput
+                            id='title' 
                             placeHolder="Free Text"
                             name="title"
                             onChange={handleChange}
@@ -102,6 +161,7 @@ const CaseFormPage = () =>{
                         <h2 className="cfp--h2">Choose a Category</h2>
 
                         <DropdownSelector 
+                            id='category'
                             placHolder="Select Areas of Mediation"
                             options={MEDIATION_CHOICES}
                             name="category"
@@ -111,13 +171,15 @@ const CaseFormPage = () =>{
                         />
 
                         <h2 className="cfp--h2">Subcategory</h2>
-                        <TextInput 
+                        <TextInput
+                            id='sub_category' 
                             placeHolder="Free Text"
                             name="sub_category"
                             onChange={handleChange}
                         />
 
                         <TextArea onChange={handleChange}
+                            id='problem_brief'
                             withButtons={false}
                             name='problem_brief'
                             title="The problem"
@@ -126,6 +188,7 @@ const CaseFormPage = () =>{
                         <Button size="small" text="Next" disabled={!isFilled}/>
                     </form>
             </article>
+            </div>
         )
 
 

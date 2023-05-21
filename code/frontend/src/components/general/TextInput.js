@@ -4,7 +4,7 @@ const  TextField=({type,placeHolder,
                 onChange,name,length,
                 altitude,align,parentRef,
                 value, required,isValid,
-                warnText,inGrid
+                warnText,inGrid,id
             })=>{
     const [userReacted , setUserReacted ] = useState(false)
     
@@ -36,7 +36,8 @@ const  TextField=({type,placeHolder,
    
 
     return(
-        <section className="text-input">
+        <div id={id || ''}>
+        <section  className="text-input">
             
             {!(userReacted)&&!(_valid)&&
             <label 
@@ -61,6 +62,7 @@ const  TextField=({type,placeHolder,
         
             />
         </section>
+        </div>
 
     )}
 export default TextField

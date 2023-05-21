@@ -2,11 +2,11 @@ import '../../styles/components/text_area.css'
 
 
 
-const TextArea = ({withButtons,onChange, name,title,parentRef,value})=>{
+const TextArea = ({withButtons,onChange, name,title,parentRef,value,id})=>{
 
 
     return(
-        <div>
+        <div id={id || ''}>
             <div className="ta">
             <h6>{title}</h6>
             <textarea
