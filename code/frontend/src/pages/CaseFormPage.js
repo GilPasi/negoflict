@@ -120,8 +120,7 @@ const CaseFormPage = () =>{
             <article className="cfp page">
                 <Header isLarge={false} />
                     <form onSubmit={handleSubmit} className="centerizer">
-                        <h1 className="cfp--title">New Case</h1>
-                        <h2 className="cfp--h2">Mediator name</h2>
+                        <h2 className="cfp--h2">Mediator Name</h2>
                         <h3 className="cfp--m-name">{mediatorName}</h3>
                         <h2 className="cfp--h2">Conflict name</h2>
                         <TextInput

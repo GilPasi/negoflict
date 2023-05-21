@@ -41,8 +41,6 @@ const AddUserPage =({side,idCase,goBack,
             {!window&&<header className='aup--header'>
                     <Header/>
             </header>}
-
-
                 <form className="aup--grid">
                 {isMediator ?
                     (
