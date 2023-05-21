@@ -79,14 +79,7 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
                     required={true}
                 />
                 <div className="aligner">
-                <Button 
-                      
-                        text='Submit'
-                        size='small'
-                        disabled={valid}
-                        margin="0.5em"
-
-                    />
+               
                 <Button
                         onClick={goBack}
                         text='Back'
@@ -94,6 +87,14 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
                         margin="0.5em"
                         disableSubmit={true}
                     />
+                <Button 
+                      
+                      text='Submit'
+                      size='small'
+                      disabled={valid}
+                      margin="0.5em"
+
+                  />
                 </div>
             </form>
         </article>
