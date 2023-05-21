@@ -28,6 +28,7 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
     }
 
     const handleSubmit =async (event)=>{
+        console.log("HERE")
         event.preventDefault()
         const {phoneNumber,email,first_name, last_name} = formData
         const modEmail = email.replace(/[^\w\s]/gi, '')
@@ -60,26 +61,29 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
 
     return(
         <article className="csp">
-            <form className="centerizer" >
-                <Header/>
+        <Header/>
+            <h1 className="title-large">Create a new user</h1>
+            <form className="centerizer" onSubmit={handleSubmit} >
                 <UserForm
                     userData={formData}
                     handleChange={handleChange}
                     required={true}
                 />
                 <div className="aligner">
-                    <Button 
-                        onClick={handleSubmit}
+                <Button 
+                      
                         text='Submit'
                         size='small'
                         disabled={valid}
                         margin="0.5em"
+
                     />
-                    <Button
+                <Button
                         onClick={goBack}
                         text='Back'
                         size='small'
                         margin="0.5em"
+                        disableSubmit={true}
                     />
                 </div>
             </form>
