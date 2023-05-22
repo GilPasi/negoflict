@@ -139,7 +139,7 @@ const preChatTitleStyle = {
       
 
       {messages&& messages.map(message => (
-        <div key={message.key}>
+        <div key={message.id}>
          
             <Message 
                 key={getKey(message.time)}
