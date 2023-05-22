@@ -2,7 +2,7 @@ import "../../styles/components/header.css"
 import { Link } from "react-router-dom"
  
 
-const  Header=({isLarge , unconnected})=>{
+const  Header=({isLarge , unconnected, withoutLinks})=>{
 
 
     // __UI properies__
@@ -26,20 +26,26 @@ const  Header=({isLarge , unconnected})=>{
             <div style={wrapperStyle}>
             {!unconnected && 
                 <div className="header--menu">
+                    {!withoutLinks&&
+                    <div>
                     <div >
+               
+                    
                         <button className="header--menu-button">
                             <img className="header--menu-img"
                             src="../../../assets/images/menu_symbol.png" 
                             alt="menu symbol"/>  
                         </button>
                     </div>
-
+               
                 <div className="header--menu-content" style={{zIndex:'2000'}}>
                     {/* Hen: route propely  */}
                     <Link state={{logout:true}} to="/login">Log out</Link>
                     <Link to="/">Enter chat</Link>
                     <Link to="">Settings</Link>
                 </div>
+                </div>
+                }
             </div>}
 
                 {!isLarge && <div>{title}</div>}
