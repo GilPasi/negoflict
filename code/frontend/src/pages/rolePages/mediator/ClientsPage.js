@@ -13,15 +13,6 @@ const ClientsPage = ()=>{
     const {id} = useSelector(state=>state.user)
     const {data:allUsersData, error:allUsersError, isLoading:loadingAll} = useGet_all_usersQuery()
     const {data:list, error,isFetching, isLoading} = useGetContactsQuery({mediator_id:id})
-
-    if(list){
-        console.log('list',list)
-    }
-    if(allUsersData){
-        console.log('all users',allUsersData)
-    }
-
-
     const [isAllClients , setIsAllClients] = useState( false);
     const [searchRes , setSearchRes] = useState("");
     const [userView,setUserView] = useState([])
@@ -76,10 +67,10 @@ const ClientsPage = ()=>{
         if(!(userView.length >0))return
 
         if(isAllClients)
-            filteredUsers = userView.filter(user=>user.first_name.includes(searchRes) || user.last_name.includes(searchRes))
+            filteredUsers = userView.filter(user=>user.first_name.includes(searchRes) || user.last_name.includes(searchRes) || user.email.includes(searchRes))
         
         else
-        filteredUsers = userView.filter(user=>user.user.first_name.includes(searchRes) || user.user.last_name.includes(searchRes))
+        filteredUsers = userView.filter(user=>user.user.first_name.includes(searchRes) || user.user.last_name.includes(searchRes || user.user.email.includes(searchRes)))
         
         setUserView(()=>filteredUsers)
     }

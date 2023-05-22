@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux'
 import TextHolder from '../../../components/general/TextHolder'
-import SearchBar from '../../../components/general/SearchBar'
 
 import { useGetMyCasesQuery } from '../../../store'
 import Loader from '../../../components/general/Loader'
