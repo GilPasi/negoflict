@@ -11,8 +11,8 @@ import Loader from "../../../components/general/Loader"
 
 const ClientsPage = ()=>{
     const {id} = useSelector(state=>state.user)
-    const {data:allUsersData, error:allUsersError} = useGet_all_usersQuery()
-    const {data:list, error,isFetching} = useGetContactsQuery({mediator_id:id})
+    const {data:allUsersData, error:allUsersError, isLoading:loadingAll} = useGet_all_usersQuery()
+    const {data:list, error,isFetching, isLoading} = useGetContactsQuery({mediator_id:id})
 
     if(list){
         console.log('list',list)
@@ -82,9 +82,6 @@ const ClientsPage = ()=>{
         filteredUsers = userView.filter(user=>user.user.first_name.includes(searchRes) || user.user.last_name.includes(searchRes))
         
         setUserView(()=>filteredUsers)
-
- 
-
     }
 
 
@@ -101,9 +98,11 @@ const ClientsPage = ()=>{
                 />
                 <h1 style={titleStyle}>{isAllClients ?'All Clients' : 'My Clients'}</h1>
                 {userView.length > 0 ?
-                    <ScrollableBox list={userView} hasExit={true}/>
+                    <ScrollableBox pressDetail={{title:'Are you sure you want to delete this contact', confirm:'confirm'}} list={userView} hasExit={!isAllClients}/>
                     :
-                    <Loader withLogo={true} size='medium'/>
+                    isLoading&&!isAllClients? <Loader withLogo={true} size='medium'/>: loadingAll&&isAllClients? <Loader withLogo={true} size='medium'/>:<h1>no users</h1>
+                    
+                   
                 }
 
             <PlusButton to='create_user'/>

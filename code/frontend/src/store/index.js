@@ -146,16 +146,18 @@ export const {useAddingManyUsersToOneChatGroupMutation} = adminApi
 export const {useRegisterManyUsersToGroupMemberMutation} = adminApi
 export const {useSetUserCaseAttributeMutation} = adminApi
 export const {useGetUsersByCaseQuery} = adminApi
-export const {useGet_all_usersQuery, useLazyGet_all_usersQuery} = adminApi
+
 
 //msgApi=======
 export const {usePostNewMessageMutation} = msgApi
 //=============
 
 //mediatorApi========
+export const {useGet_all_usersQuery, useLazyGet_all_usersQuery} = mediatorApi
 export const {useGet_clientsQuery,useLazyGet_clientsQuery} = mediatorApi
 export const {useGetContactsQuery,useLazyGetContactsQuery} = mediatorApi
 export const {useCreateContactMutation} = mediatorApi
+export const {useRemoveContactMutation} = mediatorApi
 
 //superUserAi========
 export const {useGetMediatorsQuery,useLazyGetMediatorsQuery} = superUserApi

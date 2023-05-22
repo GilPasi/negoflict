@@ -312,6 +312,9 @@ class ContactView(ModelViewSet):
                 return Response(serializer.data,status=status.HTTP_200_OK)
             return Response('no contacts', status=status.HTTP_404_NOT_FOUND)
         return Response('Bad request',status=status.HTTP_400_BAD_REQUEST)
+   
+   
+    
     
     
     

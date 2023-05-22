@@ -82,7 +82,7 @@ class ContactSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     class Meta:
         model = Contact
-        fields = ['user','mediator']
+        fields = ['id','user','mediator']
         
 class ContactCreateSerializer(serializers.ModelSerializer):
     class Meta:

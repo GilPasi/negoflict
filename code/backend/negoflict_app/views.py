@@ -10,6 +10,7 @@ from rest_framework import permissions as perm
 from rest_framework import status
 from django.forms.models import model_to_dict
 from .models import category
+from session.models import Contact
 
 
 
@@ -62,14 +63,20 @@ class UserView(ModelViewSet):
             except:
                 return Response('cant find user',status=status.HTTP_404_NOT_FOUND)
         return Response('id cant be null',status=status.HTTP_400_BAD_REQUEST)
+    
     @action(detail=False,methods=['GET'],permission_classes=[permissions.IsStaff])
-    def get_all_users(self,request):
-        users = User.objects.filter(is_staff=False)
+    def get_all_users_not_related(self,request):
+        
+        contact_user_ids = Contact.objects.filter(mediator=self.request.user.id).values_list('user_id', flat=True)
+        if contact_user_ids:
+            users = User.objects.filter(is_staff=False).exclude(id__in=contact_user_ids)
+        else:
+            users = User.objects.filter(is_staff=False)
         if not users:
             return Response('no users found',status=status.HTTP_404_NOT_FOUND)
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
     
         
             
