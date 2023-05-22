@@ -14,6 +14,7 @@ const MyCases = ({isMediator, open_close})=>{
     if(error)return alert('Eror refresh the page please')
     return(
         <article className="page">
+            
             <h1 className='title-large'> My cases </h1>
             <div style={{height: '45vh',overflowY: 'scroll',}} >
                 {isSuccess &&
