@@ -16,7 +16,7 @@ const MediatorMenu = ()=>{
 
 
     return(
-            <article className='page'>
+            <article className='page' >
                     <Header isLarge={true}/>
                    
 

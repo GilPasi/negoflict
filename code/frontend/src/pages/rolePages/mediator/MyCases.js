@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux'
 import TextHolder from '../../../components/general/TextHolder'
-
-import { useGetMyCasesQuery } from '../../../store'
+import Header from "../../../components/general/Header"
 import Loader from '../../../components/general/Loader'
+import { useGetMyCasesQuery } from '../../../store'
 
 
 
@@ -14,6 +14,8 @@ const MyCases = ({isMediator, open_close})=>{
     if(error)return alert('Eror refresh the page please')
     return(
         <article className="page">
+            <Header isLarge={true}/>
+
             
             <h1 className='title-large'> My cases </h1>
             <div style={{height: '45vh',overflowY: 'scroll',}} >

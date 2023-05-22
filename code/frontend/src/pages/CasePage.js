@@ -1,4 +1,3 @@
-import Header from "../components/general/Header"
 import PlusButton from "../components/general/PlusButton"
 import React, { useEffect } from "react"
 import MyCases from "./rolePages/mediator/MyCases"
@@ -83,7 +82,6 @@ const CasePage =({isMediator})=>{
                     <Loader withLogo={true} size={'medium'}/>
                 </div>
             }
-            <Header isLarge={true}/>
                 <MyCases isMediator={isMediator} open_close={open_close}/>
                 {isMediator&&<div className="centerizer">
                     <h1 className="title-large">Create new<br />Case</h1>
