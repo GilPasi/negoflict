@@ -73,4 +73,6 @@
     width: 1px;
     overflow: hidden;
   }
+/*For chrome*/
+  *, *::before, *::after { box-sizing: inherit; }
   

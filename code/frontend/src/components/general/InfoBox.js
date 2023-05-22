@@ -7,7 +7,6 @@ import AddUserPage from '../../pages/AddUserPage';
 import useAlert from '../../hooks/useAlert';
 import { useDeleteGroupMutation } from '../../store';
 import { useCloseCaseMutation } from '../../store';
-import ExitIcon from "./ExitIcon"
 
 
 const InfoBox = ({ obj, isOpen,hasExit }) => {
