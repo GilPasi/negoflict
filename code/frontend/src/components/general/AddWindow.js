@@ -235,14 +235,6 @@ const AddWindow =({groups})=>{
             </center>
             }
 
-
-            {/* {stage==='create'&&<AddUserPage
-                isMediator={true}
-                idCase={caseId}
-                window='large'
-                goBack={()=>setStage('choose')}
-                next={()=>setStage('success')}
-            />} */}
             {stage==='create'&&<CreateSelfUser
             fulfiled={()=>{
                 setStage('exist')

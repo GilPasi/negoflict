@@ -47,20 +47,20 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
               addErrorLable('email','createUser','email is already exist')
               return
           }
-
-        registerUser({username:modEmail,password:modPass,first_name:first_name})
-        .catch(err=>console.log(err))
-        createUser({users:[{username:email,password:modPass,first_name:first_name,last_name:last_name, email:email}]}).then(res=>{
-     
-            createContact({mediator_id:id,user_id:res.data[0].id})
-            .then(()=>fulfiled())
-            .catch(err=>{
-                console.log(err)
-                // fulfiled()
-
-            })
+        
+        Promise.all([
+            registerUser({username:modEmail,password:modPass,first_name:first_name}),
+            createUser({users:[{username:email,password:modPass,first_name:first_name,last_name:last_name, email:email}]})
+        ])
+        .then(([registerUserResponse, createUserResponse]) => {
+            console.log('register',registerUserResponse)
+            console.log('create',createUserResponse)
+            console.log(createUserResponse.data[0].id)
+            return createContact({mediator_id:id,user_id:createUserResponse.data[0].id}).then(()=>fulfiled()).catch(err=>console.log)
         })
         .catch(err=>console.log(err))
+        
+       
     }
 
     

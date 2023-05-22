@@ -4,15 +4,15 @@ function SearchBar({search , handleClick , handleChange}) {
 
   return (
 <div  role="search" className="search-bar">
-  <label for="search" className="search-bar--subtitles">Search for stuff</label>
+  <label htmlFor="search" className="search-bar--subtitles">Search for stuff</label>
   <input 
   id="search" 
   type="search" 
   placeholder="Search..." 
-  autofocus
+  autoFocus
   required
   onChange={handleChange}
-  value={search}
+  // value={search || ''}
    />
   <button onClick={handleClick} className="search-bar--btn">find</button>    
 </div>

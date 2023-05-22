@@ -62,6 +62,15 @@ class UserView(ModelViewSet):
             except:
                 return Response('cant find user',status=status.HTTP_404_NOT_FOUND)
         return Response('id cant be null',status=status.HTTP_400_BAD_REQUEST)
+    @action(detail=False,methods=['GET'],permission_classes=[permissions.IsStaff])
+    def get_all_users(self,request):
+        users = User.objects.filter(is_staff=False)
+        if not users:
+            return Response('no users found',status=status.HTTP_404_NOT_FOUND)
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    
         
             
             

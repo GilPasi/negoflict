@@ -215,6 +215,15 @@ const adminApi = createApi({
                   }
                 }
               }),
+            get_all_users: builder.query({
+                providesTags:['all_users'],
+                query: ()=>{
+                    return{
+                        url:'/users/user_view/get_all_users/',
+                        method:'GET'
+                    }
+                }
+            }),
 
         }
     }
