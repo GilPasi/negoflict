@@ -40,19 +40,16 @@ const  TextHolder=({caseData, withInfo, hasExit,addOns,pressDetail,plus, contact
 
            
            removeContact({contact:contactId})
-           .then(res=>{
-            
-           })
-           //Hen: delete chat
+           .then(res=>trigerNotification('User Deleted successfully', 'success'))
+           .catch(()=>trigerNotification('Error!. Please try again.', 'error'))
+           
 
     }
     const handleAddContact = ()=>{
         console.log(id)
         console.log(caseData)
         addContact({mediator_id:id,user_id:caseData.user})
-        .then(res=>{
-            
-            trigerNotification('User Added to your contacts successfully', 'success')})
+        .then(res=>trigerNotification('User Added to your contacts successfully', 'success'))
         .catch(()=>trigerNotification('Error! The user has not been added to your contacts. Please try again.', 'error'))
       
     }
