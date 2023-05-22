@@ -67,12 +67,12 @@ const useAlert = ()=>{
       })
       return formValues ?? false
     }
-    const deletAlert =async ({title, text, confirmText, background})=>{
+    const deletAlert =async ({title, text, confirmText, background, icon})=>{
 
     const response =await Swal.fire({
       title: title,
       text: text ?? '',
-      icon: 'warning',
+      icon: icon || 'warning',
       showCancelButton: true,
       confirmButtonColor: '#4AAC65',
       cancelButtonColor: 'gray',

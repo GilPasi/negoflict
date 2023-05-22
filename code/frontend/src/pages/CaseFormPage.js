@@ -8,7 +8,7 @@ import TextArea from "../components/general/TextArea"
 import {MEDIATION_CHOICES} from '../utils/data'
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { useCreateNewGroupMutation, usePost_new_caseMutation,setBand } from '../store/index'
+import { useCreateNewGroupMutation, usePost_new_caseMutation,setBand, useDeleteCaseMutation,useDeleteGroupMutation } from '../store/index'
 import { useDispatch } from "react-redux"
 import useAlert from "../hooks/useAlert"
 import Loader from "../components/general/Loader"
@@ -19,15 +19,18 @@ const CaseFormPage = () =>{
     //status = finished
     //dont change the order***************
     const dispatch = useDispatch()
-    const {trigerNotification} = useAlert()
+    const {trigerNotification,deletAlert} = useAlert()
     const {validateData,clearValidate} = useValidateData()
     //hooks=========
     const navigate = useNavigate()
     const [addGroup] = useCreateNewGroupMutation()
     const [addCase] = usePost_new_caseMutation()
+    const [deleteCase] = useDeleteCaseMutation()
+    const [deleteGroups] = useDeleteGroupMutation()
     const [isFetching, setIsFetching] = useState(0)
 
     //===========
+    
 
     //values========
     const {
@@ -83,6 +86,8 @@ const CaseFormPage = () =>{
         event.preventDefault()
         if(!validateData(formData))return
         const {title,category,sub_category,problem_brief} = formData
+        
+       
      
 
       
@@ -98,11 +103,77 @@ const CaseFormPage = () =>{
         dispatch(setBand({band_name:'BandCase', band_state:true}))
         setIsFetching(true)
         Promise.all([addGroup(data), addCase(data)])
-        .then(()=>trigerNotification('created case and users','success'))
-        .catch(()=>trigerNotification('unable to create the users for that case.','error'))
-        .finally(()=>dispatch(setBand({band_name:'BandCase', band_state:false})))
+        .then((values) => {
+            const errors = values.filter(value => value.error);
+            if (errors.length > 0) {
+                trigerNotification('unable to create the users for that case.','error');
+                let caseId
+                let groups
+
+                const dataVal = values.filter(value => value.data);
+                console.log('data',dataVal)
+
+                dataVal.forEach(val=>{
+                    if(val.data.hasOwnProperty('AgoraResponse'))
+                        groups = val.data.AgoraResponse
+                    else if(val.data.hasOwnProperty('case'))
+                        caseId = val.data.case.id
+                })
+
+                handleErrors({errors,caseId,groups})
+            } else {
+                trigerNotification('created case and users','success');
+                navigateTo()
+            }
+
          
+            
+        })
+        .finally(()=>dispatch(setBand({band_name:'BandCase', band_state:false})));
+
+         
+       
+    }
+    const navigateTo = ()=>{
         navigate(-1,{replace:true})
+    }
+
+    const handleErrors =async ({errors, caseId, groups})=>{
+        let make_action = true
+        console.log('in errrorooror')
+
+        if(errors.length > 1){
+            make_action = false
+        }
+        console.log(errors)
+        
+       await errors.forEach(async (errorItem) => {
+            if (errorItem.error.data.hasOwnProperty('agora')) {
+               if(errorItem.error.data.description.includes('403 Client Error: Forbidden for url'))
+                   await deletAlert({'confirmText':'you have reached the maximum number of cases that can be created. \n In order to create additional cases, you will need to undertake one of the following actions:\n 1.Contact our admin team\n 2.Delete or resolve some of your existing cases to make room for new ones.',
+                    'icon':'error'})
+
+                
+                   
+                if(make_action && caseId)
+                     deleteCase({caseId:caseId})
+                    
+                    
+
+       
+              console.log("Agora error: ", errorItem.error.data.agora);
+            } else if (errorItem.error.data.hasOwnProperty('title')) {
+                if(make_action && groups){
+                    console.log(groups)
+                    let groupIds =  Object.values(groups).map(item => Object.values(item)[0].data);
+                    console.log('filter',groupIds)
+                    deleteGroups({groupS:groupIds})
+                }
+              console.log("Title error: ", errorItem.error.data.title);
+            }
+        })
+
+        navigateTo()
     }
 
     

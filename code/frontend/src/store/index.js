@@ -123,6 +123,7 @@ export const { usePutUserToMemberGroupMutation } = caseApi
 export const {useCloseCaseMutation} = caseApi
 export const {useGetFullUsersByCaseQuery} = caseApi
 export const {usePostNewSurveyMutation} = caseApi
+export const {useDeleteCaseMutation} = caseApi
 //============
 
 //groupApi=====

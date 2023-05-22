@@ -15,9 +15,9 @@ const useValidateData = ()=>{
      }
 
 
-     const addErrorLable = (key,where)=>{
+     const addErrorLable = (key,where, message)=>{
         let label = document.createElement('label')
-        console.log(where)
+       
             
              label.style.position = 'absolute'
              label.style.left = '10%'
@@ -25,7 +25,6 @@ const useValidateData = ()=>{
              label.style.color = 'red'
              label.style.zIndex = '1000'
              if(where === 'createUser'){
-                console.log(where)
                 label.style.top = '-50%'
              }
             
@@ -36,7 +35,7 @@ const useValidateData = ()=>{
              
  
             
-             label.innerText = `${key} is missing`
+             label.innerText = message ?? `${key} is missing`
              label.id = `${key}_error`
              document.getElementById(key).appendChild(label)
 

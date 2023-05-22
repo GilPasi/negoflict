@@ -9,7 +9,7 @@ import "../styles/pages/create_self_page.css"
 import useValidateData from "../hooks/useValidate"
 
 const CreateSelfUser = ({fulfiled,goBack})=>{
-    const {clearValidate,validateData} = useValidateData()
+    const {clearValidate,validateData, addErrorLable} = useValidateData()
     const [formData,setFormData] = useState({})
     const [valid,setValid] = useState(true)
     const [registerUser] = useRegisterOneUserMutation()
@@ -23,16 +23,17 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
             setValid(false)
     },[formData])
 
-    console.log(formData)
+
 
     
     const handleChange = (event)=>{
         const {name, value} = event.target
+        clearValidate(name)
         setFormData(prevState=>({...prevState,[name]:value}))
     }
 
     const handleSubmit =async (event)=>{
-        console.log("HERE")
+ 
         event.preventDefault()
         if(!validateData(formData,'createUser'))return
         const {phoneNumber,email,first_name, last_name} = formData
@@ -43,17 +44,14 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
           
           if (data === true || error) {
               console.log(`this email ${email} is already exist \n`)
+              addErrorLable('email','createUser','email is already exist')
               return
           }
-
-          console.log('askdfkasdkfasdfasd',formData)
 
         registerUser({username:modEmail,password:modPass,first_name:first_name})
         .catch(err=>console.log(err))
         createUser({users:[{username:email,password:modPass,first_name:first_name,last_name:last_name, email:email}]}).then(res=>{
-            console.log('medi: ',id)
-            console.log('user ',res.data[0].id)
-            console.log(res)
+     
             createContact({mediator_id:id,user_id:res.data[0].id})
             .then(()=>fulfiled())
             .catch(err=>{

@@ -177,7 +177,7 @@ class Groups(ModelViewSet):
             print('missing params',missing_props)
             return Response({'missing properties':missing_props}, status=status.HTTP_400_BAD_REQUEST)
         
-        
+        errors = None
         sides = ['A','B','G']
         responses = []
         headers = get_auth_headers(token)
@@ -197,9 +197,13 @@ class Groups(ModelViewSet):
                 res = requests.post(f"{HOST_URL_APP_KEY}/chatgroups", json=payload, headers=headers)
                 res.raise_for_status()
                 responses.append({sides[i]:res.json()})
-            except RequestException as e:
+            except (RequestException, requests.HTTPError) as e:
                 print(f"agora error {e}")
-                return Response(f"somthing went wrong in agora when creating group side {sides[i]}", status=status.HTTP_200_OK)
+                errors = {'agora':f"somthing went wrong in agora when creating group side {sides[i]}",'description': f"{e}"}
+                break
+        print('errrrrooror',errors)
+        if errors:
+            return Response(errors,status=status.HTTP_400_BAD_REQUEST)
         return Response({'AgoraResponse':responses}, status=status.HTTP_200_OK)
 
 

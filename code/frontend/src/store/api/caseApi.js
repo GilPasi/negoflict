@@ -145,6 +145,19 @@ const caseApi = createApi({
           }
         }
       }
+    }),
+    deleteCase: builder.mutation({
+      invalidatesTags:['Cases'],
+      query:({caseId})=>{
+        return{
+          url:'session/case/delete_case/',
+          method:'DELETE',
+          params:{
+            caseId:caseId
+          }
+
+        }
+      }
     })
     
     }
