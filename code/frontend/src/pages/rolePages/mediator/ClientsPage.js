@@ -81,8 +81,6 @@ const ClientsPage = ()=>{
         else
         filteredUsers = userView.filter(user=>user.user.first_name.includes(searchRes) || user.user.last_name.includes(searchRes))
         
-        console.log(filteredUsers); 
-        console.log(filteredUsers.length);
         setUserView(()=>filteredUsers)
 
  
