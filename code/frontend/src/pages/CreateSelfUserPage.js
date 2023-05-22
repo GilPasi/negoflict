@@ -7,6 +7,7 @@ import { useRegisterOneUserMutation,useCreateContactMutation,useCreateUsersMutat
 import { useSelector } from "react-redux"
 import "../styles/pages/create_self_page.css"
 import useValidateData from "../hooks/useValidate"
+import { useNavigate } from "react-router-dom"
 
 const CreateSelfUser = ({fulfiled,goBack})=>{
     const {clearValidate,validateData, addErrorLable} = useValidateData()
@@ -17,6 +18,7 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
     const [createUser] = useCreateUsersMutation()
     const [isEmailValid] = useLazyIsEmailExistQuery()
     const {id} = useSelector(state=>state.user)
+    const navigate = useNavigate()
     
     useEffect(()=>{
         if(Object.keys(formData).length >=4)
@@ -59,8 +61,10 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
             return createContact({mediator_id:id,user_id:createUserResponse.data[0].id}).then(()=>fulfiled()).catch(err=>console.log)
         })
         .catch(err=>console.log(err))
-        
-       
+    }
+    const handleBack = ()=>{
+        navigate(-1)
+
     }
 
     
@@ -79,7 +83,7 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
                 <div className="aligner">
                
                 <Button
-                        onClick={goBack}
+                        onClick={goBack || handleBack}
                         text='Back'
                         size='small'
                         margin="0.5em"
