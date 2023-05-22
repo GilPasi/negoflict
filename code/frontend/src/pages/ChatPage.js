@@ -1,14 +1,21 @@
-import {useState, useEffect,useRef, useMemo} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import {useLocation} from "react-router-dom";
 import Chat from "../components/chat/Chat";
-import { useSelector, useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getPermName} from '../utils/permissions'
-import { addGroupsProps, addHistoryMsg, postNewMessage, resetChatState, setPrivateGroup, updateMsg, addCaseId } from "../store";
+import {
+    addCaseId,
+    addGroupsProps,
+    addHistoryMsg,
+    postNewMessage,
+    resetChatState,
+    setPrivateGroup,
+    updateMsg,
+    useGetChatGroupsQuery,
+    useLazyGetCaseSideQuery
+} from "../store";
 import ChatView from "../components/chat/ChatView";
-import { useLazyGetCaseSideQuery } from "../store";
-import { useGetChatGroupsQuery } from "../store";
 import useMsg from "../hooks/useMsg";
-
 
 
 const ChatPage = ()=>{
@@ -30,14 +37,13 @@ const ChatPage = ()=>{
      const [taskProgress, setTaskProgress] = useState({progress:0, task:'connecting'})
      const [notificationGroups, setNotifictionGroup] = useState([])
      //=================
-   
- 
+
     //values========
     const {username, role:userRole, first_name, id, access} = useSelector(state=>state.user)
     const allChatGroups = useSelector(state=>state.chat)
     const groups = location.state?.groups ?? []
     const {caseId} = location.state ?? ''
-    const {pos} = useSelector(state=>state.pos)
+    const {pos} = useSelector(state=>state.position)
     const chat = useSelector(state=>state.chat[activeGroup])
     const centerGroup = groups.find(group => group.groupname.endsWith('G'));
     //=============
@@ -59,7 +65,7 @@ const ChatPage = ()=>{
             return
         }
         dispatch(setPrivateGroup(data.side))
-        setUserDetail(prevState=>({...prevState,['side']:data.side,['memberId']:data.id}))
+        setUserDetail(prevState=>({...prevState,'side':data.side,'memberId':data.id}))
     };
     //==============
 
@@ -84,7 +90,6 @@ const ChatPage = ()=>{
             return
         }
         if (!isSuccess)return
-        console.log(data)
         
           setChatGroupData(()=>data)
        
@@ -108,8 +113,9 @@ const ChatPage = ()=>{
     useEffect(()=>{ //set what group is active now to view ther messages for mediator
         if(userDetail?.role !== 'mediator')return
         const values = ['groupA','groupG','groupB']
-        setActiveGroup(values[pos-1])
+        setActiveGroup(()=>values[pos-1])
     },[pos]);
+   
 
    
     useEffect(()=>{ //set what group is active now to view ther messages for user
@@ -117,19 +123,19 @@ const ChatPage = ()=>{
         const ChatSide = userDetail?.side ?? null
         if(!ChatSide)return
         if(pos !== 2){
-            setActiveGroup(`group${ChatSide}`)
+            setActiveGroup(()=>`group${ChatSide}`)
         }
         else
-            setActiveGroup('groupG')
+            setActiveGroup(()=>'groupG')
     },[pos]);
     //===========================
    
 
     //handles=============
     const handleRecivedMsg = (msg)=>{ //handle recived messages only in real time
-        console.log('ressssiiiii===>>mmsgg==>>>',msg)
         const {to, chatType} = msg
         if(chatType !== 'groupChat')return
+        console.log('cchhh===>>>',chat)
         HandleNotification(to)
         // if(msg?.id=== chat?.messages[chat.messages.length -1]?.id)
         //     return
@@ -152,8 +158,6 @@ const ChatPage = ()=>{
        };
 
     const handleHistoryMsg =async (history,groupid)=>{ //gets history messages work's only ones
-
-        console.log('history===>>>>',history)
         let messages = []
         messages = [...history.messages]
         messages.sort((a,b)=>a.time - b.time)
@@ -175,17 +179,16 @@ const ChatPage = ()=>{
     const handleProgress = (taskUpdate, progUpdate, set)=>{
      
         setTaskProgress(prev=>{
-            const update = {
-            progress:prev['progress']+ progUpdate,
-            task:taskUpdate
+            return {
+                progress: prev['progress'] + progUpdate,
+                task: taskUpdate
             }
-            return update
         })
     }
 
     const HandleNotification = (to)=>{
         const {groupA, groupB, groupG} = allChatGroups
-        console.log('addChattt',allChatGroups)
+        
         let groupArray =[]
 
         if(groupA.id!=='')
@@ -200,9 +203,7 @@ const ChatPage = ()=>{
         if(idRecive.id === chat.id)
             return
 
-     
-            
-
+    
         if(userDetail.role==='mediator'){
             if(idRecive.side==='G')
                 setNotifictionGroup(prev=>[prev[0],true,prev[2]])
@@ -218,7 +219,9 @@ const ChatPage = ()=>{
             else
                 setNotifictionGroup(prev=>[true,prev[1]])
         }
+        return
     }
+
     const HandleCloseNotification = (side)=>{
         let arrayNot = [...notificationGroups]
 
@@ -241,7 +244,7 @@ const ChatPage = ()=>{
     return(
         <div>
             <ChatView
-            isMediator={userDetail.role==='mediator'?true:false}
+            isMediator={userDetail.role === 'mediator'}
             caseId={caseId.slice(-7)}
             handleShuttle={handleShuttle}
             isShuttled={isShuttled}

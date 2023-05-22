@@ -32,7 +32,7 @@ const userPersistConfig = {
   
   const rootReducer = {
     user: persistedUserReducer, 
-    pos: positionReducer,
+    position: positionReducer,
     groups: groupsReducer,
     chat_groups: chatGroupsReducer,
     chat: chatReducer,
