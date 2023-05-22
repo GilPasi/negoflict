@@ -53,15 +53,6 @@ const ClientsPage = ()=>{
         setSearchRes(prev=>value)
     }
 
-
-
-   
-
-    const titleStyle = {
-        margin:"0",
-        display:"inline",
-    }
-
     const handleSearch =()=>{
         let filteredUsers = []
         if(!(userView.length >0))return
@@ -87,7 +78,7 @@ const ClientsPage = ()=>{
                     className="switch-arrow"
                     onClick={()=>setIsAllClients(prevState=>!prevState)}
                 />
-                <h1 style={titleStyle}>{isAllClients ?'All Clients' : 'My Clients'}</h1>
+                <h1 className="title-large">{isAllClients ?'All Clients' : 'My Clients'}</h1>
                 {userView.length > 0 ?
                     <ScrollableBox pressDetail={{title:'Are you sure you want to delete this contact', confirm:'confirm'}} list={userView} hasExit={!isAllClients}/>
                     :
