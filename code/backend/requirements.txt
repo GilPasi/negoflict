@@ -17,8 +17,6 @@ idna==3.4
 itypes==1.2.0
 Jinja2==3.1.2
 MarkupSafe==2.1.2
-# https://www.lfd.uci.edu/~gohlke/pythonlibs/#mod_wsgi
-../../build/mod-wsgi/mod_wsgi-4.9.2-cp311-cp311-win_amd64.whl
 mysqlclient==2.1.1
 oauthlib==3.2.2
 Pillow==9.4.0
