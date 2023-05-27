@@ -11,7 +11,10 @@
 .sp--table-scope{
     width: calc(var(--frame-size));
     overflow: hidden;
-    
+    /* border: 5px solid red;; */
+    padding-bottom:5em ;
+    padding-right:1em ;
+
     top:50%;
 }
 .sp--table-wrapper{
@@ -19,18 +22,42 @@
     justify-content: flex-end;
     transition: all 0.5s;
 
+    /* border: 5px solid blue;; */
+
 }
-@media (max-width: 767px) {
+/* @media (max-width: 767px) {
     .sp--table-wrapper{
-    display: block;}
+    display: block;
 }
+} */
 
 
 
 .sp--table-container{
     margin: 10px 70px 70px;
     box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
+    /* border: 5px solid red; */
+    
+
 }
+
+@media (max-width: 767px) {
+    .sp--table-container{
+    --gap-size: 10.5px;
+    height: min-content;
+
+}
+#container-1{
+    margin:0;
+    margin-right: var(--gap-size);
+}
+#container-2{
+    margin:0;
+    margin-left: var(--gap-size);
+}
+}
+
+
 
 .sp--table {
     border-radius: 5px;
@@ -71,7 +98,6 @@
 }
 
 /* Responsivness */
-
 @media (max-width: 767px) {
     .sp--table {
         display: block;
@@ -100,17 +126,28 @@
         position: relative;
         overflow-x: auto;
     }
+    .sp--table-wrapper{
+        /* margin:0 5%;         */
+        width: 100%;
+        padding:0 10px;
+    }
+    .sp--table-container{
+        width: 100%;
+    }
+    .sp--table{
+        width: 500px;
+    }
     .sp--table td, .sp--table th {
         padding: 20px .625em .625em .625em;
-        height: 60px;
+        height: 45px;
         vertical-align: middle;
         box-sizing: border-box;
         overflow-x: hidden;
         overflow-y: auto;
-        width: 120px;
         font-size: 13px;
         text-overflow: ellipsis;
     }
+
     .sp--table thead th {
         text-align: left;
         border-bottom: 1px solid #f7f7f9;
@@ -155,9 +192,9 @@ cursor: pointer;
 transition: all 0.5s cubic-bezier(0.25, 1.7, 0.35, 1.5);
 overflow: hidden;
 }
-@media (max-width: 767px) {
+/* @media (max-width: 767px) {
     .sp--arrow-btn{display: none}
-}
+} */
 
 
   
@@ -221,16 +258,17 @@ overflow: hidden;
   }
   
 .sp--download{
+    
     width:2em;
     margin-left:1em;
     margin-right:1em;
-    margin-bottom: 0 ;
+    margin-bottom: 30px;
+
     transition:300ms;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-bottom: 30px;
 
 }
 .sp--download:active{

@@ -80,7 +80,7 @@ const StatisticsPage = (category)=> {
     ]
     const pre = " "
     const usersTable = 
-            <table className="sp--table">
+            <table className="sp--table" id="table-1">
             <thead>
             <tr>
                 {usersThs.map(cat=>(<th>{cat}</th>))}{/*Category*/}
@@ -106,7 +106,7 @@ const StatisticsPage = (category)=> {
         </table> 
 
         const messagesTable =                 
-                <table className="sp--table">
+                <table className="sp--table" id="table-2">
                     <thead>
                         <tr>
                             {messagesThs.map(cat=>(<th>{cat}</th>))}{/*Category*/}
@@ -151,10 +151,10 @@ const StatisticsPage = (category)=> {
     }
      
     return(
-    <article className="page middle sp">
+    <article className="page sp">
         <Header isLarge={false}/>
              <h1 className="title-large">{tableName}</h1>
-                <div>
+                <center>
                     <button 
                         class="sp--arrow-btn"
                         onClick={()=>setCurrentTable(1)}
@@ -174,30 +174,31 @@ const StatisticsPage = (category)=> {
                         <span class="right-arm"/>
                         <span class="arrow-slide"/>
                     </button>
-                </div>
+                </center>
            
                 <div className="sp--table-scope">
                      <div className="sp--table-wrapper" style={{transform:`translate(calc(${currentTable}*100%))`}}>
-                        <div className="sp--table-container">
+                        <div className="sp--table-container" id="container-1">
                             {usersTable}
                         </div>
                     
-                        <div className="sp--table-container">
+                        <div className="sp--table-container" id="container-2">
                             {messagesTable }
                         </div>
                    
                     </div> 
                 </div>
-
-                <div className="sp--download">
-                    <img
-                        id="sp--download-img"
-                        className="user-panel--img"
-                        src="../../../assets/images/save_icon.png" 
-                        alt="menu symbol"
-                    />  
-                    <h5>Download</h5>
-                </div>
+                <center>
+                    <div className="sp--download">
+                        <img
+                            id="sp--download-img"
+                            className="user-panel--img"
+                            src="../../../assets/images/save_icon.png" 
+                            alt="menu symbol"
+                        />  
+                        <h5>Download</h5>
+                    </div>
+                </center>
 
     </article>)}
 export default StatisticsPage
