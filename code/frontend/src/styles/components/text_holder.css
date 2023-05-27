@@ -1,12 +1,18 @@
 .th{
     margin: 15px;
-    /* width: 15em;; */
-
+    position: relative;
 }
 .th--title{
     margin: 20px;
     user-select: none;
-    text-align: center;
+    text-align:center;
+    position: absolute;
+    top: -20%;
+    left: 40%;
+    transform: translate(-50%);
+    width: 100%;
+    overflow: hidden;
+    
 }
 
 .th--box{
@@ -20,10 +26,10 @@
     /* align-items: center; */
     
     font-size: x-large;
-    background-color: rgba(241, 242, 240, 0.199);
-    border-radius: 7px;
+    background-color:var(--green-dark);
+    border-radius: 20px;
     box-shadow: -2px 0.6px 2px rgba(102, 102, 100, 0.324);
-    color: var(--green-dark);
+    color: white;
     font-weight: 700;
     font-size: x-large;  
 }

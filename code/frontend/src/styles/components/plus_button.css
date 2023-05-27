@@ -1,0 +1,25 @@
+.plus{
+    position: relative;
+    padding: 2em;
+    display: inline-block;
+}
+.plus-container{
+    padding:1.5em;
+    display: inline-block;
+    margin:15px;
+    border: none;
+    background-color: transparent;
+}
+
+.plus-container:hover{
+    box-shadow: 3px 2px 5px 0px rgba(0,0,0,0.62);
+-webkit-box-shadow: 3px 2px 5px 0px rgba(0,0,0,0.62);
+-moz-box-shadow: 3px 2px 5px 0px rgba(0,0,0,0.62);
+}
+.plus-container:active{
+    box-shadow: 3px 2px 5px 0px rgba(0,0,0,0.62) inset;
+-webkit-box-shadow: 3px 2px 5px 0px rgba(0,0,0,0.62) inset;
+-moz-box-shadow: 3px 2px 5px 0px rgba(0,0,0,0.62) inset;
+
+}
+

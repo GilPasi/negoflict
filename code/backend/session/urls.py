@@ -10,5 +10,6 @@ router.register('chat_group',views.GroupChatView)
 router.register('chat_members',views.GroupMemberView)
 router.register('message',views.MessageView)
 router.register('contact',views.ContactView)
+router.register('survey',views.SurveyView)
 
 urlpatterns = router.urls

@@ -18,7 +18,6 @@ const msgSlice = createSlice({
     },
     reducers:{
         postNewMessage:(state,action)=>{
-            console.log('in slice')
            const {msg,to,ext} = action.payload
            const {side,color,name, userId, sender} = ext
            state.ext.color = color? color : 0//change this
@@ -30,7 +29,7 @@ const msgSlice = createSlice({
            state.ext.sender = sender
         },
         clearMsg: (state)=>{
-            state = {
+            return {
                 ext:{
                     side:'',
                     color:0,

@@ -41,6 +41,7 @@ const mediatorApi = createApi({
                 }
             }),
             createContact: builder.mutation({
+                invalidatesTags:['contact'],
                 query:({mediator_id,user_id})=>{
                     return{
                         url:'/session/contact/',
@@ -52,6 +53,24 @@ const mediatorApi = createApi({
                     }
                 }
             }),
+            get_all_users: builder.query({
+                providesTags:['contact'],
+                query: ()=>{
+                    return{
+                        url:'users/user_view/get_all_users_not_related/',
+                        method:'GET'
+                    }
+                }
+            }),
+            removeContact: builder.mutation({
+                invalidatesTags:['contact'],
+                query:({contact})=>{
+                    return{
+                        url:`/session/contact/${contact}/`,
+                        method:'DELETE',
+                    }
+                }
+            })
             
 
         }

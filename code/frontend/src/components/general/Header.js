@@ -1,7 +1,8 @@
 import "../../styles/components/header.css"
-import {React} from 'react'
+import { Link } from "react-router-dom"
+ 
 
-const  Header=({isLarge})=>{
+const  Header=({isLarge , unconnected, withoutLinks})=>{
 
 
     // __UI properies__
@@ -17,42 +18,41 @@ const  Header=({isLarge})=>{
         width: '100%',
     }
 
-    const title = <h1 style={titleStyle} className="header--title" >
-                    negoflict
-                </h1>
+    const title = <h1 style={titleStyle} className="header--title" >negoflict</h1>
     
 
     return(
         <div className="header">
             <div style={wrapperStyle}>
+            {!unconnected && 
                 <div className="header--menu">
+                    {!withoutLinks&&
+                    <div>
                     <div >
+               
+                    
                         <button className="header--menu-button">
                             <img className="header--menu-img"
                             src="../../../assets/images/menu_symbol.png" 
                             alt="menu symbol"/>  
                         </button>
                     </div>
-
-                <div className="header--menu-content">
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 2</a>
-                    <a href="#">Link 3</a>
+               
+                <div className="header--menu-content" style={{zIndex:'2000'}}>
+                    {/* Hen: route propely  */}
+                    <Link state={{logout:true}} to="/login">Log out</Link>
+                    <Link to="/">Enter chat</Link>
+                    <Link to="">Settings</Link>
                 </div>
-            </div>
-
-
-
-                {!isLarge && (
-                    <div className="" >
-                        {title}
                 </div>
-                )}
+                }
+            </div>}
+
+                {!isLarge && <div>{title}</div>}
 
             </div>
             <center>
                 {isLarge &&title}
-
             </center>
 
         </div>

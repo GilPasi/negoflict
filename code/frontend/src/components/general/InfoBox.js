@@ -8,7 +8,8 @@ import useAlert from '../../hooks/useAlert';
 import { useDeleteGroupMutation } from '../../store';
 import { useCloseCaseMutation } from '../../store';
 
-const InfoBox = ({ obj, isOpen }) => {
+
+const InfoBox = ({ obj, isOpen,hasExit }) => {
   const { deletAlert, textAlert } = useAlert();
   const { role } = useSelector((state) => state.user);
   const gotRole = role <= 2 ? 'mediator' : 'user';
@@ -87,13 +88,15 @@ const aup = <AddUserPage window='small' isMediator={false} side='A' goBack={()=>
                     finish
                   </button>}
 
-                  {gotRole==='mediator'&& 
+                  {/* Currently disabled */}
+
+                  {/* {gotRole==='mediator'&& 
                   <button 
                     className="ib--btn"
                     onClick={()=>setStep('aup')}
                   >
                     add
-                  </button>}
+                  </button>} */}
 
                 </div>}
               </div>

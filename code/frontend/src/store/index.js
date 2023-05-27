@@ -6,42 +6,66 @@ import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { usersApi } from "./api/usersApi";
 import { caseApi } from './api/caseApi'
 import { groupApi } from "./api/groupApi";
-import { chatGroupsReducer, addChatGroups, removeChatGroups } from "./slices/chatGroupsSlice";
+import { chatGroupsReducer, addChatGroups, removeChatGroups,addCaseId } from "./slices/chatGroupsSlice";
 import  {adminApi} from "./api/adminApi";
 import { chatReducer, addGroupsProps, updateMsg, resetChatState, addHistoryMsg } from "./slices/chatSlice";
 import { msgReducer, postNewMessage, clearMsg } from "./slices/msgSlice";
 import { msgApi } from "./api/msgApi"; 
 import { mediatorApi } from "./api/mediatorApi";
+import { perticipentReducer, addPerticipents,clearAllPerticipents,removeParticepent,setOnlineUsers,setUserAttribute, addNewParticipent,removeParticepentByAgoraName } from "./slices/perticipentSlice";
+import { chat_attrbuteReducer, setMediator, setStartChat } from "./slices/chatAttributeSlice";
+import { superUserApi } from "./api/superUserApi";
+import { BandReducer, setBand } from "./slices/bandSlice";
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; 
 
 
-const store = configureStore({
-    reducer:{
-        user: userReducer,
-        pos: positionReducer,
-        groups: groupsReducer,
-        chat_groups: chatGroupsReducer,
-        chat:chatReducer,
-        message:msgReducer,
+const userPersistConfig = {
+    key: 'user',
+    storage,
+  };
 
-        [usersApi.reducerPath]: usersApi.reducer,
-        [caseApi.reducerPath]: caseApi.reducer,
-        [groupApi.reducerPath]: groupApi.reducer,
-        [adminApi.reducerPath]: adminApi.reducer,
-        [msgApi.reducerPath]: msgApi.reducer,
-        [mediatorApi.reducerPath]: mediatorApi.reducer
-        
-    },
-    middleware: getDefaultMiddleware =>{
-        return getDefaultMiddleware().concat(usersApi.middleware)
+
+  const persistedUserReducer = persistReducer(userPersistConfig, userReducer);
+
+
+  
+  const rootReducer = {
+    user: persistedUserReducer, 
+    position: positionReducer,
+    groups: groupsReducer,
+    chat_groups: chatGroupsReducer,
+    chat: chatReducer,
+    message: msgReducer,
+    perticipent: perticipentReducer,
+    chat_attrbute: chat_attrbuteReducer,
+    band: BandReducer,
+  
+    [usersApi.reducerPath]: usersApi.reducer,
+    [caseApi.reducerPath]: caseApi.reducer,
+    [groupApi.reducerPath]: groupApi.reducer,
+    [adminApi.reducerPath]: adminApi.reducer,
+    [msgApi.reducerPath]: msgApi.reducer,
+    [mediatorApi.reducerPath]: mediatorApi.reducer,
+    [superUserApi.reducerPath]: superUserApi.reducer,
+  };
+  
+  
+  const store = configureStore({
+    reducer: rootReducer,
+    middleware: getDefaultMiddleware => {
+      return getDefaultMiddleware({ serializableCheck: false })
+        .concat(usersApi.middleware)
         .concat(caseApi.middleware)
         .concat(groupApi.middleware)
         .concat(adminApi.middleware)
         .concat(msgApi.middleware)
         .concat(mediatorApi.middleware)
-        
-    }
-    
-});
+        .concat(superUserApi.middleware);
+    },
+  });
+
+export const persistor = persistStore(store);
 
 
 export{
@@ -59,12 +83,22 @@ export{
     addHistoryMsg,
     postNewMessage,
     setPrivateGroup,
-    clearMsg
-
-   
+    clearMsg,
+    removeParticepent,
+    clearAllPerticipents,
+    addPerticipents,
+    setUserAttribute,
+    setOnlineUsers,
+    setMediator,
+    setStartChat,
+    addNewParticipent,
+    setBand,
+    removeParticepentByAgoraName,
+    addCaseId,
 }
 
 setupListeners(store.dispatch)
+
 
 
 //userApi=====
@@ -76,6 +110,9 @@ export const { useGetTokenQuery, useLazyGetTokenQuery} = usersApi
 export const {useGetChatTokenQuery, useLazyGetChatTokenQuery} = usersApi
 export const {useChangePasswordMutation} = usersApi
 export const {useModifyUserMutation} = usersApi
+export const {useGetMyMediatorQuery,useLazyGetMyMediatorQuery} = usersApi
+export const {useIsEmailExistQuery, useLazyIsEmailExistQuery} = usersApi
+export const {useGetUserByAccessQuery,useLazyGetUserByAccessQuery} = usersApi
 //===========
 
 //caseApi=====
@@ -84,6 +121,9 @@ export const { usePost_new_caseMutation } = caseApi
 export const {useGetCaseSideQuery, useLazyGetCaseSideQuery} = caseApi
 export const { usePutUserToMemberGroupMutation } = caseApi
 export const {useCloseCaseMutation} = caseApi
+export const {useGetFullUsersByCaseQuery} = caseApi
+export const {usePostNewSurveyMutation} = caseApi
+export const {useDeleteCaseMutation} = caseApi
 //============
 
 //groupApi=====
@@ -102,12 +142,22 @@ export const {useUpdateMediatorResidentMutation} = adminApi
 export const {useIsUsernameExistQuery, useLazyIsUsernameExistQuery} = adminApi
 export const {useRegisterOneUserMutation} = adminApi
 export const {useCreateUsersMutation} = adminApi
+export const {useAddingManyUsersToOneChatGroupMutation} = adminApi
+export const {useRegisterManyUsersToGroupMemberMutation} = adminApi
+export const {useSetUserCaseAttributeMutation} = adminApi
+export const {useGetUsersByCaseQuery} = adminApi
+
 
 //msgApi=======
 export const {usePostNewMessageMutation} = msgApi
 //=============
 
 //mediatorApi========
+export const {useGet_all_usersQuery, useLazyGet_all_usersQuery} = mediatorApi
 export const {useGet_clientsQuery,useLazyGet_clientsQuery} = mediatorApi
 export const {useGetContactsQuery,useLazyGetContactsQuery} = mediatorApi
 export const {useCreateContactMutation} = mediatorApi
+export const {useRemoveContactMutation} = mediatorApi
+
+//superUserAi========
+export const {useGetMediatorsQuery,useLazyGetMediatorsQuery} = superUserApi

@@ -8,7 +8,7 @@ const AdminMenu = ()=>{
 
     return(
         <div className='am page centerizer'>
-            <Header className='' isLarge={true}/>
+            <Header isLarge={true}/>
             <div className='text_header'>
             <div>
                 <h1>Hello</h1>
@@ -20,7 +20,7 @@ const AdminMenu = ()=>{
                 <Link to='addmediator' style={{borderRadius:'2em' , margin:'10px'}}>
                     <Button text='Add Mediator' size='medium' margin='0'/>
                 </Link>
-                <Link to='' style={{borderRadius:'2em' , margin:'10px'}}>
+                <Link to='mediator_list' style={{borderRadius:'2em' , margin:'10px'}}>
                     <Button text='Mediator Accounts' size='medium' margin='0'/>
                 </Link>
                 <Link to='' style={{borderRadius:'2em' , margin:'10px'}}>
@@ -30,12 +30,12 @@ const AdminMenu = ()=>{
                     <Button text='Open Cases' size='medium' margin='0'/>
                 </Link>
                 <Link to='' style={{borderRadius:'2em' , margin:'10px'}}>
-                    <Button text='Mediator Screen' size='medium' margin='0'/>
+                    <Button text='Manage accounts' size='medium' margin='0'/>
                 </Link>
                 <Link to='' style={{borderRadius:'2em' , margin:'10px'}}>
                     <Button text='Massege to Mediator' size='medium' margin='0'/>
                 </Link>
-                <Link to='' style={{borderRadius:'2em' , margin:'10px'}}>
+                <Link to='statistics' style={{borderRadius:'2em' , margin:'10px'}}>
                     <Button text='Statistics' size='medium' margin='0'/>
                 </Link>
         

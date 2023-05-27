@@ -3,42 +3,103 @@ import UserForm from "../components/general/userForm"
 import Header from "../components/general/Header"
 import { useEffect, useState } from "react"
 import Button from "../components/general/Button"
-import { useRegisterOneUserMutation, } from "../store"
+import { useRegisterOneUserMutation,useCreateContactMutation,useCreateUsersMutation,useLazyIsEmailExistQuery } from "../store"
+import { useSelector } from "react-redux"
+import "../styles/pages/create_self_page.css"
+import useValidateData from "../hooks/useValidate"
+import { useNavigate } from "react-router-dom"
 
-const CreateSelfUser = ()=>{
+const CreateSelfUser = ({fulfiled,goBack})=>{
+    const {clearValidate,validateData, addErrorLable} = useValidateData()
     const [formData,setFormData] = useState({})
     const [valid,setValid] = useState(true)
+    const [registerUser] = useRegisterOneUserMutation()
+    const [createContact] = useCreateContactMutation()
+    const [createUser] = useCreateUsersMutation()
+    const [isEmailValid] = useLazyIsEmailExistQuery()
+    const {id} = useSelector(state=>state.user)
+    const navigate = useNavigate()
     
     useEffect(()=>{
         if(Object.keys(formData).length >=4)
             setValid(false)
     },[formData])
 
+
+
     
     const handleChange = (event)=>{
         const {name, value} = event.target
+        clearValidate(name)
         setFormData(prevState=>({...prevState,[name]:value}))
     }
 
-    const handleSubmit = (event)=>{
+    const handleSubmit =async (event)=>{
+ 
         event.preventDefault()
-        console.log(formData)
+        if(!validateData(formData,'createUser'))return
+        const {phoneNumber,email,first_name, last_name} = formData
+        const modEmail = email.replace(/[^\w\s]/gi, '')
+        const modPass = `Negoflict${phoneNumber}`
+
+        let { data, error } = await isEmailValid({ email:email });
+          
+          if (data === true || error) {
+              console.log(`this email ${email} is already exist \n`)
+              addErrorLable('email','createUser','email is already exist')
+              return
+          }
+        
+        Promise.all([
+            registerUser({username:modEmail,password:modPass,first_name:first_name}),
+            createUser({users:[{username:email,password:modPass,first_name:first_name,last_name:last_name, email:email}]})
+        ])
+        .then(([registerUserResponse, createUserResponse]) => {
+            console.log('register',registerUserResponse)
+            console.log('create',createUserResponse)
+            console.log(createUserResponse.data[0].id)
+            return createContact({mediator_id:id,user_id:createUserResponse.data[0].id}).then(()=>fulfiled()).catch(err=>console.log)
+        })
+        .catch(err=>console.log(err))
     }
+    const handleBack = ()=>{
+        navigate(-1)
+
+    }
+
+    
 
 
     return(
-        <div>
-            <form>
-                <Header/>
+        <article className="csp">
+        <Header/>
+            <h1 className="title-large">Create a new user</h1>
+            <form className="centerizer" onSubmit={handleSubmit} >
                 <UserForm
-                 userData={formData}
-                 handleChange={handleChange}
-                 required={true}
-                 />
+                    userData={formData}
+                    handleChange={handleChange}
+                    required={true}
+                />
+                <div className="aligner">
+               
+                <Button
+                        onClick={goBack || handleBack}
+                        text='Back'
+                        size='small'
+                        margin="0.5em"
+                        disableSubmit={true}
+                    />
+                <Button 
+                      
+                      text='Submit'
+                      size='small'
+                      disabled={valid}
+                      margin="0.5em"
 
-                 <Button text={'Submit'} size={'medium'} disabled={valid}/>
+                  />
+                </div>
             </form>
-        </div>
+        </article>
     )
 
 }

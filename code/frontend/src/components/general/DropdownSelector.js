@@ -4,7 +4,7 @@ import {useState} from "react"
 const DropdownSelector = ({options,placHolder,parentRef,
                             name,value,onChange,
                             height,width,size,
-                            margin,valType}) =>{
+                            margin,valType, id}) =>{
 
         const valueIndex = valType ?? 'value'
         
@@ -48,6 +48,7 @@ const DropdownSelector = ({options,placHolder,parentRef,
         return(
     
             <section
+            id={id || ''}
              className='dd'
               onChange={onChange}
               style={dropdownStyle}

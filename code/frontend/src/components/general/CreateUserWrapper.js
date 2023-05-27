@@ -4,6 +4,10 @@ import AddUserPage from '../../pages/AddUserPage'
 import { useNavigate } from "react-router-dom"
 import {store, useRegisterUsersMutation, useRegisterToChatGroupsMutation, usePutUserToMemberGroupMutation, useCreateContactMutation, useCreateUsersMutation} from '../../store/index'
 import {useSelector} from "react-redux";
+import { useLazyIsEmailExistQuery, setBand } from "../../store/index"
+import Loader from "./Loader"
+import useAlert from "../../hooks/useAlert"
+import { useDispatch } from "react-redux"
 
 
 const CreateUserWraper = ()=>{
@@ -17,6 +21,9 @@ const CreateUserWraper = ()=>{
   const [registerToChatGroups] = useRegisterToChatGroupsMutation()
   const [updateMembers] = usePutUserToMemberGroupMutation()
   const [createContact] = useCreateContactMutation()
+  const [isFetching,setIsFetching] = useState(false)
+  const {trigerNotification} = useAlert()
+  const dispatch = useDispatch()
   //==============
 
   //values=========
@@ -25,18 +32,33 @@ const CreateUserWraper = ()=>{
   //=============
   
   //state========
+    let userDataTemplate ={
+      email: "",
+      first_name: "",
+      last_name: "",
+      phoneNumber: "",
+      phonePrefix: ""
+  }
+
+
     const [userData,setUserData] = useState([])
     const [idCase,setIdCase] = useState(null)
     const [sideVal,setSideVal] = useState(0)
     const [groups,setGorups] = useState([])
     const [disableSubmit,setDisableSubmit] = useState(true)
+    const [disableNext, setDisableNext] = useState(true)
+    const [isEmailValid] = useLazyIsEmailExistQuery()
+    const [validation,setValidation] = useState({isValid:true, errorMsg:''})
   //===========
 
+
+  //Hen this cause exception
   //useEffects==========
     useEffect(()=>{
       const val =side==='A'?0:1
       setSideVal(val)
     },[side]);
+  
   
   useEffect(() => {
     const unsubscribe = store.subscribe(() => {
@@ -48,6 +70,7 @@ const CreateUserWraper = ()=>{
         if(error)
           console.log(error)
         setIdCase(data.case.id)
+        localStorage.setItem('case_id',data.case.id)
       } 
       const resultGroups = Object.values(state.group_api.mutations)[0]
       if (resultGroups && resultGroups.status === 'fulfilled'){
@@ -55,18 +78,25 @@ const CreateUserWraper = ()=>{
         if(error)
           alert(error)
         setGorups(data.AgoraResponse)
+        localStorage.setItem('groups',JSON.stringify(data.AgoraResponse))
       }
     });
     return () => {
       unsubscribe()
     };
   }, []);
-  useEffect(()=>{
-     if(groups.length>0&&idCase) {
-         setDisableSubmit(false)
-     }
 
-  },[groups,idCase])
+
+  useEffect(() => {
+    if (groups.length > 0 && idCase) {
+      setDisableSubmit(false);
+    }
+  }, [groups, idCase]);
+
+
+  
+
+  
     //================
 
     //handlers============
@@ -86,11 +116,79 @@ const CreateUserWraper = ()=>{
           }
           return prevData
         })
+        validate(value,index)
       }
+
+      const validate = (value, index) => {
+        if (!userData[index]) {
+          setDisableSubmit(true)
+          return;
+        }
+      
+        if (value === "") {
+          if (side === "A") {
+            setDisableNext(true);
+            return;
+          } else {
+            setDisableSubmit(true);
+            return;
+          }
+        }
+      
+        const keys = Object.keys(userData[index]);
+        if (!keys) {
+          return;
+        }
+      
+        if (keys.length < 4) {
+          if (side === "A") {
+            setDisableNext(true);
+            return;
+          } else {
+            setDisableSubmit(true);
+            return;
+          }
+        }
+      
+        if (side === "A") {
+          setDisableNext(false);
+        } else {
+          setDisableSubmit(false);
+        }
+      };
+      const validateSubmit = async ({ users }) => {
+        let isExist = 'not-exist'
+        let errors = ''
+   
+        for (let userId in users) {
+          let { data, error } = await isEmailValid({ email: users[userId].email });
+          
+          if (data === true || error) {
+              isExist ='exist';
+              errors+=`this email ${users[userId].email} is already exist \n` 
+          }
+        }
+        if(errors.length > 0)
+          setValidation({isValid:false,errorMsg:errors})
+        
+        return isExist;
+      };
+      
+      
+
     //handlers===========
-    const handleSubmit =(event)=>{
+    const handleSubmit =async(event)=>{
         event.preventDefault()
+        if(!idCase)
+        setIdCase(localStorage.getItem('case_id') || null)
+  
+      if(groups.length==0)
+        setGorups(JSON.parse(localStorage.getItem('groups')) || [])
+        
         const arrUser = userData
+        const isExistEmail =await validateSubmit({users:arrUser})
+        console.log('email is ',isExistEmail)
+        if(isExistEmail==='exist')return
 
         arrUser.forEach(user=>{
           let pass = `Negoflict${user.phoneNumber}`
@@ -98,14 +196,33 @@ const CreateUserWraper = ()=>{
           user.password = pass
         })
 
-        registerUsers({users:arrUser,access:access,caseId:idCase})
+        
+        setIsFetching(true)
+        const {error:registerError} = await registerUsers({users:arrUser,access:access,caseId:idCase})
+        if(registerError){
+          setIsFetching(false)
+          trigerNotification('unable to create the users for that case.','error')
+          rediract()
+          return
+        }
+          
+
+        dispatch(setBand({band_name:'BandCase', band_state:true}))
+        setIsFetching(false)
+        
 
         createUsers({users:arrUser,access:access}) //need to add more api to register in server
         .then(res=>{
           const usersArr = [...res.data]
-          const sides = ['A','B']
+          const sides = ['A','B']         
 
-          registerToChatGroups({groups:groups,users:arrUser})
+        registerToChatGroups({groups:groups,users:arrUser})
+        .then(res=>{
+          console.log(res)
+          dispatch(setBand({band_name:'BandCase', band_state:false}))
+          trigerNotification('created case and users','success')
+        })
+        .catch(err=>console.log('err',err))
 
           for(let i=0; i<2;i++){
             updateMembers({user:usersArr[i],access:access,idCase:idCase,side:sides[i]})
@@ -124,22 +241,27 @@ const CreateUserWraper = ()=>{
 
       //functions========
       const rediract = ()=>{
+        localStorage.removeItem('groups')
+        localStorage.removeItem('case_id')
+        
         navigate('/mediator/cases/?open_close=True',{
           replace:true,
+          
       })
 
     }
+    
     const next = ()=>{
+      validate('notEmpty',1)
       navigate(`?side=B&id=${idCase}`,{
         state: { idCase, groups}
       })
-
   }
   const goBack = ()=>{
+    validate('notEmpty',0)
       navigate(-1,{
         state: { idCase,groups }
-      }
-        )
+      })
   }
   const clearState = ()=>{
     setUserData(()=>[])
@@ -152,7 +274,14 @@ const CreateUserWraper = ()=>{
   //=================
 
     return(
-        side==='A'
+      <div>
+        {isFetching &&
+        <div style={{position:'fixed',zIndex:'100',width:'100%',height:'100%',opacity:'0.6',backgroundColor:'gray'}}>
+          <Loader withLogo={true} size={'medium'}/>
+        </div>
+        }
+      
+        {side==='A'
         ?
         <AddUserPage 
         side='A'
@@ -160,6 +289,9 @@ const CreateUserWraper = ()=>{
         next={next}
         handleChange={handleChange}
         userData={userData[0]}
+        disabled ={disableNext}
+        goBack={goBack}
+        errorMsg={validation}
         />
         :
         <AddUserPage
@@ -170,9 +302,9 @@ const CreateUserWraper = ()=>{
         handleSubmit={handleSubmit}
         userData={userData[1]}
         disabled={disableSubmit}
+        errorMsg={validation}
         />
-
-    )
-}
-
+    }
+    </div>
+)}
 export default CreateUserWraper

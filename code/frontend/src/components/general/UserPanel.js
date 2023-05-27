@@ -10,7 +10,7 @@ const UserPanel=({
 })=>{
     const {role} = useSelector(state=>state.user)
     const roleName = getPermName({role:role})
-    const {first_name, last_name} = useSelector(state=>state.user)
+    // const {first_name, last_name} = useSelector(state=>state.user)
     
 
     const {deletAlert} = useAlert()
@@ -23,10 +23,17 @@ const UserPanel=({
         background:'#fffcfcb4',
        })
        if(isDismissed)return
-       if(roleName==='mediator')
+       if(roleName==='mediator'){
             WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
-
-       WebIM.conn.close()
+            let option = {
+                groupId: centerGroup.groupid,   
+                announcement: "chat_end"                       
+            };
+            WebIM.conn.updateGroupAnnouncement(option).then(res => console.log(res))
+       }
+           
+       await WebIM.conn.publishPresence({description:'offline'})
+       await WebIM.conn.close()
        
 
        if(roleName==='user')

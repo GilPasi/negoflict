@@ -12,8 +12,9 @@ const positionSlice = createSlice({
             state.pos = action.payload
         },
         setPrivateGroup: (state,action)=>{
-            state.privateGroup = action.payload
+             state.privateGroup = action.payload
         }
+
 
     }
 
