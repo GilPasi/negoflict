@@ -32,6 +32,11 @@ const AddWindow =()=>{
     const {data:usersData, error:usersError, isLoading:loadingGetUsers} = useGetUsersByCaseQuery({caseChat:caseId})
     const {data:contactsData, error:contactsError, isLoading:loadingGetContact} = useGetContactsQuery({mediator_id:id})
     //=================================================================================================
+    //lazyQueries==============================
+    const [addManyUsersToOneChatGroup,{isLoading:loadingAddUsers}] = useAddingManyUsersToOneChatGroupMutation()
+    const [registerManyUsersToGroupMember,{isLoading:loadingRegisterUsers}] = useRegisterManyUsersToGroupMemberMutation()
+
+    //=================================================================================================
 
     //useEffect==============================
     useEffect(()=>{
