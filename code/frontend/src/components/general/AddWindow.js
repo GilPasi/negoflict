@@ -7,12 +7,14 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { useAddingManyUsersToOneChatGroupMutation, useRegisterManyUsersToGroupMemberMutation, useGetUsersByCaseQuery,addPerticipents, useSetUserCaseAttributeMutation, useGetChatGroupsQuery } from '../../store'
 import CreateSelfUser from '../../pages/CreateSelfUserPage'
+import useChat from "../../hooks/useChat";
 import Loader from './Loader'
 import {useLocation} from "react-router-dom";
 
 const AddWindow =()=>{
     //hooks==============================
     const location = useLocation()
+    const {addUsersToGroup} = useChat()
 
     //=================================================================================================
 
@@ -22,6 +24,7 @@ const AddWindow =()=>{
     const {id} = useSelector(state=>state.user)
     const {caseId,groups} = location.state ?? '' //holds the case id
     const [usersToAdd,setUsersToAdd] = useState([])
+    const [selectedUsers,setSelectedUsers] = useState([])
     //=================================================================================================
 
     //queries==============================
@@ -37,7 +40,7 @@ const AddWindow =()=>{
         const contacts = contactsData.map(contact=>contact.user)
         const usersToAdd = contacts.filter(contact=>!users.includes(contact.id))
         setUsersToAdd(()=>usersToAdd)
-    },[])
+    },[usersData,contactsData])
 
     //=================================================================================================
 
@@ -53,7 +56,7 @@ const AddWindow =()=>{
     const usersView  = usersToAdd.map(user=>(
         <label key={user.id} className="add-win--u-container">
             <div className="add-win--option" >
-                <span> {user.fullName}</span>
+                <span> {`${user.first_name} ${user.last_name}`}</span>
                 <span> {'    '}</span>
                 <span> {user.email}</span>
             </div>
@@ -67,6 +70,33 @@ const AddWindow =()=>{
             <div className="add-win--checkmark"/>
         </label>
     ))
+
+    const  handleMark=(user)=> {
+        if (selectedUsers.includes(user)) {
+          setSelectedUsers(selectedUsers.filter(p => p !== user));
+        } else {
+          setSelectedUsers([...selectedUsers, user]);
+        }
+      }
+      console.log(groups)
+    console.log('side',side)
+
+      const handleAddExistingUsers=()=>{
+        if(!groups || side==='')return
+          const sideCheck = side
+          let agoraUserNames = selectedUsers.map(user=>user.username.replace(/[^\w\s]/gi, ''))
+          console.log('usersname',agoraUserNames)
+          const centeredGroupId = groups.find(group => group.groupname.endsWith('G'))?.groupid
+          const sideGroupId = groups.find(group => group.groupname.endsWith(sideCheck))?.groupid
+        addUsersToGroup({groupId:centeredGroupId,usernames:agoraUserNames})
+            .then(res=>console.log('signCenter',res))
+            .catch(err=>console.log(err))
+           addUsersToGroup({groupId:sideGroupId,usernames:agoraUserNames})
+            .then(res=>console.log('signCenter',res))
+               .catch(err=>console.log(err))
+      }
+
+      console.log('selectedUsers',selectedUsers)
 
 
 
@@ -131,18 +161,18 @@ const AddWindow =()=>{
                     <h1 className='add-win--title'>Choose participants</h1>
                     <hr />
                     <div className="add-win--users-list">
-                        {usersToAdd}
+                        {usersView}
 
 
-            {/*        </div>*/}
-            {/*        <p className='warning' id='add-win-w'>You must select at least one user</p>*/}
-            {/*        <footer>*/}
-            {/*            <Button text='Back' length='5em' altitude='2em' margin='0.1em' onClick={()=>setStage('choose')}/>*/}
-            {/*            <Button text='Add' length='5em' altitude='2em' margin='0.1em' onClick={handleAdd} disabled={isClicked}/>*/}
-            {/*        </footer>*/}
+                    </div>
+                    <p className='warning' id='add-win-w'>You must select at least one user</p>
+                    <footer>
+                        <Button text='Back' length='5em' altitude='2em' margin='0.1em' onClick={()=>setStage('choose')}/>
+                        <Button text='Add' length='5em' altitude='2em' margin='0.1em' onClick={handleAddExistingUsers} disabled={false}/>
+                    </footer>
 
 
-            {/*    </center>}*/}
+                </center>}
 
                 {stage==='success' &&
                 <div>

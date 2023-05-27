@@ -157,7 +157,7 @@ const useChat = ()=>{
     }
 
     const addUsersToGroup = ({groupId,usernames})=>{
-        if(!online)return
+        // if(!online)return
         return  WebIM.conn.inviteUsersToGroup({groupId:groupId,users:usernames})
     }
 
