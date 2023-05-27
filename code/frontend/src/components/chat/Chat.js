@@ -45,7 +45,6 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         dispatch(clearAllPerticipents())
         dispatch(setStartChat(false))
 
-        await WebIM.conn.close()
     };
     const addEvents = ()=>{
       WebIM.conn.addEventHandler('hen',{

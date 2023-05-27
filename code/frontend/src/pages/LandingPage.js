@@ -15,7 +15,7 @@ const CreateSelfUser = lazy(()=>import('./CreateSelfUserPage'))
 const SurveyPage = lazy(()=>import('./SurveyPage.js'))
 const MediatorList = lazy(()=>import('./roleMenu/mediatorList'))
 const StatisticsPage = lazy(()=>import('./rolePages/admin/StatisticsPage.js'))
-
+const ChatPageHen = lazy(()=>import('./ChatPageHen.js'))
 
 
 
@@ -41,10 +41,11 @@ const MediatorLandingPage = ()=>{
         <Routes>
             <Route path="/" element={<MediatorMenu/>}/>
             {/* <Route path="/chat/*" element={<ChatPage isMediator={true}/>}/> */}
-            <Route path="/chat/*" element={<ChatPageA/>}/>
+            {/*<Route path="/chat/*" element={<ChatPageA/>}/>*/}
             <Route path="cases/new_case" element={<CaseFormPage/>}/>
             <Route path="cases/*" element={<CasePage isMediator={true}/>}/>
             <Route path="create_users" element={<CreateUserWraper/>}/>
+            <Route path="chat/*" element={<ChatPageHen isMediator={true}/>}/>
             <Route path="/clients" element={<Clients/>}/>
             <Route path="clients/create_user" element={<CreateSelfUser/>} />
         </Routes>
