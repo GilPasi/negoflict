@@ -88,18 +88,45 @@ const AddWindow =()=>{
 
       const handleAddExistingUsers=()=>{
         if(!groups || side==='')return
+
           const sideCheck = side
           let agoraUserNames = selectedUsers.map(user=>user.username.replace(/[^\w\s]/gi, ''))
-          console.log('usersname',agoraUserNames)
+
           const centeredGroupId = groups.find(group => group.groupname.endsWith('G'))?.groupid
           const sideGroupId = groups.find(group => group.groupname.endsWith(sideCheck))?.groupid
-        addUsersToGroup({groupId:centeredGroupId,usernames:agoraUserNames})
+
+
+          addUsersToGroup({groupId:centeredGroupId,usernames:agoraUserNames})
             .then(res=>console.log('signCenter',res))
             .catch(err=>console.log(err))
-           addUsersToGroup({groupId:sideGroupId,usernames:agoraUserNames})
+
+          addUsersToGroup({groupId:sideGroupId,usernames:agoraUserNames})
             .then(res=>console.log('signCenter',res))
-               .catch(err=>console.log(err))
+            .catch(err=>console.log(err))
+
+          const groupChatId = groupsData.find(group => group.chat===sideCheck)?.id
+
+
+          let usersDataArr = []
+          selectedUsers.forEach(user=> {
+              const userData = {
+                  side: side,
+                  group_chat: groupChatId,
+                  user: user.id,
+                  case: caseId,
+                  mediator: id
+              }
+              usersDataArr = [...usersDataArr, userData]
+          })
+
+          
+
+
+
+
       }
+
+      console.log('groupsss',groupsData)
 
       console.log('selectedUsers',selectedUsers)
 
