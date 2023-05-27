@@ -10,193 +10,28 @@ import CreateSelfUser from '../../pages/CreateSelfUserPage'
 import Loader from './Loader'
 
 const AddWindow =({groups})=>{
-    const {agora,server,caseId} = groups
-
-    const [stage , setStage] = useState('pick side');
-    const [selectedUsers , setSelectedUsers] = useState([])
-    const [side,setSide] = useState(null)
-    const [Users, setUsers] = useState([])
-    const {id} = useSelector(state=>state.user)
-    const {data:participentsData, error:participentError, refetch:refetchGetUser, isLoading:loadingGetUsers} = useGetUsersByCaseQuery({caseChat:caseId})
-    const {data:contantData, error:contactError, refetch:refetchContact, isLoading:loadingGetContact} = useGetContactsQuery({mediator_id:id});
-    const [addingUsersToChat] = useAddingManyUsersToOneChatGroupMutation()
-    const [registerServerChatGroup] = useRegisterManyUsersToGroupMemberMutation()
-    const dispatch = useDispatch()
-    const [isClicked, setIsClicked] = useState(false)
-    const [setUserAttributeCaseIfExist] = useSetUserCaseAttributeMutation()
-  
-
-    
-    const buttonsWidth = '6em'
-
-    useEffect(() => {
-        // This will run when the component is unmounted
-        return () => {
-            setUsers([]);
-        };
-    }, []);
+    const [stage,setStage] = useState('pick side')
+    const [side,setSide] = useState('')
 
 
-    
-
-
-    useEffect(() => {
-        let empty = false;
-        if (participentError) {
-            console.log("error", contactError);
-            if (participentError.status !== 404) return;
-            empty = true;
-        } else if (!contantData || !participentsData) return;
-        console.log('participent',participentsData)
-        console.log('contact data',contantData)
-        console.log(empty)
-        if(empty && !contantData)return
-    
-        let participentsIds = empty ? [] : participentsData.map((entry) => entry.user);
-    
-        let filteredUsersData = contantData.filter((user) => !participentsIds.includes(user.user.id));
-    
-        // Filter out duplicate users based on their IDs
-        const uniqueUsersData = Array.from(
-            new Map(filteredUsersData.map((user) => [user["user"].id, user])).values()
-        );
-    
-        setUsers([]);
-    
-        uniqueUsersData.forEach((user) => {
-            const tempUser = user["user"];
-            const fullName = `${tempUser.first_name} ${tempUser.last_name}`;
-            const userTemp = { fullName: fullName, email: tempUser.email, id: tempUser.id };
-    
-            setUsers((prev) => [
-                ...prev,
-                userTemp,
-            ]);
-        });
-    
-    }, [participentsData, contantData, participentError]);
-    
-      
-
-    function handleMark(user) {
-        if (selectedUsers.includes(user)) {
-          setSelectedUsers(selectedUsers.filter(p => p !== user));
-        } else {
-          setSelectedUsers([...selectedUsers, user]);
-        }
-      }
-
-    const users = Users.map(user=>(
-        <label key={user.id} className="add-win--u-container">
-            <div className="add-win--option" >
-                <span> {user.fullName}</span>
-                <span> {'    '}</span>
-                <span> {user.email}</span>
-            </div>
-           
-            <input
-                // checked={selectedUsers.includes(user.id)?'checked':''}
-                type="checkbox"
-                onClick={()=>handleMark(user)} 
-                // name={index}
-            />
-            <div className="add-win--checkmark"/>
-        </label>
-    ))
-
-    const handleAdd =async ()=>{
-        if(selectedUsers.length===0){
-            document.querySelector('#add-win-w').style.visibility='visible';
-            return
-        }
-        if(!side)return
-        setIsClicked(true)
-       let groupSideChoose = agora.find(group=>group.groupname.endsWith(side))
-       let groupCenterChoose = agora.find(group=>group.groupname.endsWith('G'))
-       addingUsersToChat({users:selectedUsers, group:groupSideChoose.groupid})
-       .then(()=>addingUsersToChat({users:selectedUsers, group:groupCenterChoose.groupid}))
-       .then(()=>{
-        selectedUsers.forEach(user=>{
-            const userData = {
-                side:side,
-                group_chat:filterdGroupChat.id,
-                user:user.id,
-                case:caseId,
-                mediator:id
-            }
-            usersDataArr = [...usersDataArr,userData]
-           })
-           handleAddNewMember(usersDataArr)
-       })
-
-     
-      
-
-       const modUsersArray = []
-       selectedUsers.forEach(user=>{
-        const modMediator = {id:user.id,side:side, fullName:user.fullName ,connect:false, agoraUsername:user.email.replace(/[^\w\s]/gi, '')}
-        modUsersArray.push(modMediator)
-       })
-       dispatch(addPerticipents(modUsersArray))
-       setStage('success')
-    
-       const filterdGroupChat = server.find(group=>group.chat === side)
-       let usersDataArr = []
-
-    
-        
-        
-    }
-    const handleAddOrSet =async (users)=>{
-        console.log('users',users)
-        let filterdUsers = []
-        for(let i in users){
-            console.log(users[i]['user'])
-          const {data, error}= await setUserAttributeCaseIfExist({case_id:caseId, user_id:users[i].user,status:true})
-        //   if(!data,!err)return
-        // console.log('err',err)
-        
-          
-          if(error?.status=== 400 && error?.data === 'member not found')
-            filterdUsers = [...filterdUsers, users[i]]
-        }
-        return filterdUsers
-        
-
-
-    }
-
-    const handleAddNewMember =async (users)=>{
-        let filterdUsers = []
-        filterdUsers = await handleAddOrSet(users)
-       console.log('filterdUsers', filterdUsers)
-
-       registerServerChatGroup({users:filterdUsers}).then(()=>{
-        setSide(null)
-        refetchGetUser()
-        refetchContact()
-      })
-      
-      setIsClicked(false)
-
-    }
-
-
-    const handleSideChoose = ({currentTarget:input})=>{
+    const handleChangeSide = ({currentTarget:input})=>{
         const {value} = input
-        setSide(value)
-        
-
+        setSide(()=>value)
     }
+
+
+
+
+
 
         
     return(
         <article>
-            {(loadingGetContact || loadingGetUsers) &&
-                // <div style={{position:'fixed',zIndex:'100',width:'100%',height:'100%',opacity:'0.6',backgroundColor:'gray', left:'50%',top:'50%',transform:'translate(-50%,-50%)'}}>
-                    <Loader withLogo={true} size={'medium'}/>
-                // </div>
-            }
+            {/*{(loadingGetContact || loadingGetUsers) &&*/}
+            {/*    // <div style={{position:'fixed',zIndex:'100',width:'100%',height:'100%',opacity:'0.6',backgroundColor:'gray', left:'50%',top:'50%',transform:'translate(-50%,-50%)'}}>*/}
+            {/*        <Loader withLogo={true} size={'medium'}/>*/}
+            {/*    // </div>*/}
+            {/*}*/}
                 
                
             
@@ -211,7 +46,7 @@ const AddWindow =({groups})=>{
                         className='add-win--circle' 
                         value='A'
                         name='side select'
-                        onChange={handleSideChoose}
+                        onChange={handleChangeSide}
                         />
                         
                     <input 
@@ -219,7 +54,7 @@ const AddWindow =({groups})=>{
                         className='add-win--circle' 
                         value='B'
                         name='side select'
-                        onChange={handleSideChoose}
+                        onChange={handleChangeSide}
                         />
                 </div>
                 <Button text="Next" margin='4em 0 0 0' size='small' onClick={()=>setStage('choose')}/>

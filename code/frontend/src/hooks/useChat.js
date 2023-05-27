@@ -107,8 +107,7 @@ const useChat = ()=>{
 
     const groupListener = ({handleGroupChange})=>{
         WebIM.conn.addEventHandler('Group',{
-            onGroupEvent:()=>handleGroupChange()
-
+            onGroupEvent:()=>handleGroupChange(),
         })
     }
 
@@ -157,6 +156,12 @@ const useChat = ()=>{
         return  WebIM.conn.subscribePresence({usernames:usernames, expiry:10000})
     }
 
+    const addUsersToGroup = ({groupId,usernames})=>{
+        if(!online)return
+        return  WebIM.conn.inviteUsersToGroup({groupId:groupId,users:usernames})
+    }
+
+
 
 
 
@@ -186,6 +191,7 @@ const useChat = ()=>{
         subscribePresence,
         online,
         onlineStatusListener,
+        addUsersToGroup,
 
 
 

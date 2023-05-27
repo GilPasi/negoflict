@@ -4,8 +4,9 @@ import { useLocation} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {useGetChatTokenQuery, useGetFullUsersByCaseQuery} from "../store";
 import { addHistoryMsg } from "../store";
-import ChatView from "../components/chat/ChatView";
+// import ChatView from "../components/chat/ChatView";
 import { getPermName } from "../utils/permissions";
+import ChatViewHen from "./ChatViewHen";
 
 
 const ChatPageHen = ()=>{
@@ -17,7 +18,7 @@ const ChatPageHen = ()=>{
 
     //state=========
     const groups = location.state?.groups ?? [] //holds the 3 sides of the chat groups by agora
-    const {caseId} = location.state ?? '' //holds the case id
+    const {caseId, caseTitle,caseCategory} = location.state ?? '' //holds the case id
     const {username, role:userRole, first_name, id, access} = useSelector(state=>state.user) //user important data
     const [connected,setConnected] = useState(false) //holds the connection status
     const [groupMembers,setGroupMembers] = useState([]) //holds the group members agora data
@@ -30,7 +31,7 @@ const ChatPageHen = ()=>{
     //apiFetch==========
     const {data:token} = useGetChatTokenQuery({username}) //get the agora token
     const {data:users} = useGetFullUsersByCaseQuery({caseId}) //get the users data
-    console.log(roleName)
+
 
     //===================================================================================================
 
@@ -64,16 +65,6 @@ const ChatPageHen = ()=>{
         subscribeToPresence()
         
     },[groupMembers])
-
-
-
-
-
-    console.log('users',users)
-
-
-
-
     //===================================================================================================
 
     //functions============
@@ -126,7 +117,7 @@ const ChatPageHen = ()=>{
     const handleShuttle = ({isShuttled})=>{
         muteAllMembers({groupId:centeredGroup.groupid,shuttle:isShuttled}).then(res=>console.log('muted',res)).catch(err=>console.log(err))
     }
-    console.log('members',groupMembers)
+
 
 
 
@@ -138,19 +129,20 @@ const ChatPageHen = ()=>{
 
 
 
-
-
-
+    console.log('rolename',roleName)
+    console.log('members',groupMembers)
+    console.log('users',users)
     console.log(userRole, first_name, id, access,username)
     console.log(groups, caseId)
 
     return(
-        <ChatView
-            isMediator={roleName==='mediator'}
-            caseId={caseId.slice(-7)}
+        <ChatViewHen
+            caseId={caseId}
             handleShuttle={handleShuttle}
             role={roleName}
             centerGroup={centeredGroup}
+            category={caseCategory}
+            caseTitle={caseTitle}
         />
     )
 

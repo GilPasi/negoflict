@@ -45,7 +45,7 @@ const CasePage =({isMediator})=>{
         let title, icon
 
         if(status===200){
-            title = 'Case created successfuly'
+            title = 'Case created successfully'
             icon = 'success'
         }
         else{

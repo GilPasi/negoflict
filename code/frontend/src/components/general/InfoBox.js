@@ -49,10 +49,10 @@ const InfoBox = ({ obj, isOpen,hasExit }) => {
   };
 let error
 let data
-  if (error = errorDeleteGroups || errorClose) {
+  if (error === errorDeleteGroups || errorClose) {
     console.log('errorr', error);
   }
-  if (data = closeData || deleteGroups) {
+  if (data === closeData || deleteGroups) {
     console.log('success', data);
   }
 
@@ -64,7 +64,6 @@ let data
 }
 
 const aup = <AddUserPage window='small' isMediator={false} side='A' goBack={()=>setStep('nav')}/>
-
   return (
       <div className="ib" style={infoSize}>
         {step ==='nav' ? 
@@ -78,6 +77,7 @@ const aup = <AddUserPage window='small' isMediator={false} side='A' goBack={()=>
                       groups: handleStart(),
                       caseId: obj.id,
                       caseTitle: obj.title,
+                      caseCategory:obj.category
                     }}
                   >
                     <button className="ib--btn">enter</button>

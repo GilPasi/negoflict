@@ -5,12 +5,13 @@ import AddWindow from "../../components/general/AddWindow"
 import UsersList from "./UsersList.js"
 
 const ToolBar =({conflictName,id,isMediator,groups,isInfo,handleSelctedUser})=>{
-    
+     console.log(groups)
     return(
         <div className="tb" >
 
+
             {isMediator&&<PopupContainer 
-                popContent={<AddWindow  groups={groups}/>}
+                popContent={<AddWindow  groups={groups || ''}/>}
                 imgSrc='../../../assets/images/add_icon_dark.png'
                 classStr='tb--btn'
             />}
