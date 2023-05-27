@@ -11,7 +11,7 @@ import { getPermName } from "../utils/permissions";
 const ChatPageHen = ()=>{
     //hooks==========
     const location = useLocation()
-    const { connect, getHistoryMsgs, publishPresence, onlineStatusListener, getGroupMember, groupListener, subscribePresence} = useChat()
+    const { connect, getHistoryMsgs, publishPresence, onlineStatusListener, getGroupMember, groupListener, subscribePresence,muteAllMembers} = useChat()
     const dispatch = useDispatch()
     //===================================================================================================
 
@@ -122,6 +122,10 @@ const ChatPageHen = ()=>{
         subscribePresence({usernames:members}).then(res=>console.log('subscribed',res)).catch(err=>console.log(err))
 
     }
+
+    const handleShuttle = ({isShuttled})=>{
+        muteAllMembers({groupId:centeredGroup.groupid,shuttle:isShuttled}).then(res=>console.log('muted',res)).catch(err=>console.log(err))
+    }
     console.log('members',groupMembers)
 
 
@@ -140,16 +144,15 @@ const ChatPageHen = ()=>{
     console.log(userRole, first_name, id, access,username)
     console.log(groups, caseId)
 
-    // return(
-    //     <ChatView
-    //         isMediator={roleName==='mediator'}
-    //         caseId={caseId.slice(-7)}
-    //
-    //
-    //
-    //
-    //     />
-    // )
+    return(
+        <ChatView
+            isMediator={roleName==='mediator'}
+            caseId={caseId.slice(-7)}
+            handleShuttle={handleShuttle}
+            role={roleName}
+            centerGroup={centeredGroup}
+        />
+    )
 
 }
 export default ChatPageHen

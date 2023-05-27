@@ -50,9 +50,9 @@ const useChat = ()=>{
     const muteAllMembers = ({groupId, shuttle})=>{
         if(!online)return
         if(shuttle)
-            WebIM.conn.disableSendGroupMsg(groupId).catch(err=>console.log('in muteAllMembers from disable',err))
+          return   WebIM.conn.disableSendGroupMsg(groupId).catch(err=>console.log('in muteAllMembers from disable',err))
         else
-            WebIM.conn.enableSendGroupMsg(groupId).catch(err=>console.log('in muteAllMembers from enable',err))
+           return  WebIM.conn.enableSendGroupMsg(groupId).catch(err=>console.log('in muteAllMembers from enable',err))
     }
 
     const getHistoryMsgs = ({groupId})=>{
@@ -127,7 +127,7 @@ const useChat = ()=>{
             groupId:groupId,
             announcement: "chat_start"
         }
-        WebIM.conn.updateGroupAnnouncement(option).catch(err=>console.log('in setAnnouncement',err))
+       return  WebIM.conn.updateGroupAnnouncement(option).catch(err=>console.log('in setAnnouncement',err))
     }
 
     const getAnnouncement = ({groupId})=>{
