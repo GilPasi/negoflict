@@ -1,5 +1,7 @@
 import { useSelector } from 'react-redux'
+import CaseReview from '../../../components/general/CaseReview'
 import TextHolder from '../../../components/general/TextHolder'
+
 import Header from "../../../components/general/Header"
 import Loader from '../../../components/general/Loader'
 import { useGetMyCasesQuery } from '../../../store'
@@ -22,13 +24,19 @@ const MyCases = ({isMediator, open_close})=>{
                 {isSuccess &&
                     cases.map(caseData=>(
                         <div key={caseData.id}>
+                        {/* <CaseReview 
+                            caseName="Orgainzation - work spy"
+                            caseId="2e55e4"
+                            creationDate="April 2023"
+                            caseIndex="1"
+                        /> */}
                             
-                            <TextHolder 
-                                addOns={caseData.category}
-                                caseData={caseData} 
-                                withInfo={true}
-                                hasExit={false}
-                            />
+                        <TextHolder 
+                            addOns={caseData.category}
+                            caseData={caseData} 
+                            withInfo={true}
+                            hasExit={false}
+                        />
                         </div>
                 ))}
             </div>
