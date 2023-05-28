@@ -6,21 +6,22 @@ import useAlert from '../../hooks/useAlert';
 import { useDeleteGroupMutation } from '../../store';
 import { useCloseCaseMutation } from '../../store';
 
-const CaseReview = ({caseId , caseName , creationDate ,caseIndex, caseData})=>{
-    
+const CaseReview = ({ caseName , creationDate ,caseIndex, caseData})=>{
+    //================= Hooks and variables ============
     const [showButtons , setShowButtons] = useState(false)
     const { deletAlert, textAlert } = useAlert();
     const { role } = useSelector((state) => state.user);
     const gotRole = role <= 2 ? 'mediator' : 'user';
     const [deleteGroupsAgora, { data:deleteGroups, error:errorDeleteGroups }] = useDeleteGroupMutation();
     const [closeCase,{data:closeData,error:errorClose}] = useCloseCaseMutation()
-    const [step, setStep] = useState('nav')
   
     const path = caseData.id.replaceAll('-', '');
     const { groups } = useSelector((state) => state.groups);
   
     const chatPath = `/${gotRole}/chat/${path}/`;
     
+
+    //================ Functions =======================
     const handleStart = () => {
         return groups.filter((group) =>
           group.groupname.startsWith(`${caseData.title}_`)
@@ -53,7 +54,16 @@ const CaseReview = ({caseId , caseName , creationDate ,caseIndex, caseData})=>{
   if (data = closeData || deleteGroups) {
     console.log('success', data);
   }
-    /* =====Design===== */
+
+
+  
+    //================== Design ======================
+    const MAX_LENGTH = 21  ,THREE_DOTS_LENGTH = 3
+    let name = caseName
+    if(caseName.length > MAX_LENGTH)
+        name = caseName.slice(0, MAX_LENGTH - THREE_DOTS_LENGTH) + " ..."
+
+
     const optionsStyles = [
         {top: showButtons ? "0%" : "45%"},
         {top: showButtons ? "100%" : "55%"},
@@ -66,18 +76,18 @@ const CaseReview = ({caseId , caseName , creationDate ,caseIndex, caseData})=>{
     <article className="case-review">
         <div className="case-review--frame case-review--top">
             <h1 className="title-green case-review--conflict-name">
-                {caseName}
+                {name}
             </h1>
         </div>
 
 
         <div className="case-review--frame case-review--options centerizer">
-            <div  className="case-review--options-container" >
+            <div  className="case-review--options-container" style={{cursor: showButtons ?"" :"pointer"}}>
+                <div className="case-review--options-box" onClick={()=>setShowButtons(true)}/>
                 <div
                     className="line case-review--line"
                     id="line-hor"
                     style={optionsStyles[0]}
-                    onClick={()=>setShowButtons(true)}
                 />
 
 
@@ -86,7 +96,7 @@ const CaseReview = ({caseId , caseName , creationDate ,caseIndex, caseData})=>{
                     style={buttonStyle}
                 >
                     <Link
-                        style={{color:"black" }}
+                        style={{color:"black" , padding:"0 1em" ,}}
         
                         to={chatPath}
                         state={{    
@@ -102,7 +112,6 @@ const CaseReview = ({caseId , caseName , creationDate ,caseIndex, caseData})=>{
                     className="line case-review--line" 
                     id="line-hor" 
                     style={{top:"50%"}}
-                    onClick={()=>setShowButtons(true)}
                 />
 
                 {gotRole==='mediator'&&<button 
@@ -116,7 +125,6 @@ const CaseReview = ({caseId , caseName , creationDate ,caseIndex, caseData})=>{
                     className="line case-review--line" 
                     id="line-hor" 
                     style={optionsStyles[1]}
-                    onClick={()=>setShowButtons(true)}
                 />
             </div>
         </div>
@@ -124,11 +132,10 @@ const CaseReview = ({caseId , caseName , creationDate ,caseIndex, caseData})=>{
             <span className="case-review--info-case">
                 <strong>Case {caseIndex}</strong>
                 <span className="space"/>
-                I.D.{caseId}
+                I.D.{caseData.id.slice(0,7)}{/*slice is too big , show only a couple of first digits */}
             </span>
             <span className="case-review--info-date">{creationDate}</span>
         </div>
-        <div className="case-review--frame"></div>
     </article>)
 
 

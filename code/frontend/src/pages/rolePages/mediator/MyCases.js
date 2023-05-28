@@ -19,24 +19,23 @@ const MyCases = ({isMediator, open_close})=>{
             <Header isLarge={true}/>
 
             <h1 className='title-large'> My cases </h1>
-            <div style={{height: '50vh',overflowY: 'scroll',}} >
+            <div style={{height: '55vh',overflowY: 'scroll',}} >
                 {isSuccess &&
-                    cases.map(caseData=>(
+                    cases.map((caseData , index)=>(
                         <div key={caseData.id}>
                         <CaseReview 
-                            caseName="Orgainzation - work spy"
-                            caseId="2e55e4"
+                            caseName="Orgainzationaaaaaaaaaa"
                             creationDate="April 2023"
-                            caseIndex="1"
+                            caseIndex={index + 1}
                             caseData={caseData}
                         />
                             
-                        <TextHolder 
+                        {/* <TextHolder 
                             addOns={caseData.category}
                             caseData={caseData} 
                             withInfo={true}
                             hasExit={false}
-                        />
+                        /> */}
                         </div>
                 ))}
             </div>
