@@ -24,12 +24,11 @@ const MyCases = ({isMediator, open_close})=>{
                     cases.map((caseData , index)=>(
                         <div key={caseData.id}>
                         <CaseReview 
-                            caseName="Orgainzationaaaaaaaaaa"
+                            caseName="Orgainzation - work spy"
                             creationDate="April 2023"
                             caseIndex={index + 1}
                             caseData={caseData}
-                        />
-                            
+                        /> 
                         {/* <TextHolder 
                             addOns={caseData.category}
                             caseData={caseData} 

@@ -119,7 +119,7 @@ const CaseReview = ({ caseName , creationDate ,caseIndex, caseData})=>{
                     style={buttonStyle}
                     onClick={handleClose}
                 >
-                    finish
+                    exit
                 </button>}
                 <div 
                     className="line case-review--line" 
