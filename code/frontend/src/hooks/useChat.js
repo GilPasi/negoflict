@@ -1,10 +1,11 @@
 import WebIM from "../WebIM";
 import {useState} from "react";
-
+import {useAddingManyUsersToOneChatGroupMutation} from "../store";
 
 
 const useChat = ()=>{
     const [online,setOnline] = useState(false)
+    const [addingUsersToGroup] = useAddingManyUsersToOneChatGroupMutation()
 
     const connect = ({username,agoraToken})=>{
         if(online)return
@@ -155,13 +156,10 @@ const useChat = ()=>{
         return  WebIM.conn.subscribePresence({usernames:usernames, expiry:10000})
     }
 
-    const addUsersToGroup = ({groupId,usernames})=>{
-        // if(!online)return
-        return  WebIM.conn.inviteUsersToGroup({groupId:groupId,users:usernames})
+    const addUsersToGroup = ({group,users})=>{
+      return addingUsersToGroup({users:users,group:group})
+
     }
-
-
-
 
     return{
         sendMsg,
@@ -182,8 +180,7 @@ const useChat = ()=>{
         online,
         onlineStatusListener,
         addUsersToGroup,
-        acceptInviteFromGroup,
-        getJoinedGroups
+
 
 
 

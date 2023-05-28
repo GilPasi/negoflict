@@ -3,11 +3,12 @@ import Button from "../../components/general/Button"
 import {useEffect, useState} from 'react'
 import { useGetContactsQuery } from '../../store' 
 import { useSelector } from 'react-redux'
-import { useRegisterManyUsersToGroupMemberMutation, useGetUsersByCaseQuery, useSetUserCaseAttributeMutation, useGetChatGroupsQuery,useAddingManyUsersToOneChatGroupMutation } from '../../store'
+import { useRegisterManyUsersToGroupMemberMutation, useGetUsersByCaseQuery, useSetUserCaseAttributeMutation, useGetChatGroupsQuery } from '../../store'
 import CreateSelfUser from '../../pages/CreateSelfUserPage'
-import useChat from "../../hooks/useChat";
+
 import Loader from './Loader'
 import {useLocation} from "react-router-dom";
+import useChat from '../../hooks/useChat'
 
 const AddWindow =()=>{
     //finish the add window hen berti
@@ -35,6 +36,7 @@ const AddWindow =()=>{
     //lazyQueries==============================
     const [registerManyUsersToGroupMember,{isLoading:loadingRegisterUsers}] = useRegisterManyUsersToGroupMemberMutation()
     const [setUserCaseAttribute,{isLoading:loadingSetUserCaseAttribute}] = useSetUserCaseAttributeMutation()
+
     //=================================================================================================
 
     //useEffect==============================
@@ -100,19 +102,28 @@ const AddWindow =()=>{
         if(!groups || side==='')return
 
           const sideCheck = side
-          let agoraUserNames = selectedUsers.map(user=>user.username.replace(/[^\w\s]/gi, ''))
+          let agoraUserNames = selectedUsers.map(user=>user)
 
           const centeredGroupId = groups.find(group => group.groupname.endsWith('G'))?.groupid
           const sideGroupId = groups.find(group => group.groupname.endsWith(sideCheck))?.groupid
 
+          addUsersToGroup({users:agoraUserNames,group:centeredGroupId})
+               .then(res=>console.log('signCenter',res))
+                .catch(err=>console.log(err))
 
-          addUsersToGroup({groupId:centeredGroupId,usernames:agoraUserNames})
-            .then(res=>console.log('signCenter',res))
-            .catch(err=>console.log(err))
+          addUsersToGroup({users:agoraUserNames,group:sideGroupId})
+               .then(res=>console.log('signSide',res))
+                .catch(err=>console.log(err))
 
-          addUsersToGroup({groupId:sideGroupId,usernames:agoraUserNames})
-            .then(res=>console.log('signSide',res))
-            .catch(err=>console.log(err))
+
+          //
+          // addUsersToGroup({groupId:centeredGroupId,usernames:agoraUserNames})
+          //   .then(res=>console.log('signCenter',res))
+          //   .catch(err=>console.log(err))
+          //
+          // addUsersToGroup({groupId:sideGroupId,usernames:agoraUserNames})
+          //   .then(res=>console.log('signSide',res))
+          //   .catch(err=>console.log(err))
 
           handleAddOrSetUser(sideCheck)
       };

@@ -21,7 +21,6 @@ const ChatPageHen = ()=>{
     const {username, role:userRole, first_name, id, access} = useSelector(state=>state.user) //user important data
     const [connected,setConnected] = useState(false) //holds the connection status
     const [groupMembers,setGroupMembers] = useState([]) //holds the group members agora data
-    const [invited,setInvited]  = useState(false)
     //===================================================================================================
     //variables=========
 
@@ -56,8 +55,6 @@ const ChatPageHen = ()=>{
     //and get the users data from agora
     useEffect(()=>{
         if(!connected)return
-        getMyGroups()
-        if(groups.length===0) return
         presentsStatus({status:'online'})
         handleGetHistory()
         Getmembers()
