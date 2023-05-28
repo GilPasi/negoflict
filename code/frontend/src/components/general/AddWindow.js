@@ -1,21 +1,19 @@
 import '../../styles/components/add_window.css'
-import AddUserPage from "../../pages/AddUserPage"
 import Button from "../../components/general/Button"
 import {useEffect, useState} from 'react'
 import { useGetContactsQuery } from '../../store' 
 import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
-import { useAddingManyUsersToOneChatGroupMutation, useRegisterManyUsersToGroupMemberMutation, useGetUsersByCaseQuery,addPerticipents, useSetUserCaseAttributeMutation, useGetChatGroupsQuery } from '../../store'
+import { useRegisterManyUsersToGroupMemberMutation, useGetUsersByCaseQuery, useSetUserCaseAttributeMutation, useGetChatGroupsQuery,useAddingManyUsersToOneChatGroupMutation } from '../../store'
 import CreateSelfUser from '../../pages/CreateSelfUserPage'
 import useChat from "../../hooks/useChat";
 import Loader from './Loader'
 import {useLocation} from "react-router-dom";
 
 const AddWindow =()=>{
+    //finish the add window hen berti
     //hooks==============================
     const location = useLocation()
     const {addUsersToGroup} = useChat()
-
     //=================================================================================================
 
     //state==============================
@@ -25,39 +23,48 @@ const AddWindow =()=>{
     const {caseId,groups} = location.state ?? '' //holds the case id
     const [usersToAdd,setUsersToAdd] = useState([])
     const [selectedUsers,setSelectedUsers] = useState([])
+    const buttonsWidth = '6em';
     //=================================================================================================
 
     //queries==============================
-    const {data:groupsData, error:groupsError, isLoading:loadingGetGroups} = useGetChatGroupsQuery({CaseId:caseId})
-    const {data:usersData, error:usersError, isLoading:loadingGetUsers} = useGetUsersByCaseQuery({caseChat:caseId})
-    const {data:contactsData, error:contactsError, isLoading:loadingGetContact} = useGetContactsQuery({mediator_id:id})
+    const {data:groupsData, isLoading:loadingGetGroups} = useGetChatGroupsQuery({CaseId:caseId})
+    const {data:usersData, error:usersError, isLoading:loadingGetUsers, refetch:refetchUsers} = useGetUsersByCaseQuery({caseChat:caseId})
+    const {data:contactsData, isLoading:loadingGetContact, refetch:refetchContacts} = useGetContactsQuery({mediator_id:id})
     //=================================================================================================
-    //lazyQueries==============================
-    const [addManyUsersToOneChatGroup,{isLoading:loadingAddUsers}] = useAddingManyUsersToOneChatGroupMutation()
-    const [registerManyUsersToGroupMember,{isLoading:loadingRegisterUsers}] = useRegisterManyUsersToGroupMemberMutation()
 
+    //lazyQueries==============================
+    const [registerManyUsersToGroupMember,{isLoading:loadingRegisterUsers}] = useRegisterManyUsersToGroupMemberMutation()
+    const [setUserCaseAttribute,{isLoading:loadingSetUserCaseAttribute}] = useSetUserCaseAttributeMutation()
     //=================================================================================================
 
     //useEffect==============================
     useEffect(()=>{
-        if(!usersData || !contactsData)return
-        const users = usersData.map(user=>user.user)
+        if(!contactsData)return
+        if(!usersData && (usersError?.status!==404 || !usersError))return
+
+
+        const users = usersData? usersData.map(user=>user.user) : []
         const contacts = contactsData.map(contact=>contact.user)
-        const usersToAdd = contacts.filter(contact=>!users.includes(contact.id))
+        let usersToAdd = []
+        if(users.length >0)
+            usersToAdd = contacts.filter(contact=>!users.includes(contact.id))
+        else
+            usersToAdd = contacts
+
+
         setUsersToAdd(()=>usersToAdd)
-    },[usersData,contactsData])
+
+    },[usersData,contactsData,usersError]);
 
     //=================================================================================================
 
-    console.log('usersdata',usersData,'contactdata',contactsData,groupsData)
-
+    //functions==============================
     const handleChangeSide = ({currentTarget:input})=>{
         const {value} = input
         setSide(()=>value)
-    }
+    };
 
-    const buttonsWidth = '6em'
-
+    // return the users that are not in the group
     const usersView  = usersToAdd.map(user=>(
         <label key={user.id} className="add-win--u-container">
             <div className="add-win--option" >
@@ -67,25 +74,28 @@ const AddWindow =()=>{
             </div>
 
             <input
-                // checked={selectedUsers.includes(user.id)?'checked':''}
                 type="checkbox"
                 onClick={()=>handleMark(user)}
-                // name={index}
+
             />
             <div className="add-win--checkmark"/>
         </label>
-    ))
+    ));
 
+    // handle the users that are selected
     const  handleMark=(user)=> {
-        if (selectedUsers.includes(user)) {
+        if (selectedUsers.includes(user))
           setSelectedUsers(selectedUsers.filter(p => p !== user));
-        } else {
+        else
           setSelectedUsers([...selectedUsers, user]);
-        }
-      }
-      console.log(groups)
-    console.log('side',side)
+      };
 
+        //handle the add button click event
+    // add the users to the group and set the user case attribute
+    // if the user is already in the group, set the user case attribute
+    // if the user is not in the group, add the user to the group and set the user case attribute
+    // if the user is not in the group and the user case attribute is already set, do nothing
+    // if the user is not in the group and the user case attribute is not set, add the user to the group and set the user case attribute
       const handleAddExistingUsers=()=>{
         if(!groups || side==='')return
 
@@ -101,14 +111,17 @@ const AddWindow =()=>{
             .catch(err=>console.log(err))
 
           addUsersToGroup({groupId:sideGroupId,usernames:agoraUserNames})
-            .then(res=>console.log('signCenter',res))
+            .then(res=>console.log('signSide',res))
             .catch(err=>console.log(err))
 
-          const groupChatId = groupsData.find(group => group.chat===sideCheck)?.id
+          handleAddOrSetUser(sideCheck)
+      };
 
+      const handleAddOrSetUser =async (sideCheck)=> {
+          const groupChatId = groupsData.find(group => group.chat === sideCheck)?.id
 
           let usersDataArr = []
-          selectedUsers.forEach(user=> {
+          selectedUsers.forEach(user => {
               const userData = {
                   side: side,
                   group_chat: groupChatId,
@@ -119,30 +132,32 @@ const AddWindow =()=>{
               usersDataArr = [...usersDataArr, userData]
           })
 
-          
+          const filteredUsers = await trySetUserCaseAttribute(usersDataArr)
+          registerManyUsersToGroupMember({users: filteredUsers})
+              .then(() => refetchUsers() && refetchContacts())
+              .catch(err => console.log(err))
+
+          setStage('success')
+      };
 
 
-
-
-      }
-
-      console.log('groupsss',groupsData)
-
-      console.log('selectedUsers',selectedUsers)
-
-
-
+      const trySetUserCaseAttribute = async (users)=>{
+        let filterdUsers = []
+        for(let i in users){
+            const { error }= await setUserCaseAttribute({case_id:caseId, user_id:users[i].user,status:true})
+            if(error?.status=== 400 && error?.data === 'member not found')
+                filterdUsers = [...filterdUsers, users[i]]
+        }
+        return filterdUsers
+      };
 
 
     return(
         <article>
-            {(loadingGetContact || loadingGetUsers) &&
-                // <div style={{position:'fixed',zIndex:'100',width:'100%',height:'100%',opacity:'0.6',backgroundColor:'gray', left:'50%',top:'50%',transform:'translate(-50%,-50%)'}}>
-                    <Loader withLogo={true} size={'medium'}/>
-                // </div>
-            }
+            {(loadingGetContact || loadingGetUsers || loadingGetGroups || loadingRegisterUsers || loadingSetUserCaseAttribute)?
+                    <Loader withLogo={true} size={'medium'}/>:
 
-
+            <div>
 
             {stage==='pick side' &&
              <center>
@@ -179,14 +194,14 @@ const AddWindow =()=>{
             </center>
             }
 
-            {/*{stage==='create'&&<CreateSelfUser*/}
-            {/*fulfiled={()=>{*/}
-            {/*    setStage('exist')*/}
-            {/*    refetchGetUser()*/}
-            {/*    refetchContact()*/}
-            {/*}}*/}
-            {/*goBack={()=>setStage('choose')}*/}
-            {/*/>}*/}
+            {stage==='create'&&<CreateSelfUser
+            fulfiled={()=>{
+                setStage('exist')
+                refetchUsers()
+                refetchContacts()
+            }}
+            goBack={()=>setStage('choose')}
+            />}
 
             {stage==='exist'&&
                 <center>
@@ -197,10 +212,11 @@ const AddWindow =()=>{
 
 
                     </div>
-                    <p className='warning' id='add-win-w'>You must select at least one user</p>
+                    {selectedUsers.length === 0&&<p className='warning' id='add-win-w'>You must select at least one user</p>}
+
                     <footer>
                         <Button text='Back' length='5em' altitude='2em' margin='0.1em' onClick={()=>setStage('choose')}/>
-                        <Button text='Add' length='5em' altitude='2em' margin='0.1em' onClick={handleAddExistingUsers} disabled={false}/>
+                        <Button text='Add' length='5em' altitude='2em' margin='0.1em' onClick={handleAddExistingUsers} disabled={selectedUsers.length===0}/>
                     </footer>
 
 
@@ -218,10 +234,8 @@ const AddWindow =()=>{
                 </div>
                 
                 }
-              
-                
-                
-
+                </div>
+            }
         </article>
     )
 }

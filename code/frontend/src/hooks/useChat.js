@@ -57,6 +57,7 @@ const useChat = ()=>{
 
     const getHistoryMsgs = ({groupId})=>{
         if(!online)return
+
        return  WebIM.conn.getHistoryMessages({
             targetId: groupId,
             chatType: 'groupChat',
@@ -107,17 +108,14 @@ const useChat = ()=>{
 
     const groupListener = ({handleGroupChange})=>{
         WebIM.conn.addEventHandler('Group',{
-            onGroupEvent:()=>handleGroupChange(),
+            onGroupEvent:msg=>handleGroupChange(msg),
         })
     }
-
-
-
 
     const publishPresence = ({description})=>{
         if(!online)return
        return  WebIM.conn.publishPresence({description:description}).catch(err=>console.log('in publishPresence',err))
-    }
+    };
 
 
     const setAnnouncement = ({groupId,shuttle})=>{
@@ -127,12 +125,12 @@ const useChat = ()=>{
             announcement: "chat_start"
         }
        return  WebIM.conn.updateGroupAnnouncement(option).catch(err=>console.log('in setAnnouncement',err))
-    }
+    };
 
     const getAnnouncement = ({groupId})=>{
         if(!online)return
        return  WebIM.conn.fetchGroupAnnouncement({groupId}).catch(err=>console.log('in getAnnouncement',err))
-    }
+    };
 
 
     const getGroupMember = ({groupId})=>{
@@ -153,6 +151,7 @@ const useChat = ()=>{
 
     const subscribePresence = ({usernames})=>{
         if(!online)return
+        if(usernames.length === 0)return Promise.resolve()
         return  WebIM.conn.subscribePresence({usernames:usernames, expiry:10000})
     }
 
@@ -160,15 +159,6 @@ const useChat = ()=>{
         // if(!online)return
         return  WebIM.conn.inviteUsersToGroup({groupId:groupId,users:usernames})
     }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -192,6 +182,8 @@ const useChat = ()=>{
         online,
         onlineStatusListener,
         addUsersToGroup,
+        acceptInviteFromGroup,
+        getJoinedGroups
 
 
 

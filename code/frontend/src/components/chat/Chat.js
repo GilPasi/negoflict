@@ -107,6 +107,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         WebIM.conn.updateGroupAnnouncement(option).then(res =>dispatch(setStartChat(true)))
     };
         const getiStartChat = ()=>{
+
             let option = {
                 groupId: centerGroup.groupid,
             };

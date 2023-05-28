@@ -36,6 +36,8 @@ const CasePage =({isMediator})=>{
     //middleware========
     username = isMediator? username: username.replace(/[^\w\s]/gi, '')
     const {data,error,isSuccess} = useGetGroupsByUserQuery({username:username})
+
+    console.log('casePage===>>>',data,error,isSuccess)
   
     //useEffects==========
     useEffect(()=>{
