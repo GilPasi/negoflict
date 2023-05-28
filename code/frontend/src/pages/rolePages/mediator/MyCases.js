@@ -28,14 +28,15 @@ const MyCases = ({isMediator, open_close})=>{
                             caseId="2e55e4"
                             creationDate="April 2023"
                             caseIndex="1"
+                            caseData={caseData}
                         />
                             
-                        {/* <TextHolder 
+                        <TextHolder 
                             addOns={caseData.category}
                             caseData={caseData} 
                             withInfo={true}
                             hasExit={false}
-                        /> */}
+                        />
                         </div>
                 ))}
             </div>

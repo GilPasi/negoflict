@@ -1,4 +1,4 @@
-.case-preview{
+.case-review{
     --gray : #7E857D;
     background-color: #CAF1D4;
     height: 125px;
@@ -10,7 +10,7 @@
     grid-gap:5px;
 }
 
-.case-preview--frame{
+.case-review--frame{
     /* border:1px solid red; */
     overflow: hidden;
     white-space: nowrap;
@@ -19,7 +19,7 @@
 
 
 
-.case-preview--top{
+.case-review--top{
     display:flex;
     flex-direction: column;
     justify-content: end;
@@ -28,12 +28,12 @@
     max-width: 100%;;
 }
 
-.case-preview--conflict-name{
+.case-review--conflict-name{
     margin: 0;
 
 }
 
-.case-preview--info{
+.case-review--info{
     grid-row: 2 / 2;
     grid-column:  2 / 2;
     display: flex;
@@ -41,13 +41,13 @@
 
 }
 
-.case-preview--info-date{
+.case-review--info-date{
     color:var(--gray);
 
 
 }
 
-.case-preview--options{
+.case-review--options{
     grid-row: span 2;
     grid-column: 3 / 3 ;
     display: flex;
@@ -56,7 +56,7 @@
     align-items: center;
     
 }
-.case-preview--options-container{
+.case-review--options-container{
     position: relative;
     display:flex; 
     flex-direction: column;
@@ -67,20 +67,18 @@
     border:none;
 }
 
-.case-preview--line{
+.case-review--line{
     height: 4px !important;
     padding:0px !important;
     width:30px !important;
     background-color: #4DAA63 !important;
-    transition:  300ms ease-in-out;
+    transition:  400ms ease-in-out;
 }
 
-.case-preview--options-btn{
+.case-review--options-btn{
     background:transparent;
     border: 1px solid var(--green-dark);
-    margin: 1em 0;
-    transition:  300ms ease-in-out;
-    z-index: 1;
-
+    margin: 2em 0;
+    transition: 300ms ease-in-out;
+    padding:0;/*DO NOT REMOVE , curcial for making the button fully responsive*/
 }
-
