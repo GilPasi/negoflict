@@ -160,6 +160,11 @@ const useChat = ()=>{
       return addingUsersToGroup({users:users,group:group})
 
     }
+    const MsgListener = ({handleMessage})=>{
+        WebIM.conn.addEventHandler('MSG',{
+            onTextMessage:msg => handleMessage(msg),
+        })
+    }
 
     return{
         sendMsg,
@@ -180,6 +185,7 @@ const useChat = ()=>{
         online,
         onlineStatusListener,
         addUsersToGroup,
+        MsgListener
 
 
 

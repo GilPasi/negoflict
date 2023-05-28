@@ -120,7 +120,7 @@ const preChatTitleStyle = {
             task={task}
           />
           </div>}
-      {!(isLoading)&&!(chatStart)&&
+      {(isLoading)&&
       <div>
       <div 
           style={preChatStyle}/>

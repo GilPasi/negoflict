@@ -2,6 +2,7 @@ import '../styles/pages/chat_page.css'
 import {useEffect, useState} from "react";
 import Header from "../components/general/Header";
 import ToolBar from "../components/general/ToolBar";
+import GroupSwitch from "../components/general/GroupSwitch";
 
 
 const ChatViewHen = ({
@@ -41,7 +42,6 @@ const ChatViewHen = ({
     return(
         <article
             className='page cp'
-
             style={{
                 position:'relative',
                 height:`${size}px`,
@@ -49,18 +49,20 @@ const ChatViewHen = ({
                 display:'grid',
                 backgroundColor:'red',
                 gridTemplateRows:`${HEADER_SIZE}px 1fr ${FOOTER_SIZE}px`,
-            }}
-        >
+            }}>
+
             <header className='cp--header'>
                 <Header isLarge={false} unconnected={true} withoutLinks={true}/>
                 <ToolBar
-                    conflictName={`A ${category} conflict`}
-                    id={caseIdView}
                     isChat={true}
-                    isMediator={isMediator}
                 />
+                <GroupSwitch/>
 
             </header>
+
+            <div>
+
+            </div>
 
 
 

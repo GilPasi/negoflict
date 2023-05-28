@@ -31,7 +31,6 @@ const ChatPageHen = ()=>{
     //apiFetch==========
     const {data:token} = useGetChatTokenQuery({username:userAgoraName}) //get the agora token
     const {data:users} = useGetFullUsersByCaseQuery({caseId}) //get the users data
-    console.log('hen==>>>groups',groups)
     //===================================================================================================
 
     //useEffect==========
