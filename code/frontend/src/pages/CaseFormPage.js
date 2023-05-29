@@ -3,6 +3,8 @@ import Header from "../components/general/Header"
 import TextInput from "../components/general/TextInput"
 import Button from "../components/general/Button"
 import DropdownSelector from "../components/general/DropdownSelector.js"
+import Dropdown from "../components/general/Dropdown.js"
+
 import { useState , useEffect} from "react"
 import TextArea from "../components/general/TextArea"
 import {MEDIATION_CHOICES} from '../utils/data'
@@ -203,6 +205,7 @@ const CaseFormPage = () =>{
 
                         <h2 className="cfp--h2">Choose a Category</h2>
 
+                        <Dropdown options={['aaa' , 'bbb']}/>
                         <DropdownSelector 
                             id='category'
                             placHolder="Select Areas of Mediation"
