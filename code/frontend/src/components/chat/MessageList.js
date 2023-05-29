@@ -16,7 +16,7 @@ const MessageList =( { maxHeight, isLoading,progress, task} )=> {
   const location = useLocation();
   const {onlineStatusListener, getHistoryMsgs, MsgListener} = useChat();
   const dispatch = useDispatch();
-  messagesEndRef = useRef(null);
+  const messagesEndRef = useRef(null);
  //===================================================================================================
 
   //state===================================================================================================
