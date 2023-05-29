@@ -161,12 +161,9 @@ const ChatPageHen = ()=>{
 
     return(
         <ChatViewHen
-            caseId={caseId}
-            handleShuttle={handleShuttle}
+            isOnline={connected}
             role={roleName}
-            centerGroup={centeredGroup}
-            category={caseCategory}
-            caseTitle={caseTitle}
+
         />
     )
 

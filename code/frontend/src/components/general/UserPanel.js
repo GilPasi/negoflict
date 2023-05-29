@@ -56,6 +56,7 @@ const UserPanel=({
         }
 
     }
+
     
     return(
         <section className="user-panel">

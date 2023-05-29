@@ -1,17 +1,23 @@
 import WebIM from "../WebIM";
-import {useState} from "react";
+import {useRef, useState} from "react";
 import {useAddingManyUsersToOneChatGroupMutation} from "../store";
 
 const useChat = ()=>{
     const [online,setOnline] = useState(false)
     const [addingUsersToGroup] = useAddingManyUsersToOneChatGroupMutation()
+    const wasRendered = useRef(false)
 
     const connect = ({username,agoraToken})=>{
+        if(wasRendered.current)return Promise.resolve()
+        wasRendered.current = true
        return  WebIM.conn.open({
             user: username,
             agoraToken: agoraToken,
             error:err=>console.log('connection problem',err),
         })
+    }
+    const isConnected = ()=>{
+        return WebIM.conn.isOpened()
     }
 
     const disconnect = ()=>{
@@ -21,7 +27,7 @@ const useChat = ()=>{
     }
 
     const sendMsg = ({ext,msg,to})=>{
-        if(!online)return
+
 
         const option = {
             chatType:'groupChat',
@@ -47,11 +53,10 @@ const useChat = ()=>{
     }
 
     const muteAllMembers = ({groupId, shuttle})=>{
-        if(!online)return
         if(shuttle)
-          return   WebIM.conn.disableSendGroupMsg(groupId).catch(err=>console.log('in muteAllMembers from disable',err))
+          return   WebIM.conn.disableSendGroupMsg({groupId:groupId}).catch(err=>console.log('in muteAllMembers from disable',err))
         else
-           return  WebIM.conn.enableSendGroupMsg(groupId).catch(err=>console.log('in muteAllMembers from enable',err))
+           return  WebIM.conn.enableSendGroupMsg({groupId: groupId}).catch(err=>console.log('in muteAllMembers from enable',err))
     }
     const getHistoryMsgs = ({groupId})=>{
 
@@ -103,6 +108,11 @@ const useChat = ()=>{
 
             })
     };
+      const MsgListener = ({handleMessage})=>{
+        WebIM.conn.addEventHandler('MSG',{
+            onTextMessage:msg => handleMessage(msg),
+        })
+    }
 
     const groupListener = ({handleGroupChange})=>{
         WebIM.conn.addEventHandler('Group',{
@@ -126,7 +136,7 @@ const useChat = ()=>{
     };
 
     const getAnnouncement = ({groupId})=>{
-        if(!online)return
+
        return  WebIM.conn.fetchGroupAnnouncement({groupId}).catch(err=>console.log('in getAnnouncement',err))
     };
 
@@ -137,7 +147,7 @@ const useChat = ()=>{
     }
 
     const getGroupInfo = ({groupId})=>{
-        if(!online)return
+
        return  WebIM.conn.getGroupInfo({groupId:groupId}).catch(err=>console.log('in getOnlineUsers',err))
     }
 
@@ -147,7 +157,7 @@ const useChat = ()=>{
     }
 
     const subscribePresence = ({usernames})=>{
-        if(!online)return
+
         if(usernames.length === 0)return Promise.resolve()
         return  WebIM.conn.subscribePresence({usernames:usernames, expiry:10000}).catch(err=>console.log('in subscribePresence',err))
     }
@@ -156,11 +166,7 @@ const useChat = ()=>{
       return addingUsersToGroup({users:users,group:group})
 
     }
-    const MsgListener = ({handleMessage})=>{
-        WebIM.conn.addEventHandler('MSG',{
-            onTextMessage:msg => handleMessage(msg),
-        })
-    }
+
 
     return{
         sendMsg,
@@ -181,7 +187,8 @@ const useChat = ()=>{
         online,
         onlineStatusListener,
         addUsersToGroup,
-        MsgListener
+        MsgListener,
+        isConnected
 
 
 

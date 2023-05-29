@@ -10,7 +10,7 @@ import  useAlert  from '../hooks/useAlert'
 import { useGetGroupsByUserQuery } from "../store"
 import Loader from "../components/general/Loader"
 // eslint-disable-next-line no-unused-vars
-import WebIM from "../WebIM";
+// import WebIM from "../WebIM";
 
 
 const CasePage =({isMediator})=>{
