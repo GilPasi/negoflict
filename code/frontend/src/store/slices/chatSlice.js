@@ -34,7 +34,6 @@ const chatSlice = createSlice({
         updateMsg: (state,action)=>{
             const {id, message} = action.payload
             
-            
             if(!message)return
             Object.keys(state).forEach(groupKey => {
                 if (state[groupKey].id === id) {

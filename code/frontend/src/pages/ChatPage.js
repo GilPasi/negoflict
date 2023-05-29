@@ -25,7 +25,7 @@ const ChatPage = ()=>{
     const [getGroupMember] =useLazyGetCaseSideQuery()  
     const connect = useRef(false)
     const {SaveMessage} = useMsg()
-    //=========
+    //=========x
      //state=========
      const [activeGroup,setActiveGroup] = useState('groupG') //holds the group view now
      const [userDetail,setUserDetail] = useState({}) //user importent data
