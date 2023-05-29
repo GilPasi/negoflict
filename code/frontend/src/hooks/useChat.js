@@ -2,13 +2,11 @@ import WebIM from "../WebIM";
 import {useState} from "react";
 import {useAddingManyUsersToOneChatGroupMutation} from "../store";
 
-
 const useChat = ()=>{
     const [online,setOnline] = useState(false)
     const [addingUsersToGroup] = useAddingManyUsersToOneChatGroupMutation()
 
     const connect = ({username,agoraToken})=>{
-        if(online)return
        return  WebIM.conn.open({
             user: username,
             agoraToken: agoraToken,
@@ -17,7 +15,7 @@ const useChat = ()=>{
     }
 
     const disconnect = ()=>{
-        if(!online)return
+        // if(!online)return
         setOnline(false)
         WebIM.conn.close()
     }
@@ -39,7 +37,7 @@ const useChat = ()=>{
                 }
         }
         const message = WebIM.message.create(option)
-        WebIM.conn.send(message).catch(err=>console.log('in sendMsg',err))
+       return  WebIM.conn.send(message).catch(err=>console.log('in sendMsg',err))
     }
 
     const removeEvents = ({handleWindowEvent})=>{
@@ -55,9 +53,7 @@ const useChat = ()=>{
         else
            return  WebIM.conn.enableSendGroupMsg(groupId).catch(err=>console.log('in muteAllMembers from enable',err))
     }
-
     const getHistoryMsgs = ({groupId})=>{
-        if(!online)return
 
        return  WebIM.conn.getHistoryMessages({
             targetId: groupId,
@@ -103,6 +99,7 @@ const useChat = ()=>{
                 setOnline(false)
                 handleConnection('disconnected')
             },
+            onError:err=>console.log('in onlineStatusListener',err),
 
             })
     };
@@ -110,20 +107,20 @@ const useChat = ()=>{
     const groupListener = ({handleGroupChange})=>{
         WebIM.conn.addEventHandler('Group',{
             onGroupEvent:msg=>handleGroupChange(msg),
+            onError:err=>console.log('in groupListener',err),
         })
     }
 
     const publishPresence = ({description})=>{
-        if(!online)return
        return  WebIM.conn.publishPresence({description:description}).catch(err=>console.log('in publishPresence',err))
     };
 
 
-    const setAnnouncement = ({groupId,shuttle})=>{
-        if(!online)return
+    const setAnnouncement = ({groupId,isChatEnds})=>{
+
         const option = {
             groupId:groupId,
-            announcement: "chat_start"
+            announcement: isChatEnds?"chat_end":"chat_start"
         }
        return  WebIM.conn.updateGroupAnnouncement(option).catch(err=>console.log('in setAnnouncement',err))
     };
@@ -146,14 +143,13 @@ const useChat = ()=>{
 
 
     const getPresenceStatus = ({usernames})=>{
-        if(!online)return
-       return  WebIM.conn.getPresenceStatus({usernames})
+       return  WebIM.conn.getPresenceStatus({usernames}).catch(err=>console.log('in getPresenceStatus',err))
     }
 
     const subscribePresence = ({usernames})=>{
         if(!online)return
         if(usernames.length === 0)return Promise.resolve()
-        return  WebIM.conn.subscribePresence({usernames:usernames, expiry:10000})
+        return  WebIM.conn.subscribePresence({usernames:usernames, expiry:10000}).catch(err=>console.log('in subscribePresence',err))
     }
 
     const addUsersToGroup = ({group,users})=>{

@@ -12,7 +12,7 @@ import ChatViewHen from "./ChatViewHen";
 const ChatPageHen = ()=>{
     //hooks==========
     const location = useLocation()
-    const { connect, getHistoryMsgs, publishPresence, onlineStatusListener, getGroupMember, groupListener, subscribePresence,muteAllMembers, getGroupInfo,getJoinedGroups} = useChat()
+    const { connect, getHistoryMsgs, publishPresence, onlineStatusListener, getGroupMember, groupListener, subscribePresence,muteAllMembers, getGroupInfo} = useChat()
     const dispatch = useDispatch()
     //===================================================================================================
     //state=========
@@ -44,7 +44,7 @@ const ChatPageHen = ()=>{
                 addGroupListeners()
                 addConnectionListeners()
             })
-            .catch(err=>console.log(err))
+            .catch(err=>console.log('coonnnnn',err))
 
 
     },[token]);
@@ -53,12 +53,12 @@ const ChatPageHen = ()=>{
     //and publish user status
     //and get the users data from agora
     useEffect(()=>{
-        if(!connected)return
+        if(!connected || !groups)return
         presentsStatus({status:'online'})
         handleGetHistory()
         Getmembers()
         getGroupInfoFunc()
-    },[connected,]);
+    },[connected,groups]);
     
     useEffect(()=>{
         if(groupMembers.length===0) return
@@ -125,6 +125,7 @@ const ChatPageHen = ()=>{
                 return member.owner
             else return null
         }).filter(member=>member!==null)
+        if(members.length===0) return
         subscribePresence({usernames:members}).then(res=>console.log('subscribed',res)).catch(err=>console.log(err))
 
     }
@@ -139,10 +140,7 @@ const ChatPageHen = ()=>{
 
         })
     }
-    const getMyGroups = ()=>{
-        getJoinedGroups().then(res=>console.log('jjjpoooo=>>',res)).catch(err=>console.log(err))
 
-    }
 
 
 

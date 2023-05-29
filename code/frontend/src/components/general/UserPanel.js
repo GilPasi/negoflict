@@ -3,18 +3,30 @@ import useAlert from "../../hooks/useAlert"
 import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { getPermName } from "../../utils/permissions"
-import WebIM from '../../WebIM'
+import {useLocation} from "react-router-dom";
+import useChat from "../../hooks/useChat";
 
 const UserPanel=({
-    handleSwitch , isSwitched , isComplex, caseId,centerGroup
+    handleSwitch , isSwitched
 })=>{
-    const {role} = useSelector(state=>state.user)
-    const roleName = getPermName({role:role})
-    // const {first_name, last_name} = useSelector(state=>state.user)
-    
-
-    const {deletAlert} = useAlert()
+    //hooks=====================================
+    const { disconnect, setAnnouncement, publishPresence, muteAllMembers } = useChat()
+    const location = useLocation()
     const navigate = useNavigate()
+    const {deletAlert} = useAlert()
+    //===========================================
+
+    //state=======================================
+    const {role} = useSelector(state=>state.user)
+    //=============================================
+
+    //variable=====================================
+    const roleName = getPermName({role:role})
+    const isComplex = roleName === 'mediator'
+    const {caseId} = location.state ?? ''
+    const {groups} = location.state ?? []
+    const centeredGroupId = groups.find(group=>group.groupname.endsWith('G'))?.groupid
+    //==============================================
 
     const handleEnd =async ()=>{
        const isDismissed =await deletAlert({
@@ -24,17 +36,11 @@ const UserPanel=({
        })
        if(isDismissed)return
        if(roleName==='mediator'){
-            WebIM.conn.enableSendGroupMsg({groupId:centerGroup.groupid})
-            let option = {
-                groupId: centerGroup.groupid,   
-                announcement: "chat_end"                       
-            };
-            WebIM.conn.updateGroupAnnouncement(option).then(res => console.log(res))
+           await muteAllMembers({groupId:centeredGroupId, shuttle:false})
+           await setAnnouncement({groupId:centeredGroupId,isChatEnds:true})
        }
-           
-       await WebIM.conn.publishPresence({description:'offline'})
-       await WebIM.conn.close()
-       
+       await publishPresence({description:'offline'})
+       await disconnect()
 
        if(roleName==='user')
             navigate('/user/survey_page',{
@@ -48,8 +54,8 @@ const UserPanel=({
                 replace:true
             })
         }
+
     }
-   
     
     return(
         <section className="user-panel">
