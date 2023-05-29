@@ -108,27 +108,30 @@ const MessageList =( { maxHeight, isLoading,progress, task} )=> {
     };
 
   useEffect(()=>{ //set what group is active now to view ther messages for mediator
-        if(roleName !== 'mediator')return
-        const values = ['groupA','groupG','groupB']
-        setActiveGroupView(()=>values[pos-1])
-        dispatch(setActiveGroup(values[pos-1]))
+        if(roleName === 'mediator'){
+          const values = ['groupA','groupG','groupB']
+          setActiveGroupView(()=>values[pos-1])
+          dispatch(setActiveGroup(values[pos-1]))
+        
+        }
+        else if(roleName === 'user'){
+          const {current} = userSide ?? null
+          if(!current)return
+          if(pos !== 2){
+              setActiveGroupView(()=>`group${current}`)
+              dispatch(setActiveGroup(`group${current}`))
+          }
+          else{
+              setActiveGroupView(()=>'groupG')
+              dispatch(setActiveGroup('groupG'))
+          }
+        }
+
     },[pos]);
     console.log(userSide)
 
-  useEffect(()=>{ //set what group is active now to view ther messages for user
-        if(roleName !== 'user')return
-        const {current} = userSide ?? null
-        if(!current)return
-        if(pos !== 2){
-            setActiveGroupView(()=>`group${current}`)
-            // dispatch(setActiveGroup({activeGroup:`group${current}`}))
-        }
-        else{
-            setActiveGroupView(()=>'groupG')
-            // dispatch(setActiveGroup({activeGroup:'groupG'}))
-        }
-    },[pos]);
 
+   
 
   //change msg to data when i receive a messgae online
   //convet time to int and parsee it

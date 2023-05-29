@@ -117,8 +117,8 @@ const useChat = ()=>{
         })
     }
 
-    const groupListener = ({handleGroupChange})=>{
-        WebIM.conn.addEventHandler('Group',{
+    const groupListener = ({handleGroupChange,id})=>{
+        WebIM.conn.addEventHandler(id??'Group',{
             onGroupEvent:msg=>handleGroupChange(msg),
             onError:err=>console.log('in groupListener',err),
         })

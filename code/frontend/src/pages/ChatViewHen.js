@@ -20,7 +20,7 @@ const ChatViewHen = ({
 
                      }) => {
     //hooks===================================================================================================
-    const {groupListener, muteAllMembers, onlineStatusListener,sendMsg } = useChat()
+    const {groupListener, muteAllMembers,sendMsg } = useChat()
     const location = useLocation()
 
 
@@ -32,8 +32,10 @@ const ChatViewHen = ({
     const {caseId} = location.state ?? ''
     const {activeGroup} = useSelector(state=>state.position)
     const {id,first_name} = useSelector(state=>state.user)
-    console.log('activeGroup>>>>>>>',activeGroup)
+    const {pos} = useSelector(state=>state.position)
+    const [isShuttled, setIsShuttled] = useState(false);
 
+    
     //===================================================================================================
     //lazyApi===================================================================================================
     const [getGroupMember] =useLazyGetCaseSideQuery()
@@ -45,12 +47,12 @@ const ChatViewHen = ({
     const userSide = useRef(isMediator ? 'M':'')
     const memberId = useRef('')
     //===================================================================================================
-    
+ 
+    console.log('groups in chat view',activeGroup.slice(-1))
+    console.log('is muted',isMuted)
     useEffect(()=>{
-        groupListener({handleGroupChange:handleMuteGroup})
-
+        groupListener({handleGroupChange:handleMuteGroup, id:'viewPageChat'})
         window.addEventListener('resize', handleResize);
-
         getUserDetails()
 
         
@@ -58,10 +60,16 @@ const ChatViewHen = ({
             window.removeEventListener('resize', handleResize);
         };
     },[])
+    
+
+    useEffect(() => {
+        console.log('in use effect',role,pos,isMuted)
+        setIsShuttled(!(role === 'mediator') && activeGroup.slice(-1)==='G' && isMuted);
+    }, [role, pos, isMuted]);
+    
 
     const getUserDetails =async ()=>{
         const {data, error} = await getGroupMember({caseId:caseId, user:id})
-        console.log('data in get user details',data)
            if(error) {
                console.log('err')
                return
@@ -73,16 +81,16 @@ const ChatViewHen = ({
        }
 
     const handleMuteGroup = ({operation})=>{
-        console.log('in view',operation)
         if(operation==='muteAllMembers')
-            return  setIsMuted(()=>true)
+              setIsMuted(()=>true)
         else if(operation==='unmuteAllMembers')
-            return setIsMuted(()=>false)
+                setIsMuted(()=>false)
     }
 
          const handleResize = () => {
         setSize(window.innerHeight);
          }
+
          const setInputHeight =(element, defaultHeight)=>{
             if(!element)return
             const target= element.target ? element.target : element;
@@ -154,7 +162,7 @@ const ChatViewHen = ({
                             id="cp--input-tb"
                         />
 
-                            <button className={`cp--input-btn${isMuted&&!isMediator?'-shuttel':''}`} onClick={setInputValue} disabled={isMuted}>
+                            <button className={`cp--input-btn${isShuttled?'-shuttel':''}`} onClick={setInputValue} disabled={isShuttled}>
                                 <span className="material-symbols-outlined cp--send" >
                                     send
                                 </span>
