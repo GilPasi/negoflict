@@ -7,6 +7,9 @@ import UserPanel from "../components/general/UserPanel";
 import useChat from "../hooks/useChat";
 import  {useLocation} from "react-router-dom";
 import MessageList from "../components/chat/MessageList";
+import {useSelector} from "react-redux";
+import { useRef } from 'react';
+import {useLazyGetCaseSideQuery} from "../store";
 
 
 const ChatViewHen = ({
@@ -17,30 +20,57 @@ const ChatViewHen = ({
 
                      }) => {
     //hooks===================================================================================================
-    const {groupListener, muteAllMembers, onlineStatusListener} = useChat()
+    const {groupListener, muteAllMembers, onlineStatusListener,sendMsg } = useChat()
     const location = useLocation()
+
+
     //===================================================================================================
     //state===================================================================================================
     const [size, setSize] = useState(window.innerHeight);
     const [isMuted,setIsMuted] = useState(false)
     const {groups} = location.state ?? []
+    const {caseId} = location.state ?? ''
+    const {activeGroup} = useSelector(state=>state.position)
+    const {id,first_name} = useSelector(state=>state.user)
+    console.log('activeGroup>>>>>>>',activeGroup)
 
     //===================================================================================================
-
+    //lazyApi===================================================================================================
+    const [getGroupMember] =useLazyGetCaseSideQuery()
+    //===================================================================================================
     //variables===================================================================================================
     const FOOTER_SIZE = 125 , HEADER_SIZE = 297.281-0.11298*window.innerHeight//Found by linear approximation
     const isMediator = role==='mediator'
     const centeredGroupId = groups.find(group=> group.groupname.endsWith('G'))?.groupid
+    const userSide = useRef(isMediator ? 'M':'')
+    const memberId = useRef('')
     //===================================================================================================
     
     useEffect(()=>{
         groupListener({handleGroupChange:handleMuteGroup})
 
         window.addEventListener('resize', handleResize);
+
+        getUserDetails()
+
+        
         return () => {
             window.removeEventListener('resize', handleResize);
         };
     },[])
+
+    const getUserDetails =async ()=>{
+        const {data, error} = await getGroupMember({caseId:caseId, user:id})
+        console.log('data in get user details',data)
+           if(error) {
+               console.log('err')
+               return
+           }
+           userSide.current = data.side
+           if(!isMediator){
+               memberId.current = data.id
+           }
+       }
 
     const handleMuteGroup = ({operation})=>{
         console.log('in view',operation)
@@ -60,14 +90,21 @@ const ChatViewHen = ({
             target.style.height=`${target.scrollHeight}px`
     }
     const setInputValue = ()=>{
-
         const msg = document.querySelector("#cp--input-tb").value;
-
         if(!msg || !isOnline)return
-       console.log(msg)
+        handleSend(msg)
+     
         document.querySelector("#cp--input-tb").value='';//Eventually clean the text box
+    };
 
-    }
+    const handleSend = (text)=>{ //handling the msg send and handle save the msg to data base using the useMsg hook
+        const side = activeGroup.slice(-1)
+        const groupId = groups.find(group=>group.groupname.endsWith(side))?.groupid
+  
+        const inputDetail = {msg:text,to:groupId,ext:{side:side,name:first_name,userId:id,sender:userSide.current}}
+        sendMsg(inputDetail)
+        
+    };
 
     const handleSwitch =async ()=>{
         if(groups.length===0 || !isOnline)return
@@ -98,7 +135,10 @@ const ChatViewHen = ({
             </header>
 
             <div>
-            <MessageList/>
+            <MessageList
+                maxHeight={`${size-FOOTER_SIZE-HEADER_SIZE}px`}
+                
+            />
 
             </div>
 

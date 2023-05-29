@@ -5,7 +5,7 @@ import LoadinBar from '../general/LoadingBar';
 import '../../styles/components/loading_bar.css'
 import useChat from '../../hooks/useChat';
 import { useLocation } from 'react-router-dom';
-import {addGroupsProps, addHistoryMsg, updateMsg, useLazyGetCaseSideQuery,} from "../../store";
+import {addGroupsProps, addHistoryMsg, updateMsg, useLazyGetCaseSideQuery,setActiveGroup, clearMsg} from "../../store";
 import {useDispatch} from "react-redux";
 import {getPermName} from "../../utils/permissions";
 
@@ -17,6 +17,7 @@ const MessageList =( { maxHeight, isLoading,progress, task} )=> {
   const {onlineStatusListener, getHistoryMsgs, MsgListener} = useChat();
   const dispatch = useDispatch();
   const messagesEndRef = useRef(null);
+  const syncronize = useRef(false);
  //===================================================================================================
 
   //state===================================================================================================
@@ -26,11 +27,11 @@ const MessageList =( { maxHeight, isLoading,progress, task} )=> {
   const roleName = getPermName({role})
   const {pos} = useSelector(state=>state.position)
   const [isOnline, setIsOnline] = useState(false)
-  const [activeGroup,setActiveGroup] = useState('groupG')
-  const side =useRef( roleName==='mediator'? 'M':'')
-
-  const {messages} = useSelector(state=>state.chat[activeGroup])
+  const [activeGroupView,setActiveGroupView] = useState('groupG')
+  const userSide = useRef( roleName==='mediator'? 'M':'')
+  const {messages} = useSelector(state=>state.chat[activeGroupView])
   const [prevActiveGroup, setPrevActiveGroup] = useState(null);
+  const messageDetail = useSelector(state=>state.message)
 
   //===================================================================================================
     //lazyApi======
@@ -51,13 +52,30 @@ const MessageList =( { maxHeight, isLoading,progress, task} )=> {
             console.log('err')
             return
         }
-        side.current = data.side
+        userSide.current = data.side
     }
 
   const addConnectionListener = ()=>{
          onlineStatusListener(
             {id:'messageList',handleConnection:connectionMsg=>setIsOnline(()=>connectionMsg === 'connected')})
   }
+  console.log('messages',messages)
+
+  
+
+  useEffect(() => {
+    if(!messageDetail || syncronize.current) return
+    syncronize.current = true
+    console.log('messageDetail>>>>>>',messageDetail)
+    
+    handleReceivedMsg(messageDetail, true)
+   
+    return () => {
+      syncronize.current = false
+    }
+
+  },[messageDetail])
+
 
   useEffect(()=>{
 
@@ -75,9 +93,9 @@ const MessageList =( { maxHeight, isLoading,progress, task} )=> {
         messages.sort((a,b)=>a.time - b.time)
         dispatch(addHistoryMsg({id:groupid,messages:messages}))
     };
-  const handleReceivedMsg = (msg)=>{ //handle received messages only in real time
+  const handleReceivedMsg = (msg,isLocalMsg)=>{ //handle received messages only in real time
         const {to, chatType} = msg
-        if(chatType !== 'groupChat')return
+        if(chatType !== 'groupChat' &&!isLocalMsg)return
 
             const modifiedObject = {
                 ...msg,
@@ -92,37 +110,38 @@ const MessageList =( { maxHeight, isLoading,progress, task} )=> {
   useEffect(()=>{ //set what group is active now to view ther messages for mediator
         if(roleName !== 'mediator')return
         const values = ['groupA','groupG','groupB']
-        setActiveGroup(()=>values[pos-1])
+        setActiveGroupView(()=>values[pos-1])
+        dispatch(setActiveGroup(values[pos-1]))
     },[pos]);
-    console.log(side)
+    console.log(userSide)
 
   useEffect(()=>{ //set what group is active now to view ther messages for user
         if(roleName !== 'user')return
-        const {current} = side ?? null
+        const {current} = userSide ?? null
         if(!current)return
         if(pos !== 2){
-            setActiveGroup(()=>`group${current}`)
+            setActiveGroupView(()=>`group${current}`)
+            // dispatch(setActiveGroup({activeGroup:`group${current}`}))
         }
-        else
-            setActiveGroup(()=>'groupG')
+        else{
+            setActiveGroupView(()=>'groupG')
+            // dispatch(setActiveGroup({activeGroup:'groupG'}))
+        }
     },[pos]);
-
-    console.log(activeGroup)
-    console.log(pos)
 
 
   //change msg to data when i receive a messgae online
   //convet time to int and parsee it
   useEffect(() => {
     if (messagesEndRef.current) {
-      if (prevActiveGroup !== activeGroup) {
+      if (prevActiveGroup !== activeGroupView) {
         messagesEndRef.current.scrollIntoView({ behavior: 'instant' });
-        setPrevActiveGroup(activeGroup);
+        setPrevActiveGroup(activeGroupView);
       } else {
         messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
       }
     }
-  }, [messages, activeGroup, prevActiveGroup]);
+  }, [messages, activeGroupView, prevActiveGroup]);
 //
     useEffect(() => {
     const handleResize = () => {
@@ -137,6 +156,7 @@ const MessageList =( { maxHeight, isLoading,progress, task} )=> {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+  
 
 
   const convertTime = (time)=>{

@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { userReducer,login, logout, updateAccessToken } from './slices/userSlice'
-import { positionReducer,updatePosition, setPrivateGroup } from "./slices/psitionSlice";
+import { positionReducer,updatePosition, setPrivateGroup,setActiveGroup } from "./slices/psitionSlice";
 import { groupsReducer,addGroups } from "./slices/groupsSlice";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { usersApi } from "./api/usersApi";
@@ -95,6 +95,7 @@ export{
     setBand,
     removeParticepentByAgoraName,
     addCaseId,
+    setActiveGroup,
 }
 
 setupListeners(store.dispatch)

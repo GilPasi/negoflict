@@ -233,6 +233,7 @@ const ChatPage = ()=>{
     const handleSend = (text)=>{ //handling the msg send and handle save the msg to data base using the useMsg hook
         const side = activeGroup.slice(-1)
         const inputDetail = {msg:text,to:chat.id,ext:{side:side,name:first_name,userId:id,sender:userDetail.side}}
+        console.log('inputDetail===>>>',inputDetail)
         dispatch(postNewMessage(inputDetail))
         dispatch(updateMsg({message:inputDetail,id:chat.id}))
         

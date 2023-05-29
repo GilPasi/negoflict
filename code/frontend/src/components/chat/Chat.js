@@ -94,6 +94,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
                     sender:ext.sender,
                 }
         }
+        console.log('in chat send',option)
 
         const message = WebIM.message.create(option)
             WebIM.conn.send(message).then(()=> dispatch(clearMsg()))

@@ -89,7 +89,6 @@ const ChatPageHen = ()=>{
 
             default:return
         }
-
     }
 
     //connect to agora chat
@@ -110,7 +109,7 @@ const ChatPageHen = ()=>{
     const presentsStatus = ({status})=>{
         publishPresence({description:status}).then(res=>console.log('published',res)).catch(err=>console.log(err))
     }
-    console.log('hennn center',centeredGroup)
+
     //get the group members from agora chat
     const Getmembers = ()=> {
         getGroupMember({groupId: centeredGroup.groupid}).then(({data}) => setGroupMembers(data))
@@ -127,8 +126,8 @@ const ChatPageHen = ()=>{
         }).filter(member=>member!==null)
         if(members.length===0) return
         subscribePresence({usernames:members}).then(res=>console.log('subscribed',res)).catch(err=>console.log(err))
-
     }
+    
 
     const handleShuttle = ({isShuttled})=>{
         muteAllMembers({groupId:centeredGroup.groupid,shuttle:isShuttled}).then(res=>console.log('muted',res)).catch(err=>console.log(err))

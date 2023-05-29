@@ -1,11 +1,14 @@
 import WebIM from "../WebIM";
 import {useRef, useState} from "react";
 import {useAddingManyUsersToOneChatGroupMutation} from "../store";
+import {useDispatch} from "react-redux";
+import {postNewMessage} from "../store";
 
 const useChat = ()=>{
     const [online,setOnline] = useState(false)
     const [addingUsersToGroup] = useAddingManyUsersToOneChatGroupMutation()
     const wasRendered = useRef(false)
+    const dispatch = useDispatch()
 
     const connect = ({username,agoraToken})=>{
         if(wasRendered.current)return Promise.resolve()
@@ -26,8 +29,6 @@ const useChat = ()=>{
     }
 
     const sendMsg = ({ext,msg,to})=>{
-
-
         const option = {
             chatType:'groupChat',
                 type:'txt',
@@ -35,13 +36,15 @@ const useChat = ()=>{
                 msg:msg,
                 ext: {
                     name: ext?.name,
-                    color: ext?.color,
+                    color: 0,
                     side: ext?.side,
                     userId: ext?.userId,
                     sender: ext.sender,
                 }
         }
         const message = WebIM.message.create(option)
+        dispatch(postNewMessage(message))
+        console.log('message>>>in send',message)
        return  WebIM.conn.send(message).catch(err=>console.log('in sendMsg',err))
     }
 
