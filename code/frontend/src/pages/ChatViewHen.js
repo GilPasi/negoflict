@@ -6,6 +6,7 @@ import GroupSwitch from "../components/general/GroupSwitch";
 import UserPanel from "../components/general/UserPanel";
 import useChat from "../hooks/useChat";
 import  {useLocation} from "react-router-dom";
+import MessageList from "../components/chat/MessageList";
 
 
 const ChatViewHen = ({
@@ -31,8 +32,7 @@ const ChatViewHen = ({
     const isMediator = role==='mediator'
     const centeredGroupId = groups.find(group=> group.groupname.endsWith('G'))?.groupid
     //===================================================================================================
-    console.log('iiddd',centeredGroupId)
-    console.log('gg',groups)
+    
     useEffect(()=>{
         groupListener({handleGroupChange:handleMuteGroup})
 
@@ -98,6 +98,7 @@ const ChatViewHen = ({
             </header>
 
             <div>
+            <MessageList/>
 
             </div>
 

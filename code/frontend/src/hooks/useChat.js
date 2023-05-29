@@ -21,7 +21,6 @@ const useChat = ()=>{
     }
 
     const disconnect = ()=>{
-        // if(!online)return
         setOnline(false)
         WebIM.conn.close()
     }
@@ -59,9 +58,10 @@ const useChat = ()=>{
            return  WebIM.conn.enableSendGroupMsg({groupId: groupId}).catch(err=>console.log('in muteAllMembers from enable',err))
     }
     const getHistoryMsgs = ({groupId})=>{
+        console.log('target===>>',groupId)
 
        return  WebIM.conn.getHistoryMessages({
-            targetId: groupId,
+            targetId:groupId,
             chatType: 'groupChat',
             pageSize:50,
         })
@@ -94,8 +94,8 @@ const useChat = ()=>{
         window.addEventListener('popstate', handleWindowEvent);
     }
 
-    const onlineStatusListener = ({handleConnection })=>{
-        WebIM.conn.addEventHandler('onlineStatus', {
+    const onlineStatusListener = ({id,handleConnection })=>{
+        WebIM.conn.addEventHandler(id ??'onlineStatus', {
                 onConnected:()=>{
                     setOnline(true)
                     handleConnection('connected')
