@@ -16,11 +16,13 @@ const ChatViewHen = ({
 
                          role,
                          isOnline,
+                       
+                         
 
 
                      }) => {
     //hooks===================================================================================================
-    const {groupListener, muteAllMembers,sendMsg } = useChat()
+    const {groupListener, muteAllMembers,sendMsg, getGroupInfo,onlineStatusListener } = useChat()
     const location = useLocation()
 
 
@@ -32,8 +34,8 @@ const ChatViewHen = ({
     const {caseId} = location.state ?? ''
     const {activeGroup} = useSelector(state=>state.position)
     const {id,first_name} = useSelector(state=>state.user)
-    const {pos} = useSelector(state=>state.position)
-    const [isShuttled, setIsShuttled] = useState(false);
+    let isShuttled = activeGroup.slice(-1)==='G' && isMuted && role==='user'
+    const [connected,setConnected] = useState(false)
 
     
     //===================================================================================================
@@ -48,25 +50,31 @@ const ChatViewHen = ({
     const memberId = useRef('')
     //===================================================================================================
  
-    console.log('groups in chat view',activeGroup.slice(-1))
-    console.log('is muted',isMuted)
+
     useEffect(()=>{
+        onlineStatusListener({id:'viewPageChatConnection',handleConnection:connectionMsg=>setConnected(()=>connectionMsg === 'connected')})
         groupListener({handleGroupChange:handleMuteGroup, id:'viewPageChat'})
         window.addEventListener('resize', handleResize);
         getUserDetails()
 
-        
         return () => {
             window.removeEventListener('resize', handleResize);
         };
     },[])
-    
 
-    useEffect(() => {
-        console.log('in use effect',role,pos,isMuted)
-        setIsShuttled(!(role === 'mediator') && activeGroup.slice(-1)==='G' && isMuted);
-    }, [role, pos, isMuted]);
-    
+    useEffect(()=>{
+        if(!connected)return
+        getGroupInfoFunc()
+
+    },[connected])
+
+    const getGroupInfoFunc = ()=>{
+    getGroupInfo({groupId:centeredGroupId}).then(res=>{
+        if(res?.data[0]?.mute===true)
+            handleMuteGroup({operation:'muteAllMembers'})
+    }).catch(err=>console.log(err))
+       
+    }
 
     const getUserDetails =async ()=>{
         const {data, error} = await getGroupMember({caseId:caseId, user:id})

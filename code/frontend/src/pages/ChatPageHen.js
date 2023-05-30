@@ -12,7 +12,7 @@ import ChatViewHen from "./ChatViewHen";
 const ChatPageHen = ()=>{
     //hooks==========
     const location = useLocation()
-    const { connect, getHistoryMsgs, publishPresence, onlineStatusListener, getGroupMember, groupListener, subscribePresence,muteAllMembers, getGroupInfo} = useChat()
+    const { connect, getHistoryMsgs, publishPresence, onlineStatusListener, getGroupMember, groupListener, subscribePresence,muteAllMembers} = useChat()
     const dispatch = useDispatch()
     //===================================================================================================
     //state=========
@@ -32,7 +32,7 @@ const ChatPageHen = ()=>{
     const {data:token} = useGetChatTokenQuery({username:userAgoraName}) //get the agora token
     const {data:users} = useGetFullUsersByCaseQuery({caseId}) //get the users data
     //===================================================================================================
-
+    
     //useEffect==========
     //connect to agora chat and add listeners
     useEffect(  ()=>{
@@ -57,7 +57,6 @@ const ChatPageHen = ()=>{
         presentsStatus({status:'online'})
         handleGetHistory()
         Getmembers()
-        getGroupInfoFunc()
     },[connected,groups]);
     
     useEffect(()=>{
@@ -112,7 +111,8 @@ const ChatPageHen = ()=>{
 
     //get the group members from agora chat
     const Getmembers = ()=> {
-        getGroupMember({groupId: centeredGroup.groupid}).then(({data}) => setGroupMembers(data))
+        if(!centeredGroup)return
+        getGroupMember({groupId:centeredGroup?.groupid}).then(({data}) => setGroupMembers(data))
             .catch(err => console.log(err))
     }
     console.log('groupMembers',groupMembers)
@@ -133,12 +133,7 @@ const ChatPageHen = ()=>{
         muteAllMembers({groupId:centeredGroup.groupid,shuttle:isShuttled}).then(res=>console.log('muted',res)).catch(err=>console.log(err))
     }
 
-    const getGroupInfoFunc = ()=>{
-        groups.forEach(group=>{
-                getGroupInfo({groupId:group.groupid}).then(res=>console.log('group info',res)).catch(err=>console.log(err))
-
-        })
-    }
+   
     console.log('connnect',connected)
 
 

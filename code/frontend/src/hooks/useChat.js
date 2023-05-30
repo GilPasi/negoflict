@@ -52,6 +52,7 @@ const useChat = ()=>{
         WebIM.conn.removeEventHandler('Negoflict')
         window.removeEventListener('beforeunload', handleWindowEvent);
         window.removeEventListener('popstate', handleWindowEvent);
+
     }
 
     const muteAllMembers = ({groupId, shuttle})=>{
@@ -69,6 +70,8 @@ const useChat = ()=>{
             pageSize:50,
         })
     }
+
+    
 
     const addEvents = ({
                            handleWindowEvent,
@@ -191,7 +194,8 @@ const useChat = ()=>{
         onlineStatusListener,
         addUsersToGroup,
         MsgListener,
-        isConnected
+        isConnected,
+       
 
 
 
