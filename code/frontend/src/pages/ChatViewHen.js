@@ -12,42 +12,31 @@ import { useRef } from 'react';
 import {useLazyGetCaseSideQuery} from "../store";
 
 
-const ChatViewHen = ({
-
-                         role,
-                         isOnline,
-                       
-                         
-
-
-                     }) => {
+const ChatViewHen = ({role, isOnline}) => {
     //hooks===================================================================================================
     const {groupListener, muteAllMembers,sendMsg, getGroupInfo,onlineStatusListener } = useChat()
     const location = useLocation()
-
-
-    //===================================================================================================
     //state===================================================================================================
     const [size, setSize] = useState(window.innerHeight);
     const [isMuted,setIsMuted] = useState(false)
+    const [connected,setConnected] = useState(false)
+    const [isUsersListClick, setIsUsersListClick] = useState(false)
+    //location&&store===================================================================================================
     const {groups} = location.state ?? []
     const {caseId} = location.state ?? ''
     const {activeGroup} = useSelector(state=>state.position)
     const {id,first_name} = useSelector(state=>state.user)
-    let isShuttled = activeGroup.slice(-1)==='G' && isMuted && role==='user'
-    const [connected,setConnected] = useState(false)
-
-    
-    //===================================================================================================
     //lazyApi===================================================================================================
     const [getGroupMember] =useLazyGetCaseSideQuery()
-    //===================================================================================================
+   
     //variables===================================================================================================
     const FOOTER_SIZE = 125 , HEADER_SIZE = 297.281-0.11298*window.innerHeight//Found by linear approximation
     const isMediator = role==='mediator'
     const centeredGroupId = groups.find(group=> group.groupname.endsWith('G'))?.groupid
-    const userSide = useRef(isMediator ? 'M':'')
-    const memberId = useRef('')
+    let isShuttled = activeGroup.slice(-1)==='G' && isMuted && role==='user'
+    //refs===================================================================================================
+     const userSide = useRef(isMediator ? 'M':'')
+     const memberId = useRef('')
     //===================================================================================================
  
 
@@ -145,7 +134,7 @@ const ChatViewHen = ({
             <header className='cp--header'>
                 <Header isLarge={false} unconnected={true} withoutLinks={true}/>
                 <ToolBar
-                    isChat={true}
+                   isInfo={isUsersListClick}
                 />
                 <GroupSwitch/>
 
@@ -161,7 +150,7 @@ const ChatViewHen = ({
 
             <footer className="cp--footer">
                     <div className="cp--input">
-                        <span className="material-symbols-outlined cp--help">
+                        <span className="material-symbols-outlined cp--help" onClick={()=>setIsUsersListClick(prev=>!prev)}>
                             help
                         </span>
                         <textarea
