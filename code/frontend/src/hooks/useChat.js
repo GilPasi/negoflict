@@ -173,6 +173,10 @@ const useChat = ()=>{
 
     }
 
+    const disabledGroup = ()=>{
+        return WebIM.conn.dis
+    }
+
 
     return{
         sendMsg,

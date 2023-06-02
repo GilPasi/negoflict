@@ -70,6 +70,7 @@ const ChatViewHen = ({
 
     const getGroupInfoFunc = ()=>{
     getGroupInfo({groupId:centeredGroupId}).then(res=>{
+        console.log('info group',res)
         if(res?.data[0]?.mute===true)
             handleMuteGroup({operation:'muteAllMembers'})
     }).catch(err=>console.log(err))

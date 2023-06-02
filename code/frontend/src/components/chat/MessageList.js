@@ -9,9 +9,10 @@ import {addGroupsProps, addHistoryMsg, updateMsg, useLazyGetCaseSideQuery,setAct
 import {useDispatch} from "react-redux";
 import {getPermName} from "../../utils/permissions";
 
+
 //Note that all styles of the list is done in the component
 
-const MessageList =( { maxHeight, isLoading,progress, task} )=> {
+const MessageList =( { maxHeight } )=> {
  //hooks===================================================================================================
   const location = useLocation();
   const {onlineStatusListener, getHistoryMsgs, MsgListener} = useChat();
@@ -19,37 +20,41 @@ const MessageList =( { maxHeight, isLoading,progress, task} )=> {
   const messagesEndRef = useRef(null);
   const syncronize = useRef(false);
  //===================================================================================================
-
-  //state===================================================================================================
+ //state===================================================================================================
+ const [isOnline, setIsOnline] = useState(false)
+ const [activeGroupView,setActiveGroupView] = useState('groupG')
+ const [prevActiveGroup, setPrevActiveGroup] = useState(null);
+ const [isLoading,setIsLoading] = useState(false) //holds the loading status //change to dynamic loading
+ const [progress,setProgress] = useState(0)
+//===================================================================================================
+  //location&&store===================================================================================================
   const {groups} = location.state ?? []
   const {caseId} = location.state ?? ''
   const {id, role} = useSelector(state=>state.user)
-  const roleName = getPermName({role})
   const {pos} = useSelector(state=>state.position)
-  const [isOnline, setIsOnline] = useState(false)
-  const [activeGroupView,setActiveGroupView] = useState('groupG')
-  const userSide = useRef( roleName==='mediator'? 'M':'')
   const {messages} = useSelector(state=>state.chat[activeGroupView])
-  const [prevActiveGroup, setPrevActiveGroup] = useState(null);
   const messageDetail = useSelector(state=>state.message)
-
+  //===================================================================================================
+  //varible===================================================================================================
+  const roleName = getPermName({role})
+  const userSide = useRef( roleName==='mediator'? 'M':'')
   //===================================================================================================
     //lazyApi======
     const [getGroupMember] =useLazyGetCaseSideQuery()
-
+//===================================================================================================
   //useEffect===================================================================================================
-
   useEffect(()=>{
+      setProgress(prev=>prev+10)
       dispatch(addGroupsProps({groups:groups}))
-      addConnectionListener({id:'messageList',handleConnection:connectionMsg=>setIsOnline(()=>connectionMsg === 'connected')})
+      addConnectionListener()
       MsgListener({handleMessage:handleReceivedMsg})
       roleName==='user'&& getUserDetails()
   },[])
-
+ 
     const getUserDetails =async ()=>{
      const {data, error} = await getGroupMember({caseId:caseId, user:id})
         if(error) {
-            console.log('err')
+            console.log('err',error)
             return
         }
         userSide.current = data.side
@@ -59,14 +64,12 @@ const MessageList =( { maxHeight, isLoading,progress, task} )=> {
          onlineStatusListener(
             {id:'messageList',handleConnection:connectionMsg=>setIsOnline(()=>connectionMsg === 'connected')})
   }
-  console.log('messages',messages)
 
   
 
   useEffect(() => {
     if(!messageDetail || syncronize.current) return
     syncronize.current = true
-    console.log('messageDetail>>>>>>',messageDetail)
     
     handleReceivedMsg(messageDetail, true)
    
@@ -78,21 +81,23 @@ const MessageList =( { maxHeight, isLoading,progress, task} )=> {
 
 
   useEffect(()=>{
-
     if(!isOnline || !groups) return
 
     Promise.all(groups.map(group =>
-    getHistoryMsgs({groupId: group?.groupid}).then(res => handleHistoryMsg(res, group.groupid))
+    getHistoryMsgs({groupId: group?.groupid}).then(res =>{
+     handleHistoryMsg(res, group?.groupid)})
     )).catch(err => console.log('in getHistoryMsgs', err));
 }, [isOnline, groups])
 
   //handlers========================================
    const handleHistoryMsg =async (history,groupid)=>{ //gets history messages work's only ones
         let messages = []
+        console.log('history',history, groupid)
         messages = [...history.messages]
         messages.sort((a,b)=>a.time - b.time)
         dispatch(addHistoryMsg({id:groupid,messages:messages}))
     };
+
   const handleReceivedMsg = (msg,isLocalMsg)=>{ //handle received messages only in real time
         const {to, chatType} = msg
         if(chatType !== 'groupChat' &&!isLocalMsg)return
@@ -129,6 +134,12 @@ const MessageList =( { maxHeight, isLoading,progress, task} )=> {
 
     },[pos]);
     console.log(userSide)
+
+    useEffect(()=>{
+      if(progress<100)return
+      setIsLoading(false)
+
+    },[progress])
 
 
    
@@ -230,7 +241,7 @@ const preChatTitleStyle = {
       }}>
 
       {
-      // isLoading&&
+      isLoading&&
       <div>
 
         <div
@@ -238,7 +249,7 @@ const preChatTitleStyle = {
 
           <LoadinBar
             progress={progress}
-            task={task}
+            task='hen'
           />
           </div>}
       {

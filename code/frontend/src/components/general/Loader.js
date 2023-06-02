@@ -9,6 +9,8 @@ const Loader=({withLogo,size})=>{
         case 'medium':
              circleSize = {borderTop:'4px solid var(--green-dark)', width:'100px',height:'100px'}
              break;
+        case 'x-small':
+            circleSize = {borderTop:'3px solid var(--green-dark)', width:'30px',height:'30px'}
             }
 
     

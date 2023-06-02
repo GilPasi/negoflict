@@ -3,7 +3,7 @@ import {useEffect, useRef, useState} from "react";
 import { useLocation} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {useGetChatTokenQuery, useGetFullUsersByCaseQuery} from "../store";
-import { addHistoryMsg } from "../store";
+// import { addHistoryMsg } from "../store";
 // import ChatView from "../components/chat/ChatView";
 import { getPermName } from "../utils/permissions";
 import ChatViewHen from "./ChatViewHen";
@@ -55,7 +55,7 @@ const ChatPageHen = ()=>{
     useEffect(()=>{
         if(!connected || !groups)return
         presentsStatus({status:'online'})
-        handleGetHistory()
+        // handleGetHistory()
         Getmembers()
     },[connected,groups]);
     
@@ -96,13 +96,13 @@ const ChatPageHen = ()=>{
     }
 
     //get history messages from agora chat
-    const handleGetHistory = ()=>{
-        groups.forEach(group=>{
-             getHistoryMsgs({groupId:group.groupid})
-                 .then((msgs)=>dispatch(addHistoryMsg({messages:msgs?.messages,groupId:group.groupid})))
-                 .catch(err=>console.log(err))
-        })
-    };
+    // const handleGetHistory = ()=>{
+    //     groups.forEach(group=>{
+    //          getHistoryMsgs({groupId:group.groupid})
+    //              .then((msgs)=>dispatch(addHistoryMsg({messages:msgs?.messages,groupId:group.groupid})))
+    //              .catch(err=>console.log(err))
+    //     })
+    // };
 
     //publish user status to agora chat
     const presentsStatus = ({status})=>{
