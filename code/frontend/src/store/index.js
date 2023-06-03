@@ -18,7 +18,7 @@ import { superUserApi } from "./api/superUserApi";
 import { BandReducer, setBand } from "./slices/bandSlice";
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; 
-
+import { jwtMiddleware } from './jwtRefetch';
 
 const userPersistConfig = {
     key: 'user',
@@ -61,7 +61,8 @@ const userPersistConfig = {
         .concat(adminApi.middleware)
         .concat(msgApi.middleware)
         .concat(mediatorApi.middleware)
-        .concat(superUserApi.middleware);
+        .concat(superUserApi.middleware)
+        .concat(jwtMiddleware)
     },
   });
 

@@ -10,7 +10,8 @@ export const jwtMiddleware = (storeAPI) => (next) => async (action) => {
 
 
     // check if this action is the last one, a rejected one and it has a specific error message
-    if (action.type.endsWith('/rejected') && action.error && action.error.status === 401) {
+    if (action.type.endsWith('/rejected') && action.error && action.payload.status === 401) {
+        console.log('insssssss>>>>>>>>>>>>',action);
         const originalAction = action.meta.originalArgs.action;
         const state = storeAPI.getState();
         const refreshToken = state.user.refresh; // refresh token stored in state, get it from where you've stored
