@@ -25,13 +25,14 @@ const GroupSwitch =()=>{
     const [selectorOffsetU , setSelectorOffsetU] = useState(5)
     const [selectedBtnU , setSelectedBtnU] = useState(2)
     const [notification,setNotification] = useState(()=>isMediator?[false,false,false]:[false,false])
+    const [NotificationQueue,setNotificationQueue] = useState([])
     //===================================================================================================
 
 
 
     //useEffect================
     useEffect(()=>{
-        MsgListener({handleMessage:handleNotificationsView})
+        MsgListener({handleMessage:handleNotificationsView, id:'GroupSwitch'})
     },[]);
 
     useEffect(()=>{
@@ -92,16 +93,35 @@ const GroupSwitch =()=>{
     };
 
     const handleNotificationsView =({to})=>{
-        const groupTo = groups.find(group=>group.groupid===to)?.groupname
-        if(!groupTo)return
-        if(groupTo.endsWith('G'))
-            handleNotifications(2,true)
-        else
-            if(groupTo.endsWith('A') || !isMediator)
-                handleNotifications(1,true)
-            else
-                handleNotifications(3,true)
+        setNotificationQueue(prev=>[...prev,to])
     }
+
+    useEffect(()=>{
+        if(NotificationQueue.length === 0)return
+
+        NotificationQueue.forEach(to=>{
+            const groupTo = groups.find(group=>group.groupid===to)?.groupname
+            if(!groupTo)return
+            const btnpos =  isMediator?selectedBtn:selectedBtnU
+            console.log('GroupTo',groupTo)
+            console.log('pos',btnpos)
+            if(groupTo.endsWith('G')){
+                if(btnpos === 2)return
+                handleNotifications(2,true)
+            }
+            else if(groupTo.endsWith('A') || !isMediator){
+                if(btnpos === 1)return
+                handleNotifications(1,true)
+            }
+            else{
+                if(isMediator&& btnpos === 3)return
+                else if(btnpos === 1)return
+                handleNotifications(3,true)
+            }
+        })
+        return ()=>setNotificationQueue([])
+
+    },[NotificationQueue])
     //===================================================================================================
 
     //Structure : 

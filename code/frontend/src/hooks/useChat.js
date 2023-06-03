@@ -114,8 +114,8 @@ const useChat = ()=>{
 
             })
     };
-      const MsgListener = ({handleMessage})=>{
-        WebIM.conn.addEventHandler('MSG',{
+      const MsgListener = ({handleMessage,id})=>{
+        WebIM.conn.addEventHandler(id ??'MSG',{
             onTextMessage:msg => handleMessage(msg),
         })
     }
