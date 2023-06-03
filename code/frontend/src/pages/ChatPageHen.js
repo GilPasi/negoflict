@@ -41,7 +41,7 @@ const ChatPageHen = ()=>{
         if(!userToken) return
         connectToChat({userToken})
             .then(()=> {
-                addGroupListeners()
+                // addGroupListeners()
                 addConnectionListeners()
             })
             .catch(err=>console.log('coonnnnn',err))
@@ -56,13 +56,13 @@ const ChatPageHen = ()=>{
         if(!connected || !groups)return
         presentsStatus({status:'online'})
         // handleGetHistory()
-        Getmembers()
+        // Getmembers()
     },[connected,groups]);
     
-    useEffect(()=>{
-        if(groupMembers.length===0) return
-        subscribeToPresence()
-    },[groupMembers])
+    // useEffect(()=>{
+    //     if(groupMembers.length===0) return
+    //     // subscribeToPresence()
+    // },[groupMembers])
     //===================================================================================================
 
     //functions============
@@ -72,37 +72,28 @@ const ChatPageHen = ()=>{
             {handleConnection:connectionMsg=>setConnected(()=>connectionMsg === 'connected')})
     }
 
-    const addGroupListeners = ()=>{
-        groupListener({handleGroupChange})
-    }
+    // const addGroupListeners = ()=>{
+    //     groupListener({handleGroupChange})
+    // }
 
-    const handleGroupChange =async (change)=>{
-        const {operation} = change
+    // const handleGroupChange =async (change)=>{
+    //     const {operation} = change
 
-        switch (operation) {
-            case 'inviteToJoin':
-             // const res = await acceptInviteFromGroup({gropId:change.id, invitee:userAgoraName})
-                console.log('invite',change)
-                return;
+    //     switch (operation) {
+    //         case 'inviteToJoin':
+    //          // const res = await acceptInviteFromGroup({gropId:change.id, invitee:userAgoraName})
+    //             console.log('invite',change)
+    //             return;
 
 
-            default:return
-        }
-    }
+    //         default:return
+    //     }
+    // }
 
     //connect to agora chat
     const connectToChat =  ({userToken})=>{
          return  connect({username:userAgoraName,agoraToken:userToken})
     }
-
-    //get history messages from agora chat
-    // const handleGetHistory = ()=>{
-    //     groups.forEach(group=>{
-    //          getHistoryMsgs({groupId:group.groupid})
-    //              .then((msgs)=>dispatch(addHistoryMsg({messages:msgs?.messages,groupId:group.groupid})))
-    //              .catch(err=>console.log(err))
-    //     })
-    // };
 
     //publish user status to agora chat
     const presentsStatus = ({status})=>{
@@ -110,31 +101,32 @@ const ChatPageHen = ()=>{
     }
 
     //get the group members from agora chat
-    const Getmembers = ()=> {
-        if(!centeredGroup)return
-        getGroupMember({groupId:centeredGroup?.groupid}).then(({data}) => setGroupMembers(data))
-            .catch(err => console.log(err))
-    }
-    console.log('groupMembers',groupMembers)
-    const subscribeToPresence = ()=>{
-        const members = groupMembers.map(member=>{
-            if(member.member&&member.member!==username)
-                return member.member
-            else if(member.owner&&member.owner!==username)
-                return member.owner
-            else return null
-        }).filter(member=>member!==null)
-        if(members.length===0) return
-        subscribePresence({usernames:members}).then(res=>console.log('subscribed',res)).catch(err=>console.log(err))
-    }
-    
-
-    const handleShuttle = ({isShuttled})=>{
-        muteAllMembers({groupId:centeredGroup.groupid,shuttle:isShuttled}).then(res=>console.log('muted',res)).catch(err=>console.log(err))
-    }
+    // const Getmembers = ()=> {
+    //     if(!centeredGroup)return
+    //     getGroupMember({groupId:centeredGroup?.groupid}).then(({data}) => setGroupMembers(data))
+    //         .catch(err => console.log(err))
+    // }
 
    
-    console.log('connnect',connected)
+    // const subscribeToPresence = ()=>{
+    //     const members = groupMembers.map(member=>{
+    //         if(member.member&&member.member!==username)
+    //             return member.member
+    //         else if(member.owner&&member.owner!==username)
+    //             return member.owner
+    //         else return null
+    //     }).filter(member=>member!==null)
+    //     if(members.length===0) return
+    //     subscribePresence({usernames:members}).then(res=>console.log('subscribed',res)).catch(err=>console.log(err))
+    // }
+    
+
+    // const handleShuttle = ({isShuttled})=>{
+    //     muteAllMembers({groupId:centeredGroup.groupid,shuttle:isShuttled}).then(res=>console.log('muted',res)).catch(err=>console.log(err))
+    // }
+
+   
+
 
 
 

@@ -122,7 +122,6 @@ export const { usePost_new_caseMutation } = caseApi
 export const {useGetCaseSideQuery, useLazyGetCaseSideQuery} = caseApi
 export const { usePutUserToMemberGroupMutation } = caseApi
 export const {useCloseCaseMutation} = caseApi
-export const {useGetFullUsersByCaseQuery} = caseApi
 export const {usePostNewSurveyMutation} = caseApi
 export const {useDeleteCaseMutation} = caseApi
 //============
@@ -134,6 +133,7 @@ export const {useGetChatGroupsQuery,useLazyGetChatGroupsQuery} = groupApi
 export const {useDeleteGroupMutation} = groupApi
 
 //adminApi=======
+export const {useGetFullUsersByCaseQuery} = adminApi
 export const { useRegisterToChatGroupsMutation } = adminApi
 export const { useRegisterUsersMutation } = adminApi
 export const { useAddMediatorMutation } = adminApi

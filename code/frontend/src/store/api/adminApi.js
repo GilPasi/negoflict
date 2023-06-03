@@ -162,7 +162,7 @@ const adminApi = createApi({
 
             }),
             registerOneUser:builder.mutation({//finish
-                invalidatesTags:['oneUser'],
+                invalidatesTags:['users_case'],
                 query:({username,password,first_name})=>{
                     const uid = username.replace(/[^\w\s]/gi, '')
                     return{
@@ -177,6 +177,7 @@ const adminApi = createApi({
                 }
             }),
             registerManyUsersToGroupMember: builder.mutation({
+                invalidatesTags:['users_case'],
                 query:({users})=>{
                     return{
                         url: `/session/chat_members/register_many_users/`,
@@ -211,6 +212,18 @@ const adminApi = createApi({
                     method:'GET',
                     params:{
                       case:caseChat
+                    }
+                  }
+                }
+              }),
+              getFullUsersByCase: builder.query({
+                providesTags:['users_case'],
+                query: ({caseId})=>{
+                  return{
+                    url:'/session/chat_members/get_full_users_by_case/',
+                    method:'GET',
+                    params:{
+                      case:caseId,
                     }
                   }
                 }

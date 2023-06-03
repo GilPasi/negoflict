@@ -92,7 +92,7 @@ const useChat = ()=>{
             onDisconnected:()=>handleDisconnect(),
             onError:err=>console.log('in addEvents',err),
             onGroupEvent:()=>handleGroupChange(),
-            onTokenWillExpire:()=>handleTokenWillExpire(),
+            onTokenWillExpire:()=>handleTokenWillExpire(), 
             onTokenExpired:()=>console.log('token expired'),
 
         })
@@ -119,6 +119,11 @@ const useChat = ()=>{
             onTextMessage:msg => handleMessage(msg),
         })
     }
+    const presenceListener = ({id, presentsHandler})=>{
+        WebIM.conn.addEventHandler(id ??'Presence',{
+            onPresenceStatusChange:msg=>presentsHandler(msg)
+        })
+    }
 
     const groupListener = ({handleGroupChange,id})=>{
         WebIM.conn.addEventHandler(id??'Group',{
@@ -126,6 +131,8 @@ const useChat = ()=>{
             onError:err=>console.log('in groupListener',err),
         })
     }
+
+    
 
     const publishPresence = ({description})=>{
        return  WebIM.conn.publishPresence({description:description}).catch(err=>console.log('in publishPresence',err))
@@ -148,12 +155,10 @@ const useChat = ()=>{
 
 
     const getGroupMember = ({groupId})=>{
-        if(!online)return
        return  WebIM.conn.listGroupMembers({groupId:groupId, pageNum:1, pageSize:20}).catch(err=>console.log('in getGroupMember',err))
     }
 
     const getGroupInfo = ({groupId})=>{
-
        return  WebIM.conn.getGroupInfo({groupId:groupId}).catch(err=>console.log('in getOnlineUsers',err))
     }
 
@@ -163,19 +168,22 @@ const useChat = ()=>{
     }
 
     const subscribePresence = ({usernames})=>{
-
         if(usernames.length === 0)return Promise.resolve()
         return  WebIM.conn.subscribePresence({usernames:usernames, expiry:10000}).catch(err=>console.log('in subscribePresence',err))
     }
 
     const addUsersToGroup = ({group,users})=>{
       return addingUsersToGroup({users:users,group:group})
-
     }
 
-    const disabledGroup = ()=>{
-        return WebIM.conn.dis
+    const getGroupOwner = ({groupId})=>{
+        return WebIM.conn.getGroupAdmin({groupId:groupId}).catch(err=>console.log('in getGroupOwner',err))
     }
+
+    const removeUserFromGroup = ({groupId,user})=>{
+        return WebIM.conn.removeGroupMember({groupId:groupId,username:user,}).catch(err=>console.log('in removeUserFromGroup',err))
+    }
+
 
 
     return{
@@ -199,6 +207,9 @@ const useChat = ()=>{
         addUsersToGroup,
         MsgListener,
         isConnected,
+        getGroupOwner,
+        presenceListener,
+        removeUserFromGroup,
        
 
 
