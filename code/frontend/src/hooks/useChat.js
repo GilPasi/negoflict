@@ -183,8 +183,16 @@ const useChat = ()=>{
     const removeUserFromGroup = ({groupId,user})=>{
         return WebIM.conn.removeGroupMember({groupId:groupId,username:user,}).catch(err=>console.log('in removeUserFromGroup',err))
     }
+    const tokenWillExpireListener = ({id, tokenWillExpiredHandler, tokenExpiredHandler})=>{
+        WebIM.conn.addEventHandler(id ?? 'Token',{
+            onTokenWillExpire:()=>tokenWillExpiredHandler(),
+            onTokenExpired:()=>tokenExpiredHandler()
+        })
 
-
+    }
+    const renewToken = ({token})=>{
+        WebIM.conn.renewToken({agoraToken:token}).catch(err=>console.log('in renewToken',err))
+    }
 
     return{
         sendMsg,
@@ -210,6 +218,9 @@ const useChat = ()=>{
         getGroupOwner,
         presenceListener,
         removeUserFromGroup,
+        tokenWillExpireListener,
+        renewToken,
+
        
 
 

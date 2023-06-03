@@ -1,26 +1,24 @@
 import useChat from "../hooks/useChat";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import { useLocation} from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import {useGetChatTokenQuery, useGetFullUsersByCaseQuery} from "../store";
-// import { addHistoryMsg } from "../store";
-// import ChatView from "../components/chat/ChatView";
+import {  useSelector } from "react-redux";
+import {useGetChatTokenQuery} from "../store";
 import { getPermName } from "../utils/permissions";
 import ChatViewHen from "./ChatViewHen";
+import { useNavigate } from "react-router-dom";
 
 
 const ChatPageHen = ()=>{
     //hooks==========
     const location = useLocation()
-    const { connect, getHistoryMsgs, publishPresence, onlineStatusListener, getGroupMember, groupListener, subscribePresence,muteAllMembers} = useChat()
-    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const { connect, publishPresence, onlineStatusListener, tokenWillExpireListener, renewToken} = useChat()
     //===================================================================================================
     //state=========
     let groups = location.state?.groups ?? [] //holds the 3 sides of the chat groups by agora
-    const {caseId, caseTitle,caseCategory} = location.state ?? '' //holds the case id
-    const {username, role:userRole, first_name, id, access} = useSelector(state=>state.user) //user important data
+    const {username, role:userRole} = useSelector(state=>state.user) //user important data
     const [connected,setConnected] = useState(false) //holds the connection status
-    const [groupMembers,setGroupMembers] = useState([]) //holds the group members agora data
+
     //===================================================================================================
     //variables=========
 
@@ -29,8 +27,7 @@ const ChatPageHen = ()=>{
     const centeredGroup = groups.find(group => group.groupname.endsWith('G')); //holds the center group agora data
     //===================================================================================================
     //apiFetch==========
-    const {data:token} = useGetChatTokenQuery({username:userAgoraName}) //get the agora token
-    const {data:users} = useGetFullUsersByCaseQuery({caseId}) //get the users data
+    const {data:token, refetch:refetchToken} = useGetChatTokenQuery({username:userAgoraName}) //get the agora token
     //===================================================================================================
     
     //useEffect==========
@@ -41,28 +38,21 @@ const ChatPageHen = ()=>{
         if(!userToken) return
         connectToChat({userToken})
             .then(()=> {
-                // addGroupListeners()
+
                 addConnectionListeners()
+                addTokenLister()
             })
             .catch(err=>console.log('coonnnnn',err))
 
 
     },[token]);
 
-    //get history and members after connection to agora chat
-    //and publish user status
-    //and get the users data from agora
     useEffect(()=>{
         if(!connected || !groups)return
         presentsStatus({status:'online'})
-        // handleGetHistory()
-        // Getmembers()
+       
     },[connected,groups]);
-    
-    // useEffect(()=>{
-    //     if(groupMembers.length===0) return
-    //     // subscribeToPresence()
-    // },[groupMembers])
+ 
     //===================================================================================================
 
     //functions============
@@ -71,24 +61,24 @@ const ChatPageHen = ()=>{
         onlineStatusListener(
             {handleConnection:connectionMsg=>setConnected(()=>connectionMsg === 'connected')})
     }
+    const addTokenLister = ()=>{
+        tokenWillExpireListener({id:'ChatPageHen',tokenExpiredHandler:handleTokenExpired,tokenWillExpiredHandler:handleTokenWillExpired})
 
-    // const addGroupListeners = ()=>{
-    //     groupListener({handleGroupChange})
-    // }
+    }
 
-    // const handleGroupChange =async (change)=>{
-    //     const {operation} = change
+    const handleTokenWillExpired = ()=>{
+        refetchToken()
+            .then(res=>{
+                const {userToken} = res.data
+                renewToken({token:userToken})
+            })
+    }
 
-    //     switch (operation) {
-    //         case 'inviteToJoin':
-    //          // const res = await acceptInviteFromGroup({gropId:change.id, invitee:userAgoraName})
-    //             console.log('invite',change)
-    //             return;
+    const handleTokenExpired = ()=>{
+        console.error('token expired')
+        navigate('/login',{replace:true})
+    }
 
-
-    //         default:return
-    //     }
-    // }
 
     //connect to agora chat
     const connectToChat =  ({userToken})=>{
@@ -100,51 +90,10 @@ const ChatPageHen = ()=>{
         publishPresence({description:status}).then(res=>console.log('published',res)).catch(err=>console.log(err))
     }
 
-    //get the group members from agora chat
-    // const Getmembers = ()=> {
-    //     if(!centeredGroup)return
-    //     getGroupMember({groupId:centeredGroup?.groupid}).then(({data}) => setGroupMembers(data))
-    //         .catch(err => console.log(err))
-    // }
-
-   
-    // const subscribeToPresence = ()=>{
-    //     const members = groupMembers.map(member=>{
-    //         if(member.member&&member.member!==username)
-    //             return member.member
-    //         else if(member.owner&&member.owner!==username)
-    //             return member.owner
-    //         else return null
-    //     }).filter(member=>member!==null)
-    //     if(members.length===0) return
-    //     subscribePresence({usernames:members}).then(res=>console.log('subscribed',res)).catch(err=>console.log(err))
-    // }
-    
-
-    // const handleShuttle = ({isShuttled})=>{
-    //     muteAllMembers({groupId:centeredGroup.groupid,shuttle:isShuttled}).then(res=>console.log('muted',res)).catch(err=>console.log(err))
-    // }
-
-   
-
-
-
-
-
-
-
 
     //===================================================================================================
 
 
-
-
-
-    console.log('rolename',roleName)
-    console.log('members',groupMembers)
-    console.log('users',users)
-    console.log(userRole, first_name, id, access,username)
-    console.log(groups, caseId)
 
     return(
         <ChatViewHen
