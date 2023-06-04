@@ -181,10 +181,11 @@ const CaseFormPage = () =>{
 
         return(
             <div>
-                {isFetching &&
-                    <div style={{position:'fixed',zIndex:'100',width:'100%',height:'100%',opacity:'0.6',backgroundColor:'gray'}}>
-                        <Loader withLogo={true} size={'medium'}/>
-                    </div>}
+                 {isFetching&&
+        <div style={{position:'fixed',zIndex:'100',width:'100%',height:'100%',opacity:'0.6',backgroundColor:'gray'}}>
+          <Loader withLogo={true} size={'medium'}/>
+        </div>
+        }
             
             
                 <article className="cfp page">

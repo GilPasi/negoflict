@@ -5,16 +5,17 @@
     border-top: 2px solid var(--gray);
     display: grid;
     grid-template-columns: 1fr 4fr 1fr;
+    
     grid-template-rows: 1fr 1fr;
-
     grid-gap:5px;
 }
 
 .case-review--frame{
     /* border:1px solid red; */
-    overflow: hidden;
+    /* overflow: hidden; */
     white-space: nowrap;
     text-overflow: ellipsis;
+    
 }
 
 
@@ -84,6 +85,7 @@
     transition:  300ms ease-in-out;
 }
 
+
 .case-review--options-btn{
     background:transparent;
     border: none;
@@ -98,3 +100,39 @@
 }
 
 .case-review--options-btn{cursor: pointer;}
+
+
+.close-button-case-review{
+    position: absolute;
+    z-index: 100;
+    right: 50%;
+    top: 50%;
+    transform: translate(50%,-50%);
+    width: 80%;
+    background-color: var(--green-dark);
+    border: none;
+    height: 4px;
+    border-radius: 10px;
+    animation: closeButton 300ms ease-in-out;
+}
+
+@keyframes closeButton {
+    0%{
+        width: 0%;
+    }
+    25%{
+        width: 20%;
+    }
+    50%{
+        width: 40%;
+    }
+    75%{
+        width: 60%;
+    }
+    100%{
+        width: 80%;
+    }
+   
+    
+}
+

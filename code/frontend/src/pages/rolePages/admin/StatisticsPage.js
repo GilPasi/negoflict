@@ -76,8 +76,12 @@ const StatisticsPage = (category)=> {
 
 
         },
+       
 
     ]
+  
+   
+    
     const pre = " "
     const usersTable = 
             <table className="sp--table" id="table-1">

@@ -5,13 +5,14 @@ import { useSelector } from 'react-redux';
 import useAlert from '../../hooks/useAlert';
 import { useDeleteGroupMutation } from '../../store';
 import { useCloseCaseMutation } from '../../store';
+import { getPermName } from "../../utils/permissions";
 
 const CaseReview = ({ caseName , creationDate ,caseIndex, caseData})=>{
     //================= Hooks and variables ============
     const [showButtons , setShowButtons] = useState(false)
     const { deletAlert, textAlert } = useAlert();
     const { role } = useSelector((state) => state.user);
-    const gotRole = role <= 2 ? 'mediator' : 'user';
+    const gotRole = getPermName({role:role});
     const [deleteGroupsAgora, { data:deleteGroups, error:errorDeleteGroups }] = useDeleteGroupMutation();
     const [closeCase,{data:closeData,error:errorClose}] = useCloseCaseMutation()
   
@@ -65,12 +66,21 @@ const CaseReview = ({ caseName , creationDate ,caseIndex, caseData})=>{
 
 
     const optionsStyles = [
-        {top: showButtons ? "0%" : "45%"},
-        {top: showButtons ? "100%" : "55%"},
+        {top: showButtons ? gotRole==='mediator'?"20%":'10%' : "45%"},
+        {top: showButtons ? "80%" : "55%"},
+   
+
     ]
-    const buttonStyle={
+    const buttonStyle= {
         transform:`scale(${showButtons ? "1" : "0"})`,
+
     }
+    const userButtonStyle = {
+        transform:`scale(${showButtons ? "1" : "0"})`,
+        position:'relative',
+        top:'-35%',
+    }
+    
 
     return(
     <article className="case-review">
@@ -93,7 +103,7 @@ const CaseReview = ({ caseName , creationDate ,caseIndex, caseData})=>{
 
                 <button 
                     className="case-review--options-btn" 
-                    style={buttonStyle}
+                    style={gotRole==='user'?userButtonStyle:buttonStyle}
                 >
                     <Link
                         style={{color:"black" , padding:"0 1em" ,}}
@@ -108,6 +118,10 @@ const CaseReview = ({ caseName , creationDate ,caseIndex, caseData})=>{
                         start
                     </Link>
                 </button>
+                {showButtons&&  <button className="close-button-case-review"  onClick={()=>setShowButtons(()=>false)}>
+                    
+                </button>}
+              
                 <div 
                     className="line case-review--line" 
                     id="line-hor" 
@@ -129,8 +143,8 @@ const CaseReview = ({ caseName , creationDate ,caseIndex, caseData})=>{
             </div>
         </div>
         <div className="case-review--frame case-review--info">
-            <span className="case-review--info-case">
-                <strong>Case {caseIndex}</strong>
+            <span className="case-review--info-case" style={{}}>
+                <strong>{caseIndex}</strong>
                 <span className="space"/>
                 I.D.{caseData.id.slice(0,7)}{/*slice is too big , show only a couple of first digits */}
             </span>
