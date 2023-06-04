@@ -3,31 +3,172 @@ import Message from '../general/Message';
 import { useSelector } from 'react-redux';
 import LoadinBar from '../general/LoadingBar';
 import '../../styles/components/loading_bar.css'
+import useChat from '../../hooks/useChat';
+import { useLocation } from 'react-router-dom';
+import {addGroupsProps, addHistoryMsg, updateMsg, useLazyGetCaseSideQuery,setActiveGroup, clearMsg,resetChatState} from "../../store";
+import {useDispatch} from "react-redux";
+import {getPermName} from "../../utils/permissions";
+
+
 //Note that all styles of the list is done in the component
 
-const MessageList =( {activeGroup ,maxHeight, isLoading,progress, task,chatStart} )=> {
- 
+const MessageList =( { maxHeight, isChatStart } )=> {
+ //hooks===================================================================================================
+  const location = useLocation();
+  const {onlineStatusListener, getHistoryMsgs, MsgListener} = useChat();
+  const dispatch = useDispatch();
   const messagesEndRef = useRef(null);
-  const {id} = useSelector(state=>state.user)
+  const syncronize = useRef(false);
+ //===================================================================================================
+ //state===================================================================================================
+ const [isOnline, setIsOnline] = useState(false)
+ const [activeGroupView,setActiveGroupView] = useState('groupG')
+ const [prevActiveGroup, setPrevActiveGroup] = useState(null);
+ const [isLoading,setIsLoading] = useState(true) //holds the loading status //change to dynamic loading
+ const [progress,setProgress] = useState(0)
+//===================================================================================================
+  //location&&store===================================================================================================
+  const {groups} = location.state ?? []
+  const {caseId} = location.state ?? ''
+  const {id, role} = useSelector(state=>state.user)
+  const {pos} = useSelector(state=>state.position)
+  const {messages} = useSelector(state=>state.chat[activeGroupView])
+  const messageDetail = useSelector(state=>state.message)
+  //===================================================================================================
+  //varible===================================================================================================
+  const roleName = getPermName({role})
+  const userSide = useRef( roleName==='mediator'? 'M':'')
+  //===================================================================================================
+    //lazyApi======
+    const [getGroupMember] =useLazyGetCaseSideQuery()
+//===================================================================================================
+  //useEffect===================================================================================================
+  useEffect(()=>{
+      setProgress(prev=>prev+10)
+      dispatch(addGroupsProps({groups:groups}))
+      addConnectionListener()
+      MsgListener({handleMessage:handleReceivedMsg})
+      roleName==='user'&& getUserDetails()
+  },[])
+ 
+    const getUserDetails =async ()=>{
+     const {data, error} = await getGroupMember({caseId:caseId, user:id})
+        if(error) {
+            console.log('err',error)
+            return
+        }
+        userSide.current = data.side
+        setProgress(prev=>prev<100&&prev+25)
+    }
 
-  const {messages} = useSelector(state=>state.chat[activeGroup])
-  const [prevActiveGroup, setPrevActiveGroup] = useState(null);
+  const addConnectionListener = ()=>{
+         onlineStatusListener(
+            {id:'messageList',handleConnection:connectionMsg=>{
+              const isConnect = connectionMsg === 'connected'
+              if(connectionMsg === 'disconnected')
+                handleDisconnect()
+
+              setIsOnline(()=>isConnect)}})
+          setProgress(prev=>prev<100&&prev+25)
+  }
+
+  
+
+  useEffect(() => {
+    if(!messageDetail || syncronize.current) return
+    syncronize.current = true
+    
+    handleReceivedMsg(messageDetail, true)
+   
+    return () => {
+      syncronize.current = false
+    }
+
+  },[messageDetail])
 
 
+  useEffect(()=>{
+    if(!isOnline || !groups) return
+    setIsLoading(()=>true)
+    Promise.all(groups.map(group =>
+    getHistoryMsgs({groupId: group?.groupid}).then(res =>{
+     handleHistoryMsg(res, group?.groupid)})
+    )).catch(err => console.log('in getHistoryMsgs', err))
+    .finally(()=>{
+      setProgress(()=>100)
+      setIsLoading(()=>false)})
+    
+}, [isOnline, groups])
+
+  //handlers========================================
+   const handleHistoryMsg =async (history,groupid)=>{ //gets history messages work's only ones
+        let messages = []
+        console.log('history',history, groupid)
+        messages = [...history.messages]
+        messages.sort((a,b)=>a.time - b.time)
+        dispatch(addHistoryMsg({id:groupid,messages:messages}))
+    };
+
+    
+
+    const handleDisconnect = ()=>{
+      dispatch(resetChatState())
+      dispatch(clearMsg())
+    }
+
+  const handleReceivedMsg = (msg,isLocalMsg)=>{ //handle received messages only in real time
+        const {to, chatType} = msg
+        if(chatType !== 'groupChat' &&!isLocalMsg)return
+
+            const modifiedObject = {
+                ...msg,
+                msg: msg.msg,
+                time: parseInt(msg.time),
+              };
+
+            delete modifiedObject.data;
+            dispatch(updateMsg({id:to, message:modifiedObject}))
+    };
+
+  useEffect(()=>{ //set what group is active now to view ther messages for mediator
+        if(roleName === 'mediator'){
+          const values = ['groupA','groupG','groupB']
+          setActiveGroupView(()=>values[pos-1])
+          dispatch(setActiveGroup(values[pos-1]))
+        
+        }
+        else if(roleName === 'user'){
+          const {current} = userSide ?? null
+          if(!current)return
+          if(pos !== 2){
+              setActiveGroupView(()=>`group${current}`)
+              dispatch(setActiveGroup(`group${current}`))
+          }
+          else{
+              setActiveGroupView(()=>'groupG')
+              dispatch(setActiveGroup('groupG'))
+          }
+        }
+
+    },[pos]);
+    
+
+
+   
 
   //change msg to data when i receive a messgae online
   //convet time to int and parsee it
   useEffect(() => {
     if (messagesEndRef.current) {
-      if (prevActiveGroup !== activeGroup) {
+      if (prevActiveGroup !== activeGroupView) {
         messagesEndRef.current.scrollIntoView({ behavior: 'instant' });
-        setPrevActiveGroup(activeGroup);
+        setPrevActiveGroup(activeGroupView);
       } else {
         messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
       }
     }
-  }, [messages, activeGroup, prevActiveGroup]);
-  
+  }, [messages, activeGroupView, prevActiveGroup]);
+//
     useEffect(() => {
     const handleResize = () => {
       if (messagesEndRef.current) {
@@ -41,6 +182,7 @@ const MessageList =( {activeGroup ,maxHeight, isLoading,progress, task,chatStart
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+  
 
 
   const convertTime = (time)=>{
@@ -70,35 +212,37 @@ const MessageList =( {activeGroup ,maxHeight, isLoading,progress, task,chatStart
     position:'absolute',
     width:'100%', height:'100%',
     backgroundColor:'rgba(0,0,0,0.2)',
-    zIndex:'5', left:'50%', 
+    zIndex:'5', left:'50%',
     transform:'translateX(-50%)'
   }
   const preChatStyle ={
-    zIndex:'10', 
+    zIndex:'10',
     position:'fixed',
     width:'80%',height:'50%',
-    backgroundColor:'gray', 
+    backgroundColor:'gray',
     left:'50%',
-    top:'50%',  
+    top:'50%',
     transform: 'translate(-50%,-50%)',
     opacity:'0.6',
     borderRadius:'10%'
 }
 const preChatTitleStyle = {
-    position:'absolute',
+    position:'fixed',
     zIndex:'100',
     left:'50%',
-    top:'30%',
+    top:'40%',
     transform: 'translate(-50%,-50%)',
     fontWeight:'bold',
     fontSize:'X-large',
     textAlign:'start',
     display:'flex',
-    flexDirection:'column'
+    flexDirection:'column',
+    zIndex:'12',
+
   }
 
   return (
-    <div 
+    <div
     style={{
         width:'100%',
         height: maxHeight,
@@ -110,38 +254,42 @@ const preChatTitleStyle = {
         //Alternatively you can use the scrollable message list
       }}>
 
-      {isLoading&&<div>
+      {
+      isLoading&&
+      <div>
 
-        <div 
+        <div
           style={lodaingStyle}/>
 
           <LoadinBar
             progress={progress}
-            task={task}
+            task='hen'
           />
           </div>}
-      {!(isLoading)&&!(chatStart)&&
+      {
+      (!isChatStart&&roleName==='user'&&!isLoading)
+      &&
       <div>
-      <div 
+      <div
           style={preChatStyle}/>
       <span
-        style={preChatTitleStyle}>Waiting Host to start the 
-        <div className="loading-dots" style={{display:'flex',alignItems:'end'}}>
+        style={preChatTitleStyle}>Waiting Host to start the
+        <div className="loading-dots" style={{display:'flex',alignItems:'end', zIndex:'2000'}}>
           <span>converstation</span>
           <span className="dot" style={{marginBottom:'5px', marginLeft:'5px'}}></span>
           <span className="dot" style={{marginBottom:'5px', marginLeft:'5px'}}></span>
           <span className="dot" style={{marginBottom:'5px', marginLeft:'5px'}}></span>
         </div>
       </span>
-      
+
       </div>
       }
-      
+
 
       {messages&& messages.map(message => (
         <div key={message.id}>
-         
-            <Message 
+
+            <Message
                 key={getKey(message.time)}
                 text={message.msg}
                 sender={message.ext?.sender}
@@ -153,8 +301,8 @@ const preChatTitleStyle = {
         </div>
 
       ))}
-    
-     
+
+
 
       <div ref={messagesEndRef} />
 

@@ -16,6 +16,7 @@ import { useLocation } from "react-router-dom"
 
 
 const LoginPage=()=>{
+
     //dont change the order*******
     //status = finished
     //4 requests=>2 requests && move to redux-fetch usersApi
@@ -61,6 +62,9 @@ const LoginPage=()=>{
             localStorage.removeItem('case_id')
         if(hasGroups)
             localStorage.removeItem('groups')
+        
+        //Focus on the email field as the page uprise
+        document.getElementById("username").focus()
 
     },[])
     
@@ -81,6 +85,8 @@ const LoginPage=()=>{
     
     useEffect(()=>{
         setFormData(baseData)
+        document.getElementById("username").focus()
+
     },[isMediator])
 
     //==========
@@ -301,7 +307,8 @@ const LoginPage=()=>{
                     <a href=""
                         onClick={event=>{
                             event.preventDefault()
-                            isMediator?setIsMediator(false):setIsMediator(true)
+                            isMediator ? setIsMediator(false): setIsMediator(true)
+
                             setValidity({isValid:true , errorMsg:''})
                         }}
                         style={{height:"10em"}}>

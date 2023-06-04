@@ -82,7 +82,7 @@ const CaseReview = ({ caseName , creationDate ,caseIndex, caseData})=>{
 
 
         <div className="case-review--frame case-review--options centerizer">
-            <div  className="case-review--options-container" style={{cursor: showButtons ?"" :"pointer"}}>
+            <div  className="case-review--options-container">
                 <div className="case-review--options-box" onClick={()=>setShowButtons(true)}/>
                 <div
                     className="line case-review--line"

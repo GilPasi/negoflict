@@ -34,7 +34,6 @@ const chatSlice = createSlice({
         updateMsg: (state,action)=>{
             const {id, message} = action.payload
             
-            
             if(!message)return
             Object.keys(state).forEach(groupKey => {
                 if (state[groupKey].id === id) {
@@ -44,6 +43,9 @@ const chatSlice = createSlice({
         },
         addHistoryMsg: (state,action)=>{
             const {id, messages } = action.payload
+            console.
+            log('in addHistory>>>',messages)
+            console.log('in addHistory>>>iddddd',id)
             if(!messages)return
             Object.keys(state).forEach(groupKey => {
                 if (state[groupKey].id === id) {

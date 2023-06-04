@@ -45,7 +45,6 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         dispatch(clearAllPerticipents())
         dispatch(setStartChat(false))
 
-        await WebIM.conn.close()
     };
     const addEvents = ()=>{
       WebIM.conn.addEventHandler('hen',{
@@ -95,6 +94,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
                     sender:ext.sender,
                 }
         }
+        console.log('in chat send',option)
 
         const message = WebIM.message.create(option)
             WebIM.conn.send(message).then(()=> dispatch(clearMsg()))
@@ -108,6 +108,7 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
         WebIM.conn.updateGroupAnnouncement(option).then(res =>dispatch(setStartChat(true)))
     };
         const getiStartChat = ()=>{
+
             let option = {
                 groupId: centerGroup.groupid,
             };

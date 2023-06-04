@@ -2,6 +2,8 @@ import "../../styles/components/loading_bar.css"
 
 const LoadinBar = ({progress,task,style }) => {
 
+ 
+
     const _style = {
         ...style,
         width:`${progress}%`
@@ -24,7 +26,7 @@ const LoadinBar = ({progress,task,style }) => {
 
             <div className="loading-bar--bar progress"
                 role="progress bar"
-                value={progress}
+                value={progress >100?100:progress }
                 aria-valuenow={progress}
                 aria-valuemin="0"
                 aria-valuemax="100"
