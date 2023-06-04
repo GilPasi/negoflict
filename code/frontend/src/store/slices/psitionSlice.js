@@ -5,7 +5,8 @@ const positionSlice = createSlice({
     name:'position',
     initialState:{
         pos:2,
-        privateGroup:''
+        privateGroup:'',
+        activeGroup:'G'
     },
     reducers:{
         updatePosition:(state,action)=>{
@@ -13,6 +14,9 @@ const positionSlice = createSlice({
         },
         setPrivateGroup: (state,action)=>{
              state.privateGroup = action.payload
+        },
+        setActiveGroup: (state,action)=>{
+            state.activeGroup = action.payload
         }
 
 
@@ -25,4 +29,4 @@ const positionSlice = createSlice({
 })
 
 export const positionReducer = positionSlice.reducer
-export const {updatePosition, setPrivateGroup} = positionSlice.actions
+export const {updatePosition, setPrivateGroup, setActiveGroup} = positionSlice.actions

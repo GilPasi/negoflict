@@ -1,225 +1,195 @@
 import '../../styles/components/add_window.css'
-import AddUserPage from "../../pages/AddUserPage"
 import Button from "../../components/general/Button"
 import {useEffect, useState} from 'react'
 import { useGetContactsQuery } from '../../store' 
 import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
-import { useAddingManyUsersToOneChatGroupMutation, useRegisterManyUsersToGroupMemberMutation, useGetUsersByCaseQuery,addPerticipents, useSetUserCaseAttributeMutation } from '../../store'
+import { useRegisterManyUsersToGroupMemberMutation, useGetUsersByCaseQuery, useSetUserCaseAttributeMutation, useGetChatGroupsQuery } from '../../store'
 import CreateSelfUser from '../../pages/CreateSelfUserPage'
+
 import Loader from './Loader'
+import {useLocation} from "react-router-dom";
+import useChat from '../../hooks/useChat'
 
-const AddWindow =({groups})=>{
-    const {agora,server,caseId} = groups
+const AddWindow =()=>{
+    //finish the add window hen berti
+    //hooks==============================
+    const location = useLocation()
+    const {addUsersToGroup} = useChat()
+    //=================================================================================================
 
-    const [stage , setStage] = useState('pick side');
-    const [selectedUsers , setSelectedUsers] = useState([])
-    const [side,setSide] = useState(null)
-    const [Users, setUsers] = useState([])
+    //state==============================
+    const [stage,setStage] = useState('pick side')
+    const [side,setSide] = useState('')
     const {id} = useSelector(state=>state.user)
-    const {data:participentsData, error:participentError, refetch:refetchGetUser, isLoading:loadingGetUsers} = useGetUsersByCaseQuery({caseChat:caseId})
-    const {data:contantData, error:contactError, refetch:refetchContact, isLoading:loadingGetContact} = useGetContactsQuery({mediator_id:id});
-    const [addingUsersToChat] = useAddingManyUsersToOneChatGroupMutation()
-    const [registerServerChatGroup] = useRegisterManyUsersToGroupMemberMutation()
-    const dispatch = useDispatch()
-    const [isClicked, setIsClicked] = useState(false)
-    const [setUserAttributeCaseIfExist] = useSetUserCaseAttributeMutation()
-  
+    const {caseId,groups} = location.state ?? '' //holds the case id
+    const [usersToAdd,setUsersToAdd] = useState([])
+    const [selectedUsers,setSelectedUsers] = useState([])
+    const buttonsWidth = '6em';
+    //=================================================================================================
 
-    
-    const buttonsWidth = '6em'
+    //queries==============================
+    const {data:groupsData, isLoading:loadingGetGroups} = useGetChatGroupsQuery({CaseId:caseId})
+    const {data:usersData, error:usersError, isLoading:loadingGetUsers, refetch:refetchUsers} = useGetUsersByCaseQuery({caseChat:caseId})
+    const {data:contactsData, isLoading:loadingGetContact, refetch:refetchContacts} = useGetContactsQuery({mediator_id:id})
+    //=================================================================================================
 
-    useEffect(() => {
-        // This will run when the component is unmounted
-        return () => {
-            setUsers([]);
-        };
-    }, []);
+    //lazyQueries==============================
+    const [registerManyUsersToGroupMember,{isLoading:loadingRegisterUsers}] = useRegisterManyUsersToGroupMemberMutation()
+    const [setUserCaseAttribute,{isLoading:loadingSetUserCaseAttribute}] = useSetUserCaseAttributeMutation()
+
+    //=================================================================================================
+
+    //useEffect==============================
+    useEffect(()=>{
+        if(!contactsData)return
+        if(!usersData && (usersError?.status!==404 || !usersError))return
 
 
-    
+        const users = usersData? usersData.map(user=>user.user) : []
+        const contacts = contactsData.map(contact=>contact.user)
+        let usersToAdd = []
+        if(users.length >0)
+            usersToAdd = contacts.filter(contact=>!users.includes(contact.id))
+        else
+            usersToAdd = contacts
 
 
-    useEffect(() => {
-        let empty = false;
-        if (participentError) {
-            console.log("error", contactError);
-            if (participentError.status !== 404) return;
-            empty = true;
-        } else if (!contantData || !participentsData) return;
-        console.log('participent',participentsData)
-        console.log('contact data',contantData)
-        console.log(empty)
-        if(empty && !contantData)return
-    
-        let participentsIds = empty ? [] : participentsData.map((entry) => entry.user);
-    
-        let filteredUsersData = contantData.filter((user) => !participentsIds.includes(user.user.id));
-    
-        // Filter out duplicate users based on their IDs
-        const uniqueUsersData = Array.from(
-            new Map(filteredUsersData.map((user) => [user["user"].id, user])).values()
-        );
-    
-        setUsers([]);
-    
-        uniqueUsersData.forEach((user) => {
-            const tempUser = user["user"];
-            const fullName = `${tempUser.first_name} ${tempUser.last_name}`;
-            const userTemp = { fullName: fullName, email: tempUser.email, id: tempUser.id };
-    
-            setUsers((prev) => [
-                ...prev,
-                userTemp,
-            ]);
-        });
-    
-    }, [participentsData, contantData, participentError]);
-    
-      
+        setUsersToAdd(()=>usersToAdd)
 
-    function handleMark(user) {
-        if (selectedUsers.includes(user)) {
-          setSelectedUsers(selectedUsers.filter(p => p !== user));
-        } else {
-          setSelectedUsers([...selectedUsers, user]);
-        }
-      }
+    },[usersData,contactsData,usersError]);
 
-    const users = Users.map(user=>(
+    //=================================================================================================
+
+    //functions==============================
+    const handleChangeSide = ({currentTarget:input})=>{
+        const {value} = input
+        setSide(()=>value)
+    };
+
+    // return the users that are not in the group
+    const usersView  = usersToAdd.map(user=>(
         <label key={user.id} className="add-win--u-container">
             <div className="add-win--option" >
-                <span> {user.fullName}</span>
+                <span> {`${user.first_name} ${user.last_name}`}</span>
                 <span> {'    '}</span>
                 <span> {user.email}</span>
             </div>
-           
+
             <input
-                // checked={selectedUsers.includes(user.id)?'checked':''}
                 type="checkbox"
-                onClick={()=>handleMark(user)} 
-                // name={index}
+                onClick={()=>handleMark(user)}
+
             />
             <div className="add-win--checkmark"/>
         </label>
-    ))
+    ));
 
-    const handleAdd =async ()=>{
-        if(selectedUsers.length===0){
-            document.querySelector('#add-win-w').style.visibility='visible';
-            return
-        }
-        if(!side)return
-        setIsClicked(true)
-       let groupSideChoose = agora.find(group=>group.groupname.endsWith(side))
-       let groupCenterChoose = agora.find(group=>group.groupname.endsWith('G'))
-       addingUsersToChat({users:selectedUsers, group:groupSideChoose.groupid})
-       .then(()=>addingUsersToChat({users:selectedUsers, group:groupCenterChoose.groupid}))
-       .then(()=>{
-        selectedUsers.forEach(user=>{
-            const userData = {
-                side:side,
-                group_chat:filterdGroupChat.id,
-                user:user.id,
-                case:caseId,
-                mediator:id
-            }
-            usersDataArr = [...usersDataArr,userData]
-           })
-           handleAddNewMember(usersDataArr)
-       })
+    // handle the users that are selected
+    const  handleMark=(user)=> {
+        if (selectedUsers.includes(user))
+          setSelectedUsers(selectedUsers.filter(p => p !== user));
+        else
+          setSelectedUsers([...selectedUsers, user]);
+      };
 
-     
-      
+        //handle the add button click event
+    // add the users to the group and set the user case attribute
+    // if the user is already in the group, set the user case attribute
+    // if the user is not in the group, add the user to the group and set the user case attribute
+    // if the user is not in the group and the user case attribute is already set, do nothing
+    // if the user is not in the group and the user case attribute is not set, add the user to the group and set the user case attribute
+      const handleAddExistingUsers=()=>{
+        if(!groups || side==='')return
 
-       const modUsersArray = []
-       selectedUsers.forEach(user=>{
-        const modMediator = {id:user.id,side:side, fullName:user.fullName ,connect:false, agoraUsername:user.email.replace(/[^\w\s]/gi, '')}
-        modUsersArray.push(modMediator)
-       })
-       dispatch(addPerticipents(modUsersArray))
-       setStage('success')
-    
-       const filterdGroupChat = server.find(group=>group.chat === side)
-       let usersDataArr = []
+          const sideCheck = side
+          let agoraUserNames = selectedUsers.map(user=>user)
 
-    
-        
-        
-    }
-    const handleAddOrSet =async (users)=>{
-        console.log('users',users)
+          const centeredGroupId = groups.find(group => group.groupname.endsWith('G'))?.groupid
+          const sideGroupId = groups.find(group => group.groupname.endsWith(sideCheck))?.groupid
+
+          addUsersToGroup({users:agoraUserNames,group:centeredGroupId})
+               .then(res=>console.log('signCenter',res))
+                .catch(err=>console.log(err))
+
+          addUsersToGroup({users:agoraUserNames,group:sideGroupId})
+               .then(res=>console.log('signSide',res))
+                .catch(err=>console.log(err))
+
+
+          //
+          // addUsersToGroup({groupId:centeredGroupId,usernames:agoraUserNames})
+          //   .then(res=>console.log('signCenter',res))
+          //   .catch(err=>console.log(err))
+          //
+          // addUsersToGroup({groupId:sideGroupId,usernames:agoraUserNames})
+          //   .then(res=>console.log('signSide',res))
+          //   .catch(err=>console.log(err))
+
+          handleAddOrSetUser(sideCheck)
+      };
+
+      const handleAddOrSetUser =async (sideCheck)=> {
+          const groupChatId = groupsData.find(group => group.chat === sideCheck)?.id
+
+          let usersDataArr = []
+          selectedUsers.forEach(user => {
+              const userData = {
+                  side: side,
+                  group_chat: groupChatId,
+                  user: user.id,
+                  case: caseId,
+                  mediator: id
+              }
+              usersDataArr = [...usersDataArr, userData]
+          })
+
+          const filteredUsers = await trySetUserCaseAttribute(usersDataArr)
+          registerManyUsersToGroupMember({users: filteredUsers})
+              .then(() => refetchUsers() && refetchContacts())
+              .catch(err => console.log(err))
+
+          setStage('success')
+      };
+
+
+      const trySetUserCaseAttribute = async (users)=>{
         let filterdUsers = []
         for(let i in users){
-            console.log(users[i]['user'])
-          const {data, error}= await setUserAttributeCaseIfExist({case_id:caseId, user_id:users[i].user,status:true})
-        //   if(!data,!err)return
-        // console.log('err',err)
-        
-          
-          if(error?.status=== 400 && error?.data === 'member not found')
-            filterdUsers = [...filterdUsers, users[i]]
+            const { error }= await setUserCaseAttribute({case_id:caseId, user_id:users[i].user,status:true})
+            if(error?.status=== 400 && error?.data === 'member not found')
+                filterdUsers = [...filterdUsers, users[i]]
         }
         return filterdUsers
-        
+      };
 
 
-    }
-
-    const handleAddNewMember =async (users)=>{
-        let filterdUsers = []
-        filterdUsers = await handleAddOrSet(users)
-       console.log('filterdUsers', filterdUsers)
-
-       registerServerChatGroup({users:filterdUsers}).then(()=>{
-        setSide(null)
-        refetchGetUser()
-        refetchContact()
-      })
-      
-      setIsClicked(false)
-
-    }
-
-
-    const handleSideChoose = ({currentTarget:input})=>{
-        const {value} = input
-        setSide(value)
-        
-
-    }
-
-        
     return(
         <article>
-            {(loadingGetContact || loadingGetUsers) &&
-                // <div style={{position:'fixed',zIndex:'100',width:'100%',height:'100%',opacity:'0.6',backgroundColor:'gray', left:'50%',top:'50%',transform:'translate(-50%,-50%)'}}>
-                    <Loader withLogo={true} size={'medium'}/>
-                // </div>
-            }
-                
-               
-            
+            {(loadingGetContact || loadingGetUsers || loadingGetGroups || loadingRegisterUsers || loadingSetUserCaseAttribute)?
+                    <Loader withLogo={true} size={'medium'}/>:
+
+            <div>
+
             {stage==='pick side' &&
              <center>
                 <h1 className="add-win--title">Choose a party to add a person</h1>
                 <hr/>
 
                 <div className='add-win--side'>
-                    <input 
+                    <input
                         type='radio'
-                        className='add-win--circle' 
+                        className='add-win--circle'
                         value='A'
                         name='side select'
-                        onChange={handleSideChoose}
+                        onChange={handleChangeSide}
                         />
-                        
-                    <input 
+
+                    <input
                         type='radio'
-                        className='add-win--circle' 
+                        className='add-win--circle'
                         value='B'
                         name='side select'
-                        onChange={handleSideChoose}
+                        onChange={handleChangeSide}
                         />
                 </div>
                 <Button text="Next" margin='4em 0 0 0' size='small' onClick={()=>setStage('choose')}/>
@@ -238,8 +208,8 @@ const AddWindow =({groups})=>{
             {stage==='create'&&<CreateSelfUser
             fulfiled={()=>{
                 setStage('exist')
-                refetchGetUser()
-                refetchContact()
+                refetchUsers()
+                refetchContacts()
             }}
             goBack={()=>setStage('choose')}
             />}
@@ -249,14 +219,15 @@ const AddWindow =({groups})=>{
                     <h1 className='add-win--title'>Choose participants</h1>
                     <hr />
                     <div className="add-win--users-list">
-                        {users}
-           
+                        {usersView}
+
 
                     </div>
-                    <p className='warning' id='add-win-w'>You must select at least one user</p>
+                    {selectedUsers.length === 0&&<p className='warning' id='add-win-w'>You must select at least one user</p>}
+
                     <footer>
                         <Button text='Back' length='5em' altitude='2em' margin='0.1em' onClick={()=>setStage('choose')}/>
-                        <Button text='Add' length='5em' altitude='2em' margin='0.1em' onClick={handleAdd} disabled={isClicked}/>
+                        <Button text='Add' length='5em' altitude='2em' margin='0.1em' onClick={handleAddExistingUsers} disabled={selectedUsers.length===0}/>
                     </footer>
 
 
@@ -274,10 +245,8 @@ const AddWindow =({groups})=>{
                 </div>
                 
                 }
-              
-                
-                
-
+                </div>
+            }
         </article>
     )
 }

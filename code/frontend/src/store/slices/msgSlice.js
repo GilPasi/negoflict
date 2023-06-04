@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const msgSlice = createSlice({
     name:'message',
     initialState:{
+        time:'',
         ext:{
             side:'',
             color:0,
@@ -18,7 +19,7 @@ const msgSlice = createSlice({
     },
     reducers:{
         postNewMessage:(state,action)=>{
-           const {msg,to,ext} = action.payload
+           const {msg,to,ext,time} = action.payload
            const {side,color,name, userId, sender} = ext
            state.ext.color = color? color : 0//change this
            state.msg = msg
@@ -27,8 +28,9 @@ const msgSlice = createSlice({
            state.ext.name = name
            state.ext.userId = userId
            state.ext.sender = sender
+           state.time = time
         },
-        clearMsg: (state)=>{
+        clearMsg: ()=>{
             return {
                 ext:{
                     side:'',
@@ -39,6 +41,7 @@ const msgSlice = createSlice({
                 },
                 msg:'',
                 to:'',
+                time:'',
             }
 
         }

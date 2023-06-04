@@ -11,8 +11,6 @@ const Message=({text,sender,isSelf, time, name})=>{
         if(sender!=='M' && role==='user')return "#F4D1BD" //other side when Im user always red
         if(role==='mediator' && sender==='A')return "#89E0A2"
         return "#F4D1BD"
-        
-
     }
 
         const messageStyle ={

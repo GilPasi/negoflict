@@ -30,7 +30,7 @@ const ChatView = ({
   
     
  
-    const shuttelView = !(startChat) || muted
+    const shuttelView =  muted
     &&
     role==='user'
     &&

@@ -3,19 +3,35 @@ import Loader from './Loader'
 import PopupContainer from './Modal.js'
 import AddWindow from "../../components/general/AddWindow"
 import UsersList from "./UsersList.js"
+import {useLocation} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {getPermName} from "../../utils/permissions";
 
-const ToolBar =({conflictName,id,isMediator,groups,isInfo,handleSelctedUser})=>{
-    
+const ToolBar =({isInfo,handleSelctedUser})=>{
+    //hooks================
+    const location = useLocation()
+    //=====================
+
+    //state================
+     const { groups } = location.state ?? []
+    const { caseId, caseCategory} = location.state ?? ''
+    const {role} = useSelector(state=>state.user)
+    //=====================
+
+    //values================
+     const roleName = getPermName({role})
+    const isMediator = roleName==='mediator'
+    //======================
+
+
     return(
         <div className="tb" >
 
             {isMediator&&<PopupContainer 
-                popContent={<AddWindow  groups={groups}/>}
+                popContent={<AddWindow  groups={groups || ''}/>}
                 imgSrc='../../../assets/images/add_icon_dark.png'
                 classStr='tb--btn'
             />}
-
-
 
                 {isInfo?
                     <div>
@@ -23,12 +39,10 @@ const ToolBar =({conflictName,id,isMediator,groups,isInfo,handleSelctedUser})=>{
                     </div>
                         :
                     <div className="tb--title" >
-                        <h3 className="tb--name">{conflictName}</h3>
-                        {id?<h4 className="tb--id">I.D. {id}</h4>:<Loader size='small' withLogo={false}/>}
+                        <h3 className="tb--name">{`A ${caseCategory} conflict`}</h3>
+                        {caseId?<h4 className="tb--id">I.D. {caseId.slice(-7)}</h4>:<Loader size='small' withLogo={false}/>}
                     </div>
                 }
-
-                
                 
             {isMediator&&<div className="tb--btn">
                 <img src={`../../../assets/images/search_icon_dark.png`}

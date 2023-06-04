@@ -8,9 +8,11 @@ import { useSelector } from "react-redux"
 import "../styles/pages/create_self_page.css"
 import useValidateData from "../hooks/useValidate"
 import { useNavigate } from "react-router-dom"
+import useAlert from "../hooks/useAlert"
 
 const CreateSelfUser = ({fulfiled,goBack})=>{
     const {clearValidate,validateData, addErrorLable} = useValidateData()
+    const { trigerNotification } = useAlert()
     const [formData,setFormData] = useState({})
     const [valid,setValid] = useState(true)
     const [registerUser] = useRegisterOneUserMutation()
@@ -19,6 +21,7 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
     const [isEmailValid] = useLazyIsEmailExistQuery()
     const {id} = useSelector(state=>state.user)
     const navigate = useNavigate()
+    const [disableButton,setDisableButton] = useState(false)
     
     useEffect(()=>{
         if(Object.keys(formData).length >=4)
@@ -35,8 +38,8 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
     }
 
     const handleSubmit =async (event)=>{
- 
         event.preventDefault()
+        setDisableButton(true)
         if(!validateData(formData,'createUser'))return
         const {phoneNumber,email,first_name, last_name} = formData
         const modEmail = email.replace(/[^\w\s]/gi, '')
@@ -49,7 +52,7 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
               addErrorLable('email','createUser','email is already exist')
               return
           }
-        
+      
         Promise.all([
             registerUser({username:modEmail,password:modPass,first_name:first_name}),
             createUser({users:[{username:email,password:modPass,first_name:first_name,last_name:last_name, email:email}]})
@@ -58,9 +61,19 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
             console.log('register',registerUserResponse)
             console.log('create',createUserResponse)
             console.log(createUserResponse.data[0].id)
-            return createContact({mediator_id:id,user_id:createUserResponse.data[0].id}).then(()=>fulfiled()).catch(err=>console.log)
+            return createContact({mediator_id:id,user_id:createUserResponse.data[0].id}).then(()=>{
+                if(fulfiled)
+                    fulfiled()
+                else{
+                    trigerNotification('User created successfully', 'success')
+                    handleBack()
+                }
+            }).catch(err=>console.log(err))
         })
-        .catch(err=>console.log(err))
+        .catch(err=>{ 
+            trigerNotification('Somthing went wrong','error')
+             console.log(err)})
+        .finally(()=>setDisableButton(false))
     }
     const handleBack = ()=>{
         navigate(-1)
@@ -88,13 +101,15 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
                         size='small'
                         margin="0.5em"
                         disableSubmit={true}
+                        disabled={disableButton}
                     />
                 <Button 
                       
                       text='Submit'
                       size='small'
-                      disabled={valid}
+                      disabled={valid || disableButton}
                       margin="0.5em"
+             
 
                   />
                 </div>

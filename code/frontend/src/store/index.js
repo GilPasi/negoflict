@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { userReducer,login, logout, updateAccessToken } from './slices/userSlice'
-import { positionReducer,updatePosition, setPrivateGroup } from "./slices/psitionSlice";
+import { positionReducer,updatePosition, setPrivateGroup,setActiveGroup } from "./slices/psitionSlice";
 import { groupsReducer,addGroups } from "./slices/groupsSlice";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { usersApi } from "./api/usersApi";
@@ -18,7 +18,7 @@ import { superUserApi } from "./api/superUserApi";
 import { BandReducer, setBand } from "./slices/bandSlice";
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; 
-
+import { jwtMiddleware } from './jwtRefetch';
 
 const userPersistConfig = {
     key: 'user',
@@ -61,7 +61,8 @@ const userPersistConfig = {
         .concat(adminApi.middleware)
         .concat(msgApi.middleware)
         .concat(mediatorApi.middleware)
-        .concat(superUserApi.middleware);
+        .concat(superUserApi.middleware)
+        .concat(jwtMiddleware)
     },
   });
 
@@ -95,6 +96,7 @@ export{
     setBand,
     removeParticepentByAgoraName,
     addCaseId,
+    setActiveGroup,
 }
 
 setupListeners(store.dispatch)
@@ -121,7 +123,6 @@ export const { usePost_new_caseMutation } = caseApi
 export const {useGetCaseSideQuery, useLazyGetCaseSideQuery} = caseApi
 export const { usePutUserToMemberGroupMutation } = caseApi
 export const {useCloseCaseMutation} = caseApi
-export const {useGetFullUsersByCaseQuery} = caseApi
 export const {usePostNewSurveyMutation} = caseApi
 export const {useDeleteCaseMutation} = caseApi
 //============
@@ -133,6 +134,7 @@ export const {useGetChatGroupsQuery,useLazyGetChatGroupsQuery} = groupApi
 export const {useDeleteGroupMutation} = groupApi
 
 //adminApi=======
+export const {useGetFullUsersByCaseQuery} = adminApi
 export const { useRegisterToChatGroupsMutation } = adminApi
 export const { useRegisterUsersMutation } = adminApi
 export const { useAddMediatorMutation } = adminApi
