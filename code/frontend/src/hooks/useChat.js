@@ -25,7 +25,7 @@ const useChat = ()=>{
 
     const disconnect = ()=>{
         setOnline(false)
-        WebIM.conn.close()
+       return WebIM.conn.close()
     }
 
     const sendMsg = ({ext,msg,to})=>{
@@ -98,6 +98,13 @@ const useChat = ()=>{
         })
         window.addEventListener('beforeunload', handleWindowEvent);
         window.addEventListener('popstate', handleWindowEvent);
+    }
+    const windowListener = ({handleBackEvent,handleReloadEvent})=>{
+        if(handleReloadEvent)
+            window.addEventListener('beforeunload', handleReloadEvent);
+        if(handleBackEvent)
+            window.addEventListener('popstate', handleBackEvent);
+
     }
 
     const onlineStatusListener = ({id,handleConnection })=>{
@@ -194,6 +201,8 @@ const useChat = ()=>{
         WebIM.conn.renewToken({agoraToken:token}).catch(err=>console.log('in renewToken',err))
     }
 
+    
+
     return{
         sendMsg,
         connect,
@@ -220,6 +229,7 @@ const useChat = ()=>{
         removeUserFromGroup,
         tokenWillExpireListener,
         renewToken,
+        windowListener
 
        
 

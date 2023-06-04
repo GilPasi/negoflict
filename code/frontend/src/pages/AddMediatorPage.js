@@ -9,26 +9,7 @@ import { MEDIATION_CHOICES } from '../utils/data'
 import "../styles/pages/add_mediator_page.css"
 
 const AddMediatorPage =({disable, goBack, handleChange,formData, handleSubmit, handleClick})=>{
-    // const experienceRef=useRef('')
-    // const domainRef=useRef('')
-    // const educationRef=useRef('')
-    // const isCertifiedRef = useRef(false)
-
-
-    // const handleSubmit=()=>{
-
-    //     console.log('releventExp',experienceRef.current)
-    //     const formData={
-    //         relevant_experience: experienceRef.current,
-    //         mediation_areas: domainRef.current,
-    //         education: educationRef.current,
-    //         certification_course: isCertifiedRef.current,
-    //     }
-    //     console.log('datttttaaaa>>>',formData)
-    //     handleMediatorData(formData)
-    //     //Backend- connect to api
-    // }
-
+   
     return(
     <article className="amp">
         <Header isLarge={true}/>

@@ -47,14 +47,7 @@ const InfoBox = ({ obj, isOpen,hasExit }) => {
     deleteGroupsAgora({groupS: filteredGroups});
     closeCase({summary:summary,caseId:obj.id })
   };
-let error
-let data
-  if (error === errorDeleteGroups || errorClose) {
-    console.log('errorr', error);
-  }
-  if (data === closeData || deleteGroups) {
-    console.log('success', data);
-  }
+
 
   const infoSize = {
     transform : `scaleY(${isOpen? '1' : '0'})`,

@@ -12,19 +12,20 @@ const ChatPageHen = ()=>{
     //hooks==========
     const location = useLocation()
     const navigate = useNavigate()
-    const { connect, publishPresence, onlineStatusListener, tokenWillExpireListener, renewToken} = useChat()
+    const { connect, publishPresence, onlineStatusListener, tokenWillExpireListener, renewToken, setAnnouncement, disconnect, windowListener} = useChat()
     //===================================================================================================
     //state=========
     let groups = location.state?.groups ?? [] //holds the 3 sides of the chat groups by agora
     const {username, role:userRole} = useSelector(state=>state.user) //user important data
     const [connected,setConnected] = useState(false) //holds the connection status
+    
 
     //===================================================================================================
     //variables=========
 
     const roleName = getPermName({role:userRole}) //user role name 'mediator'/user
     const userAgoraName =  roleName==='user'? username.replace(/[^\w\s]/gi, ''): username//user agora name
-    const centeredGroup = groups.find(group => group.groupname.endsWith('G')); //holds the center group agora data
+    const centeredGroup = groups.find(group => group.groupname.endsWith('G')) //holds the center group agora data
     //===================================================================================================
     //apiFetch==========
     const {data:token, refetch:refetchToken} = useGetChatTokenQuery({username:userAgoraName}) //get the agora token
@@ -41,6 +42,7 @@ const ChatPageHen = ()=>{
 
                 addConnectionListeners()
                 addTokenLister()
+                addWindowListener()
             })
             .catch(err=>console.log('coonnnnn',err))
 
@@ -50,6 +52,9 @@ const ChatPageHen = ()=>{
     useEffect(()=>{
         if(!connected || !groups)return
         presentsStatus({status:'online'})
+        if(roleName==='mediator')
+            setStartChat()
+      
        
     },[connected,groups]);
  
@@ -65,6 +70,22 @@ const ChatPageHen = ()=>{
         tokenWillExpireListener({id:'ChatPageHen',tokenExpiredHandler:handleTokenExpired,tokenWillExpiredHandler:handleTokenWillExpired})
 
     }
+    console.log('grouppid', centeredGroup)
+    const setStartChat = ()=>{
+        setAnnouncement({groupId:centeredGroup.groupid, isChatEnds:false})
+    }
+
+    const addWindowListener = ()=>{
+        windowListener({handleBackEvent:handleBackEvent})
+    }
+
+    const handleBackEvent =async (event)=>{
+        event.preventDefault()
+       await disconnect()
+    }
+
+   
+
 
     const handleTokenWillExpired = ()=>{
         refetchToken()

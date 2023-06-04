@@ -5,14 +5,14 @@ import LoadinBar from '../general/LoadingBar';
 import '../../styles/components/loading_bar.css'
 import useChat from '../../hooks/useChat';
 import { useLocation } from 'react-router-dom';
-import {addGroupsProps, addHistoryMsg, updateMsg, useLazyGetCaseSideQuery,setActiveGroup, clearMsg} from "../../store";
+import {addGroupsProps, addHistoryMsg, updateMsg, useLazyGetCaseSideQuery,setActiveGroup, clearMsg,resetChatState} from "../../store";
 import {useDispatch} from "react-redux";
 import {getPermName} from "../../utils/permissions";
 
 
 //Note that all styles of the list is done in the component
 
-const MessageList =( { maxHeight } )=> {
+const MessageList =( { maxHeight, isChatStart } )=> {
  //hooks===================================================================================================
   const location = useLocation();
   const {onlineStatusListener, getHistoryMsgs, MsgListener} = useChat();
@@ -24,7 +24,7 @@ const MessageList =( { maxHeight } )=> {
  const [isOnline, setIsOnline] = useState(false)
  const [activeGroupView,setActiveGroupView] = useState('groupG')
  const [prevActiveGroup, setPrevActiveGroup] = useState(null);
- const [isLoading,setIsLoading] = useState(false) //holds the loading status //change to dynamic loading
+ const [isLoading,setIsLoading] = useState(true) //holds the loading status //change to dynamic loading
  const [progress,setProgress] = useState(0)
 //===================================================================================================
   //location&&store===================================================================================================
@@ -58,11 +58,18 @@ const MessageList =( { maxHeight } )=> {
             return
         }
         userSide.current = data.side
+        setProgress(prev=>prev<100&&prev+25)
     }
 
   const addConnectionListener = ()=>{
          onlineStatusListener(
-            {id:'messageList',handleConnection:connectionMsg=>setIsOnline(()=>connectionMsg === 'connected')})
+            {id:'messageList',handleConnection:connectionMsg=>{
+              const isConnect = connectionMsg === 'connected'
+              if(connectionMsg === 'disconnected')
+                handleDisconnect()
+
+              setIsOnline(()=>isConnect)}})
+          setProgress(prev=>prev<100&&prev+25)
   }
 
   
@@ -82,11 +89,15 @@ const MessageList =( { maxHeight } )=> {
 
   useEffect(()=>{
     if(!isOnline || !groups) return
-
+    setIsLoading(()=>true)
     Promise.all(groups.map(group =>
     getHistoryMsgs({groupId: group?.groupid}).then(res =>{
      handleHistoryMsg(res, group?.groupid)})
-    )).catch(err => console.log('in getHistoryMsgs', err));
+    )).catch(err => console.log('in getHistoryMsgs', err))
+    .finally(()=>{
+      setProgress(()=>100)
+      setIsLoading(()=>false)})
+    
 }, [isOnline, groups])
 
   //handlers========================================
@@ -97,6 +108,13 @@ const MessageList =( { maxHeight } )=> {
         messages.sort((a,b)=>a.time - b.time)
         dispatch(addHistoryMsg({id:groupid,messages:messages}))
     };
+
+    
+
+    const handleDisconnect = ()=>{
+      dispatch(resetChatState())
+      dispatch(clearMsg())
+    }
 
   const handleReceivedMsg = (msg,isLocalMsg)=>{ //handle received messages only in real time
         const {to, chatType} = msg
@@ -133,13 +151,7 @@ const MessageList =( { maxHeight } )=> {
         }
 
     },[pos]);
-    console.log(userSide)
-
-    useEffect(()=>{
-      if(progress<100)return
-      setIsLoading(false)
-
-    },[progress])
+    
 
 
    
@@ -215,16 +227,18 @@ const MessageList =( { maxHeight } )=> {
     borderRadius:'10%'
 }
 const preChatTitleStyle = {
-    position:'absolute',
+    position:'fixed',
     zIndex:'100',
     left:'50%',
-    top:'30%',
+    top:'40%',
     transform: 'translate(-50%,-50%)',
     fontWeight:'bold',
     fontSize:'X-large',
     textAlign:'start',
     display:'flex',
-    flexDirection:'column'
+    flexDirection:'column',
+    zIndex:'12',
+
   }
 
   return (
@@ -253,22 +267,22 @@ const preChatTitleStyle = {
           />
           </div>}
       {
-      // (isLoading)
-      // &&
-      // <div>
-      // <div
-      //     style={preChatStyle}/>
-      // <span
-      //   style={preChatTitleStyle}>Waiting Host to start the
-      //   <div className="loading-dots" style={{display:'flex',alignItems:'end'}}>
-      //     <span>converstation</span>
-      //     <span className="dot" style={{marginBottom:'5px', marginLeft:'5px'}}></span>
-      //     <span className="dot" style={{marginBottom:'5px', marginLeft:'5px'}}></span>
-      //     <span className="dot" style={{marginBottom:'5px', marginLeft:'5px'}}></span>
-      //   </div>
-      // </span>
+      (!isChatStart&&roleName==='user'&&!isLoading)
+      &&
+      <div>
+      <div
+          style={preChatStyle}/>
+      <span
+        style={preChatTitleStyle}>Waiting Host to start the
+        <div className="loading-dots" style={{display:'flex',alignItems:'end', zIndex:'2000'}}>
+          <span>converstation</span>
+          <span className="dot" style={{marginBottom:'5px', marginLeft:'5px'}}></span>
+          <span className="dot" style={{marginBottom:'5px', marginLeft:'5px'}}></span>
+          <span className="dot" style={{marginBottom:'5px', marginLeft:'5px'}}></span>
+        </div>
+      </span>
 
-      // </div>
+      </div>
       }
 
 

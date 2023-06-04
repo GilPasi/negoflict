@@ -14,13 +14,14 @@ import {useLazyGetCaseSideQuery} from "../store";
 
 const ChatViewHen = ({role, isOnline}) => {
     //hooks===================================================================================================
-    const {groupListener, muteAllMembers,sendMsg, getGroupInfo,onlineStatusListener } = useChat()
+    const {groupListener, muteAllMembers,sendMsg, getGroupInfo,onlineStatusListener, getAnnouncement } = useChat()
     const location = useLocation()
     //state===================================================================================================
     const [size, setSize] = useState(window.innerHeight);
     const [isMuted,setIsMuted] = useState(false)
     const [connected,setConnected] = useState(false)
     const [isUsersListClick, setIsUsersListClick] = useState(false)
+    const [isChatStart,setIsChatStart] = useState(false)
     //location&&store===================================================================================================
     const {groups} = location.state ?? []
     const {caseId} = location.state ?? ''
@@ -33,7 +34,7 @@ const ChatViewHen = ({role, isOnline}) => {
     const FOOTER_SIZE = 125 , HEADER_SIZE = 297.281-0.11298*window.innerHeight//Found by linear approximation
     const isMediator = role==='mediator'
     const centeredGroupId = groups.find(group=> group.groupname.endsWith('G'))?.groupid
-    let isShuttled = activeGroup.slice(-1)==='G' && isMuted && role==='user'
+    let isShuttled = activeGroup.slice(-1)==='G' && isMuted && role==='user' || (!isOnline) 
     //refs===================================================================================================
      const userSide = useRef(isMediator ? 'M':'')
      const memberId = useRef('')
@@ -42,7 +43,7 @@ const ChatViewHen = ({role, isOnline}) => {
 
     useEffect(()=>{
         onlineStatusListener({id:'viewPageChatConnection',handleConnection:connectionMsg=>setConnected(()=>connectionMsg === 'connected')})
-        groupListener({handleGroupChange:handleMuteGroup, id:'viewPageChat'})
+        groupListener({handleGroupChange:groupEventsHandler, id:'viewPageChat'})
         window.addEventListener('resize', handleResize);
         getUserDetails()
 
@@ -54,8 +55,11 @@ const ChatViewHen = ({role, isOnline}) => {
     useEffect(()=>{
         if(!connected)return
         getGroupInfoFunc()
+        getChatAnnouncment()
 
     },[connected])
+    console.log('role',role)
+    console.log(isChatStart)
 
     const getGroupInfoFunc = ()=>{
     getGroupInfo({groupId:centeredGroupId}).then(res=>{
@@ -63,8 +67,18 @@ const ChatViewHen = ({role, isOnline}) => {
         if(res?.data[0]?.mute===true)
             handleMuteGroup({operation:'muteAllMembers'})
     }).catch(err=>console.log(err))
-       
     }
+
+    const getChatAnnouncment = ()=>{
+        const centeredGroupId = groups.find(group=>group.groupname.endsWith('G'))?.groupid
+        getAnnouncement({groupId:centeredGroupId}).then(({data})=>{
+            const {announcement} = data
+            console.log('announcement',announcement)
+            if(announcement==='chat_start')setIsChatStart(()=>true)
+            else setIsChatStart(()=>false)
+        })
+    }
+    
 
     const getUserDetails =async ()=>{
         const {data, error} = await getGroupMember({caseId:caseId, user:id})
@@ -83,6 +97,24 @@ const ChatViewHen = ({role, isOnline}) => {
               setIsMuted(()=>true)
         else if(operation==='unmuteAllMembers')
                 setIsMuted(()=>false)
+    }
+
+    const groupEventsHandler = ({operation})=>{
+        switch(operation){
+            case 'muteAllMembers':
+                setIsMuted(()=>true)
+                break;
+            case 'unmuteAllMembers':
+                setIsMuted(()=>false)
+                break;
+            case 'updateAnnouncement':
+                if(role==='user')
+                    getChatAnnouncment()
+                break;
+
+                
+        }
+
     }
 
          const handleResize = () => {
@@ -127,7 +159,7 @@ const ChatViewHen = ({role, isOnline}) => {
                 height:`${size}px`,
                 // width:'100vh',
                 display:'grid',
-                backgroundColor:'red',
+           
                 gridTemplateRows:`${HEADER_SIZE}px 1fr ${FOOTER_SIZE}px`,
             }}>
 
@@ -143,6 +175,7 @@ const ChatViewHen = ({role, isOnline}) => {
             <div>
             <MessageList
                 maxHeight={`${size-FOOTER_SIZE-HEADER_SIZE}px`}
+                isChatStart = {isChatStart}
                 
             />
 

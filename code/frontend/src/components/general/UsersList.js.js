@@ -50,11 +50,14 @@ const UsersList = ({handleSelctedUser, isMediator})=>{
             if(user.username === username) return accumulator
 
             const agoraUsername = user.username.replace(/[^\w\s]/gi, '');
+            const firstName = user.first_name.charAt(0).toUpperCase() + user.first_name.slice(1)
+            const lastName = user.last_name.charAt(0).toUpperCase() + user.last_name.slice(1)
             accumulator[agoraUsername] = {
                 ...user,
                 connect: false,
                 agoraUsername: agoraUsername,
-                fullName: `${user.first_name} ${user.last_name}`,
+                
+                fullName: `${firstName} ${lastName}`,
                 side: side,
             };
             return accumulator;
