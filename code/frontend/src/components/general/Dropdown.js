@@ -1,82 +1,81 @@
 import "../../styles/components/dropdown.css"
-import {useState , useEffect} from 'react'
-const Dropdown = ({style , options , placeholder , dropdownId})=>{
+import React, { useState, useEffect, useRef } from 'react';
 
-    useEffect(()=>{
-        const page = document.querySelector("body")
-        page.addEventListener("click" , handleClick)
+const Dropdown = ({ style, options, placeholder, dropdownId , chosenOptions, }) => {
+  const [showOptions, setShowOptions] = useState(false);
+  const dropdownRef = useRef(null);
 
-        return(()=>page.removeEventListener("click" , handleClick))
+  useEffect(() => {
+    const handleClick = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowOptions(false);
+      }
+    };
 
-    },[])
+    document.addEventListener('click', handleClick);
 
-    const [showOptions , setShowOptions] = useState(false) 
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  }, []);
 
-    const handleClick =e=>{
-        console.log("AAA")
-
-        const element = document.getElementById("dropdown" + dropdownId);
-        const bounds = element.getBoundingClientRect();
-        const lowBound = showOptions ? bounds.bottom * (options.length) : bounds.bottom;
-
-        if(
-            e.clientX < bounds.left
-            ||e.clientX > bounds.right
-            ||e.clientY < bounds.top
-            ||e.clientY > lowBound
-        )
-        setShowOptions(false)
-        else
-        setShowOptions(true)
-
-        const width = bounds.width;
-        const height = bounds.height;
-
-    }
-
-    const optionStyle={
-        position:'absolute',
-        backgroundColor:"whitesmoke" ,
-        shadowBox:"inherit",
-        width:"100%" , 
-        height:"100%",
-        left:"0",
-        zIndex:"10",
-        boxSizing:"inherit" , 
-        padding:"1em",
-        borderBottom:"1px solid #80808086",
-        cursor:"pointer" ,
-    }
+  const handleDropdownClick = () => {
+    setShowOptions((prevState) => !prevState);
+  };
 
 
-    const optionsElement=options.map((option, index)=>{return(
-        <label
-            name={option}
-            style={{
-            ...optionStyle,
-            top:`calc(${index + 1}*100%)` ,
-            }}
-                
-        >
+  const optionStyle = {
+    position: 'absolute',
+    backgroundColor: 'whitesmoke',
+    boxShadow: 'inherit',
+    right:'0',
+    left: '0',
+    zIndex: '10',
+    boxSizing: 'inherit',
+    padding: '1em',
+    borderBottom: '1px solid #80808086',
+    cursor: 'pointer',
+  };
 
-        <input type="checkbox" className="dropdown--checkbox"/>
-            <span>{index}{option}</span>
-            
-        </label>
-    )})
-    return(
+  const arrowStyle = {
+    transform:`rotate(${showOptions?225:45}deg) `
+  }
 
-    <section 
-        className="dropdown"
-        style={style}
-        id={"dropdown" + dropdownId}
-     >
-        
+  let placeholderText = chosenOptions.map(optionIndex=>{
+    if(!options[optionIndex])
+        return;
+    else 
+      return options[optionIndex] 
+  }).join()
 
-        {placeholder?placeholder:"Choose"}
-        {showOptions && optionsElement}
+  const MAX_LENGTH = 25
+  if(placeholderText.length > MAX_LENGTH){
+    placeholderText = placeholderText.slice(0,MAX_LENGTH)
+    placeholderText += "..."
+  }
+  
    
+
+  const optionsElement = options.map((option, index) => (
+    <label key={`option${index}`} name={option} style={{ ...optionStyle, top: `calc(${index + 1} * 100%)` }}>
+      <input type="checkbox" className="dropdown--checkbox" />
+      <span >
+        {option}
+      </span>
+    </label>
+  ));
+
+  return (
+    <section className="dropdown" style={style} id={`dropdown${dropdownId}`} ref={dropdownRef}>
+      <div className="dropdown--arrow-wrapper" style ={arrowStyle}>
+        <div className="dropdown--arrow" />
+      </div>
+      <div className="dropdown--header" onClick={handleDropdownClick}>
+        {placeholderText || placeholder ||'Choose'}
+      </div>
+      {showOptions && <div className="dropdown-options">{optionsElement}</div>}
     </section>
-    )
-}
+  );
+};
+
 export default Dropdown;

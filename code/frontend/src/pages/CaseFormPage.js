@@ -30,6 +30,7 @@ const CaseFormPage = () =>{
     const [deleteCase] = useDeleteCaseMutation()
     const [deleteGroups] = useDeleteGroupMutation()
     const [isFetching, setIsFetching] = useState(0)
+    
 
     //===========
     
@@ -178,62 +179,56 @@ const CaseFormPage = () =>{
         navigateTo()
     }
 
-    
-
-
         return(
             <div>
-                 {isFetching &&
-        <div style={{position:'fixed',zIndex:'100',width:'100%',height:'100%',opacity:'0.6',backgroundColor:'gray'}}>
-          <Loader withLogo={true} size={'medium'}/>
-        </div>
-        }
+                {isFetching &&
+                    <div style={{position:'fixed',zIndex:'100',width:'100%',height:'100%',opacity:'0.6',backgroundColor:'gray'}}>
+                        <Loader withLogo={true} size={'medium'}/>
+                    </div>}
             
             
-            <article className="cfp page">
-                <Header isLarge={false} />
-                    <form onSubmit={handleSubmit} className="centerizer">
-                        <h2 className="cfp--h2">Mediator Name</h2>
-                        <h3 className="cfp--m-name">{mediatorName}</h3>
-                        <h2 className="cfp--h2">Conflict name</h2>
-                        <TextInput
-                            id='title' 
-                            placeHolder="Free Text"
-                            name="title"
-                            onChange={handleChange}
-                        />   
+                <article className="cfp page">
+                    <Header isLarge={false} />
+                        <form onSubmit={handleSubmit} className="centerizer">
+                            <h2 className="cfp--h2">Mediator Name</h2>
+                            <h3 className="cfp--m-name">{mediatorName}</h3>
+                            <h2 className="cfp--h2">Conflict name</h2>
+                            <TextInput
+                                id='title' 
+                                placeHolder="Free Text"
+                                name="title"
+                                onChange={handleChange}
+                            />   
 
-                        <h2 className="cfp--h2">Choose a Category</h2>
+                            <h2 className="cfp--h2">Choose a Category</h2>
+                            <DropdownSelector 
+                                id='category'
+                                placHolder="Select Areas of Mediation"
+                                options={MEDIATION_CHOICES}
+                                name="category"
+                                onChange={handleChange}
+                                height='2em'
+                                margin="25px"
+                            />
 
-                        <Dropdown options={['aaa' , 'bbb']}/>
-                        <DropdownSelector 
-                            id='category'
-                            placHolder="Select Areas of Mediation"
-                            options={MEDIATION_CHOICES}
-                            name="category"
-                            onChange={handleChange}
-                            height='2em'
-                            margin="25px"
-                        />
+                            <h2 className="cfp--h2">Subcategory</h2>
+                            <TextInput
+                                id='sub_category' 
+                                placeHolder="Free Text"
+                                name="sub_category"
+                                onChange={handleChange}
+                            />
 
-                        <h2 className="cfp--h2">Subcategory</h2>
-                        <TextInput
-                            id='sub_category' 
-                            placeHolder="Free Text"
-                            name="sub_category"
-                            onChange={handleChange}
-                        />
-
-                        <TextArea onChange={handleChange}
-                            id='problem_brief'
-                            withButtons={false}
-                            name='problem_brief'
-                            title="The problem"
-                        />
-                        
-                        <Button size="small" text="Next" disabled={!isFilled}/>
-                    </form>
-            </article>
+                            <TextArea onChange={handleChange}
+                                id='problem_brief'
+                                withButtons={false}
+                                name='problem_brief'
+                                title="The problem"
+                            />
+                            
+                            <Button size="small" text="Next" disabled={!isFilled}/>
+                        </form>
+                </article>
             </div>
         )
 
