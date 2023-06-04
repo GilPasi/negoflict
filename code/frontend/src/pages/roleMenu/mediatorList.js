@@ -47,14 +47,16 @@ const MediatorList = ()=>{
                             <span className="last_name_mediator">{mediator.user.last_name}</span>
                         </div>
                     </button>
-                   
                 </div>
               
             )
             
         })}
             {show&&
-                <PopUpGeneral onClose={handleClose} children={infoChoose}/>
+                <PopUpGeneral
+                 onClose={handleClose}
+                  children={infoChoose}
+                />
             }
 
         </div>

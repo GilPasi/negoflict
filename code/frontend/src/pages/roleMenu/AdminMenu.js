@@ -24,16 +24,7 @@ const AdminMenu = ()=>{
                     <Button text='Mediator Accounts' size='medium' margin='0'/>
                 </Link>
                 <Link to='' style={{borderRadius:'2em' , margin:'10px'}}>
-                    <Button text='Closed Cases' size='medium' margin='0'/>
-                </Link>
-                <Link to='' style={{borderRadius:'2em' , margin:'10px'}}>
-                    <Button text='Open Cases' size='medium' margin='0'/>
-                </Link>
-                <Link to='' style={{borderRadius:'2em' , margin:'10px'}}>
                     <Button text='Manage accounts' size='medium' margin='0'/>
-                </Link>
-                <Link to='' style={{borderRadius:'2em' , margin:'10px'}}>
-                    <Button text='Massege to Mediator' size='medium' margin='0'/>
                 </Link>
                 <Link to='statistics' style={{borderRadius:'2em' , margin:'10px'}}>
                     <Button text='Statistics' size='medium' margin='0'/>
