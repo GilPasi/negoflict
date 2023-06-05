@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
+import { setMediator } from './chatAttributeSlice'
 
 
 
@@ -12,6 +13,7 @@ const userSlice   = createSlice({
         email:'',
         access:null,
         role: null,
+        mediator: null,
     },
     reducers: {
         updateAccessToken:(state,action)=>{
@@ -35,7 +37,11 @@ const userSlice   = createSlice({
             state.role = null
             state.first_name = ''
             state.last_name = ''
+        },
+        setMediatorName:(state,action)=>{
+            state.mediator = action.payload
         }
+       
         
     }
 })
@@ -43,6 +49,6 @@ const userSlice   = createSlice({
 
 
 export const userReducer = userSlice.reducer
-export const { login, logout, updateAccessToken } = userSlice.actions
+export const { login, logout, updateAccessToken, setMediatorName } = userSlice.actions
 
 

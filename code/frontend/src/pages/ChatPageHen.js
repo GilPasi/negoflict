@@ -2,24 +2,24 @@ import useChat from "../hooks/useChat";
 import {useEffect, useState} from "react";
 import { useLocation} from "react-router-dom";
 import {  useSelector } from "react-redux";
-import {useGetChatTokenQuery} from "../store";
+import {useGetChatTokenQuery,setMediatorName} from "../store";
 import { getPermName } from "../utils/permissions";
 import ChatViewHen from "./ChatViewHen";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 
 const ChatPageHen = ()=>{
     //hooks==========
     const location = useLocation()
     const navigate = useNavigate()
-    const { connect, publishPresence, onlineStatusListener, tokenWillExpireListener, renewToken, setAnnouncement, disconnect, windowListener} = useChat()
+    const dispatch = useDispatch()
+    const { connect, publishPresence, onlineStatusListener, tokenWillExpireListener, renewToken, setAnnouncement, disconnect, windowListener, subscribePresence, getGroupMember} = useChat()
     //===================================================================================================
     //state=========
     let groups = location.state?.groups ?? [] //holds the 3 sides of the chat groups by agora
-    const {username, role:userRole} = useSelector(state=>state.user) //user important data
+    const {username, role:userRole,first_name} = useSelector(state=>state.user) //user important data
     const [connected,setConnected] = useState(false) //holds the connection status
-    
-
     //===================================================================================================
     //variables=========
 
@@ -54,6 +54,8 @@ const ChatPageHen = ()=>{
         presentsStatus({status:'online'})
         if(roleName==='mediator')
             setStartChat()
+        
+            getMembers()
       
        
     },[connected,groups]);
@@ -70,7 +72,7 @@ const ChatPageHen = ()=>{
         tokenWillExpireListener({id:'ChatPageHen',tokenExpiredHandler:handleTokenExpired,tokenWillExpiredHandler:handleTokenWillExpired})
 
     }
-    console.log('grouppid', centeredGroup)
+
     const setStartChat = ()=>{
         setAnnouncement({groupId:centeredGroup.groupid, isChatEnds:false})
     }
@@ -81,7 +83,28 @@ const ChatPageHen = ()=>{
 
     const handleBackEvent =async (event)=>{
         event.preventDefault()
-       await disconnect()
+    await presentsStatus({status:'offline'}).then(async()=> await disconnect())
+    }
+
+    const getMembers = ()=>{
+        getGroupMember({groupId:centeredGroup.groupid}).then(({data})=>{
+            const myName = roleName==='user'? username.replace(/[^\w\s]/gi, ''): username
+            const members = []
+
+            data.forEach(member => {
+                const memberName = member?.member ?? member?.owner
+                console.log('henhenhenhenhenhen>>>>>>>>',member)
+                console.log('henhenhenhenhenhen>>>>>>>>',Object.keys(member))
+                if (Object.keys(member)[0] === 'owner' && roleName==='user')
+                    dispatch(setMediatorName(memberName))
+                if(memberName!==myName)
+                    members.push(Object.values(member))
+            });
+            
+            return members.flat()
+           
+  
+        }).then(members=>subscribePresence({usernames:members}))
     }
 
    
@@ -108,7 +131,7 @@ const ChatPageHen = ()=>{
 
     //publish user status to agora chat
     const presentsStatus = ({status})=>{
-        publishPresence({description:status}).then(res=>console.log('published',res)).catch(err=>console.log(err))
+       return publishPresence({description:`${status}=${roleName==='mediator'?username:first_name}`}).then(res=>console.log('published',res)).catch(err=>console.log(err))
     }
 
 

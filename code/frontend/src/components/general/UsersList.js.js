@@ -17,7 +17,7 @@ const UsersList = ({handleSelctedUser, isMediator})=>{
     const { subscribePresence, getPresenceStatus, presenceListener, removeUserFromGroup } = useChat()
     //variables&&store================
     const users = useSelector(state=>state.perticipent)
-    const { username, role } = useSelector(state=>state.user)
+    const { username, role, mediator } = useSelector(state=>state.user)
     const myAgoraUsername = useMemo(()=>username.replace(/[^\w\s]/gi, ''))
     const { groups = [] } = location.state ?? []
     const { caseId } = location.state ?? ''
@@ -78,11 +78,13 @@ const UsersList = ({handleSelctedUser, isMediator})=>{
 
         handleGetStatus(participants)
     }
-
+  
 
     const handleGetStatus = (parts)=>{
         
         const members = Object.keys(parts)
+        if(roleName === 'user'&& mediator) members.push(mediator)
+        console.log(members, 'members!!!!!!!!')
      
         subscribePresence({usernames:members}).then(()=>{
             getPresenceStatus({usernames:members}).then(({result})=>{
@@ -90,7 +92,9 @@ const UsersList = ({handleSelctedUser, isMediator})=>{
                 if(!result) return
                 let users = ({...parts})
                 result.forEach(user=>{
-                    users[user.uid].connect = user.ext === 'online'
+                    const userParts = user.ext.split('=')
+                    const status = userParts[0]
+                    users[user.uid].connect = status === 'online'
                 })
                 setParticipants(users)
             })})
