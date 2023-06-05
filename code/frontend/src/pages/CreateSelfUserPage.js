@@ -10,7 +10,7 @@ import useValidateData from "../hooks/useValidate"
 import { useNavigate } from "react-router-dom"
 import useAlert from "../hooks/useAlert"
 
-const CreateSelfUser = ({fulfiled,goBack})=>{
+const CreateSelfUser = ({fulfiled,goBack , fontSize})=>{
     const {clearValidate,validateData, addErrorLable} = useValidateData()
     const { trigerNotification } = useAlert()
     const [formData,setFormData] = useState({})
@@ -84,7 +84,7 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
 
 
     return(
-        <article className="csp">
+        <article className="csp" style={{fontSize:fontSize}}>
         <Header/>
             <h1 className="title-large">Create a new user</h1>
             <form className="centerizer" onSubmit={handleSubmit} >

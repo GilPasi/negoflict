@@ -142,13 +142,13 @@ left: 50%;
 transform: translateX(-50%) translateY(-50%);
 }
 
-#line-ver{
+.line-ver{
   width: 0.5em;
   height:100%;
   left:50%;  
 }
 
-#line-hor{
+.line-hor{
     width: 100%;
     height:0.5em;
     top:50%;

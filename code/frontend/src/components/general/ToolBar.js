@@ -28,14 +28,14 @@ const ToolBar =({isInfo,handleSelctedUser})=>{
         <div className="tb" >
 
             {isMediator&&<PopupContainer 
-                popContent={<AddWindow  groups={groups || ''}/>}
+                popContent={<AddWindow  groups={groups || ''} />}
                 imgSrc='../../../assets/images/add_icon_dark.png'
                 classStr='tb--btn'
             />}
 
                 {isInfo?
                     <div>
-                        <UsersList handleSelctedUser={handleSelctedUser} isMediator={isMediator}/>
+                        <UsersList handleSelctedUser={handleSelctedUser} isMediator={isMediator} fontSize="0.5em"/>
                     </div>
                         :
                     <div className="tb--title" >
