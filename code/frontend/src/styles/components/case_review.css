@@ -1,7 +1,7 @@
 .case-review{
     --gray : #7E857D;
     background-color: #CAF1D4;
-    height: 125px;
+    height: 120px;
     border-top: 2px solid var(--gray);
     display: grid;
     grid-template-columns: 1fr 4fr 1fr;
@@ -10,11 +10,11 @@
     grid-gap:5px;
 }
 
+/* .case-review > *{font-size:1.25em} */
 .case-review--frame{
-    /* border:1px solid red; */
-    /* overflow: hidden; */
     white-space: nowrap;
     text-overflow: ellipsis;
+    /* border: 2px solid red; */
     
 }
 
@@ -28,17 +28,13 @@
     grid-column: 2 / 3;
     max-width: 100%;;
 }
-
-.case-review--conflict-name{
-    margin: 0;
-
-}
-
+.case-review--conflict-name{margin: 0;}
 .case-review--info{
     grid-row: 2 / 2;
     grid-column:  2 / 2;
     display: flex;
     justify-content: space-between;
+    font-size:0.75em;
 
 }
 
@@ -51,88 +47,53 @@
 .case-review--options{
     grid-row: span 2;
     grid-column: 3 / 3 ;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    
-}
-.case-review--options-container{
     position: relative;
-    display:flex; 
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 1.5em;
-    border:none;
+
+
 }
+
 
 .case-review--options-box{
     /*Invisible div on top of the lines*/
-    padding:1.25em;
     position: absolute;
+    left:0;
+    right:0;
     top:50%;
-    left: 50%;
-    transform: translate(-50% , -50%);
+    transform: translateY(-50%);
+    /* background-color: red;
+    opacity:0.5; */
     z-index:1;
     cursor:pointer;
-
 }
 .case-review--line{
-    height: 4px !important;
-    padding:0px !important;
-    width:30px !important;
-    background-color: #4DAA63 !important;
+    position: absolute;
+    padding:0px ;
+
+    
+    height: 4px ;
+    width:30px ;
     transition:  300ms ease-in-out;
 }
 
 
 .case-review--options-btn{
-    background:transparent;
-    border: none;
-    background-color: var(--green-light);
-    border-radius: 10px;
-    margin: 1em 0;
-    transition: 300ms ease-in-out;
-    padding:0.5em 0;/*DO NOT REMOVE , curcial for making the button fully responsive*/
-    width: 100%;
-    font-weight: var(--weight-bold);
-    font-size: 14px;
-}
-
-.case-review--options-btn{cursor: pointer;}
-
-
-.close-button-case-review{
     position: absolute;
-    z-index: 100;
-    right: 50%;
-    top: 50%;
-    transform: translate(50%,-50%);
-    width: 80%;
-    background-color: var(--green-dark);
-    border: none;
-    height: 4px;
-    border-radius: 10px;
-    animation: closeButton 300ms ease-in-out;
+    top:50%;
+    left:10%;
+    right:10%;
+    color:black;
+    background-color:var(--green-light);
+    padding: 1px 7.5px;
+    border-radius:5px;
+    transition: 200ms ease-in-out;
+    border:none;;
+    font-size: 1em;
+    cursor: pointer;
+
 }
 
-@keyframes closeButton {
-    0%{
-        width: 0%;
-    }
-    25%{
-        width: 20%;
-    }
-    50%{
-        width: 40%;
-    }
-    75%{
-        width: 60%;
-    }
-    100%{
-        width: 80%;
-    }
-   
-    
+.case-review--options-btn:hover{
+    color:whitesmoke;;
 }
+
 

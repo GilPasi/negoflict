@@ -11,7 +11,6 @@ import {useLocation} from "react-router-dom";
 import useChat from '../../hooks/useChat'
 
 const AddWindow =()=>{
-    //finish the add window hen berti
     //hooks==============================
     const location = useLocation()
     const {addUsersToGroup} = useChat()
@@ -206,6 +205,7 @@ const AddWindow =()=>{
             }
 
             {stage==='create'&&<CreateSelfUser
+                fontSize="10px"
             fulfiled={()=>{
                 setStage('exist')
                 refetchUsers()

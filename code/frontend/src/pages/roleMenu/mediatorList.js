@@ -47,10 +47,8 @@ const MediatorList = ()=>{
                             <span className="last_name_mediator">{mediator.user.last_name}</span>
                         </div>
                     </button>
-                </div>
-              
+                </div>    
             )
-            
         })}
             {show&&
                 <PopUpGeneral

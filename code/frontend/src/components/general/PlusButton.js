@@ -5,8 +5,8 @@ const PlusButton=({to})=>{
     <Link to={to} >
         <button className="plus-container">
             <div className="plus">
-                <div className="line" id="line-ver"/>
-                <div className="line" id="line-hor"/>
+                <div className="line line-ver"/>
+                <div className="line line-hor"/>
             </div>
         </button>
     </Link>

@@ -7,7 +7,7 @@ import { useDeleteGroupMutation } from '../../store';
 import { useCloseCaseMutation } from '../../store';
 import { getPermName } from "../../utils/permissions";
 
-const CaseReview = ({ caseName , creationDate ,caseIndex, caseData})=>{
+const CaseReview = ({ caseName , creationDate ,caseCategory, caseData})=>{
     //================= Hooks and variables ============
     const [showButtons , setShowButtons] = useState(false)
     const { deletAlert, textAlert } = useAlert();
@@ -56,6 +56,16 @@ const CaseReview = ({ caseName , creationDate ,caseIndex, caseData})=>{
     console.log('success', data);
   }
 
+  const handleShow=()=>{
+    if(showButtons)
+        setShowButtons(false);
+    else
+        setShowButtons(true);
+
+
+
+  }
+
 
   
     //================== Design ======================
@@ -64,13 +74,27 @@ const CaseReview = ({ caseName , creationDate ,caseIndex, caseData})=>{
     if(caseName.length > MAX_LENGTH)
         name = caseName.slice(0, MAX_LENGTH - THREE_DOTS_LENGTH) + " ..."
 
+    const LINES_GAP = showButtons ? 35 : 7;
+    const OPTIONS_GAP = 50
 
-    const optionsStyles = [
-        {top: showButtons ? gotRole==='mediator'?"20%":'10%' : "45%"},
-        {top: showButtons ? "80%" : "55%"},
-   
-
+    const linesStyle = [
+        {
+            top: `${50 - LINES_GAP}%`
+        },
+        {
+            top: `${50 + LINES_GAP}%`
+        
+        },
     ]
+    const optionsStyle = [
+        {transform:`translateY(${-100 - OPTIONS_GAP}%) scale(${showButtons ? "1" : "0"})`},
+        {transform:`translateY(${ 100 - OPTIONS_GAP}%) scale(${showButtons ? "1" : "0"})`},
+    ]
+
+    
+
+
+
     const buttonStyle= {
         transform:`scale(${showButtons ? "1" : "0"})`,
 
@@ -79,6 +103,7 @@ const CaseReview = ({ caseName , creationDate ,caseIndex, caseData})=>{
         transform:`scale(${showButtons ? "1" : "0"})`,
         position:'relative',
         top:'-35%',
+        padding:"0",
     }
     
 
@@ -91,63 +116,57 @@ const CaseReview = ({ caseName , creationDate ,caseIndex, caseData})=>{
         </div>
 
 
-        <div className="case-review--frame case-review--options centerizer">
-            <div  className="case-review--options-container">
-                <div className="case-review--options-box" onClick={()=>setShowButtons(true)}/>
+        <div className="case-review--frame case-review--options">
+                <div 
+                    className="case-review--options-box"
+                    onClick={handleShow}
+                    style={{height: showButtons ? "10%" :"100%"}}
+                 />
                 <div
-                    className="line case-review--line"
-                    id="line-hor"
-                    style={optionsStyles[0]}
+                    className="line case-review--line "
+                    style={linesStyle[0]}
                 />
 
 
-                <button 
+                <Link
                     className="case-review--options-btn" 
-                    style={gotRole==='user'?userButtonStyle:buttonStyle}
+                    style={optionsStyle[0]}
+                    to={chatPath}
+                    state={{    
+                        groups: handleStart(),
+                        caseId: caseData.id,
+                        caseTitle: caseData.title,
+                    }}
                 >
-                    <Link
-                        style={{color:"black" , padding:"0 1em" ,}}
-        
-                        to={chatPath}
-                        state={{    
-                            groups: handleStart(),
-                            caseId: caseData.id,
-                            caseTitle: caseData.title,
-                        }}
-                    >
-                        start
-                    </Link>
-                </button>
-                {showButtons&&  <button className="close-button-case-review"  onClick={()=>setShowButtons(()=>false)}>
-                    
-                </button>}
-              
+                    start
+                </Link>
+
                 <div 
-                    className="line case-review--line" 
-                    id="line-hor" 
-                    style={{top:"50%"}}
+                    className="line case-review--line  " 
+                    style={{
+                        top:"50%",
+                        // transform:"trans", 
+                        width:showButtons &&"50px",
+                    }}
                 />
 
                 {gotRole==='mediator'&&<button 
                     className="case-review--options-btn" 
-                    style={buttonStyle}
+                    style={optionsStyle[1]}
                     onClick={handleClose}
                 >
                     exit
                 </button>}
-                <div 
-                    className="line case-review--line" 
-                    id="line-hor" 
-                    style={optionsStyles[1]}
+                <div
+                    className="line case-review--line  "
+                    style={linesStyle[1]}
                 />
-            </div>
         </div>
         <div className="case-review--frame case-review--info">
-            <span className="case-review--info-case" style={{}}>
-                <strong>{caseIndex}</strong>
-                <span className="space"/>
-                I.D.{caseData.id.slice(0,7)}{/*slice is too big , show only a couple of first digits */}
-            </span>
+                <strong>{caseCategory}</strong>
+                I.D.{caseData.id.slice(0,7)}
+                
+                {/*slice is too big , show only a couple of first digits */}
             <span className="case-review--info-date">{creationDate}</span>
         </div>
     </article>)

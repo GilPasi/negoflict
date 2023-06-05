@@ -11,7 +11,7 @@ import Button from "./Button";
 
 
 
-const UsersList = ({handleSelctedUser, isMediator})=>{
+const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
     //hooks================
     const location = useLocation()
     const { subscribePresence, getPresenceStatus, presenceListener, removeUserFromGroup } = useChat()

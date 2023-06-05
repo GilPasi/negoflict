@@ -26,7 +26,7 @@ const MyCases = ({isMediator, open_close})=>{
                         <CaseReview 
                             caseName={caseData?.title}
                             creationDate="April 2023"
-                            caseIndex={caseData?.category}
+                            caseCategory={caseData?.category}
                             caseData={caseData}
                         /> 
                         </div>
