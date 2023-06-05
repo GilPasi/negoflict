@@ -228,6 +228,26 @@ const adminApi = createApi({
                   }
                 }
               }),
+              deleteAgoraUser: builder.mutation({
+                query:({username})=>{
+                    return{
+                        url: `agora/users/delete_user/`,
+                        body:{
+                            user:username
+                        },
+                        method:'DELETE',
+                    }
+
+                }
+              }),
+              deleteUserIfError: builder.mutation({
+                query:({userId})=>{
+                    return{
+                        url:`users/user_view/${userId}`,
+                        method:'DELETE'
+                    }
+                }
+              }),
             
 
         }

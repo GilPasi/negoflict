@@ -9,7 +9,7 @@ import {useLocation} from "react-router-dom";
 const GroupSwitch =()=>{
 
     //hooks================
-    const {MsgListener} = useChat()
+    const {MsgListener, removeEventById} = useChat()
     const {role} = useSelector(state=>state.user)
     const dispatch = useDispatch()
     const location = useLocation()
@@ -33,7 +33,15 @@ const GroupSwitch =()=>{
     //useEffect================
     useEffect(()=>{
         MsgListener({handleMessage:handleNotificationsView, id:'GroupSwitch'})
+        
+
+        return ()=>{
+            removeEventById({id:'GroupSwitch'})
+
+        }
     },[]);
+
+
 
     useEffect(()=>{
         const btnpos =  isMediator?selectedBtn:selectedBtnU

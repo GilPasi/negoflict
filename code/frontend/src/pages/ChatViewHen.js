@@ -14,7 +14,7 @@ import {useLazyGetCaseSideQuery} from "../store";
 
 const ChatViewHen = ({role, isOnline}) => {
     //hooks===================================================================================================
-    const {groupListener, muteAllMembers,sendMsg, getGroupInfo,onlineStatusListener, getAnnouncement, publishPresence } = useChat()
+    const {groupListener, muteAllMembers,sendMsg, getGroupInfo,onlineStatusListener, getAnnouncement, publishPresence, removeEventById } = useChat()
     const location = useLocation()
     //state===================================================================================================
     const [size, setSize] = useState(window.innerHeight);
@@ -35,7 +35,7 @@ const ChatViewHen = ({role, isOnline}) => {
     const FOOTER_SIZE = 125 , HEADER_SIZE = 297.281-0.11298*window.innerHeight//Found by linear approximation
     const isMediator = role==='mediator'
     const centeredGroupId = groups.find(group=> group.groupname.endsWith('G'))?.groupid
-    let isShuttled = activeGroup.slice(-1)==='G' && isMuted && role==='user' || (!isOnline) 
+    let isShuttled = activeGroup.slice(-1)==='G' && isMuted && role==='user' || (!isOnline) || !isChatStart&&role==='user'
     let typingTimeout;
     //refs===================================================================================================
      const userSide = useRef(isMediator ? 'M':'')
@@ -49,7 +49,13 @@ const ChatViewHen = ({role, isOnline}) => {
     },[typing])
 
     useEffect(() => {
-        return () => clearTimeout(typingTimeout); // Clear the timeout when the component unmounts
+        return () =>{
+            clearTimeout(typingTimeout); // Clear the timeout when the component unmounts
+            removeEventById({id:'viewPageChat'})
+            removeEventById({id:'viewPageChatConnection'})
+
+
+        } 
       }, []);
 
     useEffect(()=>{
@@ -69,8 +75,9 @@ const ChatViewHen = ({role, isOnline}) => {
         getChatAnnouncment()
 
     },[connected])
-    console.log('role',role)
-    console.log(isChatStart)
+
+    
+
 
     const getGroupInfoFunc = ()=>{
     getGroupInfo({groupId:centeredGroupId}).then(res=>{
@@ -170,7 +177,7 @@ const ChatViewHen = ({role, isOnline}) => {
         setTyping(true);
         typingTimeout = setTimeout(() => {
           setTyping(false);
-        }, 4000);
+        }, 3500);
       };
 
 

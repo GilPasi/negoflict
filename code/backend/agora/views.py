@@ -280,10 +280,24 @@ class Users(ModelViewSet):
             return Response(res.json(),status=status.HTTP_200_OK)
         except RequestException as e:
             return Response(f"agora error: {e}")
-
-
-
-
+        
+    @action(detail=False, methods=['DELETE'], permission_classes=[permissions.IsAdminOrUser])
+    def delete_user(self,request):
+         token = getAppToken(5000)
+         username = request.data.get('user',None)
+         if not username:
+             return Response('missing parameter username',status=status.HTTP_400_BAD_REQUEST)
+         
+         headers = get_auth_headers(token)
+         try:
+            res = requests.delete(f"{HOST_URL_APP_KEY}/users/{username}",headers=headers)
+            return Response(res.json(),status=status.HTTP_200_OK)
+         except RequestException as e:
+             return Response(f"agora error: {e}",status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+         
+    
+         
+    
 
 
 

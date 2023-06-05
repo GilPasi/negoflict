@@ -58,8 +58,8 @@ const  TextHolder=({caseData, withInfo, hasExit,addOns,pressDetail,plus, contact
     return(
         <section className="th">
             <div className="th--box" >
-                <p className='th--title'>{title}</p>
-                {addOns&& <p style={{color:'black', position:'absolute',bottom:'-16%',fontSize:'small',left:'50%',transform:'translate(-50%)',}}>{addOns}</p>}
+                <p className='th--title' style={{overflow:'hidden',  textOverflow: 'ellipsis',whiteSpace:'nowrap' }}>{title}</p>
+                {addOns&& <p style={{marginLeft:'8px',textAlign:'center',width:'87%',color:'black', position:'absolute',bottom:'-16%',fontSize:'small',left:'50%',transform:'translate(-50%)',overflow:'hidden',textOverflow: 'ellipsis',whiteSpace:'nowrap'}}>{addOns}</p>}
                 <div style={{position:'absolute',right:'2%',top:'28%'}}>
                     {plus&&<SmallPlus onClick={handleAddContact}/>}
                 </div>

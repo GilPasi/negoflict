@@ -49,7 +49,9 @@ const chatSlice = createSlice({
             if(!messages)return
             Object.keys(state).forEach(groupKey => {
                 if (state[groupKey].id === id) {
+                    console.log('in addHistory>>>iddddd',id)
                   state[groupKey].messages = messages
+                  console.log('in addHistory>>>state[groupKey].messages',messages)
                 }
               }); 
 

@@ -16,7 +16,7 @@ import {ChatChangesNotifications} from '../chat/ChatChangesNotifications'
 const MessageList =( { maxHeight, isChatStart } )=> {
  //hooks===================================================================================================
   const location = useLocation();
-  const {onlineStatusListener, getHistoryMsgs, MsgListener, presenceListener, getPresenceStatus} = useChat();
+  const {onlineStatusListener, getHistoryMsgs, MsgListener, presenceListener, getPresenceStatus,removeEventById} = useChat();
   const dispatch = useDispatch();
   const messagesEndRef = useRef(null);
   const syncronize = useRef(false);
@@ -58,6 +58,14 @@ const MessageList =( { maxHeight, isChatStart } )=> {
   },[])
 
   useEffect(()=>{
+    return()=>{
+      removeEventById({id:'messageList'})
+      removeEventById({id:'presenceListener'})
+    }
+  },[])
+  
+
+  useEffect(()=>{
     if(typingNotification?.userId === deleteNotification)
       setTypingNotification(null)
 
@@ -92,19 +100,20 @@ const MessageList =( { maxHeight, isChatStart } )=> {
   }
 
   const handleNotifications = (msg)=>{
-    console.log('msghenberti',msg)
     const {userId} = msg[0]
     getPresenceStatus({usernames:[userId]}).then(({result})=>{
       const {uid,ext} = result[0]
       const desc = ext.split('=') 
       const status = desc[0]
       const user = desc[1]
-      if(user === username || user === first_name) return
+      if(user === username || user === first_name || user=== undefined) return
       const connectionNotification = status === 'online' || status === 'offline'
       if(connectionNotification){
         console.log('result 1111',result)
         const msg = status === 'online'? `${user} is online now`: `${user} has disconnected`
         setConnectionNotification({userId:user,msg:msg})
+        if(status !== 'online')
+          setDeleteNotification(()=>user)
         setTimeout(()=>setConnectionNotification(prev=>(null)),5000)
       }
       else{
@@ -113,6 +122,7 @@ const MessageList =( { maxHeight, isChatStart } )=> {
         if(msg!==null){
           
           setTypingNotification({userId:user,msg:msg})
+          setTimeout(()=>setTypingNotification(prev=>(null)),10000)
         }
         else
           setDeleteNotification(()=>user)
@@ -127,8 +137,9 @@ const MessageList =( { maxHeight, isChatStart } )=> {
   
 
   useEffect(() => {
-    if(!messageDetail || syncronize.current) return
+    if(!messageDetail || syncronize.current || messageDetail.msg==='' ) return
     syncronize.current = true
+   
     
     handleReceivedMsg(messageDetail, true)
    
@@ -293,6 +304,8 @@ const preChatTitleStyle = {
 
   }
 
+  
+
   return (
     <div
     style={{
@@ -357,8 +370,8 @@ const preChatTitleStyle = {
 
 
       <div ref={messagesEndRef} />
-      {connectionNotification&&<ChatChangesNotifications position={typingNotification? maxHeight-20:maxHeight} msg={connectionNotification.msg}/>}
-      {typingNotification&&<ChatChangesNotifications position={maxHeight} msg={typingNotification.msg}/>}
+      {connectionNotification&&<ChatChangesNotifications position={maxHeight} intersept={typingNotification?-30:0} msg={connectionNotification.msg}/>}
+      {typingNotification&&<ChatChangesNotifications position={maxHeight} intersept={0} msg={typingNotification.msg}/>}
 
 
     </div>

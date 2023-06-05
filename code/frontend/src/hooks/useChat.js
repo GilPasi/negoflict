@@ -201,8 +201,16 @@ const useChat = ()=>{
         WebIM.conn.renewToken({agoraToken:token}).catch(err=>console.log('in renewToken',err))
     }
 
-    
+    const removeEventById = ({id})=>{
+        return WebIM.conn.removeEventHandler(id)
+    }
+    const removeWindowListener = ({handleBackEvent,handleReloadEvent})=>{
+        if(handleReloadEvent)
+            window.removeEventListener('beforeunload', handleReloadEvent);
+        if(handleBackEvent)
+            window.removeEventListener('popstate', handleBackEvent);
 
+    }
     return{
         sendMsg,
         connect,
@@ -229,7 +237,9 @@ const useChat = ()=>{
         removeUserFromGroup,
         tokenWillExpireListener,
         renewToken,
-        windowListener
+        windowListener,
+        removeEventById,
+        removeWindowListener,
 
        
 

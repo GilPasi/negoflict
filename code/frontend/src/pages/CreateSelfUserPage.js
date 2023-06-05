@@ -3,25 +3,33 @@ import UserForm from "../components/general/userForm"
 import Header from "../components/general/Header"
 import { useEffect, useState } from "react"
 import Button from "../components/general/Button"
-import { useRegisterOneUserMutation,useCreateContactMutation,useCreateUsersMutation,useLazyIsEmailExistQuery } from "../store"
+import { useRegisterOneUserMutation,useCreateContactMutation,useCreateUsersMutation,useLazyIsEmailExistQuery, useDeleteAgoraUserMutation, useDeleteUserIfErrorMutation } from "../store"
 import { useSelector } from "react-redux"
 import "../styles/pages/create_self_page.css"
 import useValidateData from "../hooks/useValidate"
 import { useNavigate } from "react-router-dom"
 import useAlert from "../hooks/useAlert"
 
-const CreateSelfUser = ({fulfiled,goBack , fontSize})=>{
+const CreateSelfUser = ({fulfiled,goBack})=>{
+    //hooks===========================
+    const navigate = useNavigate()
     const {clearValidate,validateData, addErrorLable} = useValidateData()
     const { trigerNotification } = useAlert()
+    //state==========================
     const [formData,setFormData] = useState({})
     const [valid,setValid] = useState(true)
+    const [disableButton,setDisableButton] = useState(false)
+    const {id} = useSelector(state=>state.user)
+    //api's==============================
     const [registerUser] = useRegisterOneUserMutation()
     const [createContact] = useCreateContactMutation()
     const [createUser] = useCreateUsersMutation()
     const [isEmailValid] = useLazyIsEmailExistQuery()
-    const {id} = useSelector(state=>state.user)
-    const navigate = useNavigate()
-    const [disableButton,setDisableButton] = useState(false)
+    const [deleteAgoraUser] = useDeleteAgoraUserMutation()
+    const [deleteUser] = useDeleteUserIfErrorMutation()
+
+
+
     
     useEffect(()=>{
         if(Object.keys(formData).length >=4)
@@ -57,7 +65,17 @@ const CreateSelfUser = ({fulfiled,goBack , fontSize})=>{
             registerUser({username:modEmail,password:modPass,first_name:first_name}),
             createUser({users:[{username:email,password:modPass,first_name:first_name,last_name:last_name, email:email}]})
         ])
-        .then(([registerUserResponse, createUserResponse]) => {
+        .then(async ([registerUserResponse, createUserResponse]) => {
+            if(createUserResponse?.error || registerUserResponse?.error){
+                if(createUserResponse?.error && registerUserResponse?.error)return
+                if(!createUserResponse?.error && registerUserResponse?.error){
+                    const {data:userDataArray} = createUserResponse
+                    deleteUser({userId:userDataArray[0]?.id}).then(res=>console.log(res)).then(()=>handleBack())
+                }
+                else if(createUserResponse?.error && !registerUserResponse?.error)
+                    deleteAgoraUser({username:modEmail})
+                    .then(res=>console.log(res)).then(()=>handleBack())
+            }
             console.log('register',registerUserResponse)
             console.log('create',createUserResponse)
             console.log(createUserResponse.data[0].id)
@@ -68,11 +86,16 @@ const CreateSelfUser = ({fulfiled,goBack , fontSize})=>{
                     trigerNotification('User created successfully', 'success')
                     handleBack()
                 }
-            }).catch(err=>console.log(err))
+            }).catch(err=>{
+                trigerNotification('Somthing went wrong','error')
+                console.log(err)
+            })
+                .finally(()=>setDisableButton(false))
         })
         .catch(err=>{ 
             trigerNotification('Somthing went wrong','error')
-             console.log(err)})
+             console.log(err)
+            })
         .finally(()=>setDisableButton(false))
     }
     const handleBack = ()=>{

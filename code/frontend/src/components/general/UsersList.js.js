@@ -14,7 +14,7 @@ import Button from "./Button";
 const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
     //hooks================
     const location = useLocation()
-    const { subscribePresence, getPresenceStatus, presenceListener, removeUserFromGroup } = useChat()
+    const { subscribePresence, getPresenceStatus, presenceListener, removeUserFromGroup, removeEventById } = useChat()
     //variables&&store================
     const users = useSelector(state=>state.perticipent)
     const { username, role, mediator } = useSelector(state=>state.user)
@@ -43,6 +43,12 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
 
        
     },[usersByCaseData])
+
+    useEffect(()=>{
+        return ()=>{
+            removeEventById({id:'UsersListListener'})
+        }
+    },[])
 
 
     const handleSetParticipents = ()=>{
@@ -84,7 +90,6 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
         
         const members = Object.keys(parts)
         if(roleName === 'user'&& mediator) members.push(mediator)
-        console.log(members, 'members!!!!!!!!')
      
         subscribePresence({usernames:members}).then(()=>{
             getPresenceStatus({usernames:members}).then(({result})=>{
@@ -105,15 +110,19 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
     }
 
     useEffect(()=>{
+        console.log(statusQueue, 'statusQueue')
         if(statusQueue.length === 0)return
         const statuses = statusQueue.map(p=>p)
         statuses.forEach(msg=>{
             let users = ({...participants})
 
             msg?.forEach(({userId, ext})=>{
+                const status = ext.split('=')[0]
+                const user = ext.split('=')[1]
                 if(!(userId === myAgoraUsername))
-                    users[userId]['connect'] = ext === 'online'
+                    users[userId]['connect'] = status === 'online'
             })
+            console.log(users, 'users')
             setParticipants(()=>users)
         })
         return()=>setStatusQueue([])

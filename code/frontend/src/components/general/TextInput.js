@@ -4,7 +4,7 @@ const  TextField=({type,placeHolder,
                 onChange,name,length,
                 altitude,align,parentRef,
                 value, required,isValid,
-                warnText,inGrid,id
+                warnText,inGrid,id,limitChars,minLength,maxLength
             })=>{
     const [userReacted , setUserReacted ] = useState(false)
     
@@ -49,6 +49,9 @@ const  TextField=({type,placeHolder,
             </label>}
             <div id={id || ''}></div>
             <input 
+                maxLength={limitChars || ''}
+                max={maxLength || ''}
+                min={minLength || ''}
                 ref={parentRef}
                 name={name}
                 onChange={e=>handleChange(e)} 

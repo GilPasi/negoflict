@@ -14,7 +14,7 @@ const ChatPageHen = ()=>{
     const location = useLocation()
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const { connect, publishPresence, onlineStatusListener, tokenWillExpireListener, renewToken, setAnnouncement, disconnect, windowListener, subscribePresence, getGroupMember} = useChat()
+    const { connect, publishPresence, onlineStatusListener, tokenWillExpireListener, renewToken, setAnnouncement, disconnect, windowListener, subscribePresence, getGroupMember,removeEventById,removeWindowListener} = useChat()
     //===================================================================================================
     //state=========
     let groups = location.state?.groups ?? [] //holds the 3 sides of the chat groups by agora
@@ -50,14 +50,21 @@ const ChatPageHen = ()=>{
     },[token]);
 
     useEffect(()=>{
+        return ()=>{
+            removeEventById({id:'chat_page_connection_listener'})
+            removeEventById({id:'ChatPageHen'})
+            removeEventById({id:'ChatPageHenWill'})
+            removeWindowListener({handleBackEvent:handleBackEvent})
+        }
+    },[])
+
+    useEffect(()=>{
         if(!connected || !groups)return
         presentsStatus({status:'online'})
         if(roleName==='mediator')
             setStartChat()
         
             getMembers()
-      
-       
     },[connected,groups]);
  
     //===================================================================================================
@@ -66,7 +73,7 @@ const ChatPageHen = ()=>{
     //add listeners to connection status if connected or disconnected
     const addConnectionListeners = ()=>{
         onlineStatusListener(
-            {handleConnection:connectionMsg=>setConnected(()=>connectionMsg === 'connected')})
+            {id:'chat_page_connection_listener',handleConnection:connectionMsg=>setConnected(()=>connectionMsg === 'connected')})
     }
     const addTokenLister = ()=>{
         tokenWillExpireListener({id:'ChatPageHen',tokenExpiredHandler:handleTokenExpired,tokenWillExpiredHandler:handleTokenWillExpired})
@@ -93,8 +100,6 @@ const ChatPageHen = ()=>{
 
             data.forEach(member => {
                 const memberName = member?.member ?? member?.owner
-                console.log('henhenhenhenhenhen>>>>>>>>',member)
-                console.log('henhenhenhenhenhen>>>>>>>>',Object.keys(member))
                 if (Object.keys(member)[0] === 'owner' && roleName==='user')
                     dispatch(setMediatorName(memberName))
                 if(memberName!==myName)

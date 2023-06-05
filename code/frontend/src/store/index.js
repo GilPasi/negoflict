@@ -149,6 +149,8 @@ export const {useAddingManyUsersToOneChatGroupMutation} = adminApi
 export const {useRegisterManyUsersToGroupMemberMutation} = adminApi
 export const {useSetUserCaseAttributeMutation} = adminApi
 export const {useGetUsersByCaseQuery} = adminApi
+export const {useDeleteAgoraUserMutation} = adminApi
+export const {useDeleteUserIfErrorMutation} = adminApi
 
 
 //msgApi=======
