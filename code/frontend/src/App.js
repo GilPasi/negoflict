@@ -10,6 +10,7 @@ import Unauthorised from './components/Authentication/Unauthorised'
 
 
 
+
  const App=()=> {
   const isActive = useInactivityRedirect();
   
@@ -38,7 +39,6 @@ import Unauthorised from './components/Authentication/Unauthorised'
             
             </Route>
         </Routes>
-   
         
     </div>  
 

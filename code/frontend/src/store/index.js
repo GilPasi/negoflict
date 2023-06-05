@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { userReducer,login, logout, updateAccessToken } from './slices/userSlice'
+import { userReducer,login, logout, updateAccessToken,setMediatorName } from './slices/userSlice'
 import { positionReducer,updatePosition, setPrivateGroup,setActiveGroup } from "./slices/psitionSlice";
 import { groupsReducer,addGroups } from "./slices/groupsSlice";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
@@ -97,6 +97,7 @@ export{
     removeParticepentByAgoraName,
     addCaseId,
     setActiveGroup,
+    setMediatorName,
 }
 
 setupListeners(store.dispatch)

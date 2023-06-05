@@ -5,9 +5,10 @@ import LoadinBar from '../general/LoadingBar';
 import '../../styles/components/loading_bar.css'
 import useChat from '../../hooks/useChat';
 import { useLocation } from 'react-router-dom';
-import {addGroupsProps, addHistoryMsg, updateMsg, useLazyGetCaseSideQuery,setActiveGroup, clearMsg,resetChatState} from "../../store";
+import {addGroupsProps, addHistoryMsg, updateMsg, useLazyGetCaseSideQuery,setActiveGroup, clearMsg,resetChatState, } from "../../store";
 import {useDispatch} from "react-redux";
 import {getPermName} from "../../utils/permissions";
+import {ChatChangesNotifications} from '../chat/ChatChangesNotifications'
 
 
 //Note that all styles of the list is done in the component
@@ -15,7 +16,7 @@ import {getPermName} from "../../utils/permissions";
 const MessageList =( { maxHeight, isChatStart } )=> {
  //hooks===================================================================================================
   const location = useLocation();
-  const {onlineStatusListener, getHistoryMsgs, MsgListener} = useChat();
+  const {onlineStatusListener, getHistoryMsgs, MsgListener, presenceListener, getPresenceStatus} = useChat();
   const dispatch = useDispatch();
   const messagesEndRef = useRef(null);
   const syncronize = useRef(false);
@@ -26,11 +27,14 @@ const MessageList =( { maxHeight, isChatStart } )=> {
  const [prevActiveGroup, setPrevActiveGroup] = useState(null);
  const [isLoading,setIsLoading] = useState(true) //holds the loading status //change to dynamic loading
  const [progress,setProgress] = useState(0)
+ const [typingNotification,setTypingNotification] = useState(null)
+ const [connectionNotification,setConnectionNotification] = useState(null)
+ const [deleteNotification,setDeleteNotification] = useState(null)
 //===================================================================================================
   //location&&store===================================================================================================
   const {groups} = location.state ?? []
   const {caseId} = location.state ?? ''
-  const {id, role} = useSelector(state=>state.user)
+  const {id, role, username, first_name} = useSelector(state=>state.user)
   const {pos} = useSelector(state=>state.position)
   const {messages} = useSelector(state=>state.chat[activeGroupView])
   const messageDetail = useSelector(state=>state.message)
@@ -47,9 +51,21 @@ const MessageList =( { maxHeight, isChatStart } )=> {
       setProgress(prev=>prev+10)
       dispatch(addGroupsProps({groups:groups}))
       addConnectionListener()
+      addPresenceListener()
       MsgListener({handleMessage:handleReceivedMsg})
+
       roleName==='user'&& getUserDetails()
   },[])
+
+  useEffect(()=>{
+    if(typingNotification?.userId === deleteNotification)
+      setTypingNotification(null)
+
+      return()=>{
+        setDeleteNotification(null)
+      }
+
+  },[deleteNotification])
  
     const getUserDetails =async ()=>{
      const {data, error} = await getGroupMember({caseId:caseId, user:id})
@@ -71,6 +87,42 @@ const MessageList =( { maxHeight, isChatStart } )=> {
               setIsOnline(()=>isConnect)}})
           setProgress(prev=>prev<100&&prev+25)
   }
+  const addPresenceListener = ()=>{
+    presenceListener({id:'messege_notification',presentsHandler:handleNotifications})
+  }
+
+  const handleNotifications = (msg)=>{
+    console.log('msghenberti',msg)
+    const {userId} = msg[0]
+    getPresenceStatus({usernames:[userId]}).then(({result})=>{
+      const {uid,ext} = result[0]
+      const desc = ext.split('=') 
+      const status = desc[0]
+      const user = desc[1]
+      if(user === username || user === first_name) return
+      const connectionNotification = status === 'online' || status === 'offline'
+      if(connectionNotification){
+        console.log('result 1111',result)
+        const msg = status === 'online'? `${user} is online now`: `${user} has disconnected`
+        setConnectionNotification({userId:user,msg:msg})
+        setTimeout(()=>setConnectionNotification(prev=>(null)),5000)
+      }
+      else{
+        console.log('result 2222',result)
+        const msg = status === 'typing'? `${user} is typing...`:null
+        if(msg!==null){
+          
+          setTypingNotification({userId:user,msg:msg})
+        }
+        else
+          setDeleteNotification(()=>user)
+      }
+    })
+
+  }
+  
+
+  
 
   
 
@@ -263,7 +315,7 @@ const preChatTitleStyle = {
 
           <LoadinBar
             progress={progress}
-            task='hen'
+            task='fetching data'
           />
           </div>}
       {
@@ -305,6 +357,9 @@ const preChatTitleStyle = {
 
 
       <div ref={messagesEndRef} />
+      {connectionNotification&&<ChatChangesNotifications position={typingNotification? maxHeight-20:maxHeight} msg={connectionNotification.msg}/>}
+      {typingNotification&&<ChatChangesNotifications position={maxHeight} msg={typingNotification.msg}/>}
+
 
     </div>
   );

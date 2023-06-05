@@ -14,7 +14,7 @@ import {useLazyGetCaseSideQuery} from "../store";
 
 const ChatViewHen = ({role, isOnline}) => {
     //hooks===================================================================================================
-    const {groupListener, muteAllMembers,sendMsg, getGroupInfo,onlineStatusListener, getAnnouncement } = useChat()
+    const {groupListener, muteAllMembers,sendMsg, getGroupInfo,onlineStatusListener, getAnnouncement, publishPresence } = useChat()
     const location = useLocation()
     //state===================================================================================================
     const [size, setSize] = useState(window.innerHeight);
@@ -22,11 +22,12 @@ const ChatViewHen = ({role, isOnline}) => {
     const [connected,setConnected] = useState(false)
     const [isUsersListClick, setIsUsersListClick] = useState(false)
     const [isChatStart,setIsChatStart] = useState(false)
+    const [typing, setTyping] = useState(false);
     //location&&store===================================================================================================
     const {groups} = location.state ?? []
     const {caseId} = location.state ?? ''
     const {activeGroup} = useSelector(state=>state.position)
-    const {id,first_name} = useSelector(state=>state.user)
+    const {id,first_name,username} = useSelector(state=>state.user)
     //lazyApi===================================================================================================
     const [getGroupMember] =useLazyGetCaseSideQuery()
    
@@ -35,11 +36,21 @@ const ChatViewHen = ({role, isOnline}) => {
     const isMediator = role==='mediator'
     const centeredGroupId = groups.find(group=> group.groupname.endsWith('G'))?.groupid
     let isShuttled = activeGroup.slice(-1)==='G' && isMuted && role==='user' || (!isOnline) 
+    let typingTimeout;
     //refs===================================================================================================
      const userSide = useRef(isMediator ? 'M':'')
      const memberId = useRef('')
     //===================================================================================================
- 
+   
+    useEffect(()=>{
+        const isTyping = typing
+        publishTypingStatus(isTyping)
+
+    },[typing])
+
+    useEffect(() => {
+        return () => clearTimeout(typingTimeout); // Clear the timeout when the component unmounts
+      }, []);
 
     useEffect(()=>{
         onlineStatusListener({id:'viewPageChatConnection',handleConnection:connectionMsg=>setConnected(()=>connectionMsg === 'connected')})
@@ -117,6 +128,10 @@ const ChatViewHen = ({role, isOnline}) => {
 
     }
 
+    const publishTypingStatus = (typingStatus)=>{
+        publishPresence({description:`${typingStatus?'typing':'stop_typing'}=${role==='mediator'?username:first_name}`})
+    }
+
          const handleResize = () => {
         setSize(window.innerHeight);
          }
@@ -149,6 +164,15 @@ const ChatViewHen = ({role, isOnline}) => {
         muteAllMembers({groupId:centeredGroupId, shuttle:(!isMuted)})
         setIsMuted(prev=>!prev)
     }
+
+    const handleInput = () => {
+        clearTimeout(typingTimeout);
+        setTyping(true);
+        typingTimeout = setTimeout(() => {
+          setTyping(false);
+        }, 4000);
+      };
+
 
 
     return(
@@ -191,6 +215,7 @@ const ChatViewHen = ({role, isOnline}) => {
                             onChange={event=>setInputHeight(event, '5px')}
                             className="cp--input-box"
                             id="cp--input-tb"
+                           onInput={handleInput}
                         />
 
                             <button className={`cp--input-btn${isShuttled?'-shuttel':''}`} onClick={setInputValue} disabled={isShuttled}>
