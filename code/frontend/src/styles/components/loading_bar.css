@@ -95,6 +95,59 @@
     justify-content: center;
     z-index: 2;
   }
+  .search-holder-place{
+    position: fixed;
+    display: flex;
+    justify-content: end;
+    z-index: 10;
+    width: 20vh;
+    height: 5vh;
+    left: 50%;
+    margin: 5px;
+    transform: translate(-50%);
+    border-radius: 15px;
+    
+
+    background-color: rgba(46, 44, 44, 0.357);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .button_up_down_up{
+    position: absolute;
+    left: 0;
+    rotate: 90deg;
+    border: none;
+    background-color: transparent;
+    margin: 0;
+    margin: 0;
+    font-size: xx-large;
+    font-weight: 700;
+    opacity: 0.5;
+    color: black;
+
+  }
+  .button_up_down_down{
+    position: absolute;
+    right: 0;
+    rotate: 90deg;
+    border: none;
+    background-color: transparent;
+    margin: 0;
+    font-size: xx-large;
+    font-weight: 700;
+    opacity: 0.5;
+    color: black;
+    transition: all 0.4s ease-in-out;
+  }
+  .button_up_down_down:active, .button_up_down_up:active{
+    transform: scale(0.9);
+ 
+  }
+  .counter_seartch_messages{
+    font-size: large;
+  }
+
 
 
   

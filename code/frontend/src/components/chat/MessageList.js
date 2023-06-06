@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useMemo } from 'react';
 import Message from '../general/Message';
 import { useSelector } from 'react-redux';
 import LoadinBar from '../general/LoadingBar';
@@ -38,6 +38,10 @@ const MessageList =( { maxHeight, isChatStart } )=> {
   const {pos} = useSelector(state=>state.position)
   const {messages} = useSelector(state=>state.chat[activeGroupView])
   const messageDetail = useSelector(state=>state.message)
+  const messageRefs = messages.map(() => React.createRef());
+  const searchTerm = useSelector(state=>state.searchMsg)
+  const [searchIndex, setSearchIndex] = useState([])
+  const [index, setIndex] = useState(-1);
   //===================================================================================================
   //varible===================================================================================================
   const roleName = getPermName({role})
@@ -47,6 +51,48 @@ const MessageList =( { maxHeight, isChatStart } )=> {
   const [getGroupMember] =useLazyGetCaseSideQuery()
 //===================================================================================================
   //useEffect===================================================================================================
+  useEffect(()=>{
+    if(searchTerm === ''){
+      setSearchIndex([])
+      setIndex(()=>messageRefs.length-1)
+      return
+    }
+    const indexs = messages.map((msg, i) => 
+    msg.msg.toLowerCase().includes(searchTerm.toLowerCase()) ? i : null).filter(i => i !== null).sort((a, b) => messages[b].time - messages[a].time);
+    const i = indexs[0]
+    if(!messageRefs[i]?.current){
+      setSearchIndex([])
+      setIndex(()=>-1)
+      return
+    }
+    setSearchIndex(()=>indexs)
+    setIndex(()=>0)
+    
+
+  },[searchTerm])
+
+  useEffect(()=>{
+    if(index === -1) return
+    if(searchIndex.length === 0){
+      messageRefs[index]?.current.scrollIntoView({ behavior: 'smooth' })
+      return
+    }
+    const i = searchIndex[index]
+    messageRefs[i]?.current.scrollIntoView({ behavior: 'smooth' })
+
+  },[index])
+
+
+  const handleCounterClick = ()=>{
+
+  }
+
+
+
+
+
+
+
   useEffect(()=>{
       setProgress(prev=>prev+10)
       dispatch(addGroupsProps({groups:groups}))
@@ -130,6 +176,7 @@ const MessageList =( { maxHeight, isChatStart } )=> {
     })
 
   }
+
   
 
   
@@ -304,6 +351,7 @@ const preChatTitleStyle = {
 
   }
 
+
   
 
   return (
@@ -349,10 +397,18 @@ const preChatTitleStyle = {
 
       </div>
       }
+      {searchIndex.length>0&&
+      <div className='search-holder-place'>
+      <button onClick={()=>setIndex(prev=>prev<searchIndex.length?prev+1:searchIndex.length)} className='button_up_down_up' ><span>{'<'}</span></button>
+        <span className='counter_seartch_messages'>{`${index!==-1?index+1:0}/${searchIndex.length}`}</span>
+   
+        <button onClick={()=>setIndex(prev=>prev>0?prev-1:0)} className='button_up_down_down' ><span>{'>'}</span></button>
+      </div>
+}
 
 
-      {messages&& messages.map(message => (
-        <div key={message.id}>
+      {messages&& messages.map((message,index) => (
+        <div key={message.id} ref={messageRefs[index]}>
 
             <Message
                 key={getKey(message.time)}
