@@ -22,11 +22,16 @@ const superUserApi = createApi({
                     }
                 }
             }),
-
-
-            
-
+            deleteMediator: builder.mutation({
+                query:({userId})=>{
+                    return{
+                        url:`/users/mediator_view/${userId}/`,
+                        method:'DELETE',
+                    }
+                }
+            })
         }
+        
     }})
 
     export {superUserApi}

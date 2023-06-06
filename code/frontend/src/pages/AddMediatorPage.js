@@ -34,6 +34,7 @@ const AddMediatorPage =({disable, goBack, handleChange,formData, handleSubmit, h
             />
 
             <TextInput
+            limitChars={40}
                 placeHolder="Education"
                 align="left"
                 altitude="1em"

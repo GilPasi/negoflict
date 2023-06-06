@@ -2,8 +2,9 @@ import AddMediatorPage from "../../pages/AddMediatorPage"
 import AddUserPage from "../../pages/AddUserPage"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { useUpdateMediatorResidentMutation,useAddMediatorMutation, useGetAddressesQuery, useLazyIsUsernameExistQuery, useRegisterOneUserMutation } from "../../store"
+import { useUpdateMediatorResidentMutation,useAddMediatorMutation, useGetAddressesQuery, useLazyIsUsernameExistQuery, useRegisterOneUserMutation, useDeleteMediatorMutation, useDeleteAgoraUserMutation, useDeleteUserIfErrorMutation } from "../../store"
 import { useSelector } from "react-redux"
+import useAlert from '../../hooks/useAlert'
 
 const baseData = {
     relevant_experience:'f',
@@ -15,15 +16,22 @@ const CreateMediatorWrapper = ()=>{
     const {access} = useSelector(state=>state.user)
     const rediract = useNavigate()
     const {data:addressData, error:addressError} = useGetAddressesQuery({access:access})
+    const {trigerNotification} = useAlert()
+
+    //api's========================
     const [addMediator,{data:mediatorData, error:mediatorError}] = useAddMediatorMutation()
     const [registerUser, {error:registerUserError}] = useRegisterOneUserMutation()
     const [isUsernameExist,{data:isUserName}] = useLazyIsUsernameExistQuery()
     const [updateMediatorAddress,{data:updateAddressData,error:updateAddressError}] = useUpdateMediatorResidentMutation()
+    const [deleteMediator] = useDeleteMediatorMutation()
+    const [deleteAgoraUser] = useDeleteAgoraUserMutation()
+    const [deleteUser] = useDeleteUserIfErrorMutation()
     //==========
 
     //state========
     const [formData, setFormData] = useState(baseData)
     const [firstPage,setFirstPage] = useState(true)
+
     //==============
 
     //useEffect==========
@@ -51,16 +59,40 @@ const CreateMediatorWrapper = ()=>{
         const {name, value} = event.target
         setFormData(prevState=>({...prevState,[name]:value}))
     };
+
     const handleClick = ()=>{
         setFormData(prevState=>({...prevState,certification_course: !prevState.certification_course}))
     };
+
+    const isValidData = ()=>{
+        const values= Object.values(formData)
+        const userVal = values.splice(3)
+        userVal.forEach(val=>{
+            if(val===''){
+                return false
+            }
+        })
+        const arr = ['f','d','s']
+        if(values.every((value, index) => value === arr[index]))
+            return false
+        
+        return true
+     
+
+
+    }
+
     const handleSubmit =async ()=>{
         if(firstPage)return
+        if(!isValidData()){
+            trigerNotification('Please fill all fileds','error')
+            return
+        }
         const username = formData['username']
         const {data, error} =await isUsernameExist({username:username})
         const response = data ?? error
         
-        console.log(response)
+      
         if(response !== 'not found' && response !== false)return
         const phoneNumber = formData['phoneNumber']
         const residentData = {
@@ -82,8 +114,47 @@ const CreateMediatorWrapper = ()=>{
         certification_course:formData['certification_course'],
         user:userData
     }
-        addMediator(mediatorData)
-        registerUser({username:userData.username,password:`Negoflict${phoneNumber}`,first_name:userData.username})
+        Promise.all([
+            addMediator(mediatorData),
+            registerUser({username:userData.username,password:`Negoflict${phoneNumber}`,first_name:userData.username})
+        ])
+        .then(([addMediatorResponse,registerUserResponse])=>{
+            console.log('register',registerUserResponse)
+            console.log('add',addMediatorResponse)
+            const {data} = registerUserResponse
+            
+            if(!data?.entities?.[0]?.uuid){
+
+            if(data?.startsWith?.('agora error') &&addMediatorResponse?.error ){
+         
+                redirectOut()
+            }
+            if(data?.startsWith?.('agora error')&& !addMediatorResponse?.error){
+                const {data} = addMediatorResponse
+                const userId = data?.mediator?.user?.id
+                
+                deleteMediator({userId:userId})
+                .then(()=>deleteUser({userId:userId}))
+                .then(res=>console.log(res)).finally(()=>redirectOut())
+                .finally(()=>redirectOut())
+            }
+        }
+
+       
+            if(addMediatorResponse?.error){
+                deleteAgoraUser({username:userData.username})
+                .then(res=>console.log('delete',res)).finally(()=>redirectOut())
+            }
+            trigerNotification('Mediator created successfully','success')
+         
+            return
+        })
+        .catch(res=>{
+            console.log('inCatch',res)
+            trigerNotification('Somthing went wrong','error')
+            redirectOut()
+        })
+        
     };
     //==============
 
@@ -101,6 +172,10 @@ const CreateMediatorWrapper = ()=>{
         setFormData(prevState=>({...prevState,...data}))
         handleSubmit()
     };
+    const redirectOut = ()=>{
+        trigerNotification('Somthing went wrong','error')
+        rediract('/admin',{replace:true})   
+    }
     //============
 
     return(

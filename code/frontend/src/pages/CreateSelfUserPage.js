@@ -67,12 +67,13 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
         ])
         .then(async ([registerUserResponse, createUserResponse]) => {
             if(createUserResponse?.error || registerUserResponse?.error){
-                if(createUserResponse?.error && registerUserResponse?.error)return
-                if(!createUserResponse?.error && registerUserResponse?.error){
+                if(createUserResponse?.error && !registerUserResponse?.data?.entities?.[0]?.uuid)return
+
+                if(!createUserResponse?.error && !registerUserResponse?.data?.entities?.[0]?.uuid){
                     const {data:userDataArray} = createUserResponse
                     deleteUser({userId:userDataArray[0]?.id}).then(res=>console.log(res)).then(()=>handleBack())
                 }
-                else if(createUserResponse?.error && !registerUserResponse?.error)
+                else if(createUserResponse?.error && registerUserResponse?.data?.entities?.[0]?.uuid)
                     deleteAgoraUser({username:modEmail})
                     .then(res=>console.log(res)).then(()=>handleBack())
             }
@@ -107,7 +108,7 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
 
 
     return(
-        <article className="csp" style={{fontSize:fontSize}}>
+        <article className="csp" >
         <Header/>
             <h1 className="title-large">Create a new user</h1>
             <form className="centerizer" onSubmit={handleSubmit} >

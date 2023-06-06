@@ -166,3 +166,4 @@ export const {useRemoveContactMutation} = mediatorApi
 
 //superUserAi========
 export const {useGetMediatorsQuery,useLazyGetMediatorsQuery} = superUserApi
+export const {useDeleteMediatorMutation} = superUserApi
