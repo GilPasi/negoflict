@@ -80,6 +80,64 @@ class UserView(ModelViewSet):
             return Response('no users found',status=status.HTTP_404_NOT_FOUND)
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    @action(detail=False,methods=['GET'],permission_classes=[permissions.IsSuperUser])
+    def get_all_users(self,request):
+        try:
+            queryset = User.objects.all()
+            serializer = self.serializer_class(queryset, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(e,status=status.HTTP_400_BAD_REQUEST)
+        
+    @action(detail=False,methods=['PUT'],permission_classes=[permissions.IsSuperUser])
+    def changing_password(self,request):
+        userId = request.data.get('id',None)
+        new_password = request.data.get('password',None)
+        
+        missing_props = {
+            **({'error':'missing id'}if not userId else {}),
+            **({'error': 'missing password'} if not new_password else {}),
+        }
+        
+        if len(missing_props.keys()) > 0:
+            return Response(missing_props,status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            user = self.queryset.get(pk=userId)
+            if not user:
+                return Response('user not found',status=status.HTTP_404_NOT_FOUND)
+            serializer = UserCreateSerializer(user,data={'password':new_password},partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(e,status=status.HTTP_400_BAD_REQUEST)
+        
+    @action(detail=False,methods=['PUT'],permission_classes=[permissions.IsSuperUser])
+    def change_first_entry_attribute(self,request):
+        userId = request.data.get('id',None)
+        if not userId:
+            return Response('missing id',status=status.HTTP_400_BAD_REQUEST)
+        
+        user = self.queryset.get(pk=userId)
+        if not user:
+            return Response('user not found',status=status.HTTP_404_NOT_FOUND)
+        try:
+            serializer = UserSerializer(user,data={'first_logged':True},partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response('SOMTHING WENT WRONG',status=status.HTTP_400_BAD_REQUEST)
+        
+        
+        
+        
+        
+    
+        
+        
 
     
         

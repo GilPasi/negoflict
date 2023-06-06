@@ -29,7 +29,30 @@ const superUserApi = createApi({
                         method:'DELETE',
                     }
                 }
-            })
+            }),
+            changing_userPassword: builder.mutation({
+                query:({userId, password})=>{
+                    return{
+                        url:'/api/users/user_view/changing_password/',
+                        method:'PUT',
+                        body:{
+                            id:userId,
+                            password:password
+                        }
+                    }
+                }
+            }),
+            changeFirstLogin: builder.mutation({
+                query:({userId})=>{
+                    return{
+                        url:`/users/user_view/change_first_entry_attribute/`,
+                        method:'PUT',
+                        body:{
+                            id:userId
+                        }
+                    }
+                }
+            }),
         }
         
     }})
