@@ -43,8 +43,8 @@ const MessageList =( { maxHeight, isChatStart } )=> {
   const roleName = getPermName({role})
   const userSide = useRef( roleName==='mediator'? 'M':'')
   //===================================================================================================
-    //lazyApi======
-    const [getGroupMember] =useLazyGetCaseSideQuery()
+  //lazyApi======
+  const [getGroupMember] =useLazyGetCaseSideQuery()
 //===================================================================================================
   //useEffect===================================================================================================
   useEffect(()=>{
