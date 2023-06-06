@@ -19,6 +19,7 @@ import { BandReducer, setBand } from "./slices/bandSlice";
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; 
 import { jwtMiddleware } from './jwtRefetch';
+import {searchMsgReducer,clearSearchMsg,setSearchMsg} from './slices/searchMsgSlice'
 
 const userPersistConfig = {
     key: 'user',
@@ -40,6 +41,7 @@ const userPersistConfig = {
     perticipent: perticipentReducer,
     chat_attrbute: chat_attrbuteReducer,
     band: BandReducer,
+    searchMsg: searchMsgReducer,
   
     [usersApi.reducerPath]: usersApi.reducer,
     [caseApi.reducerPath]: caseApi.reducer,
@@ -98,6 +100,8 @@ export{
     addCaseId,
     setActiveGroup,
     setMediatorName,
+    clearSearchMsg,
+    setSearchMsg,
 }
 
 setupListeners(store.dispatch)

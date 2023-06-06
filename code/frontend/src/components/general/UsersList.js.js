@@ -1,4 +1,4 @@
-import { connect, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import '../../styles/components/users_list.css'
 import { useLocation } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";

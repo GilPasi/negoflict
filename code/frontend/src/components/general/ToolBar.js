@@ -6,22 +6,45 @@ import UsersList from "./UsersList.js"
 import {useLocation} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {getPermName} from "../../utils/permissions";
+import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
+import { setSearchMsg, clearSearchMsg } from "../../store"
 
 const ToolBar =({isInfo,handleSelctedUser})=>{
     //hooks================
     const location = useLocation()
+    const dispatch = useDispatch()
     //=====================
-
     //state================
-     const { groups } = location.state ?? []
+    const [isSearch,setIsSearch] = useState(false)
+    const [searchTerm,searchTermSet] = useState('')
+    //vars================
+    const { groups } = location.state ?? []
     const { caseId, caseCategory} = location.state ?? ''
     const {role} = useSelector(state=>state.user)
+    // const {activeGroup} = useSelector(state=>state.position)
+    // const messages = useSelector(state=>state.chat[activeGroup])
     //=====================
 
     //values================
      const roleName = getPermName({role})
     const isMediator = roleName==='mediator'
     //======================
+
+    useEffect(()=>{
+        if(!isSearch || searchTerm===''){
+            dispatch(clearSearchMsg())
+            return
+        }
+        dispatch(setSearchMsg(searchTerm))
+        console.log('searching',searchTerm)
+    },[isSearch,searchTerm])
+
+    const handleSearch = ({currentTarget:input})=>{
+        const {value} = input
+        searchTermSet(value)
+    }
+    
 
 
     return(
@@ -39,17 +62,21 @@ const ToolBar =({isInfo,handleSelctedUser})=>{
                     </div>
                         :
                     <div className="tb--title" >
-                        <h3 className="tb--name">{`A ${caseCategory} conflict`}</h3>
+                        <h3 className={`tb--name${isSearch?'-move':''}`}>{`A ${caseCategory} conflict`}</h3>
                         {caseId?<h4 className="tb--id">I.D. {caseId.slice(-7)}</h4>:<Loader size='small' withLogo={false}/>}
                     </div>
                 }
                 
-            {isMediator&&<div className="tb--btn">
-                <img src={`../../../assets/images/search_icon_dark.png`}
+            {isMediator&&<div className={`tb--btn${isSearch?'-clicked':''}`}>
+                <img  onClick={()=>setIsSearch(prev=>!prev)} src={`../../../assets/images/search_icon_dark.png`}
                 alt="Search button" 
                 className="tb--btn-img"
                 />
-            </div>}
+            </div>
+            }
+            <div className="tb-search">
+                <input onChange={handleSearch} className={`tb-search-input${!isSearch?'-hidden':''}`}></input>
+                </div>
         </div>
         
         )

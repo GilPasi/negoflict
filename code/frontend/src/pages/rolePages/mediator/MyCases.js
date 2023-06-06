@@ -11,7 +11,6 @@ import { useGetMyCasesQuery } from '../../../store'
 const MyCases = ({isMediator, open_close})=>{
     const {access,id} = useSelector(state=>state.user)
     const {data:cases,error,isLoading,isSuccess} = useGetMyCasesQuery({id:id,access:access,isMediator:isMediator, open_close:open_close})
-    console.log('casesss==>>>',cases)
     if(isLoading)return <Loader/>
     if(error)return alert('Eror refresh the page please')
     return(
@@ -21,16 +20,22 @@ const MyCases = ({isMediator, open_close})=>{
             <h1 className='title-large'> My cases </h1>
             <div style={{height: '55vh',overflowY: 'scroll',}} >
                 {isSuccess &&
-                    cases.map((caseData , index)=>(
+                    cases.map((caseData , index)=>{
+                        const isoString = caseData?.create_at
+                        let date = new Date(isoString);
+                        let options = { year: 'numeric', month: 'long', day: 'numeric' };
+                        let formattedDate = date.toLocaleDateString("en-US", options);
+
+                        return(
                         <div key={caseData?.id}>
                         <CaseReview 
                             caseName={caseData?.title}
-                            creationDate="April 2023"
+                            creationDate={formattedDate}
                             caseCategory={caseData?.category}
                             caseData={caseData}
                         /> 
                         </div>
-                ))}
+)})}
             </div>
         </article>
 )}

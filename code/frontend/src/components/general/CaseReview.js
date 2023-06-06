@@ -20,6 +20,7 @@ const CaseReview = ({ caseName , creationDate ,caseCategory, caseData})=>{
     const { groups } = useSelector((state) => state.groups);
   
     const chatPath = `/${gotRole}/chat/${path}/`;
+  
     
 
     //================ Functions =======================
@@ -136,6 +137,7 @@ const CaseReview = ({ caseName , creationDate ,caseCategory, caseData})=>{
                         groups: handleStart(),
                         caseId: caseData.id,
                         caseTitle: caseData.title,
+                        caseCategory:caseCategory
                     }}
                 >
                     start
