@@ -44,7 +44,6 @@ const useChat = ()=>{
         }
         const message = WebIM.message.create(option)
         dispatch(postNewMessage(message))
-        console.log('message>>>in send',message)
        return  WebIM.conn.send(message).catch(err=>console.log('in sendMsg',err))
     }
 

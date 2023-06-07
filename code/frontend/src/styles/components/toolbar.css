@@ -22,7 +22,6 @@
   margin-top:0;
   cursor: pointer;
   box-sizing: content-box;/*override for chrome*/
-
 }
 .tb--btn::after{
   content:'';

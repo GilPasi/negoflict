@@ -188,6 +188,7 @@ const MessageList =( { maxHeight, isChatStart } )=> {
    
     return () => {
       syncronize.current = false
+      dispatch(clearMsg())
     }
 
   },[messageDetail])

@@ -43,6 +43,12 @@ const ToolBar =({isInfo,handleSelctedUser})=>{
         const {value} = input
         searchTermSet(value)
     }
+
+    const styleWithInfo =isInfo&&!isMediator? {
+        position:'absolute',
+        right:'-13.5px',
+        top:'8px',
+    }:{}
     
 
 
@@ -66,7 +72,7 @@ const ToolBar =({isInfo,handleSelctedUser})=>{
                     </div>
                 }
                 
-            <div className={`tb--btn${isSearch?'-clicked':''}`}>
+            <div className={`tb--btn${isSearch?'-clicked':''}`} style={styleWithInfo}>
                 <img  onClick={()=>setIsSearch(prev=>!prev)} src={`../../../assets/images/search_icon_dark.png`}
                 alt="Search button" 
                 className="tb--btn-img"
