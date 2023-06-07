@@ -83,10 +83,6 @@ const MessageList =( { maxHeight, isChatStart } )=> {
   },[index])
 
 
-  const handleCounterClick = ()=>{
-
-  }
-
 
 
 
