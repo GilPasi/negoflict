@@ -1,4 +1,4 @@
-import PlusButton from "../components/general/PlusButton"
+import PlusButton from "../components/general/icons/PlusButton"
 import React, { useEffect } from "react"
 import MyCases from "./rolePages/mediator/MyCases"
 import { useSelector } from "react-redux"

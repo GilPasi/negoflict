@@ -1,5 +1,5 @@
 import '../../styles/components/popupGeneral.css'
-import ExitIcon from './ExitIcon'
+import ExitIcon from './icons/ExitIcon'
 
 const PopUpGeneral = ({children, onClose})=>{
     const {user} = children
@@ -12,30 +12,42 @@ const PopUpGeneral = ({children, onClose})=>{
 
 
     return(
-        <div className='popUpContiner'>
-            <span className='title-full-name'>{`${user.first_name} ${user.last_name}`}</span>
+        <div className='popup-general--container'>
+            <span className='popup-general--title'>{`${user.first_name} ${user.last_name}`}</span>
             <ExitIcon onClose={onClose}/>
          
-        <div className='popUpBox'>
-            <ul className='list-prop'>
+        <div className='popup-general--box'>
+            <ul className='popup-general--list-prop'>
                 {
-                    <li>
-                        <span className='key-pop'>Email</span>
-                        <span className='value-pop'>{email}</span>
+                    <li className="popup-general--field"> 
+                        <span className='popup-general--key-pop'>Email</span>
+                        <span className='popup-general--value-pop'>{email}</span>
                     </li>
                 }
                 
                 {objKey.map((key,index)=>{
-                    if(key!=='user')
-                    
-                    return(
-                    <li key={index}>
-                        <span className='key-pop'>{key}</span>
-                        <span className='value-pop'>{children[key]}</span>
-                    </li>
-                    )
 
-                })}
+                    if(key==='user')return
+
+                    let _key = key.replace("_" , " ")
+                    _key = _key[0].toUpperCase() + _key.slice(1)
+                    
+                    let _value = children[key]
+                    
+                    //Address Certification course property
+                    if(_key === "Certification course"){
+                        if(_value === true)
+                            _value = "✔"
+                        if (_value === false)
+                            _value = "✘"
+                    }
+
+                    return(
+                    <li key={index} className="popup-general--field">
+                        <span className='popup-general--key-pop'>{_key}</span>
+                        <span className='popup-general--value-pop'>{_value}</span>
+                    </li>
+                )})}
             </ul>
         </div>
         </div>

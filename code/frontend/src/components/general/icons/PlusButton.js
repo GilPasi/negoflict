@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import "../../styles/components/plus_button.css"
+import "../../../styles/components/plus_button.css"
 const PlusButton=({to})=>{
     return(
     <Link to={to} >

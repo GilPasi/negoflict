@@ -1,11 +1,10 @@
 .box-icon-user-image{
+    --size:44px;
     position: relative;
-
-    width: 50px;
-    height: 50px;
+    width: var(--size);
+    height: var(--size);
     background-color: var(--green-light-shaded);
     clip-path: circle(50%);
-    justify-content: end;
   }
   .icon-head{
     position: absolute;

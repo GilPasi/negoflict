@@ -1,6 +1,6 @@
 import Header from "../../../components/general/Header"
 import ScrollableBox from "../../../components/general/ScrollableBox"
-import PlusButton from "../../../components/general/PlusButton"
+import PlusButton from "../../../components/general/icons/PlusButton"
 import SearchBar from "../../../components/general/SearchBar"
 import { useGetContactsQuery, useGet_all_usersQuery } from "../../../store" 
 import { useSelector } from 'react-redux'
