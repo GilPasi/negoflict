@@ -37,7 +37,6 @@ const ToolBar =({isInfo,handleSelctedUser})=>{
             return
         }
         dispatch(setSearchMsg(searchTerm))
-        console.log('searching',searchTerm)
     },[isSearch,searchTerm])
 
     const handleSearch = ({currentTarget:input})=>{
@@ -67,13 +66,13 @@ const ToolBar =({isInfo,handleSelctedUser})=>{
                     </div>
                 }
                 
-            {isMediator&&<div className={`tb--btn${isSearch?'-clicked':''}`}>
+            <div className={`tb--btn${isSearch?'-clicked':''}`}>
                 <img  onClick={()=>setIsSearch(prev=>!prev)} src={`../../../assets/images/search_icon_dark.png`}
                 alt="Search button" 
                 className="tb--btn-img"
                 />
             </div>
-            }
+            
             <div className="tb-search">
                 <input onChange={handleSearch} className={`tb-search-input${!isSearch?'-hidden':''}`}></input>
                 </div>
