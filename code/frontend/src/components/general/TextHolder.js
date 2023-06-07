@@ -1,9 +1,9 @@
 import '../../styles/components/text_holder.css'
 import {React, useState} from 'react'
 import InfoBox from "./InfoBox"
-import ExitIcon from "./ExitIcon"
+import ExitIcon from "./icons/ExitIcon"
 import useAlert from "../../hooks/useAlert"
-import SmallPlus from './SmallPlus'
+import SmallPlus from './icons/SmallPlus'
 import { useSelector } from 'react-redux'
 import { useCreateContactMutation, useRemoveContactMutation } from '../../store'
 

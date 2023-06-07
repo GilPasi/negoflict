@@ -62,9 +62,6 @@ const CaseReview = ({ caseName , creationDate ,caseCategory, caseData})=>{
         setShowButtons(false);
     else
         setShowButtons(true);
-
-
-
   }
 
 
