@@ -40,7 +40,6 @@ const CasePage =({isMediator})=>{
     const {data,error,isSuccess} = useGetGroupsByUserQuery({username:username})
 
 
-  
     //useEffects==========
     useEffect(()=>{
      

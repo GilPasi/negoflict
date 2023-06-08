@@ -6,6 +6,7 @@ import { store, persistor } from './store/index'
 import { Provider } from 'react-redux'
 import { BrowserRouter, Routes, Route,HashRouter} from 'react-router-dom'
 import { PersistGate } from 'redux-persist/integration/react';
+import ErrorBoundary from './components/general/ErrorBoundary';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -16,6 +17,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <ErrorBoundary >
     <Provider store={store}>
       <PersistGate loading={<h1>Loading...</h1>} persistor={persistor}>
       <HashRouter>
@@ -25,6 +27,7 @@ root.render(
       </HashRouter>
       </PersistGate>
     </Provider>
+    </ErrorBoundary>
 
    
   </React.StrictMode>
