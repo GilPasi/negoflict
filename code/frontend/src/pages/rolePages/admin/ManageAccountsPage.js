@@ -15,7 +15,6 @@ const [action , setAction] = useState("main")
 const [selectedUsers,setSelectedUsers] = useState([])
 
 
-
 //api===============
 const {data:allUsersData, error:allUsersError, isLoading} = useGet_all_usersQuery()//get all users..
 //lazy_api===============
@@ -56,33 +55,61 @@ const handleDeleteUser = (users)=>{
     console.log(users)
 }
 
+
 let currentView = <></>
 
 switch(action){
     case "delete user":
-        currentView = <center>
+        currentView =
+         <center>
             <UsersChecks 
                 submitText="delete"
-                handleBack={()=>console
-                }
+                handleBack={()=>setAction("main")}
                 handleSubmit={handleDeleteUser} />
-
-            </center>
+        </center>
         break;
+        
+    case "edit user":
+        currentView = 
+        <div style={{position:'relative'}}>
+            <Header isLarge={true}/>
+            <h1 className="headr-MediatorList">Mediator List</h1>
+            {mediatorData.map(mediator=>{
+                return(
+                    <div className="info-mediator-box aligner" key={mediator.user.id}>
+                        <IconImageUser/>
+                        <button className="on-open-info-btn" onClick={()=>handleOpen(mediator)}>
+                            <div className="full-name-box">
+                                <span className="first_name_mediator">{mediator.user.first_name}</span>
+                                <span className="last_name_mediator">{mediator.user.last_name}</span>
+                            </div>
+                        </button>
+                        <div style={{marginLeft:"18px"}} onClick={handleDelete}>
+                            <TrashIcon/>
+                        </div>
+                    </div>  
+                      
+                )
+            })}
+                {show&&
+                    <PopUpGeneral
+                    onClose={handleClose}
+                    children={infoChoose}
+                    />}
+        </div>
 
     default:
-        currentView=<div className="centerizer">
-        <h1 className="title-large" style={{margin:"0"}}>Manage Users</h1>
-        <hr style={{width:"150px"}}/>
-        <button className="map--btn" onClick={()=>setAction("delete user")}>Delete User</button>
-        <button className="map--btn">Create User</button>
-        <button className="map--btn">Edit User</button>
-
-        <h1 className="title-large" style={{margin:"0"}}>Manage Cases</h1>
-        <hr style={{width:"150px"}}/>
-
-        <button className="map--btn">Delete Case</button>
-        <button className="map--btn">Create Case</button>
+        currentView=
+        <div className="centerizer">
+            <h1 className="title-large" style={{margin:"0"}}>Manage Users</h1>
+            <hr style={{width:"150px"}}/>
+            <button className="map--btn" onClick={()=>setAction("delete user")}>Delete User</button>
+            <button className="map--btn">Create User</button>
+            <button className="map--btn">Edit User</button>
+            <h1 className="title-large" style={{margin:"0"}}>Manage Cases</h1>
+            <hr style={{width:"150px"}}/>
+            <button className="map--btn">Delete Case</button>
+            <button className="map--btn">Create Case</button>
     </div>
     break;
 

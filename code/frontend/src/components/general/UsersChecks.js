@@ -4,13 +4,10 @@ import Button from "../../components/general/Button"
 import {useEffect, useState} from 'react'
 import { useGetContactsQuery } from '../../store' 
 import { useSelector } from 'react-redux'
-import { useRegisterManyUsersToGroupMemberMutation, useGetUsersByCaseQuery, useSetUserCaseAttributeMutation, useGetChatGroupsQuery } from '../../store'
-import CreateSelfUser from '../../pages/CreateSelfUserPage'
+import {  useGetUsersByCaseQuery, useGetChatGroupsQuery } from '../../store'
 
-import Loader from './Loader'
 import {useLocation} from "react-router-dom";
-import useChat from '../../hooks/useChat'
-const UsersChecks = (handleSubmit , handleBack , submitText)=>{
+const UsersChecks = ({handleSubmit , handleBack , submitText})=>{
     
     const location = useLocation()
     const [markedUsers,setMarkedUsers] = useState([])
@@ -25,7 +22,7 @@ const UsersChecks = (handleSubmit , handleBack , submitText)=>{
     const {data:contactsData, isLoading:loadingGetContact, refetch:refetchContacts} = useGetContactsQuery({mediator_id:id})
     //=================================================================================================
 
-    useEffect((handleSubmit , handleBack , submitText)=>{
+    useEffect(()=>{
         if(!contactsData)return
         if(!usersData && (usersError?.status!==404 || !usersError))return
 
@@ -71,29 +68,29 @@ const UsersChecks = (handleSubmit , handleBack , submitText)=>{
     ))
 
     return(
-    <section>
-        <h1 className='users-checks--title'>Choose participants</h1>
-        <hr />
-        <div className="users-checks--list">
-            {usersView}
-        </div>
-        <p className='warning' style={{color: markedUsers.length === 0? "red":"transparent"}}>You must select at least one user</p>
-        <Button 
-            text='Back' 
-            length='5em' 
-            altitude='2em' 
-            margin='0.1em' 
-            onClick={()=>handleBack}
-        />
-        <Button 
-            text={submitText}
-            length='5em' 
-            altitude='2em' 
-            margin='0.1em' 
-            // onClick={()=>handleSubmit(markedUsers)} 
-            disabled={markedUsers.length===0}
-        />
-    </section>)
+        <section>
+            <h1 className='users-checks--title'>Choose participants</h1>
+            <hr />
+            <div className="users-checks--list">
+                {usersView}
+            </div>
+            <p className='warning' style={{color: markedUsers.length === 0? "red":"transparent"}}>You must select at least one user</p>
+            <Button 
+                text='Back' 
+                length='5em' 
+                altitude='2em' 
+                margin='0.1em' 
+                onClick={handleBack}
+            />
+            <Button 
+                text={submitText}
+                length='5em' 
+                altitude='2em' 
+                margin='0.1em' 
+                // onClick={()=>handleSubmit(markedUsers)} 
+                disabled={markedUsers.length===0}
+            />
+        </section>)
 
 }
 export default UsersChecks
