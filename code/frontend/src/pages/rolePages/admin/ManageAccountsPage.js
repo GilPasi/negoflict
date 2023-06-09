@@ -2,6 +2,10 @@ import "../../../styles/pages/manage_account_page.css"
 import Header from "../../../components/general/Header.js"
 import UsersChecks from "../../../components/general/UsersChecks.js"
 import Button from "../../../components/general/Button.js"
+import IconImageUser from "../../../components/general/iconImageUser"
+import PopUpGeneral from "../../../components/general/PopUpGeneral"
+import TrashIcon from "../../../components/general/icons/TrashIcon"
+import '../../../styles/components/MediatorList.css'
 
 import {useState} from 'react'
 import { useGet_all_usersQuery, useChangeFirstLoginMutation,useChangePasswordMutation } from "../../../store";
@@ -13,6 +17,8 @@ const navigate = useNavigate()
 const {trigerNotification} = useAlert()
 const [action , setAction] = useState("main") 
 const [selectedUsers,setSelectedUsers] = useState([])
+const [show, setShow] = useState(false)
+const [infoChoose, setInfoChoose] = useState({})
 
 
 //api===============
@@ -55,6 +61,32 @@ const handleDeleteUser = (users)=>{
     console.log(users)
 }
 
+const handleOpen=(info)=>{
+    console.log('innn',info)
+    setInfoChoose(info)
+    setShow(prev=>!prev)
+}
+const handleClose = ()=>{
+    setShow(false)
+
+}
+
+const mockUserData = [
+    {
+        user : {
+            id:"12313" , 
+            first_name:"avi" , 
+            last_name:"ron"
+        },
+        user : {
+            id:"3321321" , 
+            first_name:"eli" , 
+            last_name:"copter"
+        },
+    }
+
+]
+
 
 let currentView = <></>
 
@@ -72,20 +104,19 @@ switch(action){
     case "edit user":
         currentView = 
         <div style={{position:'relative'}}>
-            <Header isLarge={true}/>
-            <h1 className="headr-MediatorList">Mediator List</h1>
-            {mediatorData.map(mediator=>{
+            <h1 className="title">Users List</h1>
+            {mockUserData.map(item=>{
                 return(
-                    <div className="info-mediator-box aligner" key={mediator.user.id}>
+                    <div className="info-mediator-box" key={item.user.id}>
                         <IconImageUser/>
-                        <button className="on-open-info-btn" onClick={()=>handleOpen(mediator)}>
-                            <div className="full-name-box">
-                                <span className="first_name_mediator">{mediator.user.first_name}</span>
-                                <span className="last_name_mediator">{mediator.user.last_name}</span>
+                        <button className="on-open-info-btn" onClick={()=>handleOpen(item)}>
+                            <div className="full-name-box" >
+                                <span className="first_name_mediator">{item.user.first_name}</span>
+                                <span className="last_name_mediator">{item.user.last_name}</span>
                             </div>
                         </button>
-                        <div style={{marginLeft:"18px"}} onClick={handleDelete}>
-                            <TrashIcon/>
+                        <div style={{marginLeft:"18px"}} >
+                            <div style={{margin : " 16px"}}></div>
                         </div>
                     </div>  
                       
@@ -97,6 +128,7 @@ switch(action){
                     children={infoChoose}
                     />}
         </div>
+        break;
 
     default:
         currentView=
@@ -105,7 +137,7 @@ switch(action){
             <hr style={{width:"150px"}}/>
             <button className="map--btn" onClick={()=>setAction("delete user")}>Delete User</button>
             <button className="map--btn">Create User</button>
-            <button className="map--btn">Edit User</button>
+            <button className="map--btn" onClick={()=> setAction("edit user")}>Edit User</button>
             <h1 className="title-large" style={{margin:"0"}}>Manage Cases</h1>
             <hr style={{width:"150px"}}/>
             <button className="map--btn">Delete Case</button>
@@ -117,7 +149,7 @@ switch(action){
 }
 
 return(
-<article className="page map">
+<article className="map">
     <Header isLarge={false}/>
         {currentView}
 

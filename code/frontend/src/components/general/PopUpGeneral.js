@@ -6,9 +6,6 @@ const PopUpGeneral = ({children, onClose})=>{
     const {email} = user
 
     let objKey = Object.keys(children)
-  
-
-
 
 
     return(
