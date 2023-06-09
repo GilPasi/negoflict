@@ -5,7 +5,7 @@ import { useGetContactsQuery } from '../../store'
 import { useSelector } from 'react-redux'
 import { useRegisterManyUsersToGroupMemberMutation, useGetUsersByCaseQuery, useSetUserCaseAttributeMutation, useGetChatGroupsQuery } from '../../store'
 import CreateSelfUser from '../../pages/CreateSelfUserPage'
-
+import UsersChecks from './UsersChecks'
 import Loader from './Loader'
 import {useLocation} from "react-router-dom";
 import useChat from '../../hooks/useChat'
@@ -216,21 +216,9 @@ const AddWindow =()=>{
 
             {stage==='exist'&&
                 <center>
-                    <h1 className='add-win--title'>Choose participants</h1>
-                    <hr />
-                    <div className="add-win--users-list">
-                        {usersView}
-
-
-                    </div>
-                    {selectedUsers.length === 0&&<p className='warning' id='add-win-w'>You must select at least one user</p>}
-
-                    <footer>
+                    <UsersChecks/>
                         <Button text='Back' length='5em' altitude='2em' margin='0.1em' onClick={()=>setStage('choose')}/>
                         <Button text='Add' length='5em' altitude='2em' margin='0.1em' onClick={handleAddExistingUsers} disabled={selectedUsers.length===0}/>
-                    </footer>
-
-
                 </center>}
 
                 {stage==='success' &&

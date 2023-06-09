@@ -1,0 +1,42 @@
+.users-checks--title{
+    font-size: 2em;
+    margin-bottom: 0;
+}
+.users-checks--title ~ hr{
+  width:40%;
+}
+
+.users-checks--list{
+    position: relative;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+  
+    border: 1px solid #eee;
+    padding:1em;
+  }
+  
+  @media (max-height:1000px){
+    .users-checks--list{
+      height: 30em;
+    }
+  }
+  @media (max-height:860px){
+    .users-checks--list{
+      height: 25em;
+    }
+  }
+  @media (max-height:800px){
+    .users-checks--list{
+      height: 20em;
+    }
+  }
+  @media (max-height:700px){
+    .users-checks--list{
+      height: 15em;
+    }
+  }
+  @media (max-height:600px){
+    .users-checks--list{
+      height: 5em;
+    }
+  }

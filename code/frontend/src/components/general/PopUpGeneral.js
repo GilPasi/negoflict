@@ -1,14 +1,12 @@
 import '../../styles/components/popupGeneral.css'
 import ExitIcon from './icons/ExitIcon'
+import Button from "./Button"
 
 const PopUpGeneral = ({children, onClose})=>{
     const {user} = children
     const {email} = user
 
     let objKey = Object.keys(children)
-  
-
-
 
 
     return(
@@ -44,11 +42,12 @@ const PopUpGeneral = ({children, onClose})=>{
 
                     return(
                     <li key={index} className="popup-general--field">
-                        <span className='popup-general--key-pop'>{_key}</span>
-                        <span className='popup-general--value-pop'>{_value}</span>
+                        <input className='popup-general--key-pop' value={_key}></input>
+                        <input className='popup-general--value-pop' value={_value}></input>
                     </li>
                 )})}
             </ul>
+            <Button text="save"/>
         </div>
         </div>
 
