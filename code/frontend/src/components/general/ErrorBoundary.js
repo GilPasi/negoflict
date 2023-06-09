@@ -1,4 +1,6 @@
 import React from 'react';
+import '../../styles/components/errorBoundery.css'
+import Button from './Button';
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -21,9 +23,9 @@ class ErrorBoundary extends React.Component {
 
   componentDidUpdate() {
     if (this.state.showDialog) {
-      const model = document.querySelector('.hen-fff')
+      const model = document.querySelector('.error-dialog')
       if (model) {
-        model.show()
+        model.showModal()
         this.setState({ showDialog: false }) // Reset the flag
       }
     }
@@ -32,11 +34,11 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <dialog className='hen-fff'>
-          <h1>Oops, something went wrong.</h1>
+        <dialog className='error-dialog'>
+          <h1 className='error-header-text'>Oops, something went wrong.</h1>
           <p>We're sorry, but there was an error processing your request. Please try again. If the problem persists, please contact our support team.</p>
-          <button onClick={() => window.location.reload()}>Try Again</button>
-          <button onClick={()=> window.location.href ='/login'}>Back to login page</button>
+          <Button  size={'x-small'} fontSize={'large'} text='Try Again' onClick={() => window.location.reload()}/>
+          <Button margin={'0'} size={'x-small'} fontSize={'large'} text='Back to login page' onClick={()=> window.location.href ='/login'} />
         </dialog>
       );
     }
