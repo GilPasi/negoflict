@@ -1,5 +1,6 @@
 
 
+
 """
 DJANGO SETTINGS FOR NEGOFLICTSERVER PROJECT.
 
@@ -153,7 +154,6 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=3),
 }
 JWT_AUTH_COOKIE = "refresh_token"
-
 
 AUTH_USER_MODEL = 'core.User'
 

@@ -1,7 +1,7 @@
 
 
 .icon-trash {
-  --size : 50px;
+  --size : 45px;
   width: var(--size);
   height: var(--size);
   position: relative;
@@ -98,10 +98,4 @@
   margin-left: -2%;
   bottom: 17%;
   background-color: white;
-}
-
-a {
-  position: absolute;
-  bottom: 12px;
-  right: 20px;
 }

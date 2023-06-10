@@ -3,7 +3,7 @@
 .full-name-box{
     background-color: #89E0A2;
     display: flex;
-    position: relative;
+    /* position: relative; */
     align-items: center;
     justify-content: center;
     padding: 10px;
@@ -40,5 +40,5 @@
 }
 .on-open-info-btn{
     border: none;
-    
+    overflow: hidden;
 }

@@ -1,3 +1,7 @@
+.map{
+  width: 20em;
+}
+
 .map--btn {
     appearance: none;
     background-color: transparent;

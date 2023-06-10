@@ -68,6 +68,7 @@ const SuperUserLandingPage = ()=>{
                     <Route path="mediator_list" element={<MediatorList/>}/>
                     <Route path="statistics" element={<StatisticsPage/>}/>
                     <Route path="manage accounts" element={<ManageAccountsPage/>}/>
+                    <Route path="create_users" element={<CreateUserWraper/>}/>
 
                     <Route path="/" element={<AdminMenu/>}/>
                 </Routes>

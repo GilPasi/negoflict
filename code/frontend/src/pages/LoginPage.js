@@ -260,7 +260,6 @@ const LoginPage=()=>{
         
     };
     
-
     return(
         <article className="page lp" >
             <Header isLarge={true} unconnected={true}/>

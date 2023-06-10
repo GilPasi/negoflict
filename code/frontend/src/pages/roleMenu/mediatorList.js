@@ -18,35 +18,37 @@ const MediatorList = ()=>{
     const {data:mediatorData, error:mediatorError, isFetching} = useGetMediatorsQuery()
     const [show, setShow] = useState(false)
     const [infoChoose, setInfoChoose] = useState({})
-    // const { deletAlert, textAlert } = useAlert();
-    // const { role } = useSelector((state) => state.user);
-    // const gotRole = getPermName({role:role});
-    // const [deleteGroupsAgora, { data:deleteGroups, error:errorDeleteGroups }] = useDeleteGroupMutation();
-    // const [closeCase,{data:closeData,error:errorClose}] = useCloseCaseMutation()
-    // const { groups } = useSelector((state) => state.groups);
-    // const handleStart = () => {
-    //     return groups.filter((group) =>
-    //       group.groupname.startsWith(`${caseData.title}_`)
-    //     );
-    //   };
+    const { deletAlert, textAlert } = useAlert();
+    const { role } = useSelector((state) => state.user);
+    const gotRole = getPermName({role:role});
+    const [deleteGroupsAgora, { data:deleteGroups, error:errorDeleteGroups }] = useDeleteGroupMutation();
+    const [closeCase,{data:closeData,error:errorClose}] = useCloseCaseMutation()
+    const { groups } = useSelector((state) => state.groups);
+    const handleStart = () => {
+        //HEN : complete delete logic
 
-    //   const handleDelete = async () => {
+        // return groups.filter((group) =>
+        //   group.groupname.startsWith(`${caseData.title}_`)
+        // );
+      };
 
-    //     const isDismissed = await deletAlert({
-    //       title: 'Are you sure?',
-    //       text: "You won't be able to revert this!",
-    //       confirmText: 'Yes, I`m sure!',
-    //     }); // if the user dismissed and not press delete
-    //     if (isDismissed) return;
-    //     let filteredGroups = handleStart();
-    //     const summary =await textAlert({title:'write a summary'})
+      const handleDelete = async () => {
+
+        const isDismissed = await deletAlert({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          confirmText: 'Yes, I`m sure!',
+        }); // if the user dismissed and not press delete
+        if (isDismissed) return;
+        let filteredGroups = handleStart();
+        const summary =await textAlert({title:'write a summary'})
         
-    //     // finish closing groups
-    //     // {groupid} delete from agora
-    //     // and close case at server
-    //     deleteGroupsAgora({groupS: filteredGroups});
-    //     closeCase({summary:summary,caseId:caseData.id })
-    //   };
+        // finish closing groups
+        // {groupid} delete from agora
+        // and close case at server
+        deleteGroupsAgora({groupS: filteredGroups});
+        // closeCase({summary:summary,caseId:caseData.id })
+      };
 
 
 
@@ -68,17 +70,13 @@ const MediatorList = ()=>{
     }
     console.log(mediatorData)
 
-    const handleDelete = ()=>{
-        
-    }
-
 
 
 
 
 
     return(
-        <div style={{position:'relative'}}>
+        <div style={{position:'relative' }}>
             <Header isLarge={true}/>
             <h1 className="headr-MediatorList">Mediator List</h1>
             {mediatorData.map(mediator=>{

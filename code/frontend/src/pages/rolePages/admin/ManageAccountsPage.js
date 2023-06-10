@@ -4,12 +4,11 @@ import UsersChecks from "../../../components/general/UsersChecks.js"
 import Button from "../../../components/general/Button.js"
 import IconImageUser from "../../../components/general/iconImageUser"
 import PopUpGeneral from "../../../components/general/PopUpGeneral"
-import TrashIcon from "../../../components/general/icons/TrashIcon"
 import '../../../styles/components/MediatorList.css'
 
 import {useState} from 'react'
 import { useGet_all_usersQuery, useChangeFirstLoginMutation,useChangePasswordMutation } from "../../../store";
-import {useNavigate} from 'react-router-dom'
+import {useNavigate , Link} from 'react-router-dom'
 import useAlert from '../../../hooks/useAlert'
 const ManageAccountsPage = () => {
 //hooks================
@@ -78,13 +77,14 @@ const mockUserData = [
             first_name:"avi" , 
             last_name:"ron"
         },
-        user : {
-            id:"3321321" , 
-            first_name:"eli" , 
-            last_name:"copter"
-        },
     }
-
+    ,
+    
+{    user : {
+        id:"3321321" , 
+        first_name:"eli" , 
+        last_name:"copter"
+    }}
 ]
 
 
@@ -101,27 +101,46 @@ switch(action){
         </center>
         break;
         
-    case "edit user":
-        currentView = 
-        <div style={{position:'relative'}}>
+        case "edit user":
+            currentView = 
+            <div style={{position:'relative'}}>
             <h1 className="title">Users List</h1>
-            {mockUserData.map(item=>{
-                return(
-                    <div className="info-mediator-box" key={item.user.id}>
-                        <IconImageUser/>
-                        <button className="on-open-info-btn" onClick={()=>handleOpen(item)}>
-                            <div className="full-name-box" >
-                                <span className="first_name_mediator">{item.user.first_name}</span>
-                                <span className="last_name_mediator">{item.user.last_name}</span>
+            <div className="centerizer">
+                {mockUserData.map(item=>
+                    (
+                        <div
+                        style={{
+                            display:"grid",
+                            gridTemplateColumns: "1fr 4fr",
+                            margin: "1em 0" , 
+                        }}
+                        key={item.user.id}
+                        >
+                            <IconImageUser/>
+                            <button 
+                            className="on-open-info-btn"
+                            onClick={()=>handleOpen(item)}
+                            style={{marginLeft:"1em"}}
+                            
+                            >
+                                <div className="full-name-box" >
+                                    <span className="first_name_mediator">{item.user.first_name}</span>
+                                    <span className="last_name_mediator">{item.user.last_name}</span>
+                                </div>
+                            </button>
+                            <div style={{marginLeft:"18px"}} >
+                                <div style={{margin : " 16px"}}></div>
                             </div>
-                        </button>
-                        <div style={{marginLeft:"18px"}} >
-                            <div style={{margin : " 16px"}}></div>
-                        </div>
-                    </div>  
-                      
-                )
-            })}
+                        </div>  
+                        
+                    )
+                )}
+
+
+
+
+
+            </div>
                 {show&&
                     <PopUpGeneral
                     onClose={handleClose}
@@ -136,7 +155,7 @@ switch(action){
             <h1 className="title-large" style={{margin:"0"}}>Manage Users</h1>
             <hr style={{width:"150px"}}/>
             <button className="map--btn" onClick={()=>setAction("delete user")}>Delete User</button>
-            <button className="map--btn">Create User</button>
+            {/* <Link to="create_user" className="map--btn">Create User</Link> */}
             <button className="map--btn" onClick={()=> setAction("edit user")}>Edit User</button>
             <h1 className="title-large" style={{margin:"0"}}>Manage Cases</h1>
             <hr style={{width:"150px"}}/>
@@ -144,7 +163,6 @@ switch(action){
             <button className="map--btn">Create Case</button>
     </div>
     break;
-
 
 }
 
