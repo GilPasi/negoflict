@@ -57,7 +57,7 @@
   
   input:not(:placeholder-shown) {
     border-radius: var(--rad) 0 0 var(--rad);
-    width: calc(100% - var(--btn-width));
+    width: calc(85% - var(--btn-width));
   }
   
   input:not(:placeholder-shown) + .search-bar--btn {
