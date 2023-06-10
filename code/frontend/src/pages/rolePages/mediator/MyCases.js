@@ -29,6 +29,7 @@ const MyCases = ({isMediator, open_close})=>{
                         return(
                         <div key={caseData?.id}>
                         <CaseReview 
+                            openClose={open_close==='True'}
                             caseName={caseData?.title}
                             creationDate={formattedDate}
                             caseCategory={caseData?.category}

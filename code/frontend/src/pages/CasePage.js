@@ -68,7 +68,7 @@ const CasePage =({isMediator})=>{
      },[isSuccess,error,data]);
     //===============
     // ************
-    
+
 
     return(
         <article>

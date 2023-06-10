@@ -7,7 +7,7 @@ import { useDeleteGroupMutation } from '../../store';
 import { useCloseCaseMutation } from '../../store';
 import { getPermName } from "../../utils/permissions";
 
-const CaseReview = ({ caseName , creationDate ,caseCategory, caseData})=>{
+const CaseReview = ({ caseName , creationDate ,caseCategory, caseData, openClose})=>{
     //================= Hooks and variables ============
     const [showButtons , setShowButtons] = useState(false)
     const { deletAlert, textAlert } = useAlert();
@@ -113,8 +113,9 @@ const CaseReview = ({ caseName , creationDate ,caseCategory, caseData})=>{
             </h1>
         </div>
 
-
+   
         <div className="case-review--frame case-review--options">
+        {openClose&&<div>
                 <div 
                     className="case-review--options-box"
                     onClick={handleShow}
@@ -125,7 +126,7 @@ const CaseReview = ({ caseName , creationDate ,caseCategory, caseData})=>{
                     style={linesStyle[0]}
                 />
 
-
+      
                 <Link
                     className="case-review--options-btn" 
                     style={optionsStyle[0]}
@@ -160,6 +161,7 @@ const CaseReview = ({ caseName , creationDate ,caseCategory, caseData})=>{
                     className="line case-review--line  "
                     style={linesStyle[1]}
                 />
+            </div>}
         </div>
         <div className="case-review--frame case-review--info">
                 <strong>{caseCategory}</strong>

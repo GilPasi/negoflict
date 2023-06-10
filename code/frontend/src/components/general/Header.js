@@ -2,12 +2,16 @@ import "../../styles/components/header.css"
 import { Link } from "react-router-dom"
 import PopUpGeneral from "./PopUpGeneral"
 import {useState} from 'react'
+import { useSelector } from "react-redux"
+import { getPermName } from "../../utils/permissions"
  
 
 const  Header=({isLarge , unconnected, withoutLinks})=>{
 
     const[showSettings , setShowSettings] = useState (false)
     const [infoChoose, setInfoChoose] = useState({aaa:"aa"})
+    const {role} = useSelector(state=>state.user)
+    const roleName = getPermName({role:role})
 
     const mockSelf = [{
         first_name:"avi" ,
@@ -51,7 +55,7 @@ const  Header=({isLarge , unconnected, withoutLinks})=>{
                 
                     <Link state={{logout:true}} to="/login">Log out</Link>
                     <Link to="/">Enter chat</Link>
-                    <Link onClick={()=>setShowSettings(true)}>Settings</Link>
+                    <Link to={`/${roleName}/settings`} state={{isMe:true}}>Settings</Link>
                 </div>
                 </div>
                 }
