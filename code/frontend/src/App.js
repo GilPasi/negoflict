@@ -6,6 +6,8 @@ import Layout from './components/general/Layout';
 import {UserLandingPage,MediatorLandingPage,SuperUserLandingPage} from './pages/LandingPage';
 import './App.css'
 import Unauthorised from './components/Authentication/Unauthorised'
+import SettingsPage from './components/general/SettingsPage.js';
+
 
 
 
@@ -26,19 +28,20 @@ import Unauthorised from './components/Authentication/Unauthorised'
               {isActive?(
 
             <Route  path='/' element={<RequireAuth/>}>
+              <Route path='/:role/settings' element={<SettingsPage/>}/>
               <Route path='user/*' element={<UserLandingPage/>}/>
               <Route path='mediator/*' element={<MediatorLandingPage/>}/>
               <Route path='admin/*' element={<SuperUserLandingPage/>}/>
+             
             </Route>
             ):(<div><h1>not active</h1></div>)}
               {/* catch */}
 
              <Route path='unauthorised/*' element={<Unauthorised/>} />
-             <Route path='info/' element={<p>version 2.4 data: 18/5 time: 16:33</p>}/>
+             <Route path='info/' element={<p>version 3 date: 11/6 time: 20:02</p>}/>
             
             </Route>
         </Routes>
-   
         
     </div>  
 

@@ -1,9 +1,9 @@
 import '../../styles/components/text_holder.css'
 import {React, useState} from 'react'
 import InfoBox from "./InfoBox"
-import ExitIcon from "./ExitIcon"
+import ExitIcon from "./icons/ExitIcon"
 import useAlert from "../../hooks/useAlert"
-import SmallPlus from './SmallPlus'
+import SmallPlus from './icons/SmallPlus'
 import { useSelector } from 'react-redux'
 import { useCreateContactMutation, useRemoveContactMutation } from '../../store'
 
@@ -11,7 +11,7 @@ import { useCreateContactMutation, useRemoveContactMutation } from '../../store'
 
 
 
-const  TextHolder=({caseData, withInfo, hasExit,addOns,pressDetail,plus, contactId})=>{
+const  TextHolder=({caseData, withInfo, hasExit,addOns,pressDetail,plus, contactId, infoInsted, handleSelect})=>{
     const title = caseData.title
     const [info,setInfo] = useState(false)
     const {deletAlert,trigerNotification} = useAlert()
@@ -53,15 +53,23 @@ const  TextHolder=({caseData, withInfo, hasExit,addOns,pressDetail,plus, contact
         .catch(()=>trigerNotification('Error! The user has not been added to your contacts. Please try again.', 'error'))
       
     }
+    
 
     let renderInfo = info&&caseData.title 
     return(
         <section className="th">
             <div className="th--box" >
-                <p className='th--title'>{title}</p>
-                {addOns&& <p style={{color:'black', position:'absolute',bottom:'-16%',fontSize:'small',left:'50%',transform:'translate(-50%)',}}>{addOns}</p>}
+                <p className='th--title' style={{overflow:'hidden',  textOverflow: 'ellipsis',whiteSpace:'nowrap' }}>{title}</p>
+                {addOns&& <p style={{marginLeft:'8px',textAlign:'center',width:'87%',color:'black', position:'absolute',bottom:'-16%',fontSize:'small',left:'50%',transform:'translate(-50%)',overflow:'hidden',textOverflow: 'ellipsis',whiteSpace:'nowrap'}}>{addOns}</p>}
                 <div style={{position:'absolute',right:'2%',top:'28%'}}>
-                    {plus&&<SmallPlus onClick={handleAddContact}/>}
+                    {plus&&!infoInsted&&<SmallPlus onClick={handleAddContact}/>}
+                    {infoInsted&&
+                    <button onClick={()=>handleSelect(caseData.user)}  className='info-button-small'>
+                    <div className='circule-info-button-small'>
+                        <div className='circule-info-button-small-i-up'></div>
+                        <div className='circule-info-button-small-i-down'></div>
+                    </div>
+                    </button>}
                 </div>
             
                    

@@ -11,8 +11,6 @@ const Message=({text,sender,isSelf, time, name})=>{
         if(sender!=='M' && role==='user')return "#F4D1BD" //other side when Im user always red
         if(role==='mediator' && sender==='A')return "#89E0A2"
         return "#F4D1BD"
-        
-
     }
 
         const messageStyle ={
@@ -33,6 +31,7 @@ const Message=({text,sender,isSelf, time, name})=>{
                     <h6 className="message--text" id="message--title">{name}</h6>
                     <h6 className="message--time">{time}</h6>   
                 </div>
+                <div className="middle-line"></div>
 
                 <div className="message-container" >
                     <p className="message--text"

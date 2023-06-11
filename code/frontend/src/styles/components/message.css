@@ -6,6 +6,7 @@
     margin: 0px 0px;
     width: 100%;
     max-width: 10;
+
   }
   .message-right {
     display: flex;
@@ -15,13 +16,32 @@
   }
   
   .message-content{
+    position: relative;
     height: min-content;
     padding: 0.5em;
     margin:0.6em;
     border-radius:15px;
     width:max-content;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+    box-shadow: 3px 3px 4px rgba(104, 100, 100, 0.4);
+    border: solid 1px rgba(0, 0, 0, 0.1);
     
+  }
+  .middle-line{
+    position: absolute;
+    width: 70%;
+    height: 2px;
+    /* box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.399); */
+    margin: 0;
+    padding: 0;
+    left: 50%;
+    top: 25px;
+    border-top-right-radius: 5px;
+    border-top-left-radius:5px;
+
+    background-color: rgba(91, 96, 102, 0.428);
+    transform: translate(-50%,-50%);
+
+
   }
   
   .message--text{

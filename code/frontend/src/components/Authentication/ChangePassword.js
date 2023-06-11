@@ -2,7 +2,7 @@ import { useState } from 'react'
 import useAlert from '../../hooks/useAlert'
 
 const changePassword = ({current_password, access}) =>{
-    const { passwordChange_pop } = useAlert()
+    // const { passwordChange_pop } = useAlert()
 
     const [new_password,setNew_password ] = useState()
     const [reEnter, setReEnter] = useState(true)

@@ -59,6 +59,7 @@ const AddUserPage =({side,idCase,goBack,
                 {isMediator&&
                  <div className="aup--grid-row">
                  <TextInput
+                    limitChars={40}
                      placeHolder="Username"
                      name="username"
                      value={userData?.username || ''}
@@ -73,6 +74,7 @@ const AddUserPage =({side,idCase,goBack,
                   
                     <div className="aup--grid-row">
                         <TextInput
+                        limitChars={40}
                             placeHolder="First Name"
                             name="first_name"
                             value={userData?.first_name || ''}
@@ -89,6 +91,7 @@ const AddUserPage =({side,idCase,goBack,
  
                     <div className="aup--grid-row">
                         <TextInput
+                        limitChars={40}
                             placeHolder="Last Name"
                             name="last_name"
                             value={userData?.last_name || ''}
@@ -132,6 +135,7 @@ const AddUserPage =({side,idCase,goBack,
 
                     <div className="aup--grid-row">
                         <TextInput
+                        limitChars={40}
                             placeHolder="Email"
                             name="email"
                             value={userData?.email || ''}

@@ -5,20 +5,17 @@ import { AREA_CODES } from '../../utils/data'
 
 
 
-const UserForm =({goBack,
-        next,handleChange,
-    userData,isMediator,errorMsg,required})=>{
+const UserForm =({
+        handleChange,
+    userData,errorMsg})=>{
 
-    const validateForm =()=>{ // validate user properties           
-        
-        next()
-    }
-
+  
     return(
             <article className="centerizer" >
                 <div className="aup--grid">
                     <div className="aup--grid-row">
                         <TextInput
+                            limitChars={40}
                             id='first_name'
                             placeHolder="First Name"
                             name="first_name"
@@ -34,6 +31,7 @@ const UserForm =({goBack,
  
                     <div className="aup--grid-row">
                         <TextInput
+                            limitChars={40}
                             id='last_name'
                             placeHolder="Last Name"
                             name="last_name"
@@ -61,6 +59,7 @@ const UserForm =({goBack,
 
                     <div className="aup--grid-phone-number">
                         <TextInput
+                          
                             id='phoneNumber'
                             placeHolder="Phone"
                             name="phoneNumber"
@@ -77,6 +76,7 @@ const UserForm =({goBack,
 
                     <div className="aup--grid-row">
                         <TextInput
+                            limitChars={40}
                             id='email'
                             placeHolder="Email"
                             name="email"

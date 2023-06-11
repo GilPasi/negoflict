@@ -1,4 +1,8 @@
-.button-28 {
+.map{
+  width: 20em;
+}
+
+.map--btn {
     appearance: none;
     background-color: transparent;
     border: 2px solid var(--green-dark);
@@ -7,13 +11,11 @@
     color: #3B3B3B;
     cursor: pointer;
     display: inline-block;
-    font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-    font-size: 16px;
-    font-weight: 600;
+    font-size: var(--font-small);
+    font-weight: var(--weight-semi);
     line-height: normal;
-    margin: 0;
+    margin: 1rem;
     min-height: 60px;
-    min-width: 0;
     outline: none;
     padding: 16px 24px;
     text-align: center;
@@ -22,22 +24,22 @@
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
-    /* width: 100%; */
+    width: 80%;
     will-change: transform;
   }
   
-  .button-28:disabled {
+  .map--btn:disabled {
     pointer-events: none;
   }
   
-  .button-28:hover {
+  .map--btn:hover {
     color: #fff;
     background-color: var(--green-dark);
     box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
     transform: translateY(-2px);
   }
   
-  .button-28:active {
+  .map--btn:active {
     box-shadow: none;
     transform: translateY(0);
   }

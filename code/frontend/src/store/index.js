@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { userReducer,login, logout, updateAccessToken } from './slices/userSlice'
-import { positionReducer,updatePosition, setPrivateGroup } from "./slices/psitionSlice";
+import { userReducer,login, logout, updateAccessToken,setMediatorName } from './slices/userSlice'
+import { positionReducer,updatePosition, setPrivateGroup,setActiveGroup } from "./slices/psitionSlice";
 import { groupsReducer,addGroups } from "./slices/groupsSlice";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { usersApi } from "./api/usersApi";
@@ -18,7 +18,8 @@ import { superUserApi } from "./api/superUserApi";
 import { BandReducer, setBand } from "./slices/bandSlice";
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; 
-
+import { jwtMiddleware } from './jwtRefetch';
+import {searchMsgReducer,clearSearchMsg,setSearchMsg} from './slices/searchMsgSlice'
 
 const userPersistConfig = {
     key: 'user',
@@ -40,6 +41,7 @@ const userPersistConfig = {
     perticipent: perticipentReducer,
     chat_attrbute: chat_attrbuteReducer,
     band: BandReducer,
+    searchMsg: searchMsgReducer,
   
     [usersApi.reducerPath]: usersApi.reducer,
     [caseApi.reducerPath]: caseApi.reducer,
@@ -61,7 +63,8 @@ const userPersistConfig = {
         .concat(adminApi.middleware)
         .concat(msgApi.middleware)
         .concat(mediatorApi.middleware)
-        .concat(superUserApi.middleware);
+        .concat(superUserApi.middleware)
+        .concat(jwtMiddleware)
     },
   });
 
@@ -95,6 +98,10 @@ export{
     setBand,
     removeParticepentByAgoraName,
     addCaseId,
+    setActiveGroup,
+    setMediatorName,
+    clearSearchMsg,
+    setSearchMsg,
 }
 
 setupListeners(store.dispatch)
@@ -121,7 +128,6 @@ export const { usePost_new_caseMutation } = caseApi
 export const {useGetCaseSideQuery, useLazyGetCaseSideQuery} = caseApi
 export const { usePutUserToMemberGroupMutation } = caseApi
 export const {useCloseCaseMutation} = caseApi
-export const {useGetFullUsersByCaseQuery} = caseApi
 export const {usePostNewSurveyMutation} = caseApi
 export const {useDeleteCaseMutation} = caseApi
 //============
@@ -133,6 +139,7 @@ export const {useGetChatGroupsQuery,useLazyGetChatGroupsQuery} = groupApi
 export const {useDeleteGroupMutation} = groupApi
 
 //adminApi=======
+export const {useGetFullUsersByCaseQuery} = adminApi
 export const { useRegisterToChatGroupsMutation } = adminApi
 export const { useRegisterUsersMutation } = adminApi
 export const { useAddMediatorMutation } = adminApi
@@ -146,6 +153,9 @@ export const {useAddingManyUsersToOneChatGroupMutation} = adminApi
 export const {useRegisterManyUsersToGroupMemberMutation} = adminApi
 export const {useSetUserCaseAttributeMutation} = adminApi
 export const {useGetUsersByCaseQuery} = adminApi
+export const {useDeleteAgoraUserMutation} = adminApi
+export const {useDeleteUserIfErrorMutation} = adminApi
+export const {useChangeUserSideMutation} = adminApi
 
 
 //msgApi=======
@@ -161,3 +171,8 @@ export const {useRemoveContactMutation} = mediatorApi
 
 //superUserAi========
 export const {useGetMediatorsQuery,useLazyGetMediatorsQuery} = superUserApi
+export const {useDeleteMediatorMutation} = superUserApi
+export const {useChanging_userPasswordMutation} = superUserApi
+export const {useChangeFirstLoginMutation} = superUserApi
+export const {useGetUserByIdQuery, useLazyGetUserByIdQuery} = superUserApi
+export const {useGetThemAllQuery,useLazyGetThemAllQuery} = superUserApi

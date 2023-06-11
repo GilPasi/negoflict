@@ -1,4 +1,4 @@
-import PlusButton from "../components/general/PlusButton"
+import PlusButton from "../components/general/icons/PlusButton"
 import React, { useEffect } from "react"
 import MyCases from "./rolePages/mediator/MyCases"
 import { useSelector } from "react-redux"
@@ -9,6 +9,9 @@ import { useRef } from "react"
 import  useAlert  from '../hooks/useAlert'
 import { useGetGroupsByUserQuery } from "../store"
 import Loader from "../components/general/Loader"
+import UsersList from "../components/general/UsersList"
+// eslint-disable-next-line no-unused-vars
+// import WebIM from "../WebIM";
 
 
 const CasePage =({isMediator})=>{
@@ -36,7 +39,8 @@ const CasePage =({isMediator})=>{
     //middleware========
     username = isMediator? username: username.replace(/[^\w\s]/gi, '')
     const {data,error,isSuccess} = useGetGroupsByUserQuery({username:username})
-  
+
+
     //useEffects==========
     useEffect(()=>{
      
@@ -45,7 +49,7 @@ const CasePage =({isMediator})=>{
         let title, icon
 
         if(status===200){
-            title = 'Case created successfuly'
+            title = 'Case created successfully'
             icon = 'success'
         }
         else{
@@ -64,7 +68,7 @@ const CasePage =({isMediator})=>{
      },[isSuccess,error,data]);
     //===============
     // ************
-    
+
 
     return(
         <article>

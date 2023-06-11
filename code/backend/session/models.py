@@ -19,8 +19,7 @@ class surveyCategory:
         (VERY_DISATISFIED,'Very disatisfied')
     ]
     
-
-
+    
 class Case(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4,editable=False)
     create_at =models.DateTimeField(auto_now_add=True)
@@ -34,9 +33,6 @@ class Case(models.Model):
     is_active = models.BooleanField(null=True,blank=True)
     
 
-    
-
-    
     
 class GroupChat(models.Model): #define the group side of the conflict and where message is send to
     CHAT_WITH_A = 'A'

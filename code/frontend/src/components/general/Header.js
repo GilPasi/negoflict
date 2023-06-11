@@ -1,9 +1,22 @@
 import "../../styles/components/header.css"
 import { Link } from "react-router-dom"
+import PopUpGeneral from "./PopUpGeneral"
+import {useState} from 'react'
+import { useSelector } from "react-redux"
+import { getPermName } from "../../utils/permissions"
  
 
 const  Header=({isLarge , unconnected, withoutLinks})=>{
 
+    const[showSettings , setShowSettings] = useState (false)
+    const [infoChoose, setInfoChoose] = useState({aaa:"aa"})
+    const {role} = useSelector(state=>state.user)
+    const roleName = getPermName({role:role})
+
+    const mockSelf = [{
+        first_name:"avi" ,
+        las_name:"ron"
+    }]
 
     // __UI properies__
     const titleStyle = {
@@ -39,10 +52,10 @@ const  Header=({isLarge , unconnected, withoutLinks})=>{
                     </div>
                
                 <div className="header--menu-content" style={{zIndex:'2000'}}>
-                    {/* Hen: route propely  */}
+                
                     <Link state={{logout:true}} to="/login">Log out</Link>
                     <Link to="/">Enter chat</Link>
-                    <Link to="">Settings</Link>
+                    <Link to={`/${roleName}/settings`} state={{isMe:true}}>Settings</Link>
                 </div>
                 </div>
                 }
@@ -54,6 +67,13 @@ const  Header=({isLarge , unconnected, withoutLinks})=>{
             <center>
                 {isLarge &&title}
             </center>
+
+            {showSettings&&
+                    <PopUpGeneral
+                    onClose={()=>{}}
+                    //Hen connect to the user's self info
+                    children={mockSelf}
+            />}
 
         </div>
 

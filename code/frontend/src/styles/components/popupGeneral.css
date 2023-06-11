@@ -1,59 +1,82 @@
-.popUpBox{
+.popup-general--box{
+    --font-size: 1em ;
     position: absolute;
     width: 100%;
     background-color:  white;
     z-index: 1000;
-    /* padding-right: 10px; */
     border-bottom-left-radius:5% ;
     border-bottom-right-radius:5% ;
-    box-shadow: 1px 0 2px rgba(0, 0, 0, 0.4);
+    box-shadow: 1px 2px 5px 3px #949494;
+
 }
 
-.popUpContiner{
+.popup-general--container{
     position: absolute;
 
     top: 50%;
-    left: 55%;
+    left: 50%;
     transform: translate(-50%);
     background-color: white;
     z-index: 1000;
-    width: 110%;
+    width: 100%;
     height: fit-content;
     
     border-top-right-radius: 5%;
     border-top-left-radius: 5%;
-    box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.4);
+    box-shadow: 1px 2px 5px 3px #949494;
 
     
 }
+.popup-general--field{
+    display: flex;
+    justify-content: space-between;
+}
 
-.key-pop{
+.popup-general--key-pop{
+
     margin-right: 5%;
-    display: block;
-    font-family: 'Roboto',Arial, Helvetica, sans-serif;
-    font-size: large;
-    font-weight: 600;
+    font-size: var(--font-size);
     margin-bottom: 3px;
     margin-top: 3px;
-    text-decoration: underline;
     
 }
-.list-prop{
+.popup-general--list-prop{
     margin: 0;
     padding: 3px;
     list-style: none;
+    grid-gap: 5px;
+    display: grid;
 
 }
-.value-pop{
+.popup-general--value-pop{
+    overflow-x:hidden ;
     color: #39814d;
-    font-weight: 700;
-    margin-left: 7px;
-    margin-bottom: 5px;
+    font-size: var(--font-size);
+    width: 40%;
+
+
 
 }
-.title-full-name{
+#popup-general--email{
+    width: 100%;
+    text-align: right;
+}
+.popup-general--title{
     font-size: xx-large;
     font-weight: 700;
     color: #51a96a;
     margin-left: 5px;
+}
+
+.popup-general--radio{
+    color: #39814d;
+    margin-right: 20px;
+    /* margin-top: 5; */
+    
+    /* background-color: red; */
+    
+}
+
+input[type='radio'] {
+    accent-color: #232323;
 }

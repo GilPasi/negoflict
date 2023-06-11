@@ -1,10 +1,14 @@
 import "../../styles/components/button.css"
 
 const Button=({text , size, margin,type,onClick,color,length, disabled,altitude,
-                disableSubmit})=>{
+                disableSubmit, fontSize})=>{
     let _width, _height
 
     switch(size){
+        case 'x-small':
+            _width = 'fit-content'
+            _height = "1.5em"
+            break
         case "small":
             _width = "6em"
             _height = "2.5em"
@@ -26,7 +30,9 @@ const Button=({text , size, margin,type,onClick,color,length, disabled,altitude,
         height:size? _height :altitude,
         margin: margin ? margin : "1.5em",
         type: type ? type : "",
-        backgroundColor: color? color:''
+        backgroundColor: color? color:'',
+        fontSize: fontSize?fontSize:''
+        
     }
 
 

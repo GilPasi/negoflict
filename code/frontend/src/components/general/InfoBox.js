@@ -47,14 +47,7 @@ const InfoBox = ({ obj, isOpen,hasExit }) => {
     deleteGroupsAgora({groupS: filteredGroups});
     closeCase({summary:summary,caseId:obj.id })
   };
-let error
-let data
-  if (error = errorDeleteGroups || errorClose) {
-    console.log('errorr', error);
-  }
-  if (data = closeData || deleteGroups) {
-    console.log('success', data);
-  }
+
 
   const infoSize = {
     transform : `scaleY(${isOpen? '1' : '0'})`,
@@ -64,7 +57,6 @@ let data
 }
 
 const aup = <AddUserPage window='small' isMediator={false} side='A' goBack={()=>setStep('nav')}/>
-
   return (
       <div className="ib" style={infoSize}>
         {step ==='nav' ? 
@@ -78,6 +70,7 @@ const aup = <AddUserPage window='small' isMediator={false} side='A' goBack={()=>
                       groups: handleStart(),
                       caseId: obj.id,
                       caseTitle: obj.title,
+                      caseCategory:obj.category
                     }}
                   >
                     <button className="ib--btn">enter</button>

@@ -162,9 +162,9 @@ const adminApi = createApi({
 
             }),
             registerOneUser:builder.mutation({//finish
-                invalidatesTags:['oneUser'],
+                invalidatesTags:['users_case'],
                 query:({username,password,first_name})=>{
-                    const uid = username.replace(/-/g, "")
+                    const uid = username.replace(/[^\w\s]/gi, '')
                     return{
                         url:`/agora/users/register_user/`,
                         method:'POST',
@@ -177,6 +177,7 @@ const adminApi = createApi({
                 }
             }),
             registerManyUsersToGroupMember: builder.mutation({
+                invalidatesTags:['users_case'],
                 query:({users})=>{
                     return{
                         url: `/session/chat_members/register_many_users/`,
@@ -213,6 +214,51 @@ const adminApi = createApi({
                       case:caseChat
                     }
                   }
+                }
+              }),
+              getFullUsersByCase: builder.query({
+                providesTags:['users_case'],
+                query: ({caseId})=>{
+                  return{
+                    url:'/session/chat_members/get_full_users_by_case/',
+                    method:'GET',
+                    params:{
+                      case:caseId,
+                    }
+                  }
+                }
+              }),
+              deleteAgoraUser: builder.mutation({
+                query:({username})=>{
+                    return{
+                        url: `/agora/users/delete_user/`,
+                        body:{
+                            user:username
+                        },
+                        method:'DELETE',
+                    }
+
+                }
+              }),
+              deleteUserIfError: builder.mutation({
+                query:({userId})=>{
+                    return{
+                        url:`/users/user_view/${userId}/`,
+                        method:'DELETE'
+                    }
+                }
+              }),
+              changeUserSide: builder.mutation({
+                query:({userId,side})=>{
+                    console.log('innnnn nquueerrryyyyy>>>',userId,side)
+                    return{
+                        url:`/session/chat_members/change_groupSide/`,
+                        method:'PUT',
+                        params:{
+                            side:side,
+                            user:userId,
+                        }
+                    }
                 }
               }),
             

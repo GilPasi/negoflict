@@ -1,8 +1,10 @@
 import "../../../styles/pages/statistics_page.css"
 import Header from "../../../components/general/Header.js"
 import {useState , useEffect} from "react"
+import useFileSaver from '../../../hooks/useFileSaver'
 
 const StatisticsPage = (category)=> {
+    const {exportToCSV} = useFileSaver()
     const usersThs = ["First Name" , "Last Name" , "User Name" , "Role" , "Creation" , "Cases"]
     const messagesThs = ["sender" , "party", "time" , "content" , "case"]
 
@@ -76,8 +78,12 @@ const StatisticsPage = (category)=> {
 
 
         },
+       
 
     ]
+  
+   
+    
     const pre = " "
     const usersTable = 
             <table className="sp--table" id="table-1">
@@ -189,7 +195,7 @@ const StatisticsPage = (category)=> {
                     </div> 
                 </div>
                 <center>
-                    <div className="sp--download">
+                    <div onClick={()=>exportToCSV(usersTds,'userFile')} className="sp--download">
                         <img
                             id="sp--download-img"
                             className="user-panel--img"

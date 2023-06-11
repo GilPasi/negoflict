@@ -1,0 +1,8 @@
+.error-dialog{
+    width: 85vh;
+
+
+}
+.error-header-text{
+    color: var(--green-dark-shaded);
+}

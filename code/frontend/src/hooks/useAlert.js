@@ -36,11 +36,27 @@ const useAlert = ()=>{
       const  formValues  = await Swal.fire({
         title: 'Change your default password',
         html:
-          '<lable for="password_change"><h4 style="margin:0; color: #828282">Enter new password</h4></lable>'+
-          '<input style="margin:2px; height:30px; color:black"  id="password_change" class="swal2-input">' +
-          '<lable for="confirm-password"><h4 style="margin:10px 0 0 0;color: #828282">confirm new password</h4></lable>'+
-          '<input style="margin:2px; height:30px; color: black;" id="confirm-password" class="swal2-input">'+
-          ' <span id="password-error" style="color: red; display: none;">Passwords do not match</span>'
+          `<lable for="password_change">
+            <h4 style="margin:0; color: #828282">Enter new password</h4>
+          </lable>
+          <input 
+            type="password" 
+            style="margin:2px; height:30px; color:black"  
+            id="password_change" 
+            class="swal2-input"
+          >
+          <lable for="confirm-password">
+            <h4 style="margin:10px 0 0 0;color: #828282">confirm new password</h4>
+          </lable>
+          <input 
+            type="password" 
+            style="margin:2px; height:30px; color: black;" 
+            id="confirm-password" 
+            class="swal2-input"
+          >
+           <div id="password-error" style="color: transparent;">
+            Passwords do not match
+           </div>`
           ,
           confirmButtonColor:'#4AAC65',
           color:'#4AAC65',
@@ -57,13 +73,23 @@ const useAlert = ()=>{
           console.log(password,confirm)
 
           if(password !== confirm || password==='' ){
-            passwordError.style.display = 'block'
+            passwordError.textContent = 'Passwords do not match'
+            passwordError.style.color = 'red'
             return false
           }
-          else
+          const includeChar = /[a-zA-Z]/g ;
+          const includeDig = /[0-9]/g ;
+
+          if (includeChar.test(password) && includeDig.test(password))
             return password
+
+          //Misiing either a character or a digit
+          passwordError.textContent = 'The password must contain a digit and a character'
+          passwordError.style.color = 'red'
+          return false
+          
+          
         }
-        
       })
       return formValues ?? false
     }
@@ -96,6 +122,20 @@ const useAlert = ()=>{
     })
     return response.value
   }
+  const regularAlert = async ({text,title})=>{
+    return Swal.fire({
+      title:title,
+      text:text,
+      confirmButtonColor:'#4AAC65',
+      confirmButtonText:'Copy Password'
+    })
+  }
+  const justText = async ({text})=>{
+    return Swal.fire({
+      text:text,
+      confirmButtonColor:'#4AAC65',
+    })
+  }
     
 
     
@@ -106,6 +146,8 @@ const useAlert = ()=>{
         changePasswordPop,
         deletAlert,
         textAlert,
+        regularAlert,
+        justText
        
 
     }

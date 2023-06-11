@@ -13,6 +13,7 @@
 }
 
 .tb--btn{
+  transition: 300ms ease-in;
   position: relative;
   padding: 1em;
   width: 1.5em;
@@ -21,7 +22,6 @@
   margin-top:0;
   cursor: pointer;
   box-sizing: content-box;/*override for chrome*/
-
 }
 .tb--btn::after{
   content:'';
@@ -34,9 +34,25 @@
   transition:linear 100ms;
   width: 0;
 }
-.tb--btn:hover::after{
+
+
+/* .tb--btn:hover::after{
   width: 100%;
+} */
+.tb--btn-clicked{
+  transition: 300ms ease-in;
+  position: relative;
+  padding: 1em;
+  width: 1em;
+  height: 1em;
+  margin:1em;
+  margin-top:0;
+  cursor: pointer;
+  box-sizing: content-box;
+  transform: translate(40%);
 }
+
+
 
 
 .tb--btn-img{
@@ -54,6 +70,13 @@
 }
 
 .tb--name{
+  color:var(--green-dark);
+  font-size: var(--font-small);
+  transition: 300ms ease-out;
+}
+.tb--name-move{
+  transform: translate(-20%);
+  transition: 300ms ease-in;
   color:var(--green-dark);
   font-size: var(--font-small);
 }
@@ -74,6 +97,85 @@
   top: 0;
   overflow-x: hidden;
   list-style-type: none;
+}
+
+.tb-search{
+  position: absolute;
+  right: 7%;
+  top: 18%;
+
+  z-index: 100;
+}
+.tb-search-input{
+  width: 90px;
+  border: none;
+  animation: underline_a 200ms ease-out ;
+  background-color: #89E0A240;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.4);
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  border-radius: 5px;
+}
+
+.tb-search-input:focus{
+  outline: none;
+  
+}
+@keyframes underline_a {
+  0%{
+    width: 0;
+  }
+  20%{
+    width: 18px;
+  }
+  40%{
+    width: 36px;
+  }
+  60%{
+    width: 54px;
+  }
+  80%{
+    width: 72px;
+  }
+  100%{
+    width: 90px;
+  }
+  
+}
+.tb-search-input-hidden{
+  width:0;
+  opacity: 0;
+  border: none;
+  animation: underline_b 200ms ease-in ;
+  background-color: #89E0A240;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+}
+@keyframes underline_b {
+  0%{
+    width: 90px;
+    opacity: 1;
+  }
+  20%{
+    opacity: 0.8;
+    width: 72px;
+  }
+  40%{
+    opacity: 0.6;
+    width: 54px;
+
+  }
+  60%{
+    opacity: 0.4;
+    width: 36px;
+  }
+  80%{
+   opacity: 0.2;
+    width: 18px;
+  }
+  100%{
+   opacity: 0;
+    width: 0;
+  }
+  
 }
 
 /*  */
