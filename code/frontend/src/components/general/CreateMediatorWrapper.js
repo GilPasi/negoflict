@@ -16,7 +16,7 @@ const CreateMediatorWrapper = ()=>{
     const {access} = useSelector(state=>state.user)
     const rediract = useNavigate()
     const {data:addressData, error:addressError} = useGetAddressesQuery({access:access})
-    const {trigerNotification} = useAlert()
+    const {trigerNotification,justText} = useAlert()
 
     //api's========================
     const [addMediator,{data:mediatorData, error:mediatorError}] = useAddMediatorMutation()
@@ -146,6 +146,8 @@ const CreateMediatorWrapper = ()=>{
                 .then(res=>console.log('delete',res)).finally(()=>redirectOut())
             }
             trigerNotification('Mediator created successfully','success')
+            justText({text:'Mediator temporary password is Negoflict'+phoneNumber+'the password was copied to clipboard Please send it to the mediator'})
+            navigator.clipboard.writeText('Negoflict'+phoneNumber)
          
             return
         })
