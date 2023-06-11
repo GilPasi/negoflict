@@ -174,3 +174,4 @@ export const {useDeleteMediatorMutation} = superUserApi
 export const {useChanging_userPasswordMutation} = superUserApi
 export const {useChangeFirstLoginMutation} = superUserApi
 export const {useGetUserByIdQuery, useLazyGetUserByIdQuery} = superUserApi
+export const {useGetThemAllQuery,useLazyGetThemAllQuery} = superUserApi

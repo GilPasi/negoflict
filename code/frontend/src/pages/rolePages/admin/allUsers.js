@@ -1,5 +1,5 @@
 import Loader from "../../../components/general/Loader";
-import { useGet_all_usersQuery } from "../../../store";
+import { useGetThemAllQuery } from "../../../store";
 import ScrollableBox from "../../../components/general/ScrollableBox";
 import Headers from "../../../components/general/Header";
 import { useEffect, useState } from "react";
@@ -9,10 +9,12 @@ import SearchBar from "../../../components/general/SearchBar";
 
 
 const AllUsers = ()=>{
-    const {data:allUsersData, error:allUsersError, isLoading:loadingAll} = useGet_all_usersQuery()
+    const { data:allUsersData, error:allUsersError, isLoading:loadingAll } = useGetThemAllQuery()
     const [info,setInfo] = useState({user:0,isOn:false})
     const [search,setSearch] = useState('')
     const [searchResult,setSearchResult] = useState([])
+    console.log('allUsersData',allUsersData)
+    console.log('allUsersError',allUsersError)
 
 
     useEffect(()=>{

@@ -65,6 +65,14 @@ const superUserApi = createApi({
                     }
                 }
             }),
+            getThemAll: builder.query({
+                query:()=>{
+                    return{
+                        url:'/users/user_view/get_all_users/',
+                        method:'GET'
+                    }
+                }
+            }),
         }
         
     }})
