@@ -115,19 +115,20 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
         const statuses = statusQueue.map(p=>p)
         statuses.forEach(msg=>{
             let users = ({...participants})
-
+    
             msg?.forEach(({userId, ext})=>{
                 const status = ext.split('=')[0]
                 const user = ext.split('=')[1]
-                if(!(userId === myAgoraUsername))
+                if(users[userId] && !(userId === myAgoraUsername))
                     users[userId]['connect'] = status === 'online'
             })
             console.log(users, 'users')
             setParticipants(()=>users)
         })
         return()=>setStatusQueue([])
-
+    
     },[statusQueue])
+    
 
 
 

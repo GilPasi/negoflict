@@ -154,6 +154,35 @@ class GroupMemberView(ModelViewSet):
 
         return Response('bad request', status=status.HTTP_400_BAD_REQUEST)
     
+    
+    @action(detail=False, methods=[ 'PUT' ], permission_classes=[permissions.IsAdminOrUser])
+    def change_groupSide(self,request):
+        user_id = request.GET.get('user',None)
+        side = request.GET.get('side',None)
+        
+        if not user_id:
+            return Response('missing parameter user', status=status.HTTP_400_BAD_REQUEST)
+        if not side:
+            return Response('missing parameter side', status=status.HTTP_400_BAD_REQUEST)
+        
+        member = self.queryset.get(user=user_id)
+        if not member:
+            return Response('not found', status=status.HTTP_404_NOT_FOUND)
+        member.side = side
+        try:
+            serializer = GroupMemberSerializer(member, data=request.data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            return Response('bad request', status=status.HTTP_400_BAD_REQUEST)
+        
+        
+        
+        
+    
+    
+    
     @action(detail=False, methods=['GET'], permission_classes=[permissions.IsAdminOrUser])
     def get_side_by_id(self, request):
         case = request.GET.get('case')

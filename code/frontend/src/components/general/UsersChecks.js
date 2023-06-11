@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 import {  useGetUsersByCaseQuery, useGetChatGroupsQuery } from '../../store'
 
 import {useLocation} from "react-router-dom";
-const UsersChecks = ({handleSubmit , handleBack , submitText})=>{
+const UsersChecks = ({handleSubmit , handleBack , submitText, handleSelectedUsers})=>{
     
     const location = useLocation()
     const [markedUsers,setMarkedUsers] = useState([])
@@ -40,13 +40,15 @@ const UsersChecks = ({handleSubmit , handleBack , submitText})=>{
     },[usersData,contactsData,usersError]);
 
 
+
+
     // handle the users that are selected
-    const  handleMark=(user)=> {
-        if (markedUsers.includes(user))
-            setMarkedUsers(markedUsers.filter(p => p !== user));
-        else
-            setMarkedUsers([...markedUsers, user]);
-        };
+    // const  handleMark=(user)=> {
+    //     if (markedUsers.includes(user))
+    //         setMarkedUsers(markedUsers.filter(p => p !== user));
+    //     else
+    //         setMarkedUsers([...markedUsers, user]);
+    //     };
 
 
 
@@ -60,12 +62,14 @@ const UsersChecks = ({handleSubmit , handleBack , submitText})=>{
 
             <input
                 type="checkbox"
-                onClick={()=>handleMark(user)}
+                onClick={()=>handleSelectedUsers(user)}
 
             />
             <div className="add-win--checkmark"/>
         </label>
     ))
+  
+    
 
     return(
         <section>

@@ -82,7 +82,6 @@ class UserView(ModelViewSet):
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
-    
     @action(detail=False,methods=['GET'],permission_classes=[permissions.IsSuperUser])
     def get_all_users(self,request):
         try:
@@ -91,7 +90,6 @@ class UserView(ModelViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response(e,status=status.HTTP_400_BAD_REQUEST)
-        
         
     @action(detail=False,methods=['PUT'],permission_classes=[permissions.IsSuperUser])
     def changing_password(self,request):

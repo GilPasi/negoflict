@@ -15,14 +15,13 @@ export const jwtMiddleware = (storeAPI) => (next) => async (action) => {
         const originalAction = action.meta.arg.originalArgs.action;
 
         try{
-        const {data,status} = await axios.post('/api/core/auth/token/refresh/',{withCredentials:true})
-        console.log(data,status)
+        const {data} = await axios.post('/api/core/auth/token/refresh/',{withCredentials:true})
 
         storeAPI.dispatch(updateAccessToken(data.access));
         // Retry the original request
         storeAPI.dispatch(originalAction);
         }catch({response}){
-            console.log(response.status)
+        
             storeAPI.dispatch(logout());
             Navigate('/login')
             return

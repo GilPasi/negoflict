@@ -180,6 +180,14 @@ const ChatViewHen = ({role, isOnline}) => {
           setTyping(false);
         }, 3500);
       };
+    
+
+      const shuttleMsgStyle={
+        zIndex:isShuttled ? '1' : '-1',
+        top:`${isShuttled? HEADER_SIZE: 0}px`,
+        opacity: isShuttled ? '0.5' : '0',
+     
+    }
 
 
 
@@ -194,6 +202,11 @@ const ChatViewHen = ({role, isOnline}) => {
            
                 gridTemplateRows:`${HEADER_SIZE}px 1fr ${FOOTER_SIZE}px`,
             }}>
+                {isShuttled &&  <p className='cp--shuttled-msg' style={shuttleMsgStyle}>
+               {'Shuttle mode activated, main chat is temporary unavailable.'} 
+ 
+            </p>}
+              
 
             <header className='cp--header'>
                 <Header isLarge={false} unconnected={true} withoutLinks={true}/>

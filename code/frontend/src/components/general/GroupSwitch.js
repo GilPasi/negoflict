@@ -115,14 +115,19 @@ const GroupSwitch =()=>{
             console.log('pos',btnpos)
             if(groupTo.endsWith('G')){
                 if(btnpos === 2)return
+                console.log('in G')
                 handleNotifications(2,true)
             }
             else if(groupTo.endsWith('A') || !isMediator){
+                console.log('in A')
                 if(btnpos === 1)return
                 handleNotifications(1,true)
             }
             else{
                 if(isMediator&& btnpos === 3)return
+                else if(isMediator){
+                    handleNotifications(3,true)
+                }
                 else if(btnpos === 1)return
                 handleNotifications(3,true)
             }

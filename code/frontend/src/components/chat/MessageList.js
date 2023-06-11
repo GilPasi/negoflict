@@ -42,6 +42,9 @@ const MessageList =( { maxHeight, isChatStart } )=> {
   const searchTerm = useSelector(state=>state.searchMsg)
   const [searchIndex, setSearchIndex] = useState([])
   const [index, setIndex] = useState(-1);
+  const gg = useSelector(state=>state.chat)
+  console.log('henhenhen?????',gg)
+  console.log('activeeee',activeGroupView)
   //===================================================================================================
   //varible===================================================================================================
   const roleName = getPermName({role})
@@ -81,6 +84,8 @@ const MessageList =( { maxHeight, isChatStart } )=> {
     messageRefs[i]?.current.scrollIntoView({ behavior: 'smooth' })
 
   },[index])
+
+  console.log('dfdf======',pos,messages)
 
 
 
@@ -213,6 +218,7 @@ const MessageList =( { maxHeight, isChatStart } )=> {
         console.log('history',history, groupid)
         messages = [...history.messages]
         messages.sort((a,b)=>a.time - b.time)
+        console.log('hskadjfhsadkfhksdhfkjasd>>>>>>>>>>>',groupid, messages)
         dispatch(addHistoryMsg({id:groupid,messages:messages}))
     };
 
@@ -222,6 +228,7 @@ const MessageList =( { maxHeight, isChatStart } )=> {
       dispatch(resetChatState())
       dispatch(clearMsg())
     }
+
 
   const handleReceivedMsg = (msg,isLocalMsg)=>{ //handle received messages only in real time
         const {to, chatType} = msg

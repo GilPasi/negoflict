@@ -248,6 +248,19 @@ const adminApi = createApi({
                     }
                 }
               }),
+              changeUserSide: builder.mutation({
+                query:({userId,side})=>{
+                    console.log('innnnn nquueerrryyyyy>>>',userId,side)
+                    return{
+                        url:`/session/chat_members/change_groupSide/`,
+                        method:'PUT',
+                        params:{
+                            side:side,
+                            user:userId,
+                        }
+                    }
+                }
+              }),
             
 
         }

@@ -155,6 +155,7 @@ export const {useSetUserCaseAttributeMutation} = adminApi
 export const {useGetUsersByCaseQuery} = adminApi
 export const {useDeleteAgoraUserMutation} = adminApi
 export const {useDeleteUserIfErrorMutation} = adminApi
+export const {useChangeUserSideMutation} = adminApi
 
 
 //msgApi=======

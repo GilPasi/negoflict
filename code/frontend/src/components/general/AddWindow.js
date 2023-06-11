@@ -3,7 +3,7 @@ import Button from "../../components/general/Button"
 import {useEffect, useState} from 'react'
 import { useGetContactsQuery } from '../../store' 
 import { useSelector } from 'react-redux'
-import { useRegisterManyUsersToGroupMemberMutation, useGetUsersByCaseQuery, useSetUserCaseAttributeMutation, useGetChatGroupsQuery } from '../../store'
+import { useRegisterManyUsersToGroupMemberMutation, useGetUsersByCaseQuery, useSetUserCaseAttributeMutation, useGetChatGroupsQuery, useChangeUserSideMutation } from '../../store'
 import CreateSelfUser from '../../pages/CreateSelfUserPage'
 import UsersChecks from './UsersChecks'
 import Loader from './Loader'
@@ -35,6 +35,7 @@ const AddWindow =()=>{
     //lazyQueries==============================
     const [registerManyUsersToGroupMember,{isLoading:loadingRegisterUsers}] = useRegisterManyUsersToGroupMemberMutation()
     const [setUserCaseAttribute,{isLoading:loadingSetUserCaseAttribute}] = useSetUserCaseAttributeMutation()
+    const [changeSide] = useChangeUserSideMutation()
 
     //=================================================================================================
 
@@ -56,6 +57,7 @@ const AddWindow =()=>{
         setUsersToAdd(()=>usersToAdd)
 
     },[usersData,contactsData,usersError]);
+
 
     //=================================================================================================
 
@@ -85,6 +87,7 @@ const AddWindow =()=>{
 
     // handle the users that are selected
     const  handleMark=(user)=> {
+        console.log('jjdf',user)
         if (selectedUsers.includes(user))
           setSelectedUsers(selectedUsers.filter(p => p !== user));
         else
@@ -154,10 +157,20 @@ const AddWindow =()=>{
       const trySetUserCaseAttribute = async (users)=>{
         let filterdUsers = []
         for(let i in users){
-            const { error }= await setUserCaseAttribute({case_id:caseId, user_id:users[i].user,status:true})
+            const { data,error }= await setUserCaseAttribute({case_id:caseId, user_id:users[i].user,status:true})
+            console.log('user',users[i].user)
+            
             if(error?.status=== 400 && error?.data === 'member not found')
                 filterdUsers = [...filterdUsers, users[i]]
+            else if(data){
+                if(data?.side !== users[i]?.side ){
+                   const {data, error} =  await changeSide({userId:users[i].user,side:users[i].side})
+                   console.log('changeSide',data,error)
+
+                }
+            }
         }
+      
         return filterdUsers
       };
 
@@ -216,7 +229,7 @@ const AddWindow =()=>{
 
             {stage==='exist'&&
                 <center>
-                    <UsersChecks/>
+                    <UsersChecks handleSelectedUsers={handleMark}/>
                         <Button text='Back' length='5em' altitude='2em' margin='0.1em' onClick={()=>setStage('choose')}/>
                         <Button text='Add' length='5em' altitude='2em' margin='0.1em' onClick={handleAddExistingUsers} disabled={selectedUsers.length===0}/>
                 </center>}
