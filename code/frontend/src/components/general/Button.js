@@ -32,6 +32,7 @@ const Button=({text , size, margin,type,onClick,color,length, disabled,altitude,
         type: type ? type : "",
         backgroundColor: color? color:'',
         fontSize: fontSize?fontSize:''
+        
     }
 
 

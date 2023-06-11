@@ -7,6 +7,7 @@ import Header from "./Header"
 import { useLazyGetUserByIdQuery, useChangeFirstLoginMutation, useChanging_userPasswordMutation } from "../../store"
 import Button from "./Button"
 import useAlert from "../../hooks/useAlert"
+import Loader from "./Loader"
 
 
 
@@ -24,11 +25,12 @@ const SettingsPage = ({detail,id})=>{
 
     //lazyApi===========
     const [getUserById, {data:userData, error:userError, isLoading}] = useLazyGetUserByIdQuery()
-    const [changePassword] = useChanging_userPasswordMutation()
-    const [resetFirstLogin] = useChangeFirstLoginMutation()
+    const [changePassword,{isLoading:loadingPasswordChange}] = useChanging_userPasswordMutation()
+    const [resetFirstLogin,{isLoading:loadingFirstChange}] = useChangeFirstLoginMutation()
 
     //states===========
     const [userDetail,setUserDetail] = useState({})
+   
 
     
 
@@ -73,19 +75,20 @@ const SettingsPage = ({detail,id})=>{
         
         //{title, text, confirmText, background, icon}
       const response = await deletAlert({title:'Reset user password',text:'You are about to reset user password please confirm',confirmText:'Reset'})
-        console.log('reee',response)
         if(!response){
             const randomNumber = Math.floor(1000 + Math.random() * 9000);
             const newPassword =`Negoflict${randomNumber}`
-           const { isConfirmed }= await regularAlert({title:`Password: ${randomNumber}`,text:`We have generated a temporary password. Please make sure to send this password to the user.`})
-           if(isConfirmed){
+
+           
+
             changePassword({userId:id,password:newPassword}).then(()=>resetFirstLogin({userId:id}))
             .then(async()=>{
+                const { isConfirmed }= await regularAlert({title:`Password: ${randomNumber}`,text:`We have generated a temporary password. Please make sure to send this password to the user.`})
+           if(isConfirmed){
                 navigator.clipboard.writeText(randomNumber)
                 await justText({text:'password was copied to your clipboard'})
-            })
            }
-
+            })
         }
 
     }
@@ -93,8 +96,9 @@ const SettingsPage = ({detail,id})=>{
     return(
         <div style={{width:'100%'}}>
             <div >
+              
                 <Header isLarge={true} withoutLinks={true}/>
-            <IconImageUser setting={true}/>
+            {isLoading || loadingPasswordChange || loadingFirstChange?(<Loader />):(<IconImageUser setting={true}/>)} 
             {Object.keys(userDetail).length !== 0 &&
                 Object.keys(userDetail).map((key,index)=>{
                     console.log('sdafasdf')
@@ -109,7 +113,7 @@ const SettingsPage = ({detail,id})=>{
                     )
                 })
             }
-             <Button onClick={handleRestPassword} length={'fit-content'} altitude={'30px'} text={'Reset user password'} fontSize={'large'} />
+             <Button disabled={isLoading || loadingPasswordChange || loadingFirstChange} onClick={handleRestPassword} length={'fit-content'} altitude={'30px'} text={'Reset user password'} fontSize={'large'} />
 
             </div>
 
