@@ -11,7 +11,8 @@ from rest_framework import status
 from django.forms.models import model_to_dict
 from .models import category
 from session.models import Contact
-
+from requests.exceptions import RequestException
+from django.contrib.auth.hashers import make_password
 
 
 
@@ -107,10 +108,9 @@ class UserView(ModelViewSet):
             user = self.queryset.get(pk=userId)
             if not user:
                 return Response('user not found',status=status.HTTP_404_NOT_FOUND)
-            serializer = UserCreateSerializer(user,data={'password':new_password},partial=True)
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
-            return Response(serializer.data,status=status.HTTP_200_OK)
+            user.password = make_password(new_password)
+            user.save()
+            return Response({"success": "Password changed successfully"},status=status.HTTP_200_OK)
         except Exception as e:
             return Response(e,status=status.HTTP_400_BAD_REQUEST)
         
@@ -132,31 +132,39 @@ class UserView(ModelViewSet):
             return Response('SOMTHING WENT WRONG',status=status.HTTP_400_BAD_REQUEST)
         
         
-        
-        
-        
-    
-        
-        
-
-    
-        
-            
-            
-    
-    
     @action(detail=False,methods=['GET'],permission_classes=[permissions.IsAdminOrUser])
     def get_user(self,request):
         username = request.GET.get('username',None)
       
         if username:
+            
             userId = self.queryset.get(username=username)
+            if not userId:
+                return Response('user not found', status=status.HTTP_400_BAD_REQUEST)
             serializer = UserCreateSerializer(userId)
             print(serializer.data)
         else:
             return Response('Not found',status=status.HTTP_404_NOT_FOUND)
             
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    @action(detail=False,methods=['GET'],permission_classes=[permissions.IsSuperUser])
+    def get_user_by_id(self, request):
+        id = request.GET.get('id',None)
+        
+        if not id:
+            return Response('id is missing', status=status.HTTP_400_BAD_REQUEST)
+        try:
+            user = self.queryset.get(id=id)
+            serializer = UserSerializer(user)
+            return Response(serializer.data, status=200)
+            
+        except RequestException as e:
+             return Response(f"User not found {e}")
+         
+
+    
+    
     
     @action(detail=False, methods=['GET'], permission_classes=[permissions.IsAdminOrUser])
     def is_username_exist(self,request):
