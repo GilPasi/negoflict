@@ -33,7 +33,7 @@ const superUserApi = createApi({
             changing_userPassword: builder.mutation({
                 query:({userId, password})=>{
                     return{
-                        url:'/api/users/user_view/changing_password/',
+                        url:'/users/user_view/changing_password/',
                         method:'PUT',
                         body:{
                             id:userId,
@@ -48,6 +48,18 @@ const superUserApi = createApi({
                         url:`/users/user_view/change_first_entry_attribute/`,
                         method:'PUT',
                         body:{
+                            id:userId
+                        }
+                    }
+                }
+            }),
+            getUserById: builder.query({
+                query:({userId})=>{
+                    console.log('jjrfjr',userId)
+                    return{
+                        url:'users/user_view/get_user_by_id/',
+                        method:'GET',
+                        params:{
                             id:userId
                         }
                     }

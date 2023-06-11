@@ -122,6 +122,20 @@ const useAlert = ()=>{
     })
     return response.value
   }
+  const regularAlert = async ({text,title})=>{
+    return Swal.fire({
+      title:title,
+      text:text,
+      confirmButtonColor:'#4AAC65',
+      confirmButtonText:'Copy Password'
+    })
+  }
+  const justText = async ({text})=>{
+    return Swal.fire({
+      text:text,
+      confirmButtonColor:'#4AAC65',
+    })
+  }
     
 
     
@@ -132,6 +146,8 @@ const useAlert = ()=>{
         changePasswordPop,
         deletAlert,
         textAlert,
+        regularAlert,
+        justText
        
 
     }
