@@ -26,6 +26,7 @@ const AllUsers = ()=>{
     }
     const handleChange = ({currentTarget:input})=>{
         const {value} = input
+        if(value === '')setSearchResult(()=>allUsersData)
         setSearch(()=>value)
     }
     const handleClick = ()=>{
