@@ -41,7 +41,7 @@ const useAlert = ()=>{
           </lable>
           <input 
             type="password" 
-            style="margin:2px; height:30px; color:black"  
+            style="margin:2px; height:30px; color:black; max-width:275px;"  
             id="password_change" 
             class="swal2-input"
           >
@@ -50,13 +50,19 @@ const useAlert = ()=>{
           </lable>
           <input 
             type="password" 
-            style="margin:2px; height:30px; color: black;" 
+            style="margin:2px; height:30px; color: black; max-width:275px;" 
             id="confirm-password" 
             class="swal2-input"
           >
            <div id="password-error" style="color: transparent;">
             Passwords do not match
-           </div>`
+           </div>
+          
+           <div className="">
+                <label htmlFor="lp--checkbox" style="color:black">
+                <input  type="checkbox" id="lp--checkbox"/>
+                I agree to the  <a href="http://localhost:3000/mediator/terms_of_use" target="_blank">terms of use</a></label>
+            </div>`
           ,
           confirmButtonColor:'#4AAC65',
           color:'#4AAC65',
@@ -80,13 +86,23 @@ const useAlert = ()=>{
           const includeChar = /[a-zA-Z]/g ;
           const includeDig = /[0-9]/g ;
 
-          if (includeChar.test(password) && includeDig.test(password))
-            return password
+          if(!includeChar.test(password) || !includeDig.test(password)){
+            //Misiing either a character or a digit
+            passwordError.textContent = 'The password must contain a digit and a character'
+            passwordError.style.color = 'red'
+            return false
 
-          //Misiing either a character or a digit
-          passwordError.textContent = 'The password must contain a digit and a character'
-          passwordError.style.color = 'red'
-          return false
+          }
+
+          if(!document.getElementById("lp--checkbox").checked){
+            //Misiing either a character or a digit
+            passwordError.textContent = 'Please approve the terms of use'
+            passwordError.style.color = 'red'
+            return false
+
+          }
+
+            return password
           
           
         }

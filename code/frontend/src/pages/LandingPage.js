@@ -18,6 +18,7 @@ const StatisticsPage = lazy(()=>import('./rolePages/admin/StatisticsPage.js'))
 const ManageAccountsPage = lazy(()=>import('./rolePages/admin/ManageAccountsPage.js'))
 const ChatPageHen = lazy(()=>import('./ChatPageHen.js'))
 const AllUsers = lazy(()=>import('./rolePages/admin/allUsers.js'))
+const TermsOfUse = lazy(()=>import('./TermsOfUse.js'))
 
 
 
@@ -31,7 +32,8 @@ const UserLandingPage = () => {
             <Route path="/chat/*" element={<ChatPageHen isMediator={false}/>}/>
             <Route path="/survey_page" element={<SurveyPage />}/>
             <Route path="/cases/*" element = {<CasePage isMediator={false}/>}/>
-            
+            <Route path="/terms_of_use" element = {<TermsOfUse/>}/>
+
             {/* <Route path="/" element={}/> */}
         </Routes>
         </Suspense>
@@ -50,6 +52,8 @@ const MediatorLandingPage = ()=>{
             <Route path="chat/*" element={<ChatPageHen />}/>
             <Route path="/clients" element={<Clients/>}/>
             <Route path="clients/create_user" element={<CreateSelfUser/>} />
+            <Route path="/terms_of_use" element = {<TermsOfUse/>}/>
+
         </Routes>
         </Suspense>
     )
