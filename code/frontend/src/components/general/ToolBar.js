@@ -62,7 +62,7 @@ const ToolBar =({isInfo,handleSelctedUser})=>{
             />}
 
                 {isInfo?
-                    <div>
+                    <div >
                         <UsersList handleSelctedUser={handleSelctedUser} isMediator={isMediator} fontSize="0.5em"/>
                     </div>
                         :
