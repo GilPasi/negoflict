@@ -17,7 +17,7 @@
   
   .search-bar {
     position: relative;
-    width: 30rem;
+    width: 100%;
     background: var(--green-dark);
     border-radius: var(--rad);
   }

@@ -91,7 +91,7 @@ class UserView(ModelViewSet):
         except Exception as e:
             return Response(e,status=status.HTTP_400_BAD_REQUEST)
         
-    @action(detail=False,methods=['PUT'],permission_classes=[permissions.IsSuperUser])
+    @action(detail=False,methods=['PUT'],permission_classes=[permissions.IsAdminOrUser])
     def changing_password(self,request):
         userId = request.data.get('id',None)
         new_password = request.data.get('password',None)

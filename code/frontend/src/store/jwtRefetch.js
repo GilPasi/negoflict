@@ -2,6 +2,7 @@ import { updateAccessToken } from './slices/userSlice';
 import { logout } from './index';
 import { Navigate } from 'react-router-dom'
 import axios from 'axios'
+import history from '../components/Authentication/History'
 //hen
 
 
@@ -23,7 +24,7 @@ export const jwtMiddleware = (storeAPI) => (next) => async (action) => {
         }catch({response}){
         
             storeAPI.dispatch(logout());
-            Navigate('/login')
+            history.push('/login');
             return
         }
     }

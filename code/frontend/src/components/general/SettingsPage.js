@@ -8,6 +8,7 @@ import { useLazyGetUserByIdQuery, useChangeFirstLoginMutation, useChanging_userP
 import Button from "./Button"
 import useAlert from "../../hooks/useAlert"
 import Loader from "./Loader"
+import { useRef } from "react"
 
 
 
@@ -30,6 +31,7 @@ const SettingsPage = ({detail,id})=>{
 
     //states===========
     const [userDetail,setUserDetail] = useState({})
+    const roleForPassword = useRef('')
    
 
     
@@ -55,14 +57,24 @@ const SettingsPage = ({detail,id})=>{
 
     const modUser = (user,isMe)=>{
         if(Object.keys(user).length === 0)return
-        const {email, first_name, last_name, role, is_superuser, is_staff} = user
+        const {email, first_name, last_name, role, is_superuser, is_staff, username} = user
         let roleName
         if(role) 
             roleName = getPermName({role:role})
         else
             roleName = getPermTotal({is_staff:is_staff, is_superuser:is_superuser})
 
+        roleForPassword.current = roleName
+        if (roleName === 'user')
         return {
+            email:[email,false],
+            first_name:[first_name,false],
+            last_name:[last_name,false],
+            role:[roleName,false]
+        }
+        else if (roleName === 'mediator')
+        return {
+            username:[username,false],
             email:[email,false],
             first_name:[first_name,false],
             last_name:[last_name,false],
@@ -81,11 +93,18 @@ const SettingsPage = ({detail,id})=>{
 
            
 
-            changePassword({userId:id,password:newPassword}).then(()=>resetFirstLogin({userId:id}))
+            changePassword({userId:isMe?user.id:id,password:newPassword}).then(()=>resetFirstLogin({userId:isMe?user.id:id}))
             .then(async()=>{
-                const { isConfirmed }= await regularAlert({title:`Password: ${randomNumber}`,text:`We have generated a temporary password. Please make sure to send this password to the user.`})
+                let passwordChoice
+                if(roleForPassword.current === 'user'){
+                    passwordChoice = randomNumber
+                }
+                else{
+                    passwordChoice = newPassword
+                }
+                const { isConfirmed }= await regularAlert({title:`Password: ${passwordChoice}`,text:`We have generated a temporary password. Please make sure to send this password to the user.`})
            if(isConfirmed){
-                navigator.clipboard.writeText(randomNumber)
+                navigator.clipboard.writeText(passwordChoice)
                 await justText({text:'password was copied to your clipboard'})
            }
             })

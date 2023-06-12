@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route,HashRouter} from 'react-router-dom'
 import { PersistGate } from 'redux-persist/integration/react';
 import ErrorBoundary from './components/general/ErrorBoundary';
 // import 'bootstrap/dist/css/bootstrap.min.css';
+import history from './components/Authentication/History.js';
 
 
 
@@ -21,7 +22,7 @@ root.render(
     <Provider store={store}>
       <PersistGate loading={<h1>Loading...</h1>} persistor={persistor}>
       <HashRouter>
-        <Routes>
+        <Routes history={history}>
             <Route path='/*' element={ <App />}/>
         </Routes>
       </HashRouter>

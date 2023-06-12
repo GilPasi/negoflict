@@ -103,6 +103,8 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
         navigate(-1)
 
     }
+    const btnWidth= "4em"
+    const btnHeight = "2em"
 
 
     return(
@@ -120,14 +122,16 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
                 <Button
                         onClick={goBack || handleBack}
                         text='Back'
-                        size='small'
+                        length={btnWidth}
+                        altitude={btnHeight}
                         margin="0.5em"
                         disableSubmit={true}
                         disabled={disableButton}
                     />
                 <Button 
                       text='Submit'
-                      size='small'
+                      length={btnWidth}
+                      altitude={btnHeight}
                       disabled={valid || disableButton}
                       margin="0.5em"
              
