@@ -19,9 +19,7 @@ import SettingsPage from './components/general/SettingsPage.js';
 
   return(
     <div className="app middle">
-   
         <Routes>
-         
           <Route path='/' element={<Layout/>}>
             {/* public routes */}
 

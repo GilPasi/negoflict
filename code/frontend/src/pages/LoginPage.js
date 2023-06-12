@@ -259,6 +259,7 @@ const LoginPage=()=>{
         setFormData({})
         
     };
+    // changePasswordPop();
     
     return(
         <article className="page lp" >
@@ -293,11 +294,6 @@ const LoginPage=()=>{
                 value={formData.password}
                 
             />
-            <div className="flexbox">
-                <input  type="checkbox" id="lp--checkbox"/>
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <label htmlFor="lp--checkbox">Disclaimer Lorem ispum dolor T&C <a href="#"> Link</a></label>
-            </div>
                         
                 <Button  text="Submit" size="small"/>
             </form> 
