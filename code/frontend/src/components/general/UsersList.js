@@ -158,10 +158,8 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
     console.log('selectedUser', selectedUser)
 
     
-
-
     return(
-        <div>
+        <div >
             <dialog className="cp--user-info">
                 {selectedUser&&
                     <h3>Do yo want to remove {selectedUser['fullName']} from the group ?</h3>
@@ -181,13 +179,14 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
                 />
             </dialog> 
             
-        <div className="users-list" >
+        <div className="users-list"  style={{position:'relative', width:'10em'}}>
             {participants.length===0||loading?<Loader size='x-small' withLogo={false}/>: Object.values(participants).map(user=>{
                 return(
                 <div key={user.agoraUsername} className="users-list--member"
                   onClick={isMediator?()=>handleObserve(user): null}
                   >
-                    <div className="users-list--side" 
+                    <div className="users-list--side"
+
                        
                     style={{color:fontColor,
                             borderColor:fontColor,

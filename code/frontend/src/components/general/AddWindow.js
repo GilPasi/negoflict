@@ -218,6 +218,7 @@ const AddWindow =()=>{
             }
 
             {stage==='create'&&<CreateSelfUser
+            isWindow={true}
                 fontSize="10px"
             fulfiled={()=>{
                 setStage('exist')

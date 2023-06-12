@@ -3,7 +3,6 @@ import Header from "../components/general/Header"
 import TextInput from "../components/general/TextInput"
 import Button from "../components/general/Button"
 import DropdownSelector from "../components/general/DropdownSelector.js"
-
 import { useState , useEffect} from "react"
 import TextArea from "../components/general/TextArea"
 import {MEDIATION_CHOICES} from '../utils/data'

@@ -252,10 +252,6 @@ const ChatViewHen = ({role, isOnline}) => {
 
                 </footer>
 
-
-
-
-
         </article>
     )
 
