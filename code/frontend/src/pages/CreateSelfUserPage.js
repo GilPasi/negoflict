@@ -10,7 +10,7 @@ import useValidateData from "../hooks/useValidate"
 import { useNavigate } from "react-router-dom"
 import useAlert from "../hooks/useAlert"
 
-const CreateSelfUser = ({fulfiled,goBack})=>{
+const CreateSelfUser = ({fulfiled,goBack, isWindow})=>{
     //hooks===========================
     const navigate = useNavigate()
     const {clearValidate,validateData, addErrorLable} = useValidateData()
@@ -109,7 +109,7 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
 
     return(
         <article className="csp" >
-        <Header/>
+        {!isWindow&&<Header/>}
             <h1  style={{fontSize:"2em" , margin:"0"}}>Create a new user</h1>
             <form className="centerizer" onSubmit={handleSubmit} >
                 <UserForm

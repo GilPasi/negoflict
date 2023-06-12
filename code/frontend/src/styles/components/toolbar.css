@@ -12,6 +12,10 @@
 
 }
 
+.frame{
+  border: 1px solid red;
+}
+
 .tb--btn{
   transition: 300ms ease-in;
   position: relative;
