@@ -70,9 +70,11 @@ const ClientsPage = ()=>{
     return(
         <article className="middle page">
             <Header />
-            <SearchBar search={searchRes} 
-            handleClick={handleSearch} 
-            handleChange={handleSearchTerm} />
+            <div style={{margin:"0 1em"}}>
+                <SearchBar search={searchRes} 
+                handleClick={handleSearch} 
+                handleChange={handleSearchTerm} />
+            </div>
                 <div 
                     role="button"
                     className="switch-arrow"

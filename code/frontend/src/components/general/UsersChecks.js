@@ -40,8 +40,6 @@ const UsersChecks = ({handleSubmit , handleBack , submitText, handleSelectedUser
     },[usersData,contactsData,usersError]);
 
 
-
-
     // handle the users that are selected
     // const  handleMark=(user)=> {
     //     if (markedUsers.includes(user))
@@ -79,7 +77,7 @@ const UsersChecks = ({handleSubmit , handleBack , submitText, handleSelectedUser
                 {usersView}
             </div>
             <p className='warning' style={{color: markedUsers.length === 0? "red":"transparent"}}>You must select at least one user</p>
-            <Button 
+            {/* <Button 
                 text='Back' 
                 length='5em' 
                 altitude='2em' 
@@ -91,9 +89,9 @@ const UsersChecks = ({handleSubmit , handleBack , submitText, handleSelectedUser
                 length='5em' 
                 altitude='2em' 
                 margin='0.1em' 
-                // onClick={()=>handleSubmit(markedUsers)} 
+                onClick={()=>handleSubmit(markedUsers)} 
                 disabled={markedUsers.length===0}
-            />
+            /> */}
         </section>)
 
 }

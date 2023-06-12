@@ -36,7 +36,7 @@ const MyCases = ({isMediator, open_close})=>{
                             caseData={caseData}
                         /> 
                         </div>
-)})}
+                    )})}
             </div>
         </article>
 )}

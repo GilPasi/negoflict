@@ -44,10 +44,10 @@ const AddUserPage =({side,idCase,goBack,
                 <form className="aup--grid">
                 {isMediator ?
                     (
-                        <h2 className="aup--grid-row" id="aup--m-title" >
+                        <h2 className="aup--grid-row title centerizer" >
                             <span style={{
                                 color:"var(--green-dark)",
-                                fontWeight:"var(--weight-bold)"
+                                fontWeight:"var(--weight-bold)",
                             }}>Add Mediator</span><br/>
                                 Mediator personal details
                         </h2>
@@ -71,24 +71,19 @@ const AddUserPage =({side,idCase,goBack,
                      />
              </div>
                 }
-                  
+
                     <div className="aup--grid-row">
                         <TextInput
-                        limitChars={40}
                             placeHolder="First Name"
                             name="first_name"
                             value={userData?.first_name || ''}
                             onChange={handleChange}
                             length="100%"
-                            height="0.5em"
                             altitude="0.5em"
                             align="left"
                             inGrid={true}
-                            
-                            
-                            />
-                    </div>
- 
+                        />
+                    </div> 
                     <div className="aup--grid-row">
                         <TextInput
                         limitChars={40}
@@ -99,8 +94,7 @@ const AddUserPage =({side,idCase,goBack,
                             length="100%"
                             align="left"
                             inGrid={true}
-                            
-                            />
+                        />
                     </div>
 
                             
@@ -115,7 +109,7 @@ const AddUserPage =({side,idCase,goBack,
                             onChange={handleChange}
                             width="100%"
                             height="2.25em"
-                            />
+                        />
                     </div>
 
                     <div className="aup--grid-phone-number">
@@ -163,11 +157,10 @@ const AddUserPage =({side,idCase,goBack,
                             />
                     </div>
                     }
-
                 </form>
                 
                 {!errorMsg&&
-                <p  >
+                <p>
                     {<span className='warning-to-plat'>{errorMsg}</span>}
                 </p>
                 }
@@ -179,8 +172,7 @@ const AddUserPage =({side,idCase,goBack,
                         margin="0.2em"
                         onClick={goBack}
                     />
-                    {
-                        side === 'B'?(
+                    {side === 'B'?(
                             <Button
                                 size='small'
                                 text='Create case'
@@ -189,7 +181,6 @@ const AddUserPage =({side,idCase,goBack,
                                 margin='0.2em'
                                 color='#09680b'
                                 disabled={disabled}
-                                
                             />
                         ):(
                         <Button 
@@ -200,8 +191,7 @@ const AddUserPage =({side,idCase,goBack,
                             onClick={validateForm}
                             disabled={disabled}
                         />
-                        )
-                    }
+                    )}
 
                 </nav>
     </article>

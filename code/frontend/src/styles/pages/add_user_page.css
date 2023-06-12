@@ -9,12 +9,6 @@
 .aup--header{
     width: 100%;
 }
-#aup--m-title{
-    text-align:center;
-    font-size:2em;
-    color:black;
-    font-weight: var(--weight-medium);
-}
 
 .aup--title{
     color:black;
@@ -24,12 +18,11 @@
 }
 
 .aup--grid{
-    /* background-color:red; */
     display:grid;
     grid-template-columns: 5;
     grid-template-rows:5 ;
     width: 75%;
-    row-gap:3.5em;
+    row-gap:2.5em;
     column-gap:3em ;
     min-width: auto;
     min-height: auto;

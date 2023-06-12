@@ -1,6 +1,6 @@
 import '../../../styles/components/ExitIcon.css'
 
-//:)
+
 const ExitIcon = ({onClose,style})=>{
 
     return(

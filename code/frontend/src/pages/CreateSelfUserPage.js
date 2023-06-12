@@ -104,13 +104,11 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
 
     }
 
-    
-
 
     return(
         <article className="csp" >
         <Header/>
-            <h1 className="title-large">Create a new user</h1>
+            <h1  style={{fontSize:"2em" , margin:"0"}}>Create a new user</h1>
             <form className="centerizer" onSubmit={handleSubmit} >
                 <UserForm
                     userData={formData}
@@ -128,7 +126,6 @@ const CreateSelfUser = ({fulfiled,goBack})=>{
                         disabled={disableButton}
                     />
                 <Button 
-                      
                       text='Submit'
                       size='small'
                       disabled={valid || disableButton}
