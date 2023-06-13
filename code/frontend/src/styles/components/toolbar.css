@@ -22,7 +22,7 @@
   padding: 1em;
   width: 1.5em;
   height: 1.5em;
-  margin:1em;
+  margin-left:1em;
   margin-top:0;
   cursor: pointer;
   box-sizing: content-box;/*override for chrome*/
@@ -49,7 +49,7 @@
   padding: 1em;
   width: 1em;
   height: 1em;
-  margin:1em;
+  margin-left:1em;
   margin-top:0;
   cursor: pointer;
   box-sizing: content-box;
@@ -61,7 +61,8 @@
 
 .tb--btn-img{
   width:100%;
-  margin: 50% 0% 0% 50%;
+  /* margin: 50% 0% 0% 50%; */
+  margin-left: 50%;
   transform: translate(-50% , -50%) ;
 }
 
@@ -112,12 +113,14 @@
 }
 .tb-search-input{
   width: 90px;
+  
   border: none;
   animation: underline_a 200ms ease-out ;
   background-color: #89E0A240;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.4);
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   border-radius: 5px;
+  font-size: 16px;
 }
 
 .tb-search-input:focus{
