@@ -85,7 +85,7 @@ class UserView(ModelViewSet):
     @action(detail=False,methods=['GET'],permission_classes=[permissions.IsSuperUser])
     def get_all_users(self,request):
         try:
-            queryset = User.objects.all()
+            queryset = User.objects.all().exclude(is_superuser=True)
             serializer = self.serializer_class(queryset, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:

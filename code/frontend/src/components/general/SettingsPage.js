@@ -80,6 +80,13 @@ const SettingsPage = ({detail,id})=>{
             last_name:[last_name,false],
             role:[roleName,false]
         }
+        else if(roleName === 'admin'){
+           return{ 
+            username:[username,false],
+            email:[email,false],
+            role:[roleName,false]}
+
+        }
        
     };
     const handleRestPassword =async ()=>{

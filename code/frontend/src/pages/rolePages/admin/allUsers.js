@@ -13,8 +13,6 @@ const AllUsers = ()=>{
     const [info,setInfo] = useState({user:0,isOn:false})
     const [search,setSearch] = useState('')
     const [searchResult,setSearchResult] = useState([])
-    console.log('allUsersData',allUsersData)
-    console.log('allUsersError',allUsersError)
 
 
     useEffect(()=>{
