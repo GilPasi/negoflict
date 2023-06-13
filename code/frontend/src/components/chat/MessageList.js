@@ -172,14 +172,15 @@ const MessageList =( { maxHeight, isChatStart } )=> {
           setTypingNotification({userId:user,msg:msg})
           setTimeout(()=>setTypingNotification(prev=>(null)),10000)
         }
+     
+        else
+          setDeleteNotification(()=>user)
+      }
       else if(status === 'remove'){
         console.log('result 3333',result)
         const msg = `${user} has removed from the chat`
         setConnectionNotification({userId:user,msg:msg})
         setTimeout(()=>setConnectionNotification(prev=>(null)),5000)
-      }
-        else
-          setDeleteNotification(()=>user)
       }
     })
 
