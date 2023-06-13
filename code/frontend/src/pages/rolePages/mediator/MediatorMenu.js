@@ -30,7 +30,7 @@ const MediatorMenu = ()=>{
                         <Button margin='1em' text='Open Cases' length='8em' altitude='2em'/>
                     </Link>
                     <Link to='cases/?open_close=False'>
-                        <Button margin='1em' text='Closed Cases' length='8em' altitude='2em'/>
+                        <Button margin='1em' text='Closed Cases' length='8em' altitude='2.4em'/>
                     </Link>
                     <Link to='clients'>
                         <Button margin='1em' text='active users' length='8em' altitude='2em'/>

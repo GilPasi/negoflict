@@ -26,7 +26,7 @@ const Button=({text , size, margin,type,onClick,color,length, disabled,altitude,
     }
 
     const style ={
-        width:size?_width : length,
+        width:disabled?'fit-content': size?_width : length,
         height:size? _height :altitude,
         margin: margin ? margin : "1.5em",
         type: type ? type : "",

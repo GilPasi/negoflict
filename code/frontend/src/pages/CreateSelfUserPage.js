@@ -111,13 +111,13 @@ const CreateSelfUser = ({fulfiled,goBack, isWindow})=>{
         <article className="csp" >
         {!isWindow&&<Header/>}
             <h1  style={{fontSize:"2em" , margin:"0"}}>Create a new user</h1>
-            <form className="centerizer" onSubmit={handleSubmit} >
+            <form className="centerizer" style={{display:'grid',gridTemplateRows:'1fr 1fr', maxHeight:'10px'}} onSubmit={handleSubmit} >
                 <UserForm
                     userData={formData}
                     handleChange={handleChange}
                     required={true}
                 />
-                <div className="aligner">
+                <div className="aligner" style={{paddingLeft:'12%'}}>
                
                 <Button
                         onClick={goBack || handleBack}
