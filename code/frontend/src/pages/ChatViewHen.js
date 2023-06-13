@@ -100,6 +100,7 @@ const ChatViewHen = ({role, isOnline}) => {
     
 
     const getUserDetails =async ()=>{
+        if(isMediator)return ///please test that with user
         const {data, error} = await getGroupMember({caseId:caseId, user:id})
            if(error) {
                console.log('err')
