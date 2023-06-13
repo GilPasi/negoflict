@@ -1,13 +1,12 @@
 import "../../styles/components/users_checks.css"
 
-import Button from "../../components/general/Button"
 import {useEffect, useState} from 'react'
 import { useGetContactsQuery } from '../../store' 
 import { useSelector } from 'react-redux'
 import {  useGetUsersByCaseQuery, useGetChatGroupsQuery } from '../../store'
 
 import {useLocation} from "react-router-dom";
-const UsersChecks = ({handleSubmit , handleBack , submitText, handleSelectedUsers})=>{
+const UsersChecks = ({handleSubmit , handleBack , submitText, handleSelectedUsers, usersData, usersError})=>{
     
     const location = useLocation()
     const [markedUsers,setMarkedUsers] = useState([])
@@ -18,12 +17,13 @@ const UsersChecks = ({handleSubmit , handleBack , submitText, handleSelectedUser
 
     //queries==============================
     const {data:groupsData, isLoading:loadingGetGroups} = useGetChatGroupsQuery({CaseId:caseId})
-    const {data:usersData, error:usersError, isLoading:loadingGetUsers, refetch:refetchUsers} = useGetUsersByCaseQuery({caseChat:caseId})
-    const {data:contactsData, isLoading:loadingGetContact, refetch:refetchContacts} = useGetContactsQuery({mediator_id:id})
+    // const {data:usersData, error:usersError, isLoading:loadingGetUsers, refetch:refetchUsers} = useGetUsersByCaseQuery({caseChat:caseId})
+    const {data:contactsData, error:contactError, isLoading:loadingGetContact, refetch:refetchContacts} = useGetContactsQuery({mediator_id:id})
     //=================================================================================================
 
     useEffect(()=>{
-        if(!contactsData)return
+        
+        if(!contactsData || contactError)return
         if(!usersData && (usersError?.status!==404 || !usersError))return
 
         const users = usersData? usersData.map(user=>user.user) : []
@@ -34,10 +34,12 @@ const UsersChecks = ({handleSubmit , handleBack , submitText, handleSelectedUser
         else
             usersToAdd = contacts
 
-
+  
         setUsersToAdd(()=>usersToAdd)
 
     },[usersData,contactsData,usersError]);
+
+    
 
 
     // handle the users that are selected

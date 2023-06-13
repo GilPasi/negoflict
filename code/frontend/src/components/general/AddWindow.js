@@ -218,7 +218,6 @@ const AddWindow =()=>{
             }
 
             {stage==='create'&&<CreateSelfUser
-            isWindow={true}
                 fontSize="10px"
             fulfiled={()=>{
                 setStage('exist')
@@ -230,7 +229,7 @@ const AddWindow =()=>{
 
             {stage==='exist'&&
                 <center>
-                    <UsersChecks handleSelectedUsers={handleMark}/>
+                    <UsersChecks handleSelectedUsers={handleMark} usersDara={usersData} usersError={usersError}/>
                         <Button text='Back' length='5em' altitude='2em' margin='0.1em' onClick={()=>setStage('choose')}/>
                         <Button text='Add' length='5em' altitude='2em' margin='0.1em' onClick={handleAddExistingUsers} disabled={selectedUsers.length===0}/>
                 </center>}

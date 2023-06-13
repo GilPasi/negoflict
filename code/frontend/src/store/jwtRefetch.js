@@ -1,6 +1,5 @@
 import { updateAccessToken } from './slices/userSlice';
 import { logout } from './index';
-import { Navigate } from 'react-router-dom'
 import axios from 'axios'
 import history from '../components/Authentication/History'
 //hen
