@@ -29,19 +29,26 @@ const AddWindow =()=>{
     //queries==============================
     const {data:groupsData, isLoading:loadingGetGroups} = useGetChatGroupsQuery({CaseId:caseId})
     const {data:usersData, error:usersError, isLoading:loadingGetUsers, refetch:refetchUsers} = useGetUsersByCaseQuery({caseChat:caseId})
-    const {data:contactsData, isLoading:loadingGetContact, refetch:refetchContacts} = useGetContactsQuery({mediator_id:id})
+    const {data:contactsData,error:contactError, isLoading:loadingGetContact, refetch:refetchContacts} = useGetContactsQuery({mediator_id:id})
     //=================================================================================================
 
     //lazyQueries==============================
     const [registerManyUsersToGroupMember,{isLoading:loadingRegisterUsers}] = useRegisterManyUsersToGroupMemberMutation()
     const [setUserCaseAttribute,{isLoading:loadingSetUserCaseAttribute}] = useSetUserCaseAttributeMutation()
     const [changeSide] = useChangeUserSideMutation()
+    const [isNoContacts,setIsNoContacts] = useState(false)
 
     //=================================================================================================
 
     //useEffect==============================
     useEffect(()=>{
-        if(!contactsData)return
+        if(!contactsData || contactError){
+            setIsNoContacts(()=>true)
+            return
+        }
+        else{
+            setIsNoContacts(()=>false)
+        }
         if(!usersData && (usersError?.status!==404 || !usersError))return
 
 
@@ -87,7 +94,7 @@ const AddWindow =()=>{
 
     // handle the users that are selected
     const  handleMark=(user)=> {
-        console.log('jjdf',user)
+     
         if (selectedUsers.includes(user))
           setSelectedUsers(selectedUsers.filter(p => p !== user));
         else
@@ -173,6 +180,7 @@ const AddWindow =()=>{
       
         return filterdUsers
       };
+      console.log(stage)
 
 
     return(
@@ -227,12 +235,13 @@ const AddWindow =()=>{
             goBack={()=>setStage('choose')}
             />}
 
-            {stage==='exist'&&
+            {stage==='exist'&&!isNoContacts&&
                 <center>
-                    <UsersChecks handleSelectedUsers={handleMark} usersDara={usersData} usersError={usersError}/>
-                        <Button text='Back' length='5em' altitude='2em' margin='0.1em' onClick={()=>setStage('choose')}/>
+                    <UsersChecks handleSelectedUsers={handleMark} usersDara={usersData} usersError={usersError} contactError={contactError} contactsData={contactsData}/>
+                        <Button text='Back' length='5em' altitude='2em' margin='0.1em' onClick={()=>setStage('choose')} />
                         <Button text='Add' length='5em' altitude='2em' margin='0.1em' onClick={handleAddExistingUsers} disabled={selectedUsers.length===0}/>
                 </center>}
+            {stage==='exist'&&isNoContacts&&<div><h1>Please create contact</h1></div>}
 
                 {stage==='success' &&
                 <div>

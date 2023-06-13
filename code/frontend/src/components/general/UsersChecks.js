@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import {  useGetUsersByCaseQuery, useGetChatGroupsQuery } from '../../store'
 
 import {useLocation} from "react-router-dom";
-const UsersChecks = ({handleSubmit , handleBack , submitText, handleSelectedUsers, usersData, usersError})=>{
+const UsersChecks = ({handleSubmit , handleBack , submitText, handleSelectedUsers, usersData, usersError, contactError,contactsData})=>{
     
     const location = useLocation()
     const [markedUsers,setMarkedUsers] = useState([])
@@ -18,7 +18,7 @@ const UsersChecks = ({handleSubmit , handleBack , submitText, handleSelectedUser
     //queries==============================
     const {data:groupsData, isLoading:loadingGetGroups} = useGetChatGroupsQuery({CaseId:caseId})
     // const {data:usersData, error:usersError, isLoading:loadingGetUsers, refetch:refetchUsers} = useGetUsersByCaseQuery({caseChat:caseId})
-    const {data:contactsData, error:contactError, isLoading:loadingGetContact, refetch:refetchContacts} = useGetContactsQuery({mediator_id:id})
+    // const {data:contactsData, error:contactError, isLoading:loadingGetContact, refetch:refetchContacts} = useGetContactsQuery({mediator_id:id})
     //=================================================================================================
 
     useEffect(()=>{
