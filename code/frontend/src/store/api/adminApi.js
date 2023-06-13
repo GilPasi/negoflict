@@ -84,7 +84,7 @@ const adminApi = createApi({
             }),
             addMediator: builder.mutation({
                 query:({phone,education,relevant_experience,mediation_areas,
-                    certification_course,user,access})=>{
+                    certification_course,user, password})=>{
                     return{
                         url:`/users/mediator_view/`,
                         method:'POST',
@@ -95,7 +95,7 @@ const adminApi = createApi({
                             mediation_areas:mediation_areas,
                             certification_course:certification_course ?? false,
                             ['user.username']:user.username,
-                            ['user.password']:'Negoflict123',
+                            ['user.password']:password,
                             ['user.email']:user.email,
                             ['user.first_name']:user.first_name,
                             ['user.last_name']:user.last_name,
@@ -165,6 +165,7 @@ const adminApi = createApi({
                 invalidatesTags:['users_case'],
                 query:({username,password,first_name})=>{
                     const uid = username.replace(/[^\w\s]/gi, '')
+                    console.log(password)
                     return{
                         url:`/agora/users/register_user/`,
                         method:'POST',

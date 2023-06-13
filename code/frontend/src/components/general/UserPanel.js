@@ -22,7 +22,7 @@ const UserPanel=({
     //===========================================
 
     //state=======================================
-    const {role} = useSelector(state=>state.user)
+    const {role, username, first_name} = useSelector(state=>state.user)
     const [loadinExit,setLoadingExit] = useState(false)
     const {activeGroup} = useSelector(state=>state.position)
     const messages = useSelector(state=>state.chat[activeGroup])
@@ -50,7 +50,7 @@ const UserPanel=({
            await muteAllMembers({groupId:centeredGroupId, shuttle:false})
            await setAnnouncement({groupId:centeredGroupId,isChatEnds:true})
        }
-       await publishPresence({description:'offline'})
+       await publishPresence({description:`offline=${roleName==='mediator'?username:first_name}`})
         disconnect()
         setLoadingExit(()=>false)
 

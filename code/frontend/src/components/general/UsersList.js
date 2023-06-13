@@ -24,7 +24,7 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
     const centeredGroup = useMemo(()=> groups.find(group=>group.groupname.endsWith("G")))
     const roleName = useMemo(()=>getPermName({role:role}))
     //api================
-    const { data:usersByCaseData, isLoading, error:usersByCaseError } = useGetFullUsersByCaseQuery({caseId:caseId})
+    const { data:usersByCaseData, isLoading, error:usersByCaseError, refetch } = useGetFullUsersByCaseQuery({caseId:caseId})
     const [getMediator] = useLazyGetMyMediatorQuery()
     const [removeFromCase] = useSetUserCaseAttributeMutation()
     //state================
@@ -32,6 +32,9 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
     const [statusQueue, setStatusQueue] = useState([])
     const [selectedUser,setSelectedUser] = useState(null)
     const [loading,setLoading] = useState(false)
+
+    console.log('partt>>',participants)
+    console.log('fetchh',usersByCaseData)
 
 
 
@@ -44,6 +47,11 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
        
     },[usersByCaseData])
 
+    useEffect(()=>{
+        if(usersByCaseError&&usersByCaseError.status === 404)
+        setParticipants(()=>[])
+    },[usersByCaseError])
+    
     useEffect(()=>{
         return ()=>{
             removeEventById({id:'UsersListListener'})
@@ -120,7 +128,8 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
                 const status = ext.split('=')[0]
                 const user = ext.split('=')[1]
                 if(users[userId] && !(userId === myAgoraUsername))
-                    users[userId]['connect'] = status === 'online'
+                    if(status==='online' || status==='offline')
+                        users[userId]['connect'] = status === 'online'
             })
             console.log(users, 'users')
             setParticipants(()=>users)
@@ -128,6 +137,8 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
         return()=>setStatusQueue([])
     
     },[statusQueue])
+
+
     
 
 
@@ -180,7 +191,7 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
             </dialog> 
             
         <div className="users-list"  style={{position:'relative', width:'10em'}}>
-            {participants.length===0||loading?<Loader size='x-small' withLogo={false}/>: Object.values(participants).map(user=>{
+            {usersByCaseError?.status ===404?<p>The chat group is empty. Please add members to start a conversation."</p> : participants.length===0||loading?<Loader size='x-small' withLogo={false}/>: Object.values(participants).map(user=>{
                 return(
                 <div key={user.agoraUsername} className="users-list--member"
                   onClick={isMediator?()=>handleObserve(user): null}

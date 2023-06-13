@@ -112,8 +112,10 @@ const CreateMediatorWrapper = ()=>{
         mediation_areas:formData['mediation_areas'],
         access:access,
         certification_course:formData['certification_course'],
-        user:userData
+        user:userData,
+        password:`Negoflict${phoneNumber}`,
     }
+
         Promise.all([
             addMediator(mediatorData),
             registerUser({username:userData.username,password:`Negoflict${phoneNumber}`,first_name:userData.username})
