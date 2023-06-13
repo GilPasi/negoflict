@@ -10,7 +10,7 @@ export const jwtMiddleware = (storeAPI) => (next) => async (action) => {
   
 
     // check if this action is the last one, a rejected one and it has a specific error message
-    if (action.type.endsWith('/rejected') && action.error && action.payload.status === 401) {
+    if (action.type.endsWith('/rejected') && action?.error && action.payload?.status === 401) {
 
         const originalAction = action.meta.arg.originalArgs.action;
 

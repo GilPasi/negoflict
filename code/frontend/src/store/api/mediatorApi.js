@@ -17,7 +17,7 @@ const mediatorApi = createApi({
     endpoints(builder){
         return{
             get_clients: builder.query({ //not in use- 
-                providesTags:['oneUser'],
+                providesTags:['oneUser','contact'],
                 query:({mediator_id})=>{
                     return{
                         url:'/session/chat_members/get_mediator_client/',

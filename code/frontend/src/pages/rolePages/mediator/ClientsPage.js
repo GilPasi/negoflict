@@ -13,14 +13,15 @@ const ClientsPage = ()=>{
     const {id} = useSelector(state=>state.user)
     const {data:allUsersData, error:allUsersError, isLoading:loadingAll} = useGet_all_usersQuery()
     const {data:list, error,isFetching, isLoading} = useGetContactsQuery({mediator_id:id})
-    const [isAllClients , setIsAllClients] = useState( false);
+    const [isAllClients , setIsAllClients] = useState(false);
     const [searchRes , setSearchRes] = useState("");
     const [userView,setUserView] = useState([])
 
 
+
     useEffect(()=>{
         if(!isAllClients){
-            if(!list){
+            if(!list || error?.status===404){
                 setUserView(()=>[])
                 if(error){
                     console.log(error)
@@ -31,7 +32,7 @@ const ClientsPage = ()=>{
                 setUserView(()=>list)
         }
         else{
-            if(!allUsersData){
+            if(!allUsersData || allUsersError?.status===404){
                 setUserView(()=>[])
                 if(allUsersError){
                     console.log(allUsersError)
@@ -42,7 +43,19 @@ const ClientsPage = ()=>{
                 setUserView(()=>allUsersData)
         }
 
-    },[allUsersData,list,isAllClients])
+    },[allUsersData,list,isAllClients, allUsersError, error])
+
+    // useEffect(()=>{
+    //     if( allUsersError?.status===404)
+    //         setUserView(()=>[])
+
+    // },[allUsersError])
+
+
+    
+
+
+   
 
     const handleSearchTerm = ({currentTarget:input})=>{
         const {value} = input
