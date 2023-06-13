@@ -16,11 +16,12 @@ const UsersChecks = ({handleSubmit , handleBack , submitText, handleSelectedUser
 
 
     //queries==============================
-    const {data:groupsData, isLoading:loadingGetGroups} = useGetChatGroupsQuery({CaseId:caseId})
+    // const {data:groupsData, isLoading:loadingGetGroups} = useGetChatGroupsQuery({CaseId:caseId})
     // const {data:usersData, error:usersError, isLoading:loadingGetUsers, refetch:refetchUsers} = useGetUsersByCaseQuery({caseChat:caseId})
     // const {data:contactsData, error:contactError, isLoading:loadingGetContact, refetch:refetchContacts} = useGetContactsQuery({mediator_id:id})
     //=================================================================================================
-
+    // console.log('groups',groupsData)
+    console.log('users',usersData)
     useEffect(()=>{
         
         if(!contactsData || contactError)return

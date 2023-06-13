@@ -153,6 +153,7 @@ const MessageList =( { maxHeight, isChatStart } )=> {
       const desc = ext.split('=') 
       const status = desc[0]
       const user = desc[1]
+      console.log('status',status)
       if(user === username || user === first_name || user=== undefined) return
       const connectionNotification = status === 'online' || status === 'offline'
       if(connectionNotification){
@@ -163,7 +164,7 @@ const MessageList =( { maxHeight, isChatStart } )=> {
           setDeleteNotification(()=>user)
         setTimeout(()=>setConnectionNotification(prev=>(null)),5000)
       }
-      else{
+      else if(status === 'typing' || status === 'stop_typing'){
         console.log('result 2222',result)
         const msg = status === 'typing'? `${user} is typing...`:null
         if(msg!==null){
@@ -171,6 +172,12 @@ const MessageList =( { maxHeight, isChatStart } )=> {
           setTypingNotification({userId:user,msg:msg})
           setTimeout(()=>setTypingNotification(prev=>(null)),10000)
         }
+      else if(status === 'remove'){
+        console.log('result 3333',result)
+        const msg = `${user} has removed from the chat`
+        setConnectionNotification({userId:user,msg:msg})
+        setTimeout(()=>setConnectionNotification(prev=>(null)),5000)
+      }
         else
           setDeleteNotification(()=>user)
       }

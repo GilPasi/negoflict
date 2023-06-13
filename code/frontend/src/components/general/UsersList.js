@@ -14,7 +14,7 @@ import Button from "./Button";
 const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
     //hooks================
     const location = useLocation()
-    const { subscribePresence, getPresenceStatus, presenceListener, removeUserFromGroup, removeEventById } = useChat()
+    const { subscribePresence, getPresenceStatus, presenceListener, removeUserFromGroup, removeEventById, publishPresence } = useChat()
     //variables&&store================
     const users = useSelector(state=>state.perticipent)
     const { username, role, mediator } = useSelector(state=>state.user)
@@ -159,7 +159,7 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
     Promise.all([removeUserFromGroup({user:agoraUsername, groupId:groupsArray[0].groupid}),
                 removeUserFromGroup({user:agoraUsername, groupId:groupsArray[1].groupid}),
                 removeFromCase({case_id:caseId, user_id:userId, status:false })])
-    .then(res=>console.log(res, 'res'))
+    .then(res=>console.log(res, 'res')).then(()=>publishPresence({description:`remove=${agoraUsername}`}))
     .finally(()=>setLoading(false))
 
 

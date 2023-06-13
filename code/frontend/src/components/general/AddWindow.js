@@ -237,7 +237,7 @@ const AddWindow =()=>{
 
             {stage==='exist'&&!isNoContacts&&
                 <center>
-                    <UsersChecks handleSelectedUsers={handleMark} usersDara={usersData} usersError={usersError} contactError={contactError} contactsData={contactsData}/>
+                    <UsersChecks handleSelectedUsers={handleMark} usersData={usersData} usersError={usersError} contactError={contactError} contactsData={contactsData}/>
                         <Button text='Back' length='5em' altitude='2em' margin='0.1em' onClick={()=>setStage('choose')} />
                         <Button text='Add' length='5em' altitude='2em' margin='0.1em' onClick={handleAddExistingUsers} disabled={selectedUsers.length===0}/>
                 </center>}
