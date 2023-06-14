@@ -5,7 +5,7 @@ import Button from '../components/general/Button'
 import { useEffect, useState } from "react"
 import { useDispatch,  } from 'react-redux'
 import { login } from '../store/index'
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import useAlert from "../hooks/useAlert"
 import { getPermSign, getPermName } from "../utils/permissions"
@@ -13,6 +13,7 @@ import { useLazyLoginQuery, useLazyIs_loginQuery,useLazyLog_outQuery, useLazyGet
 import Loader from "../components/general/Loader"
 import { useChangePasswordMutation, useModifyUserMutation, useLazyGetNewAccessQuery, persistor,logout } from "../store/index"
 import { useLocation } from "react-router-dom"
+
 
 
 const LoginPage=()=>{
@@ -294,6 +295,7 @@ const LoginPage=()=>{
                 value={formData.password}
                 
             />
+            <Link to='/terms' ><h3>hhhhhh</h3></Link>
                         
                 <Button  text="Submit" size="small"/>
             </form> 

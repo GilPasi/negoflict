@@ -18,6 +18,7 @@ import TermsOfUse from './pages/TermsOfUse.js';
     <div className="app middle">
         <Routes>
           <Route path='/' element={<Layout/>}>
+          <Route path='/terms' element={<TermsOfUse/>}/>
             {/* public routes */}
  
               <Route  path='/login' element={<LoginPage/>}/>
