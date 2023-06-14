@@ -14,7 +14,7 @@ import Button from "./Button";
 const UsersList = ({handleSelctedUser, isMediator , fontSize, usersOnline,handleUsersArrayChange})=>{
     //hooks================
     const location = useLocation()
-    const { subscribePresence, getPresenceStatus, presenceListener, removeUserFromGroup, removeEventById, publishPresence } = useChat()
+    const { subscribePresence, getPresenceStatus, presenceListener, removeUserFromGroup, removeEventById, publishPresence, groupListener } = useChat()
     //variables&&store================
     const users = useSelector(state=>state.perticipent)
     const { username, role, mediator } = useSelector(state=>state.user)
@@ -33,6 +33,9 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize, usersOnline,handle
     const [selectedUser,setSelectedUser] = useState(null)
     const [loading,setLoading] = useState(false)
 
+    //variables================
+    let debounceTimer = null;
+
     console.log('partt>>',participants)
     console.log('fetchh',usersByCaseData)
     console.log('users online>>><<<>>>>>>',usersOnline)
@@ -42,7 +45,9 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize, usersOnline,handle
     
     useEffect(()=>{
         if(!usersByCaseData) return
+        console.log('users by case inside ')
         handleSetParticipents()
+        groupListener({id:'usersListGroupListener',handleGroupChange:handleGroupChangeUsers})
         presenceListener({id:'UsersListListener',presentsHandler:handleStatusChange})
        
     },[usersByCaseData])
@@ -63,6 +68,29 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize, usersOnline,handle
        return online.includes(username)
         
     }
+ 
+
+const handleGroupChangeUsers = (msg) => {
+    console.log('group change',msg)
+    if(roleName==='mediator') return
+   
+    const { operation } = msg;
+    if (operation === "memberPresence" || operation === "memberAbsence") {
+        
+        // Clear the previous timer if it exists
+        if (debounceTimer) {
+            clearTimeout(debounceTimer);
+        }
+
+        // Set a new timer
+        debounceTimer = setTimeout(() => {
+            refetch();
+            debounceTimer = null; // Reset the timer
+        }, 2000); // 2000 milliseconds = 2 seconds
+    }
+};
+console.log('<<<<<<<selected user>>>>>',usersByCaseData)
+
 
 
     const handleSetParticipents = ()=>{
