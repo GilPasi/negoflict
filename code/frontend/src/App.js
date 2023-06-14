@@ -38,7 +38,7 @@ import TermsOfUse from './pages/TermsOfUse.js';
               {/* catch */}
             
              <Route path='unauthorised/*' element={<Unauthorised/>} />
-             <Route path='info/' element={<p>version 3 date: 14/6 time: 08:53</p>}/>
+             <Route path='info/' element={<p>version 4 date: 14/6 time: 10:40</p>}/>
             
             </Route>
       
