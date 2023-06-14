@@ -39,7 +39,7 @@ import SettingsPage from './components/general/SettingsPage.js';
               {/* catch */}
 
              <Route path='unauthorised/*' element={<Unauthorised/>} />
-             <Route path='info/' element={<p>version 3 date: 14/6 time: 07:10</p>}/>
+             <Route path='info/' element={<p>version 3 date: 14/6 time: 08:53</p>}/>
             
             </Route>
       

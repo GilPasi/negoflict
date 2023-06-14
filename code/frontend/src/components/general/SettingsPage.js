@@ -13,7 +13,6 @@ import { useRef } from "react"
 
 
 
-
 const SettingsPage = ({detail,id})=>{
     //hooks===========
     const location = useLocation()
