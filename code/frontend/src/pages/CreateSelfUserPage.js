@@ -117,7 +117,7 @@ const CreateSelfUser = ({fulfiled,goBack, isWindow})=>{
                     handleChange={handleChange}
                     required={true}
                 />
-                <div className="aligner" style={{paddingLeft:'12%'}}>
+                <div style={{ display:"flex" , justifyContent: 'center'}}>
                
                 <Button
                         onClick={goBack || handleBack}

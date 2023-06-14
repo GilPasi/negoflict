@@ -83,7 +83,7 @@ const ClientsPage = ()=>{
     return(
         <article className="middle page">
             <Header />
-            <div style={{margin:"0 1em"}}>
+            <div style={{margin:"0 15%"}}>
                 <SearchBar search={searchRes} 
                 handleClick={handleSearch} 
                 handleChange={handleSearchTerm} />
