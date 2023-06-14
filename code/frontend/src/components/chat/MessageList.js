@@ -88,7 +88,7 @@ const MessageList =( { maxHeight, isChatStart } )=> {
 
   },[index])
 
-  console.log('dfdf======',pos,messages)
+
 
 
 
