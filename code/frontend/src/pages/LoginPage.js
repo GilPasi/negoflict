@@ -8,10 +8,12 @@ import { login } from '../store/index'
 import { useNavigate ,useLocation , Link } from "react-router-dom"
 import useAlert from "../hooks/useAlert"
 import { getPermSign, getPermName } from "../utils/permissions"
-import { useLazyLoginQuery, useLazyIs_loginQuery,useLazyLog_outQuery, useLazyGetTokenQuery,useLazyGetUserByAccessQuery } from "../store/index"
+import { useLazyLoginQuery, useLazyIs_loginQuery,
+    useLazyLog_outQuery, useLazyGetTokenQuery,useLazyGetUserByAccessQuery } from "../store/index"
 import Loader from "../components/general/Loader"
 import { useChangePasswordMutation, useModifyUserMutation,
      useLazyGetNewAccessQuery, persistor,logout } from "../store/index"
+
 
 
 const LoginPage=()=>{
@@ -293,6 +295,7 @@ const LoginPage=()=>{
                 value={formData.password}
                 
             />
+            <Link to='/terms' ><h3>hhhhhh</h3></Link>
                         
                 <Button  text="Submit" size="small"/>
             </form> 
