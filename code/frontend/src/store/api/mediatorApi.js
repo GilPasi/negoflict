@@ -70,7 +70,18 @@ const mediatorApi = createApi({
                         method:'DELETE',
                     }
                 }
-            })
+            }),
+            getMyAddress: builder.query({
+                query:({mediator_id})=>{
+                    return{
+                        url:'/users/address_mediator/get_mediator_address/',
+                        method:'GET',
+                        params:{
+                            mediator:mediator_id
+                        }
+                    }
+                }
+            }),
             
 
         }
