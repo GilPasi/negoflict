@@ -295,7 +295,6 @@ const LoginPage=()=>{
                 value={formData.password}
                 
             />
-            <Link to='/terms' ><h3>hhhhhh</h3></Link>
                         
                 <Button  text="Submit" size="small"/>
             </form> 
@@ -305,12 +304,13 @@ const LoginPage=()=>{
                         onClick={event=>{
                             event.preventDefault()
                             isMediator ? setIsMediator(false): setIsMediator(true)
-
+                            
                             setValidity({isValid:true , errorMsg:''})
                         }}
                         style={{height:"10em"}}>
                         {loginHref}
                     </a>
+                    <Link to='/terms' ><h3 style={{fontWeight:"normal" , fontSize:"1em"}}>View terms of use</h3></Link>
             </center>
         </article>
 )}
