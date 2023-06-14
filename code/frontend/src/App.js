@@ -1,29 +1,28 @@
 import LoginPage from './pages/LoginPage.js';
 import useInactivityRedirect from './hooks/useInActiveRediract.js';
-import { Route, Routes, Router } from 'react-router-dom'; 
+import { Route, Routes } from 'react-router-dom'; 
 import RequireAuth from './components/Authentication/RequireAuth'
 import Layout from './components/general/Layout';
 import {UserLandingPage,MediatorLandingPage,SuperUserLandingPage} from './pages/LandingPage';
 import './App.css'
 import Unauthorised from './components/Authentication/Unauthorised'
 import SettingsPage from './components/general/SettingsPage.js';
-
-
-
+import TermsOfUse from './pages/TermsOfUse.js';
 
 
 
  const App=()=> {
   const isActive = useInactivityRedirect();
   
-
   return(
     <div className="app middle">
         <Routes>
+        <Route path='/terms' element={<TermsOfUse/>}/>
           <Route path='/' element={<Layout/>}>
             {/* public routes */}
-
+ 
               <Route  path='/login' element={<LoginPage/>}/>
+
               
               {/* protected routes */}
               {isActive?(
@@ -37,9 +36,9 @@ import SettingsPage from './components/general/SettingsPage.js';
             </Route>
             ):(<div><h1>not active</h1></div>)}
               {/* catch */}
-
+            
              <Route path='unauthorised/*' element={<Unauthorised/>} />
-             <Route path='info/' element={<p>version 3 date: 13/6 time: 15:48</p>}/>
+             <Route path='info/' element={<p>version 3 date: 14/6 time: 08:53</p>}/>
             
             </Route>
       

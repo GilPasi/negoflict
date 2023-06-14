@@ -111,15 +111,14 @@ const GroupSwitch =()=>{
             const groupTo = groups.find(group=>group.groupid===to)?.groupname
             if(!groupTo)return
             const btnpos =  isMediator?selectedBtn:selectedBtnU
-            console.log('GroupTo',groupTo)
-            console.log('pos',btnpos)
+         
             if(groupTo.endsWith('G')){
                 if(btnpos === 2)return
-                console.log('in G')
+              
                 handleNotifications(2,true)
             }
             else if(groupTo.endsWith('A') || !isMediator){
-                console.log('in A')
+            
                 if(btnpos === 1)return
                 handleNotifications(1,true)
             }

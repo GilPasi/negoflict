@@ -18,6 +18,7 @@ const ToolBar =({isInfo,handleSelctedUser})=>{
     //state================
     const [isSearch,setIsSearch] = useState(false)
     const [searchTerm,searchTermSet] = useState('')
+    const [usersOnline, setUsersOnline] = useState([])
     //vars================
     const { groups } = location.state ?? []
     const { caseId, caseCategory} = location.state ?? ''
@@ -43,12 +44,25 @@ const ToolBar =({isInfo,handleSelctedUser})=>{
         const {value} = input
         searchTermSet(value)
     }
+    const handleSetUsersStatus = (username, status) => {
+        let usersArray = [...usersOnline];
+        
+        if (status === 'online' && !usersArray.includes(username)) {
+            usersArray.push(username);
+        } else if (status === 'offline' || status === 'remove') {
+            usersArray = usersArray.filter(u => u !== username);
+        }
+    
+        setUsersOnline(usersArray);
+    }
+    
 
     const styleWithInfo =isInfo&&!isMediator? {
         position:'absolute',
         right:'-13.5px',
         top:'8px',
     }:{}
+    console.log('henberti henberti >>>> ',usersOnline)
     
 
 
@@ -67,7 +81,7 @@ const ToolBar =({isInfo,handleSelctedUser})=>{
                 <div  style={{position:"relative"}}>
                     {isInfo?
                         <div>
-                            <UsersList handleSelctedUser={handleSelctedUser} isMediator={isMediator} fontSize="0.5em"/>
+                            <UsersList handleSelctedUser={handleSelctedUser} isMediator={isMediator} fontSize="0.5em" usersOnline={usersOnline} handleUsersArrayChange={handleSetUsersStatus}/>
                         </div>
                             :
                         <div className="tb--title" >

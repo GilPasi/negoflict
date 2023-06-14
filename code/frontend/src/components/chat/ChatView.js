@@ -87,7 +87,7 @@ const ChatView = ({
 
     const handleRemove =async ()=>{
         const userRemove = selectedUser
-        console.log(userRemove)
+    
 
         const filteredGroups = groups.agora.filter(group=> (group.groupname.endsWith(userRemove.side)) || (group.groupname.endsWith('G')))
        

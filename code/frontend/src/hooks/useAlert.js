@@ -61,9 +61,10 @@ const useAlert = ()=>{
            <div className="">
                 <label htmlFor="lp--checkbox" style="color:black">
                 <input  type="checkbox" id="lp--checkbox"/>
-                I agree to the  <a href="http://localhost:3000/mediator/terms_of_use" target="_blank">terms of use</a></label>
+                I agree to the  <a href="terms/" target="_blank">terms of use</a></label>
             </div>`
           ,
+          
           confirmButtonColor:'#4AAC65',
           color:'#4AAC65',
           
@@ -76,7 +77,7 @@ const useAlert = ()=>{
           const confirm = document.getElementById('confirm-password').value
           const passwordError = document.getElementById('password-error');
 
-          console.log(password,confirm)
+       
 
           if(password !== confirm || password==='' ){
             passwordError.textContent = 'Passwords do not match'

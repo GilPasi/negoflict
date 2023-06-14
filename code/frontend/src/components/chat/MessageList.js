@@ -9,6 +9,8 @@ import {addGroupsProps, addHistoryMsg, updateMsg, useLazyGetCaseSideQuery,setAct
 import {useDispatch} from "react-redux";
 import {getPermName} from "../../utils/permissions";
 import {ChatChangesNotifications} from '../chat/ChatChangesNotifications'
+import { useNavigate } from 'react-router-dom';
+import  useAlert from '../../hooks/useAlert'
 
 
 //Note that all styles of the list is done in the component
@@ -16,7 +18,9 @@ import {ChatChangesNotifications} from '../chat/ChatChangesNotifications'
 const MessageList =( { maxHeight, isChatStart } )=> {
  //hooks===================================================================================================
   const location = useLocation();
-  const {onlineStatusListener, getHistoryMsgs, MsgListener, presenceListener, getPresenceStatus,removeEventById} = useChat();
+  const navigate = useNavigate();
+  const {justText} = useAlert()
+  const {onlineStatusListener, getHistoryMsgs, MsgListener, presenceListener, getPresenceStatus,removeEventById,disconnect} = useChat();
   const dispatch = useDispatch();
   const messagesEndRef = useRef(null);
   const syncronize = useRef(false);
@@ -42,9 +46,8 @@ const MessageList =( { maxHeight, isChatStart } )=> {
   const searchTerm = useSelector(state=>state.searchMsg)
   const [searchIndex, setSearchIndex] = useState([])
   const [index, setIndex] = useState(-1);
-  const gg = useSelector(state=>state.chat)
-  console.log('henhenhen?????',gg)
-  console.log('activeeee',activeGroupView)
+
+
   //===================================================================================================
   //varible===================================================================================================
   const roleName = getPermName({role})
@@ -85,7 +88,7 @@ const MessageList =( { maxHeight, isChatStart } )=> {
 
   },[index])
 
-  console.log('dfdf======',pos,messages)
+
 
 
 
@@ -153,26 +156,46 @@ const MessageList =( { maxHeight, isChatStart } )=> {
       const desc = ext.split('=') 
       const status = desc[0]
       const user = desc[1]
+  
       if(user === username || user === first_name || user=== undefined) return
       const connectionNotification = status === 'online' || status === 'offline'
       if(connectionNotification){
-        console.log('result 1111',result)
+     
         const msg = status === 'online'? `${user} is online now`: `${user} has disconnected`
         setConnectionNotification({userId:user,msg:msg})
         if(status !== 'online')
           setDeleteNotification(()=>user)
         setTimeout(()=>setConnectionNotification(prev=>(null)),5000)
       }
-      else{
-        console.log('result 2222',result)
+      else if(status === 'typing' || status === 'stop_typing'){
+    
         const msg = status === 'typing'? `${user} is typing...`:null
         if(msg!==null){
           
           setTypingNotification({userId:user,msg:msg})
           setTimeout(()=>setTypingNotification(prev=>(null)),10000)
         }
+     
         else
           setDeleteNotification(()=>user)
+      }
+      else if(status === 'remove'){
+        if(roleName === 'user'){
+            const agoraUsername = username.replace(/[^\w\s]/gi, '');
+        if(agoraUsername === user){
+           handleDisconnect()
+           disconnect()
+           justText({text:'You have been kicked from chat'})
+           navigate(`/user/cases/?open_close=True`, {replace: true, state:{remove:true}})
+        }
+           
+           
+        }
+
+
+        const msg = `${user} has removed from the chat`
+        setConnectionNotification({userId:user,msg:msg})
+        setTimeout(()=>setConnectionNotification(prev=>(null)),5000)
       }
     })
 
@@ -215,10 +238,10 @@ const MessageList =( { maxHeight, isChatStart } )=> {
   //handlers========================================
    const handleHistoryMsg =async (history,groupid)=>{ //gets history messages work's only ones
         let messages = []
-        console.log('history',history, groupid)
+       
         messages = [...history.messages]
         messages.sort((a,b)=>a.time - b.time)
-        console.log('hskadjfhsadkfhksdhfkjasd>>>>>>>>>>>',groupid, messages)
+  
         dispatch(addHistoryMsg({id:groupid,messages:messages}))
     };
 

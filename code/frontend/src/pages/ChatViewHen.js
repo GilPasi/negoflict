@@ -82,7 +82,7 @@ const ChatViewHen = ({role, isOnline}) => {
 
     const getGroupInfoFunc = ()=>{
     getGroupInfo({groupId:centeredGroupId}).then(res=>{
-        console.log('info group',res)
+
         if(res?.data[0]?.mute===true)
             handleMuteGroup({operation:'muteAllMembers'})
     }).catch(err=>console.log(err))
@@ -92,7 +92,7 @@ const ChatViewHen = ({role, isOnline}) => {
         const centeredGroupId = groups.find(group=>group.groupname.endsWith('G'))?.groupid
         getAnnouncement({groupId:centeredGroupId}).then(({data})=>{
             const {announcement} = data
-            console.log('announcement',announcement)
+         
             if(announcement==='chat_start')setIsChatStart(()=>true)
             else setIsChatStart(()=>false)
         })

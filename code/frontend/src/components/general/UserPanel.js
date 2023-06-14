@@ -22,13 +22,12 @@ const UserPanel=({
     //===========================================
 
     //state=======================================
-    const {role} = useSelector(state=>state.user)
+    const {role, username, first_name} = useSelector(state=>state.user)
     const [loadinExit,setLoadingExit] = useState(false)
     const {activeGroup} = useSelector(state=>state.position)
     const messages = useSelector(state=>state.chat[activeGroup])
     //=============================================
-    console.log('acctivvee=>>',activeGroup)
-    console.log('messageess>>',messages)
+  
 
     //variable=====================================
     const roleName = getPermName({role:role})
@@ -50,7 +49,7 @@ const UserPanel=({
            await muteAllMembers({groupId:centeredGroupId, shuttle:false})
            await setAnnouncement({groupId:centeredGroupId,isChatEnds:true})
        }
-       await publishPresence({description:'offline'})
+       await publishPresence({description:`offline=${roleName==='mediator'?username:first_name}`})
         disconnect()
         setLoadingExit(()=>false)
 

@@ -38,7 +38,7 @@ class ErrorBoundary extends React.Component {
           <h1 className='error-header-text'>Oops, something went wrong.</h1>
           <p>We're sorry, but there was an error processing your request. Please try again. If the problem persists, please contact our support team.</p>
           <Button  size={'x-small'} fontSize={'large'} text='Try Again' onClick={() => window.location.reload()}/>
-          <Button margin={'0'} size={'x-small'} fontSize={'large'} text='Back to login page' onClick={()=> window.location.href ='/login'} />
+          <Button margin={'0'} size={'x-small'} fontSize={'large'} text='Back to login page' onClick={()=> window.location.href ='login'} />
         </dialog>
       );
     }

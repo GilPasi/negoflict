@@ -136,7 +136,7 @@ const ChatPage = ()=>{
     const handleRecivedMsg = (msg)=>{ //handle recived messages only in real time
         const {to, chatType} = msg
         if(chatType !== 'groupChat')return
-        console.log('cchhh===>>>',chat)
+   
         HandleNotification(to)
         // if(msg?.id=== chat?.messages[chat.messages.length -1]?.id)
         //     return
@@ -162,7 +162,7 @@ const ChatPage = ()=>{
         let messages = []
         messages = [...history.messages]
         messages.sort((a,b)=>a.time - b.time)
-        console.log('messages==>>>',messages)
+   
         dispatch(addHistoryMsg({id:groupid,messages:messages}))
         setFetch(true)
         handleProgress('fetch history', 30)
