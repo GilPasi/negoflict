@@ -11,7 +11,7 @@ import Button from "./Button";
 
 
 
-const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
+const UsersList = ({handleSelctedUser, isMediator , fontSize, usersOnline,handleUsersArrayChange})=>{
     //hooks================
     const location = useLocation()
     const { subscribePresence, getPresenceStatus, presenceListener, removeUserFromGroup, removeEventById, publishPresence } = useChat()
@@ -35,6 +35,7 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
 
     console.log('partt>>',participants)
     console.log('fetchh',usersByCaseData)
+    console.log('users online>>><<<>>>>>>',usersOnline)
 
 
 
@@ -43,7 +44,6 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
         if(!usersByCaseData) return
         handleSetParticipents()
         presenceListener({id:'UsersListListener',presentsHandler:handleStatusChange})
-
        
     },[usersByCaseData])
 
@@ -58,6 +58,12 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
         }
     },[])
 
+    const getUserStatus = (username)=>{
+        const online = [...usersOnline]
+       return online.includes(username)
+        
+    }
+
 
     const handleSetParticipents = ()=>{
         const participants = usersByCaseData.reduce((accumulator, {user, side})=>{
@@ -66,14 +72,17 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
             const agoraUsername = user.username.replace(/[^\w\s]/gi, '');
             const firstName = user.first_name.charAt(0).toUpperCase() + user.first_name.slice(1)
             const lastName = user.last_name.charAt(0).toUpperCase() + user.last_name.slice(1)
+            console.log(user.first_name)
+            console.log(getUserStatus(user.first_name))
             accumulator[agoraUsername] = {
                 ...user,
-                connect: false,
+                connect: getUserStatus(user.first_name),
                 agoraUsername: agoraUsername,
                 
                 fullName: `${firstName} ${lastName}`,
                 side: side,
             };
+            console.log('accccssss',accumulator)
             return accumulator;
         }, {})
         if(roleName === 'user'){
@@ -83,7 +92,7 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
                 const {first_name,last_name, username } = data.user
                 participants[username] = {
                     ...data.user,
-                    connect: false,
+                    connect: getUserStatus(username),
                     agoraUsername: username,
                     fullName: `${first_name} ${last_name}`,
                     side: 'M',
@@ -92,6 +101,7 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
 
         handleGetStatus(participants)
     }
+    console.log('heni heni heni',participants)
   
 
     const handleGetStatus = (parts)=>{
@@ -107,15 +117,21 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
                 result.forEach(user=>{
                     const userParts = user.ext.split('=')
                     const status = userParts[0]
-                    users[user.uid].connect = status === 'online'
+                    const username = userParts[1]
+                    if(status === 'online' || status === 'offline'){
+                        users[user.uid].connect = status === 'online'
+                        handleUsersArrayChange(username,status)
+                    }
                 })
                 setParticipants(users)
             })})
     }
 
     const handleStatusChange = (msg)=>{
+        console.log(msg)
         setStatusQueue(prev=>[...prev, msg])
     }
+    console.log('statusQueue==>>>>',statusQueue)
 
     useEffect(()=>{
         console.log(statusQueue, 'statusQueue')
@@ -123,13 +139,21 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize})=>{
         const statuses = statusQueue.map(p=>p)
         statuses.forEach(msg=>{
             let users = ({...participants})
+            console.log('partisipent',users)
     
             msg?.forEach(({userId, ext})=>{
                 const status = ext.split('=')[0]
                 const user = ext.split('=')[1]
-                if(users[userId] && !(userId === myAgoraUsername))
-                    if(status==='online' || status==='offline')
+                console.log('useeee==>>>',userId,ext)
+                console.log('user>>>>',user)
+                if(users[userId] && !(userId === myAgoraUsername)){
+                    if(status ==='online' || status==='offline'){
                         users[userId]['connect'] = status === 'online'
+                        handleUsersArrayChange(user,status)
+                    }
+
+                }
+                    
             })
             console.log(users, 'users')
             setParticipants(()=>users)

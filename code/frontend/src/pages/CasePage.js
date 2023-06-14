@@ -4,12 +4,13 @@ import MyCases from "./rolePages/mediator/MyCases"
 import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
 import { addGroups } from "../store"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { useRef } from "react"
 import  useAlert  from '../hooks/useAlert'
 import { useGetGroupsByUserQuery } from "../store"
 import Loader from "../components/general/Loader"
-import UsersList from "../components/general/UsersList"
+
+
 // eslint-disable-next-line no-unused-vars
 // import WebIM from "../WebIM";
 
@@ -21,13 +22,19 @@ const CasePage =({isMediator})=>{
     //use asyncronized fetch for better preformences
     //hooks==========
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+
  
     const location = useLocation()
     const quaryParams = new URLSearchParams(location.search)
     const open_close = quaryParams.get('open_close')
     const {trigerNotification} = useAlert()
     const {BandCase:is_banded} = useSelector(state=>state.band)
+    // const {remove} = location.state || false
+   
+    
     //============
+
 
     //values=========
     let { username } = useSelector(state=>state.user)
@@ -38,7 +45,17 @@ const CasePage =({isMediator})=>{
 
     //middleware========
     username = isMediator? username: username.replace(/[^\w\s]/gi, '')
-    const {data,error,isSuccess} = useGetGroupsByUserQuery({username:username})
+    const {data,error,isSuccess, refetch} = useGetGroupsByUserQuery({username:username})
+
+    useEffect(() => {
+        const remove = location.state?.remove;
+        if (remove !== true) return;
+    
+        const newState = { ...location.state, remove: false };
+        navigate(location.pathname, {state: newState, replace: true});
+    
+        refetch();
+    }, [location.state, navigate, refetch]);
 
 
     //useEffects==========

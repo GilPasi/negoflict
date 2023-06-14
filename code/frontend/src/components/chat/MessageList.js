@@ -9,6 +9,8 @@ import {addGroupsProps, addHistoryMsg, updateMsg, useLazyGetCaseSideQuery,setAct
 import {useDispatch} from "react-redux";
 import {getPermName} from "../../utils/permissions";
 import {ChatChangesNotifications} from '../chat/ChatChangesNotifications'
+import { useNavigate } from 'react-router-dom';
+import  useAlert from '../../hooks/useAlert'
 
 
 //Note that all styles of the list is done in the component
@@ -16,7 +18,9 @@ import {ChatChangesNotifications} from '../chat/ChatChangesNotifications'
 const MessageList =( { maxHeight, isChatStart } )=> {
  //hooks===================================================================================================
   const location = useLocation();
-  const {onlineStatusListener, getHistoryMsgs, MsgListener, presenceListener, getPresenceStatus,removeEventById} = useChat();
+  const navigate = useNavigate();
+  const {justText} = useAlert()
+  const {onlineStatusListener, getHistoryMsgs, MsgListener, presenceListener, getPresenceStatus,removeEventById,disconnect} = useChat();
   const dispatch = useDispatch();
   const messagesEndRef = useRef(null);
   const syncronize = useRef(false);
@@ -177,7 +181,19 @@ const MessageList =( { maxHeight, isChatStart } )=> {
           setDeleteNotification(()=>user)
       }
       else if(status === 'remove'){
+        if(roleName === 'user'){
+            const agoraUsername = username.replace(/[^\w\s]/gi, '');
+        if(agoraUsername === user){
+           handleDisconnect()
+           disconnect()
+           justText({text:'You have been kicked from chat'})
+           navigate(`/user/cases/?open_close=True`, {replace: true, state:{remove:true}})
+        }
+           
+           
+        }
         console.log('result 3333',result)
+
         const msg = `${user} has removed from the chat`
         setConnectionNotification({userId:user,msg:msg})
         setTimeout(()=>setConnectionNotification(prev=>(null)),5000)
