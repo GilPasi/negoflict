@@ -76,7 +76,7 @@ const useAlert = ()=>{
           const confirm = document.getElementById('confirm-password').value
           const passwordError = document.getElementById('password-error');
 
-          console.log(password,confirm)
+       
 
           if(password !== confirm || password==='' ){
             passwordError.textContent = 'Passwords do not match'

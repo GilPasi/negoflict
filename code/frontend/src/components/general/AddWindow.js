@@ -165,14 +165,14 @@ const AddWindow =()=>{
         let filterdUsers = []
         for(let i in users){
             const { data,error }= await setUserCaseAttribute({case_id:caseId, user_id:users[i].user,status:true})
-            console.log('user',users[i].user)
+          
             
             if(error?.status=== 400 && error?.data === 'member not found')
                 filterdUsers = [...filterdUsers, users[i]]
             else if(data){
                 if(data?.side !== users[i]?.side ){
                    const {data, error} =  await changeSide({userId:users[i].user,side:users[i].side})
-                   console.log('changeSide',data,error)
+     
 
                 }
             }
@@ -180,7 +180,7 @@ const AddWindow =()=>{
       
         return filterdUsers
       };
-      console.log(stage)
+
 
 
     return(

@@ -46,9 +46,8 @@ const MessageList =( { maxHeight, isChatStart } )=> {
   const searchTerm = useSelector(state=>state.searchMsg)
   const [searchIndex, setSearchIndex] = useState([])
   const [index, setIndex] = useState(-1);
-  const gg = useSelector(state=>state.chat)
-  console.log('henhenhen?????',gg)
-  console.log('activeeee',activeGroupView)
+
+
   //===================================================================================================
   //varible===================================================================================================
   const roleName = getPermName({role})
@@ -157,11 +156,11 @@ const MessageList =( { maxHeight, isChatStart } )=> {
       const desc = ext.split('=') 
       const status = desc[0]
       const user = desc[1]
-      console.log('status',status)
+  
       if(user === username || user === first_name || user=== undefined) return
       const connectionNotification = status === 'online' || status === 'offline'
       if(connectionNotification){
-        console.log('result 1111',result)
+     
         const msg = status === 'online'? `${user} is online now`: `${user} has disconnected`
         setConnectionNotification({userId:user,msg:msg})
         if(status !== 'online')
@@ -169,7 +168,7 @@ const MessageList =( { maxHeight, isChatStart } )=> {
         setTimeout(()=>setConnectionNotification(prev=>(null)),5000)
       }
       else if(status === 'typing' || status === 'stop_typing'){
-        console.log('result 2222',result)
+    
         const msg = status === 'typing'? `${user} is typing...`:null
         if(msg!==null){
           
@@ -192,7 +191,7 @@ const MessageList =( { maxHeight, isChatStart } )=> {
            
            
         }
-        console.log('result 3333',result)
+
 
         const msg = `${user} has removed from the chat`
         setConnectionNotification({userId:user,msg:msg})
@@ -239,10 +238,10 @@ const MessageList =( { maxHeight, isChatStart } )=> {
   //handlers========================================
    const handleHistoryMsg =async (history,groupid)=>{ //gets history messages work's only ones
         let messages = []
-        console.log('history',history, groupid)
+       
         messages = [...history.messages]
         messages.sort((a,b)=>a.time - b.time)
-        console.log('hskadjfhsadkfhksdhfkjasd>>>>>>>>>>>',groupid, messages)
+  
         dispatch(addHistoryMsg({id:groupid,messages:messages}))
     };
 

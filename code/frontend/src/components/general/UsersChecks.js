@@ -21,7 +21,7 @@ const UsersChecks = ({handleSubmit , handleBack , submitText, handleSelectedUser
     // const {data:contactsData, error:contactError, isLoading:loadingGetContact, refetch:refetchContacts} = useGetContactsQuery({mediator_id:id})
     //=================================================================================================
     // console.log('groups',groupsData)
-    console.log('users',usersData)
+
     useEffect(()=>{
         
         if(!contactsData || contactError)return

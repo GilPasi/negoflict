@@ -165,7 +165,7 @@ const adminApi = createApi({
                 invalidatesTags:['users_case'],
                 query:({username,password,first_name})=>{
                     const uid = username.replace(/[^\w\s]/gi, '')
-                    console.log(password)
+         
                     return{
                         url:`/agora/users/register_user/`,
                         method:'POST',
@@ -251,7 +251,7 @@ const adminApi = createApi({
               }),
               changeUserSide: builder.mutation({
                 query:({userId,side})=>{
-                    console.log('innnnn nquueerrryyyyy>>>',userId,side)
+              
                     return{
                         url:`/session/chat_members/change_groupSide/`,
                         method:'PUT',

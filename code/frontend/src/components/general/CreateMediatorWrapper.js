@@ -121,8 +121,7 @@ const CreateMediatorWrapper = ()=>{
             registerUser({username:userData.username,password:`Negoflict${phoneNumber}`,first_name:userData.username})
         ])
         .then(([addMediatorResponse,registerUserResponse])=>{
-            console.log('register',registerUserResponse)
-            console.log('add',addMediatorResponse)
+            
             const {data} = registerUserResponse
             
             if(!data?.entities?.[0]?.uuid){
@@ -154,7 +153,7 @@ const CreateMediatorWrapper = ()=>{
             return
         })
         .catch(res=>{
-            console.log('inCatch',res)
+         
             trigerNotification('Somthing went wrong','error')
             redirectOut()
         })

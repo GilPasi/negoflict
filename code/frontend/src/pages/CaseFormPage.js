@@ -112,7 +112,7 @@ const CaseFormPage = () =>{
                 let groups
 
                 const dataVal = values.filter(value => value.data);
-                console.log('data',dataVal)
+          
 
                 dataVal.forEach(val=>{
                     if(val.data.hasOwnProperty('AgoraResponse'))
@@ -167,7 +167,7 @@ const CaseFormPage = () =>{
                 if(make_action && groups){
                     console.log(groups)
                     let groupIds =  Object.values(groups).map(item => Object.values(item)[0].data);
-                    console.log('filter',groupIds)
+               
                     deleteGroups({groupS:groupIds})
                 }
               console.log("Title error: ", errorItem.error.data.title);

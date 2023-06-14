@@ -36,16 +36,13 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize, usersOnline,handle
     //variables================
     let debounceTimer = null;
 
-    console.log('partt>>',participants)
-    console.log('fetchh',usersByCaseData)
-    console.log('users online>>><<<>>>>>>',usersOnline)
 
 
 
     
     useEffect(()=>{
         if(!usersByCaseData) return
-        console.log('users by case inside ')
+    
         handleSetParticipents()
         groupListener({id:'usersListGroupListener',handleGroupChange:handleGroupChangeUsers})
         presenceListener({id:'UsersListListener',presentsHandler:handleStatusChange})
@@ -71,7 +68,7 @@ const UsersList = ({handleSelctedUser, isMediator , fontSize, usersOnline,handle
  
 
 const handleGroupChangeUsers = (msg) => {
-    console.log('group change',msg)
+
     if(roleName==='mediator') return
    
     const { operation } = msg;
@@ -89,7 +86,6 @@ const handleGroupChangeUsers = (msg) => {
         }, 2000); // 2000 milliseconds = 2 seconds
     }
 };
-console.log('<<<<<<<selected user>>>>>',usersByCaseData)
 
 
 
@@ -100,8 +96,7 @@ console.log('<<<<<<<selected user>>>>>',usersByCaseData)
             const agoraUsername = user.username.replace(/[^\w\s]/gi, '');
             const firstName = user.first_name.charAt(0).toUpperCase() + user.first_name.slice(1)
             const lastName = user.last_name.charAt(0).toUpperCase() + user.last_name.slice(1)
-            console.log(user.first_name)
-            console.log(getUserStatus(user.first_name))
+    
             accumulator[agoraUsername] = {
                 ...user,
                 connect: getUserStatus(user.first_name),
@@ -110,13 +105,13 @@ console.log('<<<<<<<selected user>>>>>',usersByCaseData)
                 fullName: `${firstName} ${lastName}`,
                 side: side,
             };
-            console.log('accccssss',accumulator)
+           
             return accumulator;
         }, {})
         if(roleName === 'user'){
             const { mediator } = usersByCaseData[0]
             getMediator({mediatorId:mediator}).then(({data})=>{
-                console.log(data, 'mediator data')
+
                 const {first_name,last_name, username } = data.user
                 participants[username] = {
                     ...data.user,
@@ -129,7 +124,7 @@ console.log('<<<<<<<selected user>>>>>',usersByCaseData)
 
         handleGetStatus(participants)
     }
-    console.log('heni heni heni',participants)
+
   
 
     const handleGetStatus = (parts)=>{
@@ -156,24 +151,23 @@ console.log('<<<<<<<selected user>>>>>',usersByCaseData)
     }
 
     const handleStatusChange = (msg)=>{
-        console.log(msg)
+
         setStatusQueue(prev=>[...prev, msg])
     }
-    console.log('statusQueue==>>>>',statusQueue)
+
 
     useEffect(()=>{
-        console.log(statusQueue, 'statusQueue')
+   
         if(statusQueue.length === 0)return
         const statuses = statusQueue.map(p=>p)
         statuses.forEach(msg=>{
             let users = ({...participants})
-            console.log('partisipent',users)
+
     
             msg?.forEach(({userId, ext})=>{
                 const status = ext.split('=')[0]
                 const user = ext.split('=')[1]
-                console.log('useeee==>>>',userId,ext)
-                console.log('user>>>>',user)
+         
                 if(users[userId] && !(userId === myAgoraUsername)){
                     if(status ==='online' || status==='offline'){
                         users[userId]['connect'] = status === 'online'
@@ -183,7 +177,7 @@ console.log('<<<<<<<selected user>>>>>',usersByCaseData)
                 }
                     
             })
-            console.log(users, 'users')
+
             setParticipants(()=>users)
         })
         return()=>setStatusQueue([])

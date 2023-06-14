@@ -27,8 +27,7 @@ const UserPanel=({
     const {activeGroup} = useSelector(state=>state.position)
     const messages = useSelector(state=>state.chat[activeGroup])
     //=============================================
-    console.log('acctivvee=>>',activeGroup)
-    console.log('messageess>>',messages)
+  
 
     //variable=====================================
     const roleName = getPermName({role:role})
