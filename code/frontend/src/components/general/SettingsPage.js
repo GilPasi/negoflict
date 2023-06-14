@@ -12,7 +12,6 @@ import { useRef } from "react"
 
 
 
-
 const SettingsPage = ({detail,id})=>{
     //hooks===========
     const location = useLocation()
@@ -43,7 +42,7 @@ const SettingsPage = ({detail,id})=>{
            if(modify.role[0] === 'mediator')
               getAddress({mediator_id:user.id})
               .then(({data})=>{
-                modify = {...modify, address:[data,false]}
+                modify = {...modify, address:[data.city,false]}
                 setUserDetail(modify,true)
               })
             else{
