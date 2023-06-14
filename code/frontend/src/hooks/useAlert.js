@@ -36,7 +36,9 @@ const useAlert = ()=>{
       const  formValues  = await Swal.fire({
         title: 'Change your default password',
         html:
-          `<lable for="password_change">
+        // <script>console.log("hello world")</script>
+        `
+          <lable for="password_change">
             <h4 style="margin:0; color: #828282">Enter new password</h4>
           </lable>
           <input 
