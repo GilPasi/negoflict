@@ -1,7 +1,5 @@
 import { useSelector } from 'react-redux'
 import CaseReview from '../../../components/general/CaseReview'
-import TextHolder from '../../../components/general/TextHolder'
-
 import Header from "../../../components/general/Header"
 import Loader from '../../../components/general/Loader'
 import { useGetMyCasesQuery } from '../../../store'

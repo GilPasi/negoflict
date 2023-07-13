@@ -27,7 +27,7 @@ const CaseFormPage = () =>{
     const [addCase] = usePost_new_caseMutation()
     const [deleteCase] = useDeleteCaseMutation()
     const [deleteGroups] = useDeleteGroupMutation()
-    const [isFetching, setIsFetching] = useState(0)
+    const [isFetching, setIsFetching] = useState(false)
     
 
     //===========
