@@ -18,7 +18,7 @@ import { useSelector } from "react-redux";
         const {username, password} = user
 
         const newUser =RegisterNewChatUser(me,username,password)
-        console.log(newUser)
+    
     }
 
     return(

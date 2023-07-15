@@ -44,7 +44,7 @@ const AddUserPage =({side,idCase,goBack,
                 <form className="aup--grid">
                 {isMediator ?
                     (
-                        <h2 className="aup--grid-row title centerizer" >
+                        <h2 className="aup--grid-row title centerizer" style={{color:"black"}}>
                             <span style={{
                                 color:"var(--green-dark)",
                                 fontWeight:"var(--weight-bold)",

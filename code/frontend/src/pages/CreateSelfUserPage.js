@@ -77,9 +77,7 @@ const CreateSelfUser = ({fulfiled,goBack, isWindow})=>{
                     deleteAgoraUser({username:modEmail})
                     .then(res=>console.log(res)).then(()=>handleBack())
             }
-            console.log('register',registerUserResponse)
-            console.log('create',createUserResponse)
-            console.log(createUserResponse.data[0].id)
+
             return createContact({mediator_id:id,user_id:createUserResponse.data[0].id}).then(()=>{
                 if(fulfiled)
                     fulfiled()
@@ -117,7 +115,7 @@ const CreateSelfUser = ({fulfiled,goBack, isWindow})=>{
                     handleChange={handleChange}
                     required={true}
                 />
-                <div className="aligner" style={{paddingLeft:'12%'}}>
+                <div style={{ display:"flex" , justifyContent: 'center'}}>
                
                 <Button
                         onClick={goBack || handleBack}

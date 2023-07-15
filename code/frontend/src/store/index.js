@@ -168,6 +168,7 @@ export const {useGet_clientsQuery,useLazyGet_clientsQuery} = mediatorApi
 export const {useGetContactsQuery,useLazyGetContactsQuery} = mediatorApi
 export const {useCreateContactMutation} = mediatorApi
 export const {useRemoveContactMutation} = mediatorApi
+export const {useGetMyAddressQuery,useLazyGetMyAddressQuery} = mediatorApi
 
 //superUserAi========
 export const {useGetMediatorsQuery,useLazyGetMediatorsQuery} = superUserApi

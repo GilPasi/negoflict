@@ -3,16 +3,17 @@ import Header from "../components/general/Header"
 import TextInput from "../components/general/TextInput"
 import Button from '../components/general/Button'
 import { useEffect, useState } from "react"
-import { useDispatch,  } from 'react-redux'
+import { useDispatch,useSelector  } from 'react-redux'
 import { login } from '../store/index'
-import { useNavigate } from "react-router-dom"
-import { useSelector } from "react-redux"
+import { useNavigate ,useLocation , Link } from "react-router-dom"
 import useAlert from "../hooks/useAlert"
 import { getPermSign, getPermName } from "../utils/permissions"
-import { useLazyLoginQuery, useLazyIs_loginQuery,useLazyLog_outQuery, useLazyGetTokenQuery,useLazyGetUserByAccessQuery } from "../store/index"
+import { useLazyLoginQuery, useLazyIs_loginQuery,
+    useLazyLog_outQuery, useLazyGetTokenQuery,useLazyGetUserByAccessQuery } from "../store/index"
 import Loader from "../components/general/Loader"
-import { useChangePasswordMutation, useModifyUserMutation, useLazyGetNewAccessQuery, persistor,logout } from "../store/index"
-import { useLocation } from "react-router-dom"
+import { useChangePasswordMutation, useModifyUserMutation,
+     useLazyGetNewAccessQuery, persistor,logout } from "../store/index"
+
 
 
 const LoginPage=()=>{
@@ -303,12 +304,13 @@ const LoginPage=()=>{
                         onClick={event=>{
                             event.preventDefault()
                             isMediator ? setIsMediator(false): setIsMediator(true)
-
+                            
                             setValidity({isValid:true , errorMsg:''})
                         }}
                         style={{height:"10em"}}>
                         {loginHref}
                     </a>
+                    <Link to='/terms' ><h3 style={{fontWeight:"normal" , fontSize:"1em"}}>View terms of use</h3></Link>
             </center>
         </article>
 )}

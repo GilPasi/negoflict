@@ -31,7 +31,6 @@ const Chat = ({username, onConnect, onTextMsg, onHistory, groups,isShuttled, onM
 
     //functions===================
     const handleDisconnect =async ()=>{
-        console.log(isOpened.current)
         if(!isOpened.current)return
         wasRenderd.current = false
         window.removeEventListener('beforeunload', handleDisconnect);

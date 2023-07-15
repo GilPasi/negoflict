@@ -147,7 +147,7 @@ const usersApi = createApi({
             }),
             getUserByAccess: builder.query({
                 query: ({ access }) => {
-                    console.log('aaa',access)
+           
                   return {
                     url: '/users/user_view/',
                     method: 'GET',

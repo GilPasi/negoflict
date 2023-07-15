@@ -295,6 +295,22 @@ class AddressUserView(ModelViewSet):
     serializer_class = AddressMediatorSerializer
     permission_classes=[permissions.IsAdminOrUser]
     
+    
+    @action(detail=False, methods=['GET'], permission_classes=[permissions.IsAdminOrUser])
+    def get_mediator_address(self, request):
+        mediator_id = request.GET.get('mediator', None)
+        if not mediator_id:
+            return Response('bad request', status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            mediator = self.queryset.select_related('address').get(mediator=mediator_id)
+            if mediator and mediator.address:
+                serializer = AddressSerializer(mediator.address)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response('cant find address', status=status.HTTP_404_NOT_FOUND)
+        except RequestException as e:
+            return Response(f"Address not found {e}")
+
 
 
 

@@ -4,13 +4,11 @@ import { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
 import { getPermName, getPermTotal } from "../../utils/permissions"
 import Header from "./Header"
-import { useLazyGetUserByIdQuery, useChangeFirstLoginMutation, useChanging_userPasswordMutation } from "../../store"
+import { useLazyGetUserByIdQuery, useChangeFirstLoginMutation, useChanging_userPasswordMutation, useLazyGetMyAddressQuery } from "../../store"
 import Button from "./Button"
 import useAlert from "../../hooks/useAlert"
 import Loader from "./Loader"
 import { useRef } from "react"
-
-
 
 
 
@@ -28,6 +26,7 @@ const SettingsPage = ({detail,id})=>{
     const [getUserById, {data:userData, error:userError, isLoading}] = useLazyGetUserByIdQuery()
     const [changePassword,{isLoading:loadingPasswordChange}] = useChanging_userPasswordMutation()
     const [resetFirstLogin,{isLoading:loadingFirstChange}] = useChangeFirstLoginMutation()
+    const [getAddress] = useLazyGetMyAddressQuery()
 
     //states===========
     const [userDetail,setUserDetail] = useState({})
@@ -36,8 +35,33 @@ const SettingsPage = ({detail,id})=>{
 
     useEffect(()=>{
         if(isMe){
-           const modify =  modUser(user)
-           setUserDetail(modify,true)
+           let modify =  modUser(user)
+           if(modify.role[0] === 'mediator')
+              getAddress({mediator_id:user.id})
+              .then(({data})=>{
+                modify = {...modify, address:[data.city,false]}
+                setUserDetail(modify,true)
+              })
+            else{
+                setUserDetail(modify,true)
+            }
+        
+        
+    }else{
+        getUserById({userId:id}).then(({data})=>{
+            let modify = modUser(data)
+            if(modify.role[0] === 'mediator')
+            getAddress({mediator_id:data.id})
+            .then(({data})=>{   
+                modify = {...modify, address:[data.city,false]}
+                setUserDetail(modify,true)
+            })
+            else{
+                setUserDetail(modify,true)
+            }
+       
+        })
+ 
         }
         else{
             getUserById({userId:id}).then(({data})=>{
