@@ -33,10 +33,7 @@ const SettingsPage = ({detail,id})=>{
     const roleForPassword = useRef('')
    
 
-    
-
     useEffect(()=>{
-    
         if(isMe){
            let modify =  modUser(user)
            if(modify.role[0] === 'mediator')
@@ -66,9 +63,12 @@ const SettingsPage = ({detail,id})=>{
         })
  
         }
-        
-         
-
+        else{
+            getUserById({userId:id}).then(({data})=>{
+                console.log(data)
+                const modify = modUser(data)
+                setUserDetail(modify,true)
+        })}
     },[userId])
 
     const modUser = (user,isMe)=>{
@@ -106,15 +106,11 @@ const SettingsPage = ({detail,id})=>{
        
     };
     const handleRestPassword =async ()=>{
-      
-        
-        //{title, text, confirmText, background, icon}
       const response = await deletAlert({title:'Reset user password',text:'You are about to reset user password please confirm',confirmText:'Reset'})
         if(!response){
             const randomNumber = Math.floor(1000 + Math.random() * 9000);
             const newPassword =`Negoflict${randomNumber}`
 
-           
 
             changePassword({userId:isMe?user.id:id,password:newPassword}).then(()=>resetFirstLogin({userId:isMe?user.id:id}))
             .then(async()=>{
@@ -132,36 +128,44 @@ const SettingsPage = ({detail,id})=>{
            }
             })
         }
-
     }
 
+    //====================Design============================
+    const fieldStyle = {
+        fontSize:'larger',
+        display: 'flex' , 
+        justifyContent: 'space-between',
+        padding: '1em 0'
+    }
+
+    const toHumanCase =(string)=>{
+        let readableString = string.replaceAll('_' , ' ')
+        readableString = readableString[0].toUpperCase() + readableString.substring(1)
+        return readableString
+    }
+
+
     return(
-        <div style={{width:'100%'}}>
-            <div >
-              
-                <Header isLarge={true} withoutLinks={true}/>
-            {isLoading || loadingPasswordChange || loadingFirstChange?(<Loader />):(<IconImageUser setting={true}/>)} 
-            {Object.keys(userDetail).length !== 0 &&
-                Object.keys(userDetail).map((key,index)=>{
-                    console.log('sdafasdf')
-                    return(
-                        <div key={index}>
-                            <div style={{display:'flex', justifyContent:'space-between'}}>
-                            <p style={{fontFamily:'Roboto', fontSize:'larger', fontWeight:'600', marginRight:'10px'}}>{key}:</p>
-                            <p style={{fontFamily:'Roboto', fontSize:'larger'}}>{userDetail[key][0]}</p>
-                            {userDetail[key][1]&& <button className="buttonModify">modify</button>}
-                            </div>
-                        </div>
-                    )
-                })
-            }
-             <Button disabled={isLoading || loadingPasswordChange || loadingFirstChange} onClick={handleRestPassword} length={'fit-content'} altitude={'30px'} text={'Reset user password'} fontSize={'large'} />
-
-            </div>
-
-     
-        </div>
-    )
-
-}
+        <article className="centerizer">
+            <Header isLarge={true} withoutLinks={true}/>
+                {isLoading || loadingPasswordChange || loadingFirstChange?(<Loader />):(<IconImageUser setting={true}/>)} 
+                    {Object.keys(userDetail).length !== 0 &&
+                        Object.keys(userDetail).map((key,index)=>{
+                            return(
+                                <div key={index} style={{width:'350px'}}>
+                                    <div style={fieldStyle}>
+                                        <b>{toHumanCase(key)}:</b>
+                                        <span>{userDetail[key][0]}</span>
+                                        {/* {userDetail[key][1]&& <button className="buttonModify">modify</button>} */}
+                                    </div>
+                                </div>
+                    )})}
+             <Button 
+                disabled={isLoading || loadingPasswordChange || loadingFirstChange} 
+                onClick={handleRestPassword}
+                size='medium'
+                fontSize="1.25em"
+                text={'Reset password'} 
+            />
+        </article>)}
 export default SettingsPage

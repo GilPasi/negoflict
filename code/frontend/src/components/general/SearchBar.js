@@ -2,21 +2,13 @@ import "../../styles/components/search_bar.css"
 
 function SearchBar({search , handleClick , handleChange}) {
 
+
+
   return (
-    <div className=" search-bar">
-      <div  role="search" className="search-bar">
-        <label htmlFor="search" className="search-bar--subtitles">Search for stuff</label>
-        <input 
-          className="search-bar--input"
-          id="search" 
-          type="search" 
-          placeholder="Search..." 
-          autoFocus
-          required
-          onChange={handleChange}
-        // value={search || ''}
-        />
-        <button onClick={handleClick} className="search-bar--btn">find</button>    
+    <div className="search-bar">
+      <div className="search-bar--container">
+        <input placeholder="Search..." className="search-bar--in" onChange={handleChange}/>      
+        <button className="search-bar--btn" onClick={handleClick}>find</button>
       </div>
     </div>
   );
