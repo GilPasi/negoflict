@@ -158,10 +158,7 @@ const SettingsPage = ({detail,id})=>{
              <Button disabled={isLoading || loadingPasswordChange || loadingFirstChange} onClick={handleRestPassword} length={'fit-content'} altitude={'30px'} text={'Reset user password'} fontSize={'large'} />
 
             </div>
-
-     
         </div>
-    )
-
-}
+    )}
+    
 export default SettingsPage
