@@ -7,9 +7,6 @@ import { getPermName } from "../../utils/permissions"
  
 
 const  Header=({isLarge , unconnected, withoutLinks})=>{
-
-    const[showSettings , setShowSettings] = useState (false)
-    const [infoChoose, setInfoChoose] = useState({aaa:"aa"})
     const {role} = useSelector(state=>state.user)
     const roleName = getPermName({role:role})
 
@@ -54,8 +51,7 @@ const  Header=({isLarge , unconnected, withoutLinks})=>{
                 <div className="header--menu-content" style={{zIndex:'2000'}}>
                 
                     <Link state={{logout:true}} to="/login">Log out</Link>
-                    <Link to="/">Enter chat</Link>
-                    <Link to={`/${roleName}/settings`} state={{isMe:true}}>Settings</Link>
+                    <Link to={`/${roleName}/settings`} state={{isMe:true}}>Profile</Link>
                 </div>
                 </div>
                 }
@@ -67,14 +63,6 @@ const  Header=({isLarge , unconnected, withoutLinks})=>{
             <center>
                 {isLarge &&title}
             </center>
-
-            {showSettings&&
-                    <PopUpGeneral
-                    onClose={()=>{}}
-                    //Hen connect to the user's self info
-                    children={mockSelf}
-            />}
-
         </div>
 
 

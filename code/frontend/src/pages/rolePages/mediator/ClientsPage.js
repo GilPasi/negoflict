@@ -45,16 +45,6 @@ const ClientsPage = ()=>{
 
     },[allUsersData,list,isAllClients, allUsersError, error])
 
-    // useEffect(()=>{
-    //     if( allUsersError?.status===404)
-    //         setUserView(()=>[])
-
-    // },[allUsersError])
-
-
-    
-
-
    
 
     const handleSearchTerm = ({currentTarget:input})=>{
@@ -63,7 +53,7 @@ const ClientsPage = ()=>{
             setUserView(()=>isAllClients?allUsersData:list)
             return
         }
-        setSearchRes(prev=>value)
+        setSearchRes(value)
     }
 
     const handleSearch =()=>{

@@ -51,21 +51,14 @@ const CaseReview = ({ caseName , creationDate ,caseCategory, caseData, openClose
     let error
     let data
   if (error = errorDeleteGroups || errorClose) {
-    console.log('errorr', error);
+    console.log('error', error);
   }
   if (data = closeData || deleteGroups) {
     console.log('success', data);
   }
 
-  const handleShow=()=>{
-    if(showButtons)
-        setShowButtons(false);
-    else
-        setShowButtons(true);
-  }
 
 
-  
     //================== Design ======================
     const MAX_LENGTH = 21  ,THREE_DOTS_LENGTH = 3
     let name = caseName
@@ -91,20 +84,6 @@ const CaseReview = ({ caseName , creationDate ,caseCategory, caseData, openClose
 
     
 
-
-
-    const buttonStyle= {
-        transform:`scale(${showButtons ? "1" : "0"})`,
-
-    }
-    const userButtonStyle = {
-        transform:`scale(${showButtons ? "1" : "0"})`,
-        position:'relative',
-        top:'-35%',
-        padding:"0",
-    }
-    
-
     return(
     <article className="case-review">
         <div className="case-review--frame case-review--top">
@@ -113,19 +92,17 @@ const CaseReview = ({ caseName , creationDate ,caseCategory, caseData, openClose
             </h1>
         </div>
 
-   
         <div className="case-review--frame case-review--options">
         {openClose&&<div>
                 <div 
                     className="case-review--options-box"
-                    onClick={handleShow}
+                    onClick={()=>setShowButtons(prevShow=>!prevShow)}
                     style={{height: showButtons ? "10%" :"100%"}}
                  />
                 <div
                     className="line case-review--line "
                     style={linesStyle[0]}
                 />
-
       
                 <Link
                     className="case-review--options-btn" 
