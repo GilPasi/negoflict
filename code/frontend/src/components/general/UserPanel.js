@@ -143,7 +143,7 @@ const UserPanel=({
                       style={{ transform: `translateX(${isSwitched ? "-100%" : "55%"})` }}
                     />
                   </div>
-                  <h5 id="user-pannel--shuttle-title">Shuttle</h5>
+                  <h5 id="user-pannel--shuttle-titlea">Shuttle</h5>
                 </div>
               )}
               <div className="user-panel--btn" id="user-panel--end" onClick={handleEnd}>

@@ -188,7 +188,10 @@ const ChatView = ({
                             id="cp--input-tb"
                         />
 
-                            <button className={`cp--input-btn${shuttelView}`} onClick={setInputValue} disabled={shuttelView==='-shuttel' || loadingData.progress < 100}>
+                            <button 
+                            className={`cp--input-btn${shuttelView}`} 
+                            onClick={setInputValue} 
+                            disabled={shuttelView==='-shuttel' || loadingData.progress < 100}>
                                 <span className="material-symbols-outlined cp--send" >
                                     send
                                 </span>

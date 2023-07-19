@@ -144,19 +144,17 @@
   overflow: hidden;
 }
 
-.cp--help{
+.cp--btn{
+  --size:25px;
   color:black;
   display: inline;
   margin:10px;
   margin-top:0px ;
   user-select: none;
+  width:var(--size);
+  height: var(--size);
 }
 
-.cp--help:hover{
-  color:var(--blue-anchor);
-  cursor: pointer;
-
-}
 .cp--input-btn-shuttel{
   margin-top:1em;
   width: 3px;
