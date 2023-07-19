@@ -81,6 +81,7 @@ const CaseReview = ({ caseName , creationDate ,caseCategory, caseData, openClose
         {transform:`translateY(${-100 - OPTIONS_GAP}%) scale(${showButtons ? "1" : "0"})`},
         {transform:`translateY(${ 100 - OPTIONS_GAP}%) scale(${showButtons ? "1" : "0"})`},
     ]
+    
 
     
 
@@ -93,7 +94,7 @@ const CaseReview = ({ caseName , creationDate ,caseCategory, caseData, openClose
         </div>
 
         <div className="case-review--frame case-review--options">
-        {openClose&&<div>
+        {openClose?<div>
                 <div 
                     className="case-review--options-box"
                     onClick={()=>setShowButtons(prevShow=>!prevShow)}
@@ -122,7 +123,6 @@ const CaseReview = ({ caseName , creationDate ,caseCategory, caseData, openClose
                     className="line case-review--line  " 
                     style={{
                         top:"50%",
-                        // transform:"trans", 
                         width:showButtons &&"50px",
                     }}
                 />
@@ -138,7 +138,11 @@ const CaseReview = ({ caseName , creationDate ,caseCategory, caseData, openClose
                     className="line case-review--line  "
                     style={linesStyle[1]}
                 />
-            </div>}
+            </div>:
+            //Hen add save logic
+            <button className="case-review--options-btn">
+                save
+            </button>}
         </div>
         <div className="case-review--frame case-review--info">
                 <strong>{caseCategory}</strong>

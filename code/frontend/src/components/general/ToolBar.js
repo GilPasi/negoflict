@@ -68,15 +68,12 @@ const ToolBar =({isInfo,handleSelctedUser})=>{
 
     return(
         <div className="tb" >
-
             {!isMediator&&<div></div>}
-
             {isMediator&&<PopupContainer 
                 popContent={<AddWindow  groups={groups || ''} />}
                 imgSrc='../../../assets/images/add_icon_dark.png'
                 classStr='tb--btn'
             />}
-
 
                 <div  style={{position:"relative"}}>
                     {isInfo?
@@ -87,8 +84,7 @@ const ToolBar =({isInfo,handleSelctedUser})=>{
                         <div className="tb--title" >
                             <h3 className={`tb--name${isSearch?'-move':''}`}>{`A ${caseCategory} conflict`}</h3>
                             {caseId?<h4 className="tb--id">I.D. {caseId.slice(-7)}</h4>:<Loader size='small' withLogo={false}/>}
-                        </div>
-                    }
+                        </div>}
                 </div>
                 
             <div className={`tb--btn${isSearch?'-clicked':''}`} style={styleWithInfo} >

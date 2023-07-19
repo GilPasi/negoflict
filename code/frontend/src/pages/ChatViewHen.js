@@ -82,7 +82,6 @@ const ChatViewHen = ({role, isOnline}) => {
 
     const getGroupInfoFunc = ()=>{
     getGroupInfo({groupId:centeredGroupId}).then(res=>{
-
         if(res?.data[0]?.mute===true)
             handleMuteGroup({operation:'muteAllMembers'})
     }).catch(err=>console.log(err))
@@ -198,7 +197,6 @@ const ChatViewHen = ({role, isOnline}) => {
             style={{
                 position:'relative',
                 height:`${size}px`,
-                // width:'100vh',
                 display:'grid',
            
                 gridTemplateRows:`${HEADER_SIZE}px 1fr ${FOOTER_SIZE}px`,
@@ -224,35 +222,43 @@ const ChatViewHen = ({role, isOnline}) => {
                 isChatStart = {isChatStart}
                 
             />
-
             </div>
 
             <footer className="cp--footer">
-                    <div className="cp--input">
-                        <span className="material-symbols-outlined cp--help" onClick={()=>setIsUsersListClick(prev=>!prev)}>
-                            help
-                        </span>
-                        <textarea
-                            dir="auto"
-                            onChange={event=>setInputHeight(event, '5px')}
-                            className="cp--input-box"
-                            id="cp--input-tb"
-                           onInput={handleInput}
-                        />
-
-                            <button className={`cp--input-btn${isShuttled?'-shuttel':''}`} onClick={setInputValue} disabled={isShuttled}>
-                                <span className="material-symbols-outlined cp--send" >
-                                    send
-                                </span>
-                            </button>
-                    </div>
-                    <UserPanel
-                        handleSwitch={handleSwitch}
-                        isSwitched={isMuted}
+                <div className="cp--input">
+                    <img 
+                        onClick={()=>setIsUsersListClick(prev=>!prev)}
+                        className='cp--btn'
+                        src = "../../../assets/images/question_mark.svg"
+                        alt="question mark"
+                    />
+                    <textarea
+                        dir="auto"
+                        onChange={event=>setInputHeight(event, '5px')}
+                        className="cp--input-box"
+                        id="cp--input-tb"
+                        onInput={handleInput}
                     />
 
-                </footer>
-
+                    <button 
+                        className={`cp--input-btn${isShuttled?'-shuttel':''}`} 
+                        onClick={setInputValue} 
+                        disabled={isShuttled}
+                    >
+                  
+                    <img 
+                        style={{margin:'0' }}
+                        className='cp--btn'
+                        src = "../../../assets/images/send.svg"
+                        alt="send icon"
+                    />
+                    </button>
+                </div>
+                <UserPanel
+                    handleSwitch={handleSwitch}
+                    isSwitched={isMuted}
+                />
+            </footer>
         </article>
     )
 
